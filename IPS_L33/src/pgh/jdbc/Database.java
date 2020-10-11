@@ -23,10 +23,7 @@ public class Database {
 		//el try with resources nos va a asegurar que los objetos cn y stmt siempre se cierran haya o no excepcion
 		try (Connection cn=DriverManager.getConnection(URL, USER, PASSWORD)) { //NOSONAR
 			try (Statement stmt = cn.createStatement()) {
-				stmt.executeUpdate("drop table if exists test");
-				stmt.executeUpdate("create table test(id int not null, id2 int, text varchar(32))");
-				stmt.executeUpdate("insert into test(id,id2,text) values(1,null,'abc')");
-				stmt.executeUpdate("insert into test(id,id2,text) values(2,9999,'xyz')");
+				//Codigo crear tablas si es necesario
 			}
 		} catch (SQLException e) {
 			//Ojo, no dejar pasar las excepciones (no limitarse a dejar el codigo autoegenerado por Eclipse haciendo solo printStackTrace)
@@ -38,22 +35,20 @@ public class Database {
 	 * Uso de he try-with-resources Statement para manejar excepciones y cerrar de forma segura los recursos
 	 * (Las mismas acciones que el anterior pero con mejor control de excepciones) y consultas con parametros
 	 */
-	public void demo2TryWithResources() {
-		createTable();
+	public void demoPrintMedicos() {
+		//createTable();
+		int i = 1;
 		//En un mismo try se pueden poner diferentes sentencias que crean objetos que gestionan recursos que hay que cerrar
 		try (Connection cn=DriverManager.getConnection(URL); //NOSONAR
 				Statement stmt=cn.createStatement();
-				ResultSet rs=stmt.executeQuery("select id,id2,text from test order by id desc")) {
+				ResultSet rs=stmt.executeQuery("select nombre from medico order by idmedico desc")) {
 			while (rs.next()) { //cada vez que se llama rs.next() avanza el cursor a una fila
-				int id=rs.getInt(1);        //obtencion de un valor con un tipo de dato especificado, indicando el numero de columna
-				String id2=rs.getString(2); //obtencion de un valor como string, aunque sea entero
-				if (rs.wasNull())           //comprobacion de valores nulos (respecto del ultimo get realizado)
-					id2="NULO";			    //  si es nulo puedo hacer un tratamiento especial, en este caso poner un valor
-				String text=rs.getString("text"); //obtencion de un valor indicando el nombre de la columna
+			            System.out.print(rs.getString(1));
+			        }
+			} catch (SQLException e) {
+				throw new UnexpectedException(e);
 			}
-		} catch (SQLException e) {
-			throw new UnexpectedException(e);
-		}
+		
 	}
 	/**
 	 * Demo de acceso a bases de datos, parte 3: Consultas con parametros.
@@ -104,6 +99,26 @@ public class Database {
 	}
 	public void executeUpdate(String sql, String dateToIsoString, String dateToIsoString2, int id) {
 		// TODO Auto-generated method stub
+		
+	}
+	public Connection getConnection() {
+		try {
+			return DriverManager.getConnection(URL, USER, PASSWORD);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public void close(ResultSet rs, PreparedStatement pst, Connection c) {
+		try {
+			rs.close();
+			pst.close();
+			c.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

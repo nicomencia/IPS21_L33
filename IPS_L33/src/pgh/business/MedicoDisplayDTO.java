@@ -1,13 +1,5 @@
 package pgh.business;
-/**
- * Cada una de las filas que muestran al usuario las carreras y su estado
- * IMPORTANTE: Cuando se usan los componentes de Apache Commons DbUtils debe
- * mantenerse de forma estricta el convenio de capitalización de Java:
- *  - Capitalizar todas las palabras que forman un identificador 
- *    excepto la primera letra de nombres de métodos y variables.
- *  - No utilizar subrayados
- * Seguir tambien estos mismos criterios en los nombres de tablas y campos de la BD
- */
+
 public class MedicoDisplayDTO {
 	private String id;
 	private String descr;
