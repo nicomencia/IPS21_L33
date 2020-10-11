@@ -1,7 +1,6 @@
 package pgh.business.medico;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +16,7 @@ public class FindAllMedicos {
 	Database db = new Database();
 	
 		public List<MedicoDTO> execute() {
-			List<MedicoDTO> mechanics;
+			List<MedicoDTO> medicos;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -29,14 +28,14 @@ public class FindAllMedicos {
 				pst = c.prepareStatement(SQL);
 				
 				rs = pst.executeQuery();
-				mechanics = new ArrayList<>();
+				medicos = new ArrayList<>();
 				while(rs.next()) {
 					MedicoDTO medico = new MedicoDTO();
 					medico.idMedico = rs.getString("idMedico");
 					medico.nombre=rs.getString("nombre");;
 					medico.apellidos=rs.getString("apellidos");;
 					medico.email=rs.getString("email");
-					mechanics.add(medico);
+					medicos.add(medico);
 				}
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -44,7 +43,7 @@ public class FindAllMedicos {
 			finally {
 				db.close(rs, pst, c);
 			}
-			return mechanics;
+			return medicos;
 		}
 	
 }
