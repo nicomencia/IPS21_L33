@@ -26,8 +26,6 @@ public class ListaMedicos {
 			Medico medico = new Medico(m);
 			medicos.add(medico);
 		}
-		System.out.print(medicos.size());
-		
 	}
 	
 	

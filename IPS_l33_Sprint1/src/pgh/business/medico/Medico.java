@@ -1,13 +1,11 @@
 package pgh.business.medico;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Medico {
 	
 	MedicoDTO m ;
 	ListaMedicos lm;
-	List<Medico> medicos = new ArrayList<Medico>();
+	
 
 	
 	public Medico (MedicoDTO medico) {
