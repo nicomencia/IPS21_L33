@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.business.paciente.ListaPacientes;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -63,6 +64,7 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox comboBoxFechaDia;
 	private JComboBox comboBoxDia;
 	private ListaMedicos lm;
+	private ListaPacientes lp;
 
 	/**
 	 * Launch the application.
@@ -338,9 +340,19 @@ public class VentanaPrincipal extends JFrame {
 		return lblMedicos;
 	}
 	private JComboBox getComboBoxPaciente() {
+		lp=new ListaPacientes();
 		if (comboBoxPaciente == null) {
 			comboBoxPaciente = new JComboBox();
 			comboBoxPaciente.setBounds(320, 145, 347, 22);
+			lp.creaListaPacientes();
+			String[] paciente = new String[lp.getPacientes().size()];
+			int i=0;
+			for(int j=0; j<lp.getPacientes().size();j++) {
+				 paciente[i] = lp.getPacientes().get(j).toString();
+				 i++;
+			}
+			 comboBoxPaciente.setModel(new DefaultComboBoxModel<String>(paciente));
+			
 		}
 		return comboBoxPaciente;
 	}

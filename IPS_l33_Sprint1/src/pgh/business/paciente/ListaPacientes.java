@@ -1,14 +1,34 @@
 package pgh.business.paciente;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class ListaPacientes {
 
+	List<PacienteDTO> result;
+	List<Paciente> pacientes = new ArrayList<Paciente>();
+	
+	
+	public ListaPacientes () {
+		result=new FindAllPacientes().execute();
+	}
+	
+	public List<Paciente> getPacientes(){
+		return pacientes;
+	}
+
+	
+	public void creaListaPacientes() {
+		
+		for(PacienteDTO p : result) {
+			Paciente paciente = new Paciente(p);
+			pacientes.add(paciente);
+		}
+	}
 	
 	
 	public void listarPacientes() {
-	
-		List<PacienteDTO> result = new FindAllPacientes().execute();
 		
 		for(PacienteDTO p : result) {
 			System.out.println(p.dni);
