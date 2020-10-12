@@ -51,8 +51,8 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblHoraFin;
 	private JLabel lblUbicacion;
 	private JComboBox comboBoxUbicacion;
-	private JComboBox comboBoxHorasInicio;
 	private JComboBox comboBoxHorasFin;
+	private JComboBox comboBoxHorasInicio;
 	private JButton btnCrearCita;
 	private JButton btncancelarCita;
 	private JLabel lblNewLabel_1;
@@ -65,6 +65,7 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox comboBoxDia;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
+	private JLabel lblconsultaDuracion;
 
 	/**
 	 * Launch the application.
@@ -311,6 +312,7 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas.add(getLblNewLabel_3());
 			panelCitas.add(getComboBoxMes());
 			panelCitas.add(getComboBoxDia());
+			panelCitas.add(getLblconsultaDuracion());
 		}
 		return panelCitas;
 	}
@@ -396,7 +398,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblHoraFin == null) {
 			lblHoraFin = new JLabel("Hora Fin :");
 			lblHoraFin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblHoraFin.setBounds(714, 199, 95, 22);
+			lblHoraFin.setBounds(714, 195, 95, 22);
 		}
 		return lblHoraFin;
 	}
@@ -421,22 +423,105 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return comboBoxUbicacion;
 	}
+	
+	private JComboBox getComboBoxHorasFin() {
+		if (comboBoxHorasFin == null) {
+			comboBoxHorasFin = new JComboBox();
+			comboBoxHorasFin.setBounds(840, 195, 57, 22);
+			String[] horas = new String[2];
+			horas[0]="08";
+			horas[1]="09";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		return comboBoxHorasFin;
+	}
+	
+    private void hastaQueHora (Object selectedItem) {
+		
+		String horaInicial = (String) selectedItem;
+		String[] horas = new String[2];
+		System.out.print(horaInicial);
+		if(horaInicial.contains("09")) {
+			horas[0]="09";
+			horas[1]="10";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		if(horaInicial.contains("10")) {
+			horas[0]="10";
+			horas[1]="11";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		if(horaInicial.contains("11")) {
+			horas[0]="11";
+			horas[1]="12";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		if(horaInicial.contains("12")) {
+			horas[0]="12";
+			horas[1]="13";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		if(horaInicial.contains("13")) {
+			horas[0]="13";
+			horas[1]="14";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		if(horaInicial.contains("14")) {
+			horas[0]="14";
+			horas[1]="15";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		if(horaInicial.contains("15")) {
+			horas[0]="15";
+			horas[1]="16";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		if(horaInicial.contains("16")) {
+			horas[0]="16";
+			horas[1]="17";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		if(horaInicial.contains("17")) {
+			horas[0]="17";
+			horas[1]="18";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		if(horaInicial.contains("18")) {
+			horas[0]="18";
+			horas[1]="19";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		if(horaInicial.contains("19")) {
+			horas[0]="19";
+			horas[1]="20";
+			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+		}
+		
+		
+	}
+    
 	private JComboBox getComboBoxHorasInicio() {
 		if (comboBoxHorasInicio == null) {
 			comboBoxHorasInicio = new JComboBox();
-			comboBoxHorasInicio.setModel(new DefaultComboBoxModel(new String[] {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"}));
+			comboBoxHorasInicio.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					hastaQueHora(comboBoxHorasInicio.getSelectedItem());
+				}
+			});
+			comboBoxHorasInicio.setModel(new DefaultComboBoxModel(new String[] {"08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
 			comboBoxHorasInicio.setBounds(840, 145, 57, 22);
+			
+			
 			
 		}
 		return comboBoxHorasInicio;
 	}
-	private JComboBox getComboBoxHorasFin() {
-		if (comboBoxHorasFin == null) {
-			comboBoxHorasFin = new JComboBox();
-			comboBoxHorasFin.setBounds(840, 199, 57, 22);
-		}
-		return comboBoxHorasFin;
-	}
+
 	private JButton getBtnCrearCita() {
 		if (btnCrearCita == null) {
 			btnCrearCita = new JButton("Crear Cita");
@@ -485,7 +570,8 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox getComboBox_1() {
 		if (comboBoxMinutosFin == null) {
 			comboBoxMinutosFin = new JComboBox();
-			comboBoxMinutosFin.setBounds(923, 199, 57, 22);
+			comboBoxMinutosFin.setModel(new DefaultComboBoxModel(new String[] {"00", "15", "30", "45"}));
+			comboBoxMinutosFin.setBounds(923, 195, 57, 22);
 		}
 		return comboBoxMinutosFin;
 	}
@@ -493,7 +579,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel(":");
 			lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNewLabel_3.setBounds(907, 199, 21, 18);
+			lblNewLabel_3.setBounds(907, 195, 21, 18);
 		}
 		return lblNewLabel_3;
 	}
@@ -572,5 +658,13 @@ public class VentanaPrincipal extends JFrame {
 			
 		}
 		return comboBoxDia;
+	}
+	private JLabel getLblconsultaDuracion() {
+		if (lblconsultaDuracion == null) {
+			lblconsultaDuracion = new JLabel("Nota : La cita no puede durar mas de 2 horas");
+			lblconsultaDuracion.setForeground(Color.RED);
+			lblconsultaDuracion.setBounds(714, 116, 266, 14);
+		}
+		return lblconsultaDuracion;
 	}
 }
