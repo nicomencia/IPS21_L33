@@ -16,8 +16,6 @@ public class ListaMedicos {
 	}
 	
 	public List<Medico> getMedicos(){
-		
-		System.out.print(medicos.size());
 		return medicos;
 	}
 

@@ -12,7 +12,6 @@ public class Medico {
 	
 	public Medico (MedicoDTO medico) {
 		m=medico;
-		lm=new ListaMedicos();
 	}
 	
 	public String getIdMedico() {

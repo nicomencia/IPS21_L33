@@ -4,6 +4,8 @@ import java.util.List;
 
 public class ListaPacientes {
 
+	
+	
 	public void listarPacientes() {
 	
 		List<PacienteDTO> result = new FindAllPacientes().execute();
