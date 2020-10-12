@@ -1,14 +1,10 @@
 package pgh.business.paciente;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Paciente {
 	
 	PacienteDTO p;
 	ListaPacientes lp;
-	List<Paciente> pacientes = new ArrayList<Paciente>();
 	
 	public Paciente(PacienteDTO paciente) {
 		

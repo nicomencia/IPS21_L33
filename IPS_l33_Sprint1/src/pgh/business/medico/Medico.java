@@ -6,8 +6,6 @@ public class Medico {
 	MedicoDTO m ;
 	ListaMedicos lm;
 	
-
-	
 	public Medico (MedicoDTO medico) {
 		m=medico;
 	}
