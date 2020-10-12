@@ -43,7 +43,10 @@ public class FindAllMedicos {
 			finally {
 				db.close(rs, pst, c);
 			}
+			
 			return medicos;
 		}
+		
+	
 	
 }
