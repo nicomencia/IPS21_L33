@@ -4,7 +4,7 @@ package pgh.business.paciente;
 public class Paciente {
 	
 	PacienteDTO p;
-	ListaPacientes lp;
+	
 	
 	public Paciente(PacienteDTO paciente) {
 		
