@@ -24,6 +24,8 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+import javax.swing.JScrollPane;
+import javax.swing.AbstractListModel;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -71,7 +73,6 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JComboBox comboBoxMedicosJornada;
 	private JLabel lblNewLabel_4;
-	private JComboBox comboBoxDiasJornada;
 	private JLabel lblNewLabel_4_1;
 	private JLabel lblNewLabel_5;
 	private JComboBox comboBoxDiaInicioJornadaMedico;
@@ -92,6 +93,9 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox comboBoxAnoInicioJornadaMedico;
 	private JComboBox comboBoxAnoFinJornadaMedico_1;
 	private JLabel lblNewLabel_7;
+	private JScrollPane scrollPaneDiasJornada;
+	private JList listDiasJornada;
+	private JButton btnAnadirDiasJornadaMedico;
 
 	/**
 	 * Launch the application.
@@ -738,7 +742,6 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.setLayout(null);
 			panelJornadasMedico.add(getComboBoxMedicosJornada());
 			panelJornadasMedico.add(getLblNewLabel_4());
-			panelJornadasMedico.add(getComboBoxDiasJornada());
 			panelJornadasMedico.add(getLblNewLabel_4_1());
 			panelJornadasMedico.add(getLblNewLabel_5());
 			panelJornadasMedico.add(getComboBoxDiaInicioJornadaMedico());
@@ -759,6 +762,8 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getComboBoxAnoInicioJornadaMedico());
 			panelJornadasMedico.add(getComboBoxAnoFinJornadaMedico_1());
 			panelJornadasMedico.add(getLblNewLabel_7());
+			panelJornadasMedico.add(getScrollPaneDiasJornada());
+			panelJornadasMedico.add(getBtnAnadirDiasJornadaMedico());
 		}
 		return panelJornadasMedico;
 	}
@@ -800,15 +805,6 @@ public class VentanaPrincipal extends JFrame {
 			lblNewLabel_4.setBounds(236, 76, 147, 22);
 		}
 		return lblNewLabel_4;
-	}
-	private JComboBox getComboBoxDiasJornada() {
-		if (comboBoxDiasJornada == null) {
-			comboBoxDiasJornada = new JComboBox();
-			comboBoxDiasJornada.setFocusable(false);
-			comboBoxDiasJornada.setModel(new DefaultComboBoxModel(new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"}));
-			comboBoxDiasJornada.setBounds(287, 402, 68, 22);
-		}
-		return comboBoxDiasJornada;
 	}
 	private JLabel getLblNewLabel_4_1() {
 		if (lblNewLabel_4_1 == null) {
@@ -984,8 +980,38 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_7 == null) {
 			lblNewLabel_7 = new JLabel("Nota: marcar mas de un dia si quieres varios.");
 			lblNewLabel_7.setForeground(Color.RED);
-			lblNewLabel_7.setBounds(365, 406, 279, 14);
+			lblNewLabel_7.setBounds(259, 325, 279, 14);
 		}
 		return lblNewLabel_7;
+	}
+	private JScrollPane getScrollPaneDiasJornada() {
+		if (scrollPaneDiasJornada == null) {
+			scrollPaneDiasJornada = new JScrollPane();
+			scrollPaneDiasJornada.setBounds(281, 350, 200, 139);
+			scrollPaneDiasJornada.setViewportView(getListDiasJornada());
+		}
+		return scrollPaneDiasJornada;
+	}
+	private JList getListDiasJornada() {
+		if (listDiasJornada == null) {
+			listDiasJornada = new JList();
+			listDiasJornada.setModel(new AbstractListModel() {
+				String[] values = new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado ", "Domingo"};
+				public int getSize() {
+					return values.length;
+				}
+				public Object getElementAt(int index) {
+					return values[index];
+				}
+			});
+		}
+		return listDiasJornada;
+	}
+	private JButton getBtnAnadirDiasJornadaMedico() {
+		if (btnAnadirDiasJornadaMedico == null) {
+			btnAnadirDiasJornadaMedico = new JButton("A\u00F1adir dias");
+			btnAnadirDiasJornadaMedico.setBounds(172, 434, 89, 23);
+		}
+		return btnAnadirDiasJornadaMedico;
 	}
 }
