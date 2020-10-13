@@ -6,6 +6,7 @@ public class JornadaMedicoDTO {
 
 	public String idJornadaMedico;
 	public String idMedico;
+	public String dias;
 	public Date diaInicio;
 	public Date diaFin;
 	public String horaInicio;
