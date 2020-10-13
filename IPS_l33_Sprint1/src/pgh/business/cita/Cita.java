@@ -16,8 +16,8 @@ public class Cita {
 		return c.idCita;
 	}
 	
-	public String getDni() {
-		return c.dni;
+	public String getIdPaciente() {
+		return c.idPaciente;
 	}
 	
 	public String getIdMedico() {

@@ -12,6 +12,11 @@ public class Paciente {
 	
 	}
 	
+	public String getIdPaciente() {
+		return p.idPaciente;
+	}
+	
+	
 	public String getNombre() {
 		return p.nombre;
 	}

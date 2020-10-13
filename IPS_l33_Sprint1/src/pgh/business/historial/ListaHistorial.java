@@ -10,7 +10,7 @@ public class ListaHistorial {
 		
 		for(HistorialDTO h : historiales) {
 			System.out.println(h.idHistorial);
-			System.out.println(h.dni);
+			System.out.println(h.idPaciente);
 		}
 		
 	}

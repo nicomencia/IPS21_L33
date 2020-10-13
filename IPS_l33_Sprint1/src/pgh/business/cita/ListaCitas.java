@@ -10,7 +10,7 @@ public class ListaCitas {
 		
 		for(CitaDTO c : result) {
 			System.out.println(c.idCita);
-			System.out.println(c.dni);
+			System.out.println(c.idPaciente);
 			System.out.println(c.idmedico);
 			System.out.println(c.fecha);
 			System.out.println(c.horaInicio);

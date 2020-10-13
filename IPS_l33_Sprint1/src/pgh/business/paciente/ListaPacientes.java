@@ -31,6 +31,7 @@ public class ListaPacientes {
 	public void listarPacientes() {
 		
 		for(PacienteDTO p : result) {
+			System.out.println(p.idPaciente);
 			System.out.println(p.dni);
 			System.out.println(p.nombre);
 			System.out.println(p.apellidos);

@@ -58,8 +58,8 @@ public class Main {
 //		ListaPacientes l = new ListaPacientes();
 //		l.listarPacientes();
 		
-//		ListaPrescripciones l = new ListaPrescripciones();
-//		l.listarPrescripciones();
+		ListaPrescripciones l = new ListaPrescripciones();
+		l.listarPrescripciones();
 		
 //		ListaVacacionesEnfermero l = new ListaVacacionesEnfermero();
 //		l.listarVacacionesEnfermeros();

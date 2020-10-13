@@ -1,6 +1,5 @@
 package pgh.business.prescripcion;
 
-import java.util.Date;
 
 public class Prescripcion {
 	
@@ -12,16 +11,15 @@ public class Prescripcion {
 	    	
 	 }
 	
-	
 	public String getIdPrescripcion() {
 			
 		return p.idPrescripcion;
 			
 	}
 		
-	public String getDni() {
+	public String getIdPaciente() {
 			
-		return p.dni;
+		return p.idPaciente;
 			
 	}
 		
