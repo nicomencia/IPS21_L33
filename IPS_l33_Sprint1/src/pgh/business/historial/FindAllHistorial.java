@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllHistorial {
 
-	private static String SQL = "select idHistorial, idpaciente from Historial";
+	private static String SQL = "select idHistorial, id_paciente from Historial";
 	
 	Database db = new Database();
 	
@@ -32,7 +32,7 @@ public class FindAllHistorial {
 				while(rs.next()) {
 					HistorialDTO historial = new HistorialDTO();
 					historial.idHistorial = rs.getString("idHistorial");
-					historial.idPaciente = rs.getString("idpaciente");
+					historial.idPaciente = rs.getString("id_paciente");
 					historiales.add(historial);
 				}
 			} catch (SQLException e) {

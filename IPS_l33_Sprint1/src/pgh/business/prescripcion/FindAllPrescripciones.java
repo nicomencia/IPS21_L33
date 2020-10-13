@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllPrescripciones {
 
-	private static String SQL = "select idPrescripcion, idpaciente, instruccion, hora_Asignacion, dia_Asignacion from Prescripcion";
+	private static String SQL = "select idPrescripcion, id_paciente, instruccion, hora_Asignacion, dia_Asignacion from Prescripcion";
 	
 	Database db = new Database();
 	
@@ -32,7 +32,7 @@ public class FindAllPrescripciones {
 				while(rs.next()) {
 					PrescripcionDTO prescripcion = new PrescripcionDTO();
 					prescripcion.idPrescripcion = rs.getString("idPrescripcion");
-					prescripcion.idPaciente = rs.getString("idpaciente");
+					prescripcion.idPaciente = rs.getString("id_paciente");
 					prescripcion.instruccion = rs.getString("instruccion");
 					prescripcion.horaAsignacion = rs.getString("hora_Asignacion");
 					prescripcion.diaAsignacion = rs.getString("dia_Asignacion");
