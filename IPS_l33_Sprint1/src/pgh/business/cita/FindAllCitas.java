@@ -16,6 +16,7 @@ public class FindAllCitas {
 	Database db = new Database();
 	
 		public List<CitaDTO> execute() {
+			
 			List<CitaDTO> citas;
 			
 			Connection c = null;

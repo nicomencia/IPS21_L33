@@ -45,27 +45,48 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblMedicos;
 	private JComboBox comboBoxPaciente;
 	private JLabel lblPaciente;
-	private JComboBox comboBoxAno;
+	private JComboBox comboBoxAnoCita;
 	private JLabel lblFecha;
 	private JLabel lblHoraInicio;
 	private JLabel lblHoraFin;
 	private JLabel lblUbicacion;
 	private JComboBox comboBoxUbicacion;
-	private JComboBox comboBoxHorasFin;
-	private JComboBox comboBoxHorasInicio;
+	private JComboBox comboBoxHorasFinCita;
+	private JComboBox comboBoxHorasInicioCita;
 	private JButton btnCrearCita;
 	private JButton btncancelarCita;
 	private JLabel lblNewLabel_1;
-	private JComboBox comboBoxMinutosInicio;
+	private JComboBox comboBoxMinutosInicioCita;
 	private JLabel lblNewLabel_2;
-	private JComboBox comboBoxMinutosFin;
+	private JComboBox comboBoxMinutosFinCita;
 	private JLabel lblNewLabel_3;
-	private JComboBox comboBoxMes;
+	private JComboBox comboBoxMesCita;
 	private JComboBox comboBoxFechaDia;
-	private JComboBox comboBoxDia;
+	private JComboBox comboBoxDiaDia;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
 	private JLabel lblconsultaDuracion;
+	private JPanel panelJornadasMedico;
+	private JButton btnAsignarJornadasMedicos;
+	private JButton btnAsignarJornadasAEnfermeros;
+	private JComboBox comboBoxMedicosJornada;
+	private JLabel lblNewLabel_4;
+	private JComboBox comboBoxDiasJornada;
+	private JLabel lblNewLabel_4_1;
+	private JLabel lblNewLabel_5;
+	private JComboBox comboBoxDiaInicioJornadaMedico;
+	private JLabel lblNewLabel_5_1;
+	private JComboBox comboBoxDiaFinJornadaMedico;
+	private JLabel lblNewLabel_6;
+	private JComboBox comboBoxMesInicioJornadaMedico;
+	private JLabel lblNewLabel_6_1;
+	private JComboBox comboBoxMesFinJornadaMedico;
+	private JLabel lblNewLabel_6_1_1;
+	private JComboBox comboBoxHoraInicioJornadaMedico;
+	private JLabel lblNewLabel_5_1_1;
+	private JComboBox comboBoxHoraFinJornadaMedico;
+	private JButton btnCrearJornadaMedico;
+	private JButton btnCancelarJornadaMedico;
 
 	/**
 	 * Launch the application.
@@ -111,6 +132,7 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelMedico(), "name_186456591110200");
 			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelCitas(), "name_190322796624300");
+			panelContenido.add(getPanelJornadasMedico(), "name_328185980980700");
 		}
 		return panelContenido;
 	}
@@ -197,6 +219,8 @@ public class VentanaPrincipal extends JFrame {
 			panelAdministrativo.setLayout(null);
 			panelAdministrativo.add(getBtnSalir());
 			panelAdministrativo.add(getBtnNewButton());
+			panelAdministrativo.add(getBtnAsignarJornadasMedicos());
+			panelAdministrativo.add(getBtnAsignarJornadasAEnfermeros());
 		}
 		return panelAdministrativo;
 	}
@@ -224,6 +248,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setVisible(false);
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
 			
 		}
 		else if (nombre=="panelAdministrativo"){
@@ -232,6 +257,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setVisible(false);
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
 			
 		}
 		else if (nombre=="panelMedico"){
@@ -240,6 +266,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setVisible(true);
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
 		}
 		else if (nombre=="panelEnfermero"){
 			panelPrincipal.setVisible(false);
@@ -247,6 +274,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setVisible(false);
 			panelEnfermero.setVisible(true);
 			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
 			
 		}
 		else if (nombre=="panelCitas"){
@@ -255,6 +283,16 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setVisible(false);
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(true);
+			panelJornadasMedico.setVisible(false);
+			
+		}
+		else if (nombre=="panelJornadas"){
+			panelPrincipal.setVisible(false);
+			panelAdministrativo.setVisible(false);
+			panelMedico.setVisible(false);
+			panelEnfermero.setVisible(false);
+			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(true);
 			
 		}
 	}
@@ -282,7 +320,7 @@ public class VentanaPrincipal extends JFrame {
 				}
 			});
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnNewButton.setBounds(395, 121, 147, 38);
+			btnNewButton.setBounds(45, 54, 147, 38);
 		}
 		return btnNewButton;
 	}
@@ -291,32 +329,32 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas = new JPanel();
 			panelCitas.setBackground(Color.WHITE);
 			panelCitas.setLayout(null);
-			panelCitas.add(getComboBoxMedicos());
+			panelCitas.add(getComboBoxMedicosCita());
 			panelCitas.add(getLblMedicos());
-			panelCitas.add(getComboBoxPaciente());
+			panelCitas.add(getComboBoxPacienteCita());
 			panelCitas.add(getLblPaciente());
-			panelCitas.add(getComboBoxAno());
+			panelCitas.add(getComboBoxAnoCita());
 			panelCitas.add(getLblFecha());
 			panelCitas.add(getLblHoraInicio());
 			panelCitas.add(getLblHoraFin());
 			panelCitas.add(getLblUbicacion());
 			panelCitas.add(getComboBoxUbicacion());
-			panelCitas.add(getComboBoxHorasInicio());
-			panelCitas.add(getComboBoxHorasFin());
+			panelCitas.add(getComboBoxHorasInicioCita());
+			panelCitas.add(getComboBoxHorasFinCita());
 			panelCitas.add(getBtnCrearCita());
 			panelCitas.add(getBtncancelarCita());
 			panelCitas.add(getLblNewLabel_1());
-			panelCitas.add(getComboBoxMinutosInicio());
+			panelCitas.add(getComboBoxMinutosInicioCita());
 			panelCitas.add(getLblNewLabel_2());
 			panelCitas.add(getComboBox_1());
 			panelCitas.add(getLblNewLabel_3());
-			panelCitas.add(getComboBoxMes());
-			panelCitas.add(getComboBoxDia());
+			panelCitas.add(getComboBoxMesCita());
+			panelCitas.add(getComboBoxDiaDia());
 			panelCitas.add(getLblconsultaDuracion());
 		}
 		return panelCitas;
 	}
-	private JComboBox getComboBoxMedicos() {
+	private JComboBox getComboBoxMedicosCita() {
 		lm=new ListaMedicos();
 		if (comboBoxMedicos == null) {
 			comboBoxMedicos = new JComboBox();
@@ -341,7 +379,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblMedicos;
 	}
-	private JComboBox getComboBoxPaciente() {
+	private JComboBox getComboBoxPacienteCita() {
 		lp=new ListaPacientes();
 		if (comboBoxPaciente == null) {
 			comboBoxPaciente = new JComboBox();
@@ -366,17 +404,17 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblPaciente;
 	}
-	private JComboBox getComboBoxAno() {
-		if (comboBoxAno == null) {
-			comboBoxAno = new JComboBox();
-			comboBoxAno.setBounds(320, 273, 100, 22);
+	private JComboBox getComboBoxAnoCita() {
+		if (comboBoxAnoCita == null) {
+			comboBoxAnoCita = new JComboBox();
+			comboBoxAnoCita.setBounds(320, 273, 100, 22);
 			String[] listaAños = new String[5];
 			for (int i = 0; i < listaAños.length; i++) {
 				listaAños[i] = String.valueOf(2021 + i);
 			}
-			comboBoxAno.setModel(new DefaultComboBoxModel<String>(listaAños));
+			comboBoxAnoCita.setModel(new DefaultComboBoxModel<String>(listaAños));
 		}
-		return comboBoxAno;
+		return comboBoxAnoCita;
 	}
 	private JLabel getLblFecha() {
 		if (lblFecha == null) {
@@ -424,16 +462,16 @@ public class VentanaPrincipal extends JFrame {
 		return comboBoxUbicacion;
 	}
 	
-	private JComboBox getComboBoxHorasFin() {
-		if (comboBoxHorasFin == null) {
-			comboBoxHorasFin = new JComboBox();
-			comboBoxHorasFin.setBounds(840, 195, 57, 22);
+	private JComboBox getComboBoxHorasFinCita() {
+		if (comboBoxHorasFinCita == null) {
+			comboBoxHorasFinCita = new JComboBox();
+			comboBoxHorasFinCita.setBounds(840, 195, 57, 22);
 			String[] horas = new String[2];
 			horas[0]="08";
 			horas[1]="09";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
-		return comboBoxHorasFin;
+		return comboBoxHorasFinCita;
 	}
 	
     private void hastaQueHora (Object selectedItem) {
@@ -444,87 +482,93 @@ public class VentanaPrincipal extends JFrame {
 		if(horaInicial.contains("09")) {
 			horas[0]="09";
 			horas[1]="10";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		if(horaInicial.contains("10")) {
 			horas[0]="10";
 			horas[1]="11";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		if(horaInicial.contains("11")) {
 			horas[0]="11";
 			horas[1]="12";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		if(horaInicial.contains("12")) {
 			horas[0]="12";
 			horas[1]="13";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		if(horaInicial.contains("13")) {
 			horas[0]="13";
 			horas[1]="14";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		if(horaInicial.contains("14")) {
 			horas[0]="14";
 			horas[1]="15";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		if(horaInicial.contains("15")) {
 			horas[0]="15";
 			horas[1]="16";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		if(horaInicial.contains("16")) {
 			horas[0]="16";
 			horas[1]="17";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		if(horaInicial.contains("17")) {
 			horas[0]="17";
 			horas[1]="18";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		if(horaInicial.contains("18")) {
 			horas[0]="18";
 			horas[1]="19";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		if(horaInicial.contains("19")) {
 			horas[0]="19";
 			horas[1]="20";
-			comboBoxHorasFin.setModel(new DefaultComboBoxModel<String>(horas));
+			comboBoxHorasFinCita.setModel(new DefaultComboBoxModel<String>(horas));
 		}
 		
 		
 	}
     
-	private JComboBox getComboBoxHorasInicio() {
-		if (comboBoxHorasInicio == null) {
-			comboBoxHorasInicio = new JComboBox();
-			comboBoxHorasInicio.addActionListener(new ActionListener() {
+	private JComboBox getComboBoxHorasInicioCita() {
+		if (comboBoxHorasInicioCita == null) {
+			comboBoxHorasInicioCita = new JComboBox();
+			comboBoxHorasInicioCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					hastaQueHora(comboBoxHorasInicio.getSelectedItem());
+					hastaQueHora(comboBoxHorasInicioCita.getSelectedItem());
 				}
 			});
-			comboBoxHorasInicio.setModel(new DefaultComboBoxModel(new String[] {"08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
-			comboBoxHorasInicio.setBounds(840, 145, 57, 22);
+			comboBoxHorasInicioCita.setModel(new DefaultComboBoxModel(new String[] {"08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}));
+			comboBoxHorasInicioCita.setBounds(840, 145, 57, 22);
 			
 			
 			
 		}
-		return comboBoxHorasInicio;
+		return comboBoxHorasInicioCita;
 	}
 
 	private JButton getBtnCrearCita() {
 		if (btnCrearCita == null) {
 			btnCrearCita = new JButton("Crear Cita");
+			btnCrearCita.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					 
+				}
+			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnCrearCita.setBounds(719, 468, 125, 23);
 		}
@@ -551,13 +595,13 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
-	private JComboBox getComboBoxMinutosInicio() {
-		if (comboBoxMinutosInicio == null) {
-			comboBoxMinutosInicio = new JComboBox();
-			comboBoxMinutosInicio.setModel(new DefaultComboBoxModel(new String[] {"00", "15", "30", "45"}));
-			comboBoxMinutosInicio.setBounds(923, 145, 57, 22);
+	private JComboBox getComboBoxMinutosInicioCita() {
+		if (comboBoxMinutosInicioCita == null) {
+			comboBoxMinutosInicioCita = new JComboBox();
+			comboBoxMinutosInicioCita.setModel(new DefaultComboBoxModel(new String[] {"00", "15", "30", "45"}));
+			comboBoxMinutosInicioCita.setBounds(923, 145, 57, 22);
 		}
-		return comboBoxMinutosInicio;
+		return comboBoxMinutosInicioCita;
 	}
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
@@ -568,12 +612,12 @@ public class VentanaPrincipal extends JFrame {
 		return lblNewLabel_2;
 	}
 	private JComboBox getComboBox_1() {
-		if (comboBoxMinutosFin == null) {
-			comboBoxMinutosFin = new JComboBox();
-			comboBoxMinutosFin.setModel(new DefaultComboBoxModel(new String[] {"00", "15", "30", "45"}));
-			comboBoxMinutosFin.setBounds(923, 195, 57, 22);
+		if (comboBoxMinutosFinCita == null) {
+			comboBoxMinutosFinCita = new JComboBox();
+			comboBoxMinutosFinCita.setModel(new DefaultComboBoxModel(new String[] {"00", "15", "30", "45"}));
+			comboBoxMinutosFinCita.setBounds(923, 195, 57, 22);
 		}
-		return comboBoxMinutosFin;
+		return comboBoxMinutosFinCita;
 	}
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
@@ -583,21 +627,21 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblNewLabel_3;
 	}
-	private JComboBox getComboBoxMes() {
-		if (comboBoxMes == null) {
-			comboBoxMes = new JComboBox();
-			comboBoxMes.addActionListener(new ActionListener() {
+	private JComboBox getComboBoxMesCita() {
+		if (comboBoxMesCita == null) {
+			comboBoxMesCita = new JComboBox();
+			comboBoxMesCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					cambiarDias(comboBoxMes.getSelectedItem());
+					cambiarDias(comboBoxMesCita.getSelectedItem());
 				}
 			});
 			
-			comboBoxMes.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
-			comboBoxMes.setBounds(442, 273, 100, 22);
+			comboBoxMesCita.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
+			comboBoxMesCita.setBounds(442, 273, 100, 22);
 			
 		}
-		return comboBoxMes;
+		return comboBoxMesCita;
 	}
 	
 	private void cambiarDias(Object selectedItem) {
@@ -614,7 +658,7 @@ public class VentanaPrincipal extends JFrame {
 					dias31[i-1]=String.valueOf(i);
 				}
 			}
-			comboBoxDia.setModel(new DefaultComboBoxModel<String>(dias31));
+			comboBoxDiaDia.setModel(new DefaultComboBoxModel<String>(dias31));
 		}
 		if(mes.contains("02")){
 			for(int i=1; i<30;i++) {
@@ -625,7 +669,7 @@ public class VentanaPrincipal extends JFrame {
 					dias29[i-1]=String.valueOf(i);
 				}
 			}
-			comboBoxDia.setModel(new DefaultComboBoxModel<String>(dias29));
+			comboBoxDiaDia.setModel(new DefaultComboBoxModel<String>(dias29));
 		}
 		if(mes.contains("04") || mes.contains("06") || mes.contains("09") || mes.contains("11") ){
 			for(int i=1; i<31;i++) {
@@ -636,15 +680,15 @@ public class VentanaPrincipal extends JFrame {
 					dias30[i-1]=String.valueOf(i);
 				}
 			}
-			comboBoxDia.setModel(new DefaultComboBoxModel<String>(dias30));
+			comboBoxDiaDia.setModel(new DefaultComboBoxModel<String>(dias30));
 		}
 		
 	}
 
-	private JComboBox getComboBoxDia() {
-		if (comboBoxDia == null) {
-			comboBoxDia = new JComboBox();
-			comboBoxDia.setBounds(573, 273, 94, 22);
+	private JComboBox getComboBoxDiaDia() {
+		if (comboBoxDiaDia == null) {
+			comboBoxDiaDia = new JComboBox();
+			comboBoxDiaDia.setBounds(573, 273, 94, 22);
 			String[] dias31 = new String[31];
 				for(int i=1; i<32;i++) {
 					if(i<10) {
@@ -654,10 +698,10 @@ public class VentanaPrincipal extends JFrame {
 						dias31[i-1]=String.valueOf(i);
 					}
 				}
-				comboBoxDia.setModel(new DefaultComboBoxModel<String>(dias31));
+				comboBoxDiaDia.setModel(new DefaultComboBoxModel<String>(dias31));
 			
 		}
-		return comboBoxDia;
+		return comboBoxDiaDia;
 	}
 	private JLabel getLblconsultaDuracion() {
 		if (lblconsultaDuracion == null) {
@@ -666,5 +710,195 @@ public class VentanaPrincipal extends JFrame {
 			lblconsultaDuracion.setBounds(714, 116, 266, 14);
 		}
 		return lblconsultaDuracion;
+	}
+	private JPanel getPanelJornadasMedico() {
+		if (panelJornadasMedico == null) {
+			panelJornadasMedico = new JPanel();
+			panelJornadasMedico.setBackground(Color.WHITE);
+			panelJornadasMedico.setLayout(null);
+			panelJornadasMedico.add(getComboBoxMedicosJornada());
+			panelJornadasMedico.add(getLblNewLabel_4());
+			panelJornadasMedico.add(getComboBoxDiasJornada());
+			panelJornadasMedico.add(getLblNewLabel_4_1());
+			panelJornadasMedico.add(getLblNewLabel_5());
+			panelJornadasMedico.add(getComboBoxDiaInicioJornadaMedico());
+			panelJornadasMedico.add(getLblNewLabel_5_1());
+			panelJornadasMedico.add(getComboBox_1_1());
+			panelJornadasMedico.add(getLblNewLabel_6());
+			panelJornadasMedico.add(getComboBoxMesInicioJornadaMedico());
+			panelJornadasMedico.add(getLblNewLabel_6_1());
+			panelJornadasMedico.add(getComboBoxMesFinJornadaMedico());
+			panelJornadasMedico.add(getLblNewLabel_6_1_1());
+			panelJornadasMedico.add(getComboBoxHoraInicioJornadaMedico());
+			panelJornadasMedico.add(getLblNewLabel_5_1_1());
+			panelJornadasMedico.add(getComboBox_1_1_1());
+			panelJornadasMedico.add(getBtnCrearJornadaMedico());
+			panelJornadasMedico.add(getBtnCancelarJornadaMedico());
+		}
+		return panelJornadasMedico;
+	}
+	private JButton getBtnAsignarJornadasMedicos() {
+		if (btnAsignarJornadasMedicos == null) {
+			btnAsignarJornadasMedicos = new JButton("Asignar Jornadas a Medicos");
+			btnAsignarJornadasMedicos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cambiarPanel("panelJornadas");
+				}
+			});
+			btnAsignarJornadasMedicos.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnAsignarJornadasMedicos.setBounds(227, 54, 235, 38);
+		}
+		return btnAsignarJornadasMedicos;
+	}
+	private JButton getBtnAsignarJornadasAEnfermeros() {
+		if (btnAsignarJornadasAEnfermeros == null) {
+			btnAsignarJornadasAEnfermeros = new JButton("Asignar Jornadas a Enfermeros");
+			btnAsignarJornadasAEnfermeros.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnAsignarJornadasAEnfermeros.setBounds(495, 54, 265, 38);
+		}
+		return btnAsignarJornadasAEnfermeros;
+	}
+	private JComboBox getComboBoxMedicosJornada() {
+		if (comboBoxMedicosJornada == null) {
+			comboBoxMedicosJornada = new JComboBox();
+			comboBoxMedicosJornada.setBounds(277, 101, 225, 22);
+		}
+		return comboBoxMedicosJornada;
+	}
+	private JLabel getLblNewLabel_4() {
+		if (lblNewLabel_4 == null) {
+			lblNewLabel_4 = new JLabel("Seleccionar Medico :");
+			lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 18));
+			lblNewLabel_4.setBounds(72, 98, 195, 22);
+		}
+		return lblNewLabel_4;
+	}
+	private JComboBox getComboBoxDiasJornada() {
+		if (comboBoxDiasJornada == null) {
+			comboBoxDiasJornada = new JComboBox();
+			comboBoxDiasJornada.setBounds(831, 101, 165, 22);
+		}
+		return comboBoxDiasJornada;
+	}
+	private JLabel getLblNewLabel_4_1() {
+		if (lblNewLabel_4_1 == null) {
+			lblNewLabel_4_1 = new JLabel("Seleccionar dias a la semana :");
+			lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+			lblNewLabel_4_1.setBounds(542, 97, 279, 22);
+		}
+		return lblNewLabel_4_1;
+	}
+	private JLabel getLblNewLabel_5() {
+		if (lblNewLabel_5 == null) {
+			lblNewLabel_5 = new JLabel("Seleccionar dia inicio :");
+			lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_5.setBounds(69, 285, 158, 22);
+		}
+		return lblNewLabel_5;
+	}
+	private JComboBox getComboBoxDiaInicioJornadaMedico() {
+		if (comboBoxDiaInicioJornadaMedico == null) {
+			comboBoxDiaInicioJornadaMedico = new JComboBox();
+			comboBoxDiaInicioJornadaMedico.setBounds(237, 286, 59, 22);
+		}
+		return comboBoxDiaInicioJornadaMedico;
+	}
+	private JLabel getLblNewLabel_5_1() {
+		if (lblNewLabel_5_1 == null) {
+			lblNewLabel_5_1 = new JLabel("Seleccionar dia fin :");
+			lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_5_1.setBounds(360, 285, 133, 22);
+		}
+		return lblNewLabel_5_1;
+	}
+	private JComboBox getComboBox_1_1() {
+		if (comboBoxDiaFinJornadaMedico == null) {
+			comboBoxDiaFinJornadaMedico = new JComboBox();
+			comboBoxDiaFinJornadaMedico.setBounds(509, 286, 59, 22);
+		}
+		return comboBoxDiaFinJornadaMedico;
+	}
+	private JLabel getLblNewLabel_6() {
+		if (lblNewLabel_6 == null) {
+			lblNewLabel_6 = new JLabel("Seleccionar mes inicio :");
+			lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_6.setBounds(69, 224, 158, 22);
+		}
+		return lblNewLabel_6;
+	}
+	private JComboBox getComboBoxMesInicioJornadaMedico() {
+		if (comboBoxMesInicioJornadaMedico == null) {
+			comboBoxMesInicioJornadaMedico = new JComboBox();
+			comboBoxMesInicioJornadaMedico.setBounds(237, 225, 59, 22);
+		}
+		return comboBoxMesInicioJornadaMedico;
+	}
+	private JLabel getLblNewLabel_6_1() {
+		if (lblNewLabel_6_1 == null) {
+			lblNewLabel_6_1 = new JLabel("Seleccionar mes fin :");
+			lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_6_1.setBounds(360, 224, 165, 22);
+		}
+		return lblNewLabel_6_1;
+	}
+	private JComboBox getComboBoxMesFinJornadaMedico() {
+		if (comboBoxMesFinJornadaMedico == null) {
+			comboBoxMesFinJornadaMedico = new JComboBox();
+			comboBoxMesFinJornadaMedico.setBounds(509, 225, 59, 22);
+		}
+		return comboBoxMesFinJornadaMedico;
+	}
+	private JLabel getLblNewLabel_6_1_1() {
+		if (lblNewLabel_6_1_1 == null) {
+			lblNewLabel_6_1_1 = new JLabel("Seleccionar hora inicio :");
+			lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_6_1_1.setBounds(615, 224, 158, 22);
+		}
+		return lblNewLabel_6_1_1;
+	}
+	private JComboBox getComboBoxHoraInicioJornadaMedico() {
+		if (comboBoxHoraInicioJornadaMedico == null) {
+			comboBoxHoraInicioJornadaMedico = new JComboBox();
+			comboBoxHoraInicioJornadaMedico.setBounds(787, 225, 59, 22);
+		}
+		return comboBoxHoraInicioJornadaMedico;
+	}
+	private JLabel getLblNewLabel_5_1_1() {
+		if (lblNewLabel_5_1_1 == null) {
+			lblNewLabel_5_1_1 = new JLabel("Seleccionar hora fin :");
+			lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_5_1_1.setBounds(615, 285, 142, 22);
+		}
+		return lblNewLabel_5_1_1;
+	}
+	private JComboBox getComboBox_1_1_1() {
+		if (comboBoxHoraFinJornadaMedico == null) {
+			comboBoxHoraFinJornadaMedico = new JComboBox();
+			comboBoxHoraFinJornadaMedico.setBounds(787, 286, 59, 22);
+		}
+		return comboBoxHoraFinJornadaMedico;
+	}
+	private JButton getBtnCrearJornadaMedico() {
+		if (btnCrearJornadaMedico == null) {
+			btnCrearJornadaMedico = new JButton("Crear jornada");
+			btnCrearJornadaMedico.setForeground(new Color(0, 128, 0));
+			btnCrearJornadaMedico.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnCrearJornadaMedico.setBounds(719, 466, 127, 23);
+		}
+		return btnCrearJornadaMedico;
+	}
+	private JButton getBtnCancelarJornadaMedico() {
+		if (btnCancelarJornadaMedico == null) {
+			btnCancelarJornadaMedico = new JButton("Cancelar");
+			btnCancelarJornadaMedico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cambiarPanel("panelAdministrativo");
+				}
+			});
+			btnCancelarJornadaMedico.setForeground(new Color(255, 0, 0));
+			btnCancelarJornadaMedico.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnCancelarJornadaMedico.setBounds(859, 466, 102, 23);
+		}
+		return btnCancelarJornadaMedico;
 	}
 }
