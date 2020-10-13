@@ -95,10 +95,14 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox comboBoxAnoFinJornadaMedico_1;
 	private JLabel lblNewLabel_7;
 	private JScrollPane scrollPane;
-	private JList list;
-	private JButton btnNewButton_1;
+	private JList listDias;
+	private JButton btnAñadirDiasJornada;
 	private JScrollPane scrollPaneDiasSeleccionados;
 	private JTextArea textAreaDiasSeleccionados;
+	private JButton btnNewButton_1;
+	private String dias = "";
+	private boolean lunes = false, martes = false, miercoles = false, jueves = false, viernes = false,
+			sabado = false, domingo = false;
 
 	/**
 	 * Launch the application.
@@ -372,10 +376,11 @@ public class VentanaPrincipal extends JFrame {
 		return panelCitas;
 	}
 	private JComboBox getComboBoxMedicosCita() {
-		lm=new ListaMedicos();
+
 		if (comboBoxMedicos == null) {
 			comboBoxMedicos = new JComboBox();
 			comboBoxMedicos.setBounds(320, 203, 347, 22);
+			lm=new ListaMedicos();
 			lm.creaListaMedicos();
 			String[] medico = new String[lm.getMedicos().size()];
 			int i=0;
@@ -766,8 +771,9 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getComboBoxAnoFinJornadaMedico_1());
 			panelJornadasMedico.add(getLblNewLabel_7());
 			panelJornadasMedico.add(getScrollPane());
-			panelJornadasMedico.add(getBtnNewButton_1());
+			panelJornadasMedico.add(getBtnAñadirDiasJornada());
 			panelJornadasMedico.add(getScrollPaneDiasSeleccionados());
+			panelJornadasMedico.add(getBtnNewButton_1());
 		}
 		return panelJornadasMedico;
 	}
@@ -994,9 +1000,9 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JLabel getLblNewLabel_7() {
 		if (lblNewLabel_7 == null) {
-			lblNewLabel_7 = new JLabel("Nota: marcar mas de un dia si quieres varios.");
+			lblNewLabel_7 = new JLabel("Nota: marcar uno , a\u00F1adir y repetir procedimiento si se desea\r\n");
 			lblNewLabel_7.setForeground(Color.RED);
-			lblNewLabel_7.setBounds(414, 376, 315, 14);
+			lblNewLabel_7.setBounds(414, 376, 428, 14);
 		}
 		return lblNewLabel_7;
 	}
@@ -1004,14 +1010,14 @@ public class VentanaPrincipal extends JFrame {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(295, 362, 88, 127);
-			scrollPane.setViewportView(getList());
+			scrollPane.setViewportView(getListDias());
 		}
 		return scrollPane;
 	}
-	private JList getList() {
-		if (list == null) {
-			list = new JList();
-			list.setModel(new AbstractListModel() {
+	private JList getListDias() {
+		if (listDias == null) {
+			listDias = new JList();
+			listDias.setModel(new AbstractListModel() {
 				String[] values = new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
 				public int getSize() {
 					return values.length;
@@ -1021,15 +1027,64 @@ public class VentanaPrincipal extends JFrame {
 				}
 			});
 		}
-		return list;
+		return listDias;
 	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("A\u00F1adir dias");
-			btnNewButton_1.setBounds(176, 434, 89, 23);
+
+	private JButton getBtnAñadirDiasJornada() {
+		if (btnAñadirDiasJornada == null) {
+			btnAñadirDiasJornada = new JButton("A\u00F1adir dias");
+			btnAñadirDiasJornada.addActionListener(new ActionListener() {
+
+				
+
+				public void actionPerformed(ActionEvent e) {
+
+				
+
+					if ((String) listDias.getSelectedValue() == "Lunes" && !lunes) {
+						
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						lunes = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Martes" && !martes) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						martes = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Miercoles" && !miercoles) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						miercoles = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Jueves" && !jueves) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						jueves = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Viernes" && !viernes) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						viernes = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Sabado" && !sabado) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						sabado = true;
+					}
+					if ((String) listDias.getSelectedValue() == "Domingo" && !domingo) {
+						dias = dias + (String) listDias.getSelectedValue() + "\n";
+						textAreaDiasSeleccionados.setText(dias);
+						domingo = true;
+					}
+
+				}
+			});
+			btnAñadirDiasJornada.setBounds(152, 434, 113, 23);
 		}
-		return btnNewButton_1;
+		return btnAñadirDiasJornada;
 	}
+
 	private JScrollPane getScrollPaneDiasSeleccionados() {
 		if (scrollPaneDiasSeleccionados == null) {
 			scrollPaneDiasSeleccionados = new JScrollPane();
@@ -1038,10 +1093,32 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return scrollPaneDiasSeleccionados;
 	}
+
 	private JTextArea getTextAreaDiasSeleccionados() {
 		if (textAreaDiasSeleccionados == null) {
 			textAreaDiasSeleccionados = new JTextArea();
 		}
 		return textAreaDiasSeleccionados;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Borrar dias");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					textAreaDiasSeleccionados.setText("");;
+					dias="";
+					lunes=false;
+					martes=false;
+					miercoles=false;
+					jueves=false;
+					viernes=false;
+					sabado=false;
+					domingo=false;
+				}
+			});
+			btnNewButton_1.setBounds(631, 417, 89, 23);
+		}
+		return btnNewButton_1;
 	}
 }
