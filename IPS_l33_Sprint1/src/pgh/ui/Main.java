@@ -10,6 +10,7 @@ import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
 import pgh.business.jornadamedico.ListaJornadasMedico;
 import pgh.business.medicamento.ListaMedicamentos;
 import pgh.business.medico.ListaMedicos;
+import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.paciente.ListaPacientes;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.vacacionesenfermero.ListaVacacionesEnfermero;
@@ -19,9 +20,9 @@ public class Main {
 
 	public static void main(String[] args){
 		
-//		ListaMedicos lm = new ListaMedicos();
+	//	ListaMedicoCita lm = new ListaMedicoCita();
 //		
-//		lm.listarMedicos();
+	//	lm.listarMedicos();
 		
 		
 //		ListaCitas lp = new ListaCitas();
