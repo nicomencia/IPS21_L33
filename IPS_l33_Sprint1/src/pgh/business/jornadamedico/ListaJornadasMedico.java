@@ -12,6 +12,7 @@ public class ListaJornadasMedico {
 		for(JornadaMedicoDTO jm : jornadasMedico) {
 			System.out.println(jm.idJornadaMedico);
 			System.out.println(jm.idMedico);
+			System.out.println(jm.dias);
 			System.out.println(jm.diaInicio);
 			System.out.println(jm.diaFin);
 			System.out.println(jm.horaInicio);

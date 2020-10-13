@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllJornadasMedico {
 
-	private static String SQL = "select idJornada_Medico, idMedico, dia_Inicio, dia_Fin, hora_Inicio, hora_Fin from Jornada_Medico";
+	private static String SQL = "select idJornada_Medico, idMedico, dias, dia_Inicio, dia_Fin, hora_Inicio, hora_Fin from Jornada_Medico";
 	
 	Database db = new Database();
 	
@@ -33,6 +33,7 @@ public class FindAllJornadasMedico {
 					JornadaMedicoDTO jornadaMedico = new JornadaMedicoDTO();
 					jornadaMedico.idJornadaMedico = rs.getString("idJornada_Medico");
 					jornadaMedico.idMedico = rs.getString("idMedico");
+					jornadaMedico.dias = rs.getString("dias");
 					jornadaMedico.diaInicio = rs.getDate("dia_Inicio");
 					jornadaMedico.diaFin = rs.getDate("dia_Fin");
 					jornadaMedico.horaInicio = rs.getString("hora_Inicio");
