@@ -135,6 +135,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAnadirMedicoJornadas;
 	private JScrollPane scrollPaneMedicoSeleccionadoJornada;
 	private JList listMedicosSeleccionadosJornada;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -820,6 +821,7 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getScrollPaneSeleccionarMedicoJornada());
 			panelJornadasMedico.add(getBtnAnadirMedicoJornadas());
 			panelJornadasMedico.add(getScrollPaneMedicoSeleccionadoJornada());
+			panelJornadasMedico.add(getBtnNewButton_1());
 		}
 		return panelJornadasMedico;
 	}
@@ -850,7 +852,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("Seleccionar Medico :");
 			lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_4.setBounds(196, 75, 147, 22);
+			lblNewLabel_4.setBounds(72, 74, 147, 22);
 		}
 		return lblNewLabel_4;
 	}
@@ -1243,7 +1245,7 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane getScrollPaneSeleccionarMedicoJornada() {
 		if (scrollPaneSeleccionarMedicoJornada == null) {
 			scrollPaneSeleccionarMedicoJornada = new JScrollPane();
-			scrollPaneSeleccionarMedicoJornada.setBounds(353, 57, 261, 77);
+			scrollPaneSeleccionarMedicoJornada.setBounds(229, 57, 261, 77);
 			scrollPaneSeleccionarMedicoJornada.setViewportView(getListMedicosJornada());
 		}
 		return scrollPaneSeleccionarMedicoJornada;
@@ -1272,14 +1274,14 @@ public class VentanaPrincipal extends JFrame {
 		
 				}
 			});
-			btnAnadirMedicoJornadas.setBounds(631, 88, 89, 23);
+			btnAnadirMedicoJornadas.setBounds(509, 86, 89, 23);
 		}
 		return btnAnadirMedicoJornadas;
 	}
 	private JScrollPane getScrollPaneMedicoSeleccionadoJornada() {
 		if (scrollPaneMedicoSeleccionadoJornada == null) {
 			scrollPaneMedicoSeleccionadoJornada = new JScrollPane();
-			scrollPaneMedicoSeleccionadoJornada.setBounds(740, 57, 269, 77);
+			scrollPaneMedicoSeleccionadoJornada.setBounds(615, 57, 269, 77);
 			scrollPaneMedicoSeleccionadoJornada.setViewportView(getListMedicosSeleccionadosJornada());
 		}
 		return scrollPaneMedicoSeleccionadoJornada;
@@ -1290,5 +1292,18 @@ public class VentanaPrincipal extends JFrame {
 			listMedicosSeleccionadosJornada = new JList(modeloListMedicosSeleccionadosJornada);
 		}
 		return listMedicosSeleccionadosJornada;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Borrar Medico");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					modeloListMedicosSeleccionadosJornada.removeAllElements();
+				}
+			});
+			btnNewButton_1.setBounds(894, 86, 115, 23);
+		}
+		return btnNewButton_1;
 	}
 }
