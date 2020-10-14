@@ -105,8 +105,7 @@ public class VentanaPrincipal extends JFrame {
 	private JList listDias;
 	private JButton btnAñadirDiasJornada;
 	private JScrollPane scrollPaneDiasSeleccionados;
-	private JTextArea textAreaDiasSeleccionados;
-	private JButton btnNewButton_1;
+	private JButton btnBorrarDiasSeleccionados;
 	private String dias = "";
 	private boolean lunes = false, martes = false, miercoles = false, jueves = false, viernes = false, sabado = false, domingo = false;
 	private JScrollPane scrollPaneMedicos;
@@ -118,6 +117,8 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Medico> modeloListMedicosAnadidos;
 	private DefaultListModel<Paciente> modeloListPacientesCita;
 	private DefaultListModel<Paciente> modeloListPacienteCita;
+	private DefaultListModel<String> modeloListDiasJornada;
+	private DefaultListModel<String> modeloListDiasSeleccionadosJornadaMedico;
 	private JScrollPane scrollPane_1;
 	private JList listPacientesCita;
 	private CitaDTO citaDTO;
@@ -128,6 +129,7 @@ public class VentanaPrincipal extends JFrame {
 	private JList listPacienteSeleccionado;
 	
 	private int contador;
+	private JList listDiasSeleccionadosJornadaMedico;
 
 	/**
 	 * Launch the application.
@@ -811,7 +813,7 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getScrollPane());
 			panelJornadasMedico.add(getBtnAñadirDiasJornada());
 			panelJornadasMedico.add(getScrollPaneDiasSeleccionados());
-			panelJornadasMedico.add(getBtnNewButton_1());
+			panelJornadasMedico.add(getBtnBorrarDiasSeleccionados());
 		}
 		return panelJornadasMedico;
 	}
@@ -1054,16 +1056,15 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JList getListDias() {
 		if (listDias == null) {
-			listDias = new JList();
-			listDias.setModel(new AbstractListModel() {
-				String[] values = new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
+			modeloListDiasJornada = new DefaultListModel();
+			listDias = new JList(modeloListDiasJornada);
+			modeloListDiasJornada.addElement("Lunes");
+			modeloListDiasJornada.addElement("Martes");
+			modeloListDiasJornada.addElement("Miercoles");
+			modeloListDiasJornada.addElement("Jueves");
+			modeloListDiasJornada.addElement("Viernes");
+			modeloListDiasJornada.addElement("Sabado");
+			modeloListDiasJornada.addElement("Domingo");
 		}
 		return listDias;
 	}
@@ -1073,49 +1074,15 @@ public class VentanaPrincipal extends JFrame {
 			btnAñadirDiasJornada = new JButton("A\u00F1adir dias");
 			btnAñadirDiasJornada.addActionListener(new ActionListener() {
 
-				
-
 				public void actionPerformed(ActionEvent e) {
-
-				
-
-					if ((String) listDias.getSelectedValue() == "Lunes" && !lunes) {
-						
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						lunes = true;
+					
+					for(Object o : listDias.getSelectedValuesList()) {
+						if(!modeloListDiasSeleccionadosJornadaMedico.contains(o)){
+							modeloListDiasSeleccionadosJornadaMedico.addElement((String) o);
+						}
 					}
-					if ((String) listDias.getSelectedValue() == "Martes" && !martes) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						martes = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Miercoles" && !miercoles) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						miercoles = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Jueves" && !jueves) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						jueves = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Viernes" && !viernes) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						viernes = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Sabado" && !sabado) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						sabado = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Domingo" && !domingo) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						domingo = true;
-					}
-
+					
+					
 				}
 			});
 			btnAñadirDiasJornada.setBounds(152, 434, 113, 23);
@@ -1127,37 +1094,24 @@ public class VentanaPrincipal extends JFrame {
 		if (scrollPaneDiasSeleccionados == null) {
 			scrollPaneDiasSeleccionados = new JScrollPane();
 			scrollPaneDiasSeleccionados.setBounds(414, 401, 207, 86);
-			scrollPaneDiasSeleccionados.setViewportView(getTextAreaDiasSeleccionados());
+			scrollPaneDiasSeleccionados.setViewportView(getListDiasSeleccionadosJornadaMedico());
 		}
 		return scrollPaneDiasSeleccionados;
 	}
-
-	private JTextArea getTextAreaDiasSeleccionados() {
-		if (textAreaDiasSeleccionados == null) {
-			textAreaDiasSeleccionados = new JTextArea();
-		}
-		return textAreaDiasSeleccionados;
-	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Borrar dias");
-			btnNewButton_1.addActionListener(new ActionListener() {
+	private JButton getBtnBorrarDiasSeleccionados() {
+		if (btnBorrarDiasSeleccionados == null) {
+			btnBorrarDiasSeleccionados = new JButton("Borrar dias");
+			btnBorrarDiasSeleccionados.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					textAreaDiasSeleccionados.setText("");;
-					dias="";
-					lunes=false;
-					martes=false;
-					miercoles=false;
-					jueves=false;
-					viernes=false;
-					sabado=false;
-					domingo=false;
+					modeloListDiasSeleccionadosJornadaMedico.removeAllElements();
+					
+	
 				}
 			});
-			btnNewButton_1.setBounds(631, 417, 89, 23);
+			btnBorrarDiasSeleccionados.setBounds(631, 417, 126, 23);
 		}
-		return btnNewButton_1;
+		return btnBorrarDiasSeleccionados;
 	}
 	private JScrollPane getScrollPaneMedicos() {
 		if (scrollPaneMedicos == null) {
@@ -1300,5 +1254,12 @@ public class VentanaPrincipal extends JFrame {
             
 		}
 		return listPacienteSeleccionado;
+	}
+	private JList getListDiasSeleccionadosJornadaMedico() {
+		if (listDiasSeleccionadosJornadaMedico == null) {
+			modeloListDiasSeleccionadosJornadaMedico= new DefaultListModel();
+			listDiasSeleccionadosJornadaMedico = new JList(modeloListDiasSeleccionadosJornadaMedico);
+		}
+		return listDiasSeleccionadosJornadaMedico;
 	}
 }
