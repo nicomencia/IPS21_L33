@@ -37,6 +37,7 @@ import javax.swing.JSpinner;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -79,7 +80,6 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel panelJornadasMedico;
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
-	private JComboBox comboBoxMedicosJornada;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_4_1;
 	private JLabel lblNewLabel_5;
@@ -100,7 +100,6 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblNewLabel_6_1_2;
 	private JComboBox comboBoxAnoInicioJornadaMedico;
 	private JComboBox comboBoxAnoFinJornadaMedico_1;
-	private JLabel lblNewLabel_7;
 	private JScrollPane scrollPane;
 	private JList listDias;
 	private JButton btnAñadirDiasJornada;
@@ -119,6 +118,7 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Paciente> modeloListPacienteCita;
 	private DefaultListModel<String> modeloListDiasJornada;
 	private DefaultListModel<String> modeloListDiasSeleccionadosJornadaMedico;
+	private DefaultListModel<Medico> modeloListMedicosSeleccionadosJornada;
 	private JScrollPane scrollPane_1;
 	private JList listPacientesCita;
 	private CitaDTO citaDTO;
@@ -130,6 +130,11 @@ public class VentanaPrincipal extends JFrame {
 	
 	private int contador;
 	private JList listDiasSeleccionadosJornadaMedico;
+	private JScrollPane scrollPaneSeleccionarMedicoJornada;
+	private JList listMedicosJornada;
+	private JButton btnAnadirMedicoJornadas;
+	private JScrollPane scrollPaneMedicoSeleccionadoJornada;
+	private JList listMedicosSeleccionadosJornada;
 
 	/**
 	 * Launch the application.
@@ -788,7 +793,6 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico = new JPanel();
 			panelJornadasMedico.setBackground(Color.WHITE);
 			panelJornadasMedico.setLayout(null);
-			panelJornadasMedico.add(getComboBoxMedicosJornada());
 			panelJornadasMedico.add(getLblNewLabel_4());
 			panelJornadasMedico.add(getLblNewLabel_4_1());
 			panelJornadasMedico.add(getLblNewLabel_5());
@@ -809,11 +813,13 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getLblNewLabel_6_1_2());
 			panelJornadasMedico.add(getComboBoxAnoInicioJornadaMedico());
 			panelJornadasMedico.add(getComboBoxAnoFinJornadaMedico_1());
-			panelJornadasMedico.add(getLblNewLabel_7());
 			panelJornadasMedico.add(getScrollPane());
 			panelJornadasMedico.add(getBtnAñadirDiasJornada());
 			panelJornadasMedico.add(getScrollPaneDiasSeleccionados());
 			panelJornadasMedico.add(getBtnBorrarDiasSeleccionados());
+			panelJornadasMedico.add(getScrollPaneSeleccionarMedicoJornada());
+			panelJornadasMedico.add(getBtnAnadirMedicoJornadas());
+			panelJornadasMedico.add(getScrollPaneMedicoSeleccionadoJornada());
 		}
 		return panelJornadasMedico;
 	}
@@ -840,31 +846,11 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnAsignarJornadasAEnfermeros;
 	}
-	private JComboBox getComboBoxMedicosJornada() {
-		if (comboBoxMedicosJornada == null) {
-			comboBoxMedicosJornada = new JComboBox();
-			comboBoxMedicosJornada.setFocusable(false);
-			comboBoxMedicosJornada.setBounds(379, 77, 359, 22);
-			
-			lm = new ListaMedicos();
-			lm.creaListaMedicos();
-			String[] medico = new String[lm.getMedicos().size()];
-			int i=0;
-			for(int j=0; j<lm.getMedicos().size();j++) {
-				 medico[i] = lm.getMedicos().get(j).toString();
-				 i++;
-			}
-			 comboBoxMedicosJornada.setModel(new DefaultComboBoxModel<String>(medico));
-			
-			
-		}
-		return comboBoxMedicosJornada;
-	}
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("Seleccionar Medico :");
 			lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_4.setBounds(236, 76, 147, 22);
+			lblNewLabel_4.setBounds(196, 75, 147, 22);
 		}
 		return lblNewLabel_4;
 	}
@@ -1037,14 +1023,6 @@ public class VentanaPrincipal extends JFrame {
 			comboBoxAnoFinJornadaMedico_1.setBounds(509, 177, 59, 22);
 		}
 		return comboBoxAnoFinJornadaMedico_1;
-	}
-	private JLabel getLblNewLabel_7() {
-		if (lblNewLabel_7 == null) {
-			lblNewLabel_7 = new JLabel("Nota: marcar uno , a\u00F1adir y repetir procedimiento si se desea\r\n");
-			lblNewLabel_7.setForeground(Color.RED);
-			lblNewLabel_7.setBounds(414, 376, 428, 14);
-		}
-		return lblNewLabel_7;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -1261,5 +1239,56 @@ public class VentanaPrincipal extends JFrame {
 			listDiasSeleccionadosJornadaMedico = new JList(modeloListDiasSeleccionadosJornadaMedico);
 		}
 		return listDiasSeleccionadosJornadaMedico;
+	}
+	private JScrollPane getScrollPaneSeleccionarMedicoJornada() {
+		if (scrollPaneSeleccionarMedicoJornada == null) {
+			scrollPaneSeleccionarMedicoJornada = new JScrollPane();
+			scrollPaneSeleccionarMedicoJornada.setBounds(353, 57, 261, 77);
+			scrollPaneSeleccionarMedicoJornada.setViewportView(getListMedicosJornada());
+		}
+		return scrollPaneSeleccionarMedicoJornada;
+	}
+	private JList getListMedicosJornada() {
+		if (listMedicosJornada == null) {
+			modeloListMedicos= new DefaultListModel();
+			listMedicosJornada = new JList(modeloListMedicos);
+			listMedicosJornada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			anadirMedicosALaLista();
+			
+		}
+		return listMedicosJornada;
+	}
+	private JButton getBtnAnadirMedicoJornadas() {
+		if (btnAnadirMedicoJornadas == null) {
+			btnAnadirMedicoJornadas = new JButton("A\u00F1adir");
+			btnAnadirMedicoJornadas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(modeloListMedicosSeleccionadosJornada.getSize()<1) {
+						if(!modeloListMedicosSeleccionadosJornada.contains((Medico) listMedicosJornada.getSelectedValue())) {
+							modeloListMedicosSeleccionadosJornada.addElement((Medico) listMedicosJornada.getSelectedValue());
+						}
+					}
+		
+				}
+			});
+			btnAnadirMedicoJornadas.setBounds(631, 88, 89, 23);
+		}
+		return btnAnadirMedicoJornadas;
+	}
+	private JScrollPane getScrollPaneMedicoSeleccionadoJornada() {
+		if (scrollPaneMedicoSeleccionadoJornada == null) {
+			scrollPaneMedicoSeleccionadoJornada = new JScrollPane();
+			scrollPaneMedicoSeleccionadoJornada.setBounds(740, 57, 269, 77);
+			scrollPaneMedicoSeleccionadoJornada.setViewportView(getListMedicosSeleccionadosJornada());
+		}
+		return scrollPaneMedicoSeleccionadoJornada;
+	}
+	private JList getListMedicosSeleccionadosJornada() {
+		if (listMedicosSeleccionadosJornada == null) {
+			modeloListMedicosSeleccionadosJornada= new DefaultListModel();
+			listMedicosSeleccionadosJornada = new JList(modeloListMedicosSeleccionadosJornada);
+		}
+		return listMedicosSeleccionadosJornada;
 	}
 }
