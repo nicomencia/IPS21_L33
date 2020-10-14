@@ -592,7 +592,7 @@ public class VentanaPrincipal extends JFrame {
 					 List<CitaDTO> citasDto = new ArrayList<CitaDTO>();
 					 List<Cita> citas = new ArrayList<Cita>();
 					 
-					 int contador = 75;
+					 int contador = 77;
 					
 			         crearCitas = new crearCitas();
 					 citaDTO = new CitaDTO();
@@ -621,35 +621,23 @@ public class VentanaPrincipal extends JFrame {
 //					 
 					 for(int i=0; i<modeloListMedicosAnadidos.getSize(); i++) { 
 						 
-						 System.out.println(modeloListMedicosAnadidos.getSize());
-						 
 						 Medico m = modeloListMedicosAnadidos.getElementAt(i);
 						 
 						 citaDTO.idmedico=m.getIdMedico();
 						 
-						 citasDto.add(citaDTO);
+						 cita = new Cita(citaDTO);
+						 
+						 System.out.println("id medicos " + cita.getIdMedico());
+						 
+						 crearCitas.crearCita(cita);
+						 
+						 contador++;
+						 
+						 citaDTO.idCita=contador + "";
+						 
+						 System.out.println("id citas " + cita.getIdCita());
 		
 					 }
-					 
-					 for(CitaDTO c:citasDto) {
-						 
-						 cita = new Cita(citaDTO);
-						 citas.add(cita);
-//						 c.idCita=contador + "";
-//						 contador++;
-//						 System.out.println(" ya metidas" + c.idCita);
-
-	
-	 
-					 }
-					 
-					 for(Cita c: citas) {
-						 
-						// System.out.println(" ya metidas" + c.getIdCita());
-						 crearCitas.crearCita(c);
-						 
-					 }
-					 
 					
 					 
 				}
