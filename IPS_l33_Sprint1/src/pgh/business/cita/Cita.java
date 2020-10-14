@@ -1,6 +1,7 @@
 package pgh.business.cita;
 
 import java.util.Date;
+import java.util.List;
 
 public class Cita {
 	
@@ -43,6 +44,8 @@ public class Cita {
 	public boolean getAsistencia() {
 		return c.asistencia;
 	}
+	
+	
 
 
 }

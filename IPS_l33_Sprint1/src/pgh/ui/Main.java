@@ -25,8 +25,8 @@ public class Main {
 	//	lm.listarMedicos();
 		
 		
-//		ListaCitas lp = new ListaCitas();
-//		lp.listarCitas();
+	//	ListaCitas lp = new ListaCitas();
+	//	lp.listarCitas();
 		
 //		ListaCausas l = new ListaCausas();
 //		l.listarCausas();
