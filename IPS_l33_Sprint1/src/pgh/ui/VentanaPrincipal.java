@@ -38,6 +38,9 @@ import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.JRadioButton;
+import java.awt.GridLayout;
+import javax.swing.border.TitledBorder;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -148,6 +151,29 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnCrearPrescripcion;
 	private JButton btnCancelarPrescripcion;
 	private JPanel panelCrearPrescripcion;
+	private JPanel panel;
+	private JRadioButton rdbtnNewRadioButton;
+	private JRadioButton rdbtnNewRadioButton_1;
+	private JLabel lblNewLabel_7;
+	private JTextField textField;
+	private JPanel panel_1;
+	private JLabel lblNewLabel_8;
+	private JTextField textField_1;
+	private JLabel lblNewLabel_8_1;
+	private JSpinner spinner;
+	private JLabel lblNewLabel_8_1_1;
+	private JLabel lblNewLabel_8_1_2;
+	private JComboBox comboBox;
+	private JLabel lblNewLabel_8_1_2_1;
+	private JSpinner spinner_1;
+	private JRadioButton rdbtnNewRadioButton_2;
+	private JRadioButton rdbtnNewRadioButton_3;
+	private JRadioButton rdbtnNewRadioButton_4;
+	private JRadioButton rdbtnNewRadioButton_5;
+	private JLabel lblNewLabel_8_1_2_1_1;
+	private JTextField textField_2;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
 
 	/**
 	 * Launch the application.
@@ -317,6 +343,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			
 		}
 		else if (nombre=="panelAdministrativo"){
@@ -326,6 +354,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			
 		}
 		else if (nombre=="panelMedico"){
@@ -335,6 +365,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 		}
 		else if (nombre=="panelEnfermero"){
 			panelPrincipal.setVisible(false);
@@ -343,6 +375,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(true);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			
 		}
 		else if (nombre=="panelCitas"){
@@ -352,6 +386,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(true);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			
 		}
 		else if (nombre=="panelJornadas"){
@@ -361,6 +397,30 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(true);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
+			
+		}
+		else if (nombre=="panelPrescripcion"){
+			panelPrincipal.setVisible(false);
+			panelAdministrativo.setVisible(false);
+			panelMedico.setVisible(false);
+			panelEnfermero.setVisible(false);
+			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(true);
+			panelCrearPrescripcion.setVisible(false);
+			
+		}
+		else if (nombre=="panelCrearPrescripcion"){
+			panelPrincipal.setVisible(false);
+			panelAdministrativo.setVisible(false);
+			panelMedico.setVisible(false);
+			panelEnfermero.setVisible(false);
+			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(true);
 			
 		}
 	}
@@ -1325,6 +1385,12 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnIndicarPrescripcion() {
 		if (btnIndicarPrescripcion == null) {
 			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelPrescripcion");
+				}
+			});
 			btnIndicarPrescripcion.setBounds(427, 418, 151, 38);
 		}
 		return btnIndicarPrescripcion;
@@ -1346,15 +1412,21 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JButton getBtnAnadirNuevaPrescripcion() {
 		if (btnAnadirNuevaPrescripcion == null) {
-			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir prescripcion");
-			btnAnadirNuevaPrescripcion.setBounds(10, 245, 167, 47);
+			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
+			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelCrearPrescripcion");
+				}
+			});
+			btnAnadirNuevaPrescripcion.setBounds(85, 484, 224, 47);
 		}
 		return btnAnadirNuevaPrescripcion;
 	}
 	private JScrollPane getScrollPanePrescripciones() {
 		if (scrollPanePrescripciones == null) {
 			scrollPanePrescripciones = new JScrollPane();
-			scrollPanePrescripciones.setBounds(187, 50, 328, 478);
+			scrollPanePrescripciones.setBounds(40, 50, 328, 401);
 			scrollPanePrescripciones.setViewportView(getListPrescripciones());
 		}
 		return scrollPanePrescripciones;
@@ -1362,14 +1434,14 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnAnadirPrescripcion() {
 		if (btnAnadirPrescripcion == null) {
 			btnAnadirPrescripcion = new JButton("A\u00F1adir Prescripcion se\u00F1alizada");
-			btnAnadirPrescripcion.setBounds(525, 245, 209, 47);
+			btnAnadirPrescripcion.setBounds(450, 179, 226, 47);
 		}
 		return btnAnadirPrescripcion;
 	}
 	private JScrollPane getScrollPanePrescripcionSeleccionada() {
 		if (scrollPanePrescripcionSeleccionada == null) {
 			scrollPanePrescripcionSeleccionada = new JScrollPane();
-			scrollPanePrescripcionSeleccionada.setBounds(761, 187, 328, 167);
+			scrollPanePrescripcionSeleccionada.setBounds(716, 131, 328, 167);
 			scrollPanePrescripcionSeleccionada.setViewportView(getListPrescripcionSeleccionada());
 		}
 		return scrollPanePrescripcionSeleccionada;
@@ -1378,7 +1450,7 @@ public class VentanaPrincipal extends JFrame {
 		if (btnBorrarPrescripcion == null) {
 			btnBorrarPrescripcion = new JButton("Eliminar prescripcion");
 			btnBorrarPrescripcion.setForeground(Color.RED);
-			btnBorrarPrescripcion.setBounds(845, 365, 151, 23);
+			btnBorrarPrescripcion.setBounds(781, 309, 190, 40);
 		}
 		return btnBorrarPrescripcion;
 	}
@@ -1398,7 +1470,7 @@ public class VentanaPrincipal extends JFrame {
 		if (btnCrearPrescripcion == null) {
 			btnCrearPrescripcion = new JButton("Crear Prescripcion");
 			btnCrearPrescripcion.setForeground(new Color(0, 128, 0));
-			btnCrearPrescripcion.setBounds(799, 487, 142, 41);
+			btnCrearPrescripcion.setBounds(716, 487, 142, 41);
 		}
 		return btnCrearPrescripcion;
 	}
@@ -1406,7 +1478,7 @@ public class VentanaPrincipal extends JFrame {
 		if (btnCancelarPrescripcion == null) {
 			btnCancelarPrescripcion = new JButton("Cancelar");
 			btnCancelarPrescripcion.setForeground(Color.RED);
-			btnCancelarPrescripcion.setBounds(951, 487, 136, 41);
+			btnCancelarPrescripcion.setBounds(907, 487, 136, 41);
 		}
 		return btnCancelarPrescripcion;
 	}
@@ -1415,7 +1487,219 @@ public class VentanaPrincipal extends JFrame {
 			panelCrearPrescripcion = new JPanel();
 			panelCrearPrescripcion.setBackground(Color.WHITE);
 			panelCrearPrescripcion.setLayout(null);
+			panelCrearPrescripcion.add(getPanel());
+			panelCrearPrescripcion.add(getLblNewLabel_7());
+			panelCrearPrescripcion.add(getTextField());
+			panelCrearPrescripcion.add(getPanel_1());
+			panelCrearPrescripcion.add(getBtnNewButton_2());
+			panelCrearPrescripcion.add(getBtnNewButton_3());
 		}
 		return panelCrearPrescripcion;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Elegir tipo de prescripcion", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setForeground(Color.WHITE);
+			panel.setBackground(new Color(135, 206, 235));
+			panel.setBounds(116, 39, 257, 100);
+			panel.setLayout(null);
+			panel.add(getRdbtnNewRadioButton());
+			panel.add(getRdbtnNewRadioButton_1());
+		}
+		return panel;
+	}
+	private JRadioButton getRdbtnNewRadioButton() {
+		if (rdbtnNewRadioButton == null) {
+			rdbtnNewRadioButton = new JRadioButton("Medicamento");
+			rdbtnNewRadioButton.setForeground(new Color(0, 0, 0));
+			rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnNewRadioButton.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton.setBounds(28, 40, 109, 23);
+		}
+		return rdbtnNewRadioButton;
+	}
+	private JRadioButton getRdbtnNewRadioButton_1() {
+		if (rdbtnNewRadioButton_1 == null) {
+			rdbtnNewRadioButton_1 = new JRadioButton("Otro tipo");
+			rdbtnNewRadioButton_1.setSelected(true);
+			rdbtnNewRadioButton_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnNewRadioButton_1.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton_1.setBounds(139, 40, 88, 23);
+		}
+		return rdbtnNewRadioButton_1;
+	}
+	private JLabel getLblNewLabel_7() {
+		if (lblNewLabel_7 == null) {
+			lblNewLabel_7 = new JLabel("Instruccion/es :");
+			lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			lblNewLabel_7.setBounds(426, 44, 138, 25);
+		}
+		return lblNewLabel_7;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setBounds(574, 39, 386, 41);
+			textField.setColumns(10);
+		}
+		return textField;
+	}
+	private JPanel getPanel_1() {
+		if (panel_1 == null) {
+			panel_1 = new JPanel();
+			panel_1.setBorder(new TitledBorder(null, "Medicamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel_1.setBackground(new Color(135, 206, 250));
+			panel_1.setBounds(444, 222, 558, 250);
+			panel_1.setLayout(null);
+			panel_1.add(getLblNewLabel_8());
+			panel_1.add(getTextField_1());
+			panel_1.add(getLblNewLabel_8_1());
+			panel_1.add(getSpinner());
+			panel_1.add(getLblNewLabel_8_1_1());
+			panel_1.add(getLblNewLabel_8_1_2());
+			panel_1.add(getComboBox());
+			panel_1.add(getLblNewLabel_8_1_2_1());
+			panel_1.add(getSpinner_1());
+			panel_1.add(getRdbtnNewRadioButton_2());
+			panel_1.add(getRdbtnNewRadioButton_3());
+			panel_1.add(getRdbtnNewRadioButton_4());
+			panel_1.add(getRdbtnNewRadioButton_5());
+			panel_1.add(getLblNewLabel_8_1_2_1_1());
+			panel_1.add(getTextField_2());
+		}
+		return panel_1;
+	}
+	private JLabel getLblNewLabel_8() {
+		if (lblNewLabel_8 == null) {
+			lblNewLabel_8 = new JLabel("Nombre :");
+			lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8.setBounds(40, 33, 74, 25);
+		}
+		return lblNewLabel_8;
+	}
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setBounds(113, 35, 162, 20);
+			textField_1.setColumns(10);
+		}
+		return textField_1;
+	}
+	private JLabel getLblNewLabel_8_1() {
+		if (lblNewLabel_8_1 == null) {
+			lblNewLabel_8_1 = new JLabel("Cantidad :");
+			lblNewLabel_8_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1.setBounds(40, 69, 84, 25);
+		}
+		return lblNewLabel_8_1;
+	}
+	private JSpinner getSpinner() {
+		if (spinner == null) {
+			spinner = new JSpinner();
+			spinner.setBounds(113, 69, 30, 20);
+		}
+		return spinner;
+	}
+	private JLabel getLblNewLabel_8_1_1() {
+		if (lblNewLabel_8_1_1 == null) {
+			lblNewLabel_8_1_1 = new JLabel("Unidades");
+			lblNewLabel_8_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_1.setBounds(153, 69, 84, 25);
+		}
+		return lblNewLabel_8_1_1;
+	}
+	private JLabel getLblNewLabel_8_1_2() {
+		if (lblNewLabel_8_1_2 == null) {
+			lblNewLabel_8_1_2 = new JLabel("Intervalo :");
+			lblNewLabel_8_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2.setBounds(40, 105, 84, 25);
+		}
+		return lblNewLabel_8_1_2;
+	}
+	private JComboBox getComboBox() {
+		if (comboBox == null) {
+			comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Cada 4 horas", "Cada 8 horas", "Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes"}));
+			comboBox.setBounds(113, 105, 162, 22);
+		}
+		return comboBox;
+	}
+	private JLabel getLblNewLabel_8_1_2_1() {
+		if (lblNewLabel_8_1_2_1 == null) {
+			lblNewLabel_8_1_2_1 = new JLabel("Duracion :");
+			lblNewLabel_8_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2_1.setBounds(40, 146, 84, 25);
+		}
+		return lblNewLabel_8_1_2_1;
+	}
+	private JSpinner getSpinner_1() {
+		if (spinner_1 == null) {
+			spinner_1 = new JSpinner();
+			spinner_1.setBounds(113, 148, 30, 20);
+		}
+		return spinner_1;
+	}
+	private JRadioButton getRdbtnNewRadioButton_2() {
+		if (rdbtnNewRadioButton_2 == null) {
+			rdbtnNewRadioButton_2 = new JRadioButton("Dias");
+			rdbtnNewRadioButton_2.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton_2.setBounds(153, 147, 84, 23);
+		}
+		return rdbtnNewRadioButton_2;
+	}
+	private JRadioButton getRdbtnNewRadioButton_3() {
+		if (rdbtnNewRadioButton_3 == null) {
+			rdbtnNewRadioButton_3 = new JRadioButton("Semanas");
+			rdbtnNewRadioButton_3.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton_3.setBounds(254, 147, 84, 23);
+		}
+		return rdbtnNewRadioButton_3;
+	}
+	private JRadioButton getRdbtnNewRadioButton_4() {
+		if (rdbtnNewRadioButton_4 == null) {
+			rdbtnNewRadioButton_4 = new JRadioButton("Meses");
+			rdbtnNewRadioButton_4.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton_4.setBounds(351, 147, 84, 23);
+		}
+		return rdbtnNewRadioButton_4;
+	}
+	private JRadioButton getRdbtnNewRadioButton_5() {
+		if (rdbtnNewRadioButton_5 == null) {
+			rdbtnNewRadioButton_5 = new JRadioButton("A\u00F1os");
+			rdbtnNewRadioButton_5.setBackground(new Color(135, 206, 235));
+			rdbtnNewRadioButton_5.setBounds(452, 147, 84, 23);
+		}
+		return rdbtnNewRadioButton_5;
+	}
+	private JLabel getLblNewLabel_8_1_2_1_1() {
+		if (lblNewLabel_8_1_2_1_1 == null) {
+			lblNewLabel_8_1_2_1_1 = new JLabel("Notaciones adicionales :");
+			lblNewLabel_8_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2_1_1.setBounds(40, 193, 145, 25);
+		}
+		return lblNewLabel_8_1_2_1_1;
+	}
+	private JTextField getTextField_2() {
+		if (textField_2 == null) {
+			textField_2 = new JTextField();
+			textField_2.setBounds(189, 195, 347, 20);
+			textField_2.setColumns(10);
+		}
+		return textField_2;
+	}
+	private JButton getBtnNewButton_2() {
+		if (btnNewButton_2 == null) {
+			btnNewButton_2 = new JButton("Crear");
+			btnNewButton_2.setBounds(707, 500, 130, 35);
+		}
+		return btnNewButton_2;
+	}
+	private JButton getBtnNewButton_3() {
+		if (btnNewButton_3 == null) {
+			btnNewButton_3 = new JButton("Cancelar");
+			btnNewButton_3.setBounds(872, 500, 130, 35);
+		}
+		return btnNewButton_3;
 	}
 }
