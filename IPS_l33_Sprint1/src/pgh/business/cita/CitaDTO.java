@@ -12,5 +12,7 @@ public class CitaDTO {
 	public String horaFin;
 	public String ubicacion;
 	public boolean asistencia;
+	
+	
 
 }

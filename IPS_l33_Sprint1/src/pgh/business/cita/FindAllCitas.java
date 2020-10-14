@@ -34,8 +34,9 @@ public class FindAllCitas {
 					CitaDTO cita = new CitaDTO();
 					cita.idCita = rs.getString("idcita");
 					cita.idPaciente  = rs.getString("id_paciente");
-					cita.idmedico=rs.getString("idmedico");;
-					cita.fecha=rs.getDate("fecha");;
+					cita.idmedico=rs.getString("idmedico");
+					cita.fecha=rs.getDate("fecha");
+					System.out.print(cita.fecha);
 					cita.horaInicio=rs.getString("horainicio");
 					cita.horaFin=rs.getString("horafin");
 					cita.ubicacion=rs.getString("ubicacion");
