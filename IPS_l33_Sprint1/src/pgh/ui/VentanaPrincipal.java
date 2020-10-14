@@ -136,6 +136,18 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scrollPaneMedicoSeleccionadoJornada;
 	private JList listMedicosSeleccionadosJornada;
 	private JButton btnNewButton_1;
+	private JButton btnIndicarPrescripcion;
+	private JPanel panelPrescripcion;
+	private JButton btnAnadirNuevaPrescripcion;
+	private JScrollPane scrollPanePrescripciones;
+	private JButton btnAnadirPrescripcion;
+	private JScrollPane scrollPanePrescripcionSeleccionada;
+	private JButton btnBorrarPrescripcion;
+	private JList listPrescripciones;
+	private JList listPrescripcionSeleccionada;
+	private JButton btnCrearPrescripcion;
+	private JButton btnCancelarPrescripcion;
+	private JPanel panelCrearPrescripcion;
 
 	/**
 	 * Launch the application.
@@ -160,9 +172,10 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		setResizable(false);
 		setTitle("Gestor Hospital");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1045, 562);
+		setBounds(100, 100, 1129, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -182,6 +195,8 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelCitas(), "name_190322796624300");
 			panelContenido.add(getPanelJornadasMedico(), "name_328185980980700");
+			panelContenido.add(getPanelPrescripcion(), "name_88672483873800");
+			panelContenido.add(getPanelCrearPrescripcion(), "name_89559032849200");
 		}
 		return panelContenido;
 	}
@@ -354,6 +369,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico = new JPanel();
 			panelMedico.setBackground(Color.WHITE);
 			panelMedico.setLayout(null);
+			panelMedico.add(getBtnIndicarPrescripcion());
 		}
 		return panelMedico;
 	}
@@ -1305,5 +1321,101 @@ public class VentanaPrincipal extends JFrame {
 			btnNewButton_1.setBounds(894, 86, 115, 23);
 		}
 		return btnNewButton_1;
+	}
+	private JButton getBtnIndicarPrescripcion() {
+		if (btnIndicarPrescripcion == null) {
+			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.setBounds(427, 418, 151, 38);
+		}
+		return btnIndicarPrescripcion;
+	}
+	private JPanel getPanelPrescripcion() {
+		if (panelPrescripcion == null) {
+			panelPrescripcion = new JPanel();
+			panelPrescripcion.setBackground(Color.WHITE);
+			panelPrescripcion.setLayout(null);
+			panelPrescripcion.add(getBtnAnadirNuevaPrescripcion());
+			panelPrescripcion.add(getScrollPanePrescripciones());
+			panelPrescripcion.add(getBtnAnadirPrescripcion());
+			panelPrescripcion.add(getScrollPanePrescripcionSeleccionada());
+			panelPrescripcion.add(getBtnBorrarPrescripcion());
+			panelPrescripcion.add(getBtnCrearPrescripcion());
+			panelPrescripcion.add(getBtnCancelarPrescripcion());
+		}
+		return panelPrescripcion;
+	}
+	private JButton getBtnAnadirNuevaPrescripcion() {
+		if (btnAnadirNuevaPrescripcion == null) {
+			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir prescripcion");
+			btnAnadirNuevaPrescripcion.setBounds(10, 245, 167, 47);
+		}
+		return btnAnadirNuevaPrescripcion;
+	}
+	private JScrollPane getScrollPanePrescripciones() {
+		if (scrollPanePrescripciones == null) {
+			scrollPanePrescripciones = new JScrollPane();
+			scrollPanePrescripciones.setBounds(187, 50, 328, 478);
+			scrollPanePrescripciones.setViewportView(getListPrescripciones());
+		}
+		return scrollPanePrescripciones;
+	}
+	private JButton getBtnAnadirPrescripcion() {
+		if (btnAnadirPrescripcion == null) {
+			btnAnadirPrescripcion = new JButton("A\u00F1adir Prescripcion se\u00F1alizada");
+			btnAnadirPrescripcion.setBounds(525, 245, 209, 47);
+		}
+		return btnAnadirPrescripcion;
+	}
+	private JScrollPane getScrollPanePrescripcionSeleccionada() {
+		if (scrollPanePrescripcionSeleccionada == null) {
+			scrollPanePrescripcionSeleccionada = new JScrollPane();
+			scrollPanePrescripcionSeleccionada.setBounds(761, 187, 328, 167);
+			scrollPanePrescripcionSeleccionada.setViewportView(getListPrescripcionSeleccionada());
+		}
+		return scrollPanePrescripcionSeleccionada;
+	}
+	private JButton getBtnBorrarPrescripcion() {
+		if (btnBorrarPrescripcion == null) {
+			btnBorrarPrescripcion = new JButton("Eliminar prescripcion");
+			btnBorrarPrescripcion.setForeground(Color.RED);
+			btnBorrarPrescripcion.setBounds(845, 365, 151, 23);
+		}
+		return btnBorrarPrescripcion;
+	}
+	private JList getListPrescripciones() {
+		if (listPrescripciones == null) {
+			listPrescripciones = new JList();
+		}
+		return listPrescripciones;
+	}
+	private JList getListPrescripcionSeleccionada() {
+		if (listPrescripcionSeleccionada == null) {
+			listPrescripcionSeleccionada = new JList();
+		}
+		return listPrescripcionSeleccionada;
+	}
+	private JButton getBtnCrearPrescripcion() {
+		if (btnCrearPrescripcion == null) {
+			btnCrearPrescripcion = new JButton("Crear Prescripcion");
+			btnCrearPrescripcion.setForeground(new Color(0, 128, 0));
+			btnCrearPrescripcion.setBounds(799, 487, 142, 41);
+		}
+		return btnCrearPrescripcion;
+	}
+	private JButton getBtnCancelarPrescripcion() {
+		if (btnCancelarPrescripcion == null) {
+			btnCancelarPrescripcion = new JButton("Cancelar");
+			btnCancelarPrescripcion.setForeground(Color.RED);
+			btnCancelarPrescripcion.setBounds(951, 487, 136, 41);
+		}
+		return btnCancelarPrescripcion;
+	}
+	private JPanel getPanelCrearPrescripcion() {
+		if (panelCrearPrescripcion == null) {
+			panelCrearPrescripcion = new JPanel();
+			panelCrearPrescripcion.setBackground(Color.WHITE);
+			panelCrearPrescripcion.setLayout(null);
+		}
+		return panelCrearPrescripcion;
 	}
 }
