@@ -40,6 +40,16 @@ public class Prescripcion {
 		return p.diaAsignacion;
 			
 	}
+	
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+
+		sb.append( "INSTRUCCION : " + getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion());
+		
+		return sb.toString();
+		
+	}
 
 
 }
