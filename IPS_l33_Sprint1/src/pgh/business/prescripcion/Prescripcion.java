@@ -45,7 +45,7 @@ public class Prescripcion {
 		
 		StringBuilder sb = new StringBuilder();
 
-		sb.append( "INSTRUCCION : " + getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion());
+		sb.append( getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion());
 		
 		return sb.toString();
 		

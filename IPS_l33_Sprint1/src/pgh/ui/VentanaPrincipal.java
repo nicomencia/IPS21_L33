@@ -47,6 +47,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JRadioButton;
 import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
+
+import org.hsqldb.lib.tar.RB;
+
 import com.toedter.calendar.JCalendar;
 import com.toedter.components.JLocaleChooser;
 import com.toedter.components.JSpinField;
@@ -180,12 +183,12 @@ public class VentanaPrincipal extends JFrame {
 	private JSpinner spinnerCantidadMedicamento;
 	private JLabel lblNewLabel_8_1_1;
 	private JLabel lblNewLabel_8_1_2;
-	private JComboBox comboBox;
+	private JComboBox comboBoxIntervalo;
 	private JLabel lblNewLabel_8_1_2_1;
-	private JSpinner spinner_1;
+	private JSpinner spinnerDiasSemanas;
 	private JRadioButton rdbtnDiasPrescripcion;
 	private JRadioButton rdbtnSemanasPrescripcion;
-	private JRadioButton rdbtnPrescripcionPrescripcion;
+	private JRadioButton rdbtnMesesPrescripcion;
 	private JRadioButton rdbtnAnosPrescripcion;
 	private JLabel lblNewLabel_8_1_2_1_1;
 	private JTextField textFieldNotasAdicionalesPrescripcion;
@@ -1569,20 +1572,78 @@ public class VentanaPrincipal extends JFrame {
 	private JRadioButton getRdbtnMedicamento() {
 		if (rdbtnMedicamento == null) {
 			rdbtnMedicamento = new JRadioButton("Medicamento");
+			rdbtnMedicamento.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprobarMedicamentoSeleccionado();
+				}
+			});
 			rdbtnMedicamento.setForeground(new Color(0, 0, 0));
 			rdbtnMedicamento.setFont(new Font("Tahoma", Font.BOLD, 11));
 			rdbtnMedicamento.setBackground(new Color(135, 206, 235));
 			rdbtnMedicamento.setBounds(28, 40, 109, 23);
+			
+			
+			
 		}
 		return rdbtnMedicamento;
 	}
+	
+	
+	private void comprobarMedicamentoSeleccionado() {
+		
+		if(rdbtnMedicamento.isSelected()==true) {
+			
+			rdbtnOtroTipo.setSelected(false);
+			textFieldNombreMedicamento.setEnabled(true);
+			spinnerCantidadMedicamento.setEnabled(true); 
+			comboBoxIntervalo.setEnabled(true);
+			spinnerDiasSemanas.setEnabled(true);
+			rdbtnAnosPrescripcion.setEnabled(true);
+			rdbtnDiasPrescripcion.setEnabled(true);
+			rdbtnSemanasPrescripcion.setEnabled(true);
+			rdbtnMesesPrescripcion.setEnabled(true);
+			textFieldNotasAdicionalesPrescripcion.setEnabled(true);
+		
+			
+			
+		}
+		
+	}
+	
+	private void comprobarOtroTipoSeleccionado() {
+		
+		if(rdbtnOtroTipo.isSelected()==true) {
+			
+			rdbtnMedicamento.setSelected(false);
+			textFieldNombreMedicamento.setEnabled(false);
+			spinnerCantidadMedicamento.setEnabled(false); 
+			comboBoxIntervalo.setEnabled(false);
+			spinnerDiasSemanas.setEnabled(false);
+			rdbtnAnosPrescripcion.setEnabled(false);
+			rdbtnDiasPrescripcion.setEnabled(false);
+			rdbtnSemanasPrescripcion.setEnabled(false);
+			rdbtnMesesPrescripcion.setEnabled(false);
+			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
+		
+			
+		}
+		
+	}
+
+
 	private JRadioButton getRdbtnOtroTipo() {
 		if (rdbtnOtroTipo == null) {
 			rdbtnOtroTipo = new JRadioButton("Otro tipo");
+			rdbtnOtroTipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprobarOtroTipoSeleccionado();
+				}
+			});
 			rdbtnOtroTipo.setSelected(true);
 			rdbtnOtroTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
 			rdbtnOtroTipo.setBackground(new Color(135, 206, 235));
 			rdbtnOtroTipo.setBounds(139, 40, 88, 23);
+			
 		}
 		return rdbtnOtroTipo;
 	}
@@ -1607,7 +1668,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedicamento = new JPanel();
 			panelMedicamento.setBorder(new TitledBorder(null, "Medicamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelMedicamento.setBackground(new Color(135, 206, 250));
-			panelMedicamento.setBounds(460, 209, 540, 250);
+			panelMedicamento.setBounds(460, 209, 517, 250);
 			panelMedicamento.setLayout(null);
 			panelMedicamento.add(getLblNewLabel_8());
 			panelMedicamento.add(getTextFieldNombreMedicamento());
@@ -1615,12 +1676,12 @@ public class VentanaPrincipal extends JFrame {
 			panelMedicamento.add(getSpinnerCantidadMedicamento());
 			panelMedicamento.add(getLblNewLabel_8_1_1());
 			panelMedicamento.add(getLblNewLabel_8_1_2());
-			panelMedicamento.add(getComboBox());
+			panelMedicamento.add(getComboBoxIntervalo());
 			panelMedicamento.add(getLblNewLabel_8_1_2_1());
-			panelMedicamento.add(getSpinner_1());
+			panelMedicamento.add(getSpinnerDiasSemanas());
 			panelMedicamento.add(getRdbtnDiasPrescripcion());
 			panelMedicamento.add(getRdbtnSemanasPrescripcion());
-			panelMedicamento.add(getRdbtnPrescripcionPrescripcion());
+			panelMedicamento.add(getRdbtnMesesPrescripcion());
 			panelMedicamento.add(getRdbtnAnosPrescripcion());
 			panelMedicamento.add(getLblNewLabel_8_1_2_1_1());
 			panelMedicamento.add(getTextFieldNotasAdicionalesPrescripcion());
@@ -1631,7 +1692,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_8 == null) {
 			lblNewLabel_8 = new JLabel("Nombre :");
 			lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8.setBounds(40, 33, 74, 25);
+			lblNewLabel_8.setBounds(22, 33, 74, 25);
 		}
 		return lblNewLabel_8;
 	}
@@ -1648,7 +1709,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_8_1 == null) {
 			lblNewLabel_8_1 = new JLabel("Cantidad :");
 			lblNewLabel_8_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8_1.setBounds(40, 69, 84, 25);
+			lblNewLabel_8_1.setBounds(22, 67, 84, 25);
 		}
 		return lblNewLabel_8_1;
 	}
@@ -1673,38 +1734,50 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_8_1_2 == null) {
 			lblNewLabel_8_1_2 = new JLabel("Intervalo :");
 			lblNewLabel_8_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8_1_2.setBounds(40, 105, 84, 25);
+			lblNewLabel_8_1_2.setBounds(22, 104, 84, 25);
 		}
 		return lblNewLabel_8_1_2;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setEnabled(false);
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Cada 4 horas", "Cada 8 horas", "Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes"}));
-			comboBox.setBounds(113, 105, 162, 22);
+	private JComboBox getComboBoxIntervalo() {
+		if (comboBoxIntervalo == null) {
+			comboBoxIntervalo = new JComboBox();
+			comboBoxIntervalo.setEnabled(false);
+			comboBoxIntervalo.setModel(new DefaultComboBoxModel(new String[] {"Cada 4 horas", "Cada 8 horas", "Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes"}));
+			comboBoxIntervalo.setBounds(113, 105, 162, 22);
 		}
-		return comboBox;
+		return comboBoxIntervalo;
 	}
 	private JLabel getLblNewLabel_8_1_2_1() {
 		if (lblNewLabel_8_1_2_1 == null) {
 			lblNewLabel_8_1_2_1 = new JLabel("Duracion :");
 			lblNewLabel_8_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8_1_2_1.setBounds(40, 146, 84, 25);
+			lblNewLabel_8_1_2_1.setBounds(22, 146, 84, 25);
 		}
 		return lblNewLabel_8_1_2_1;
 	}
-	private JSpinner getSpinner_1() {
-		if (spinner_1 == null) {
-			spinner_1 = new JSpinner();
-			spinner_1.setEnabled(false);
-			spinner_1.setBounds(113, 148, 30, 20);
+	private JSpinner getSpinnerDiasSemanas() {
+		if (spinnerDiasSemanas == null) {
+			spinnerDiasSemanas = new JSpinner();
+			spinnerDiasSemanas.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+			spinnerDiasSemanas.setEnabled(false);
+			spinnerDiasSemanas.setBounds(113, 148, 30, 20);
 		}
-		return spinner_1;
+		return spinnerDiasSemanas;
 	}
 	private JRadioButton getRdbtnDiasPrescripcion() {
 		if (rdbtnDiasPrescripcion == null) {
 			rdbtnDiasPrescripcion = new JRadioButton("Dias");
+			rdbtnDiasPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbtnDiasPrescripcion.isSelected()==true) {
+						
+						rdbtnSemanasPrescripcion.setSelected(false);
+						rdbtnMesesPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(false);
+						rdbtnDiasPrescripcion.setSelected(true);
+					}
+				}
+			});
 			rdbtnDiasPrescripcion.setEnabled(false);
 			rdbtnDiasPrescripcion.setSelected(true);
 			rdbtnDiasPrescripcion.setBackground(new Color(135, 206, 235));
@@ -1715,24 +1788,66 @@ public class VentanaPrincipal extends JFrame {
 	private JRadioButton getRdbtnSemanasPrescripcion() {
 		if (rdbtnSemanasPrescripcion == null) {
 			rdbtnSemanasPrescripcion = new JRadioButton("Semanas");
+			rdbtnSemanasPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(rdbtnSemanasPrescripcion.isSelected()==true) {
+						
+						rdbtnDiasPrescripcion.setSelected(false);
+						rdbtnMesesPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(false);
+						rdbtnSemanasPrescripcion.setSelected(true);
+				    }
+					if(rdbtnSemanasPrescripcion.isSelected()==false) {
+						
+						rdbtnDiasPrescripcion.setSelected(false);
+						rdbtnMesesPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(false);
+						rdbtnSemanasPrescripcion.setSelected(true);
+				    }
+				}
+			});
 			rdbtnSemanasPrescripcion.setEnabled(false);
 			rdbtnSemanasPrescripcion.setBackground(new Color(135, 206, 235));
 			rdbtnSemanasPrescripcion.setBounds(218, 147, 84, 23);
 		}
 		return rdbtnSemanasPrescripcion;
 	}
-	private JRadioButton getRdbtnPrescripcionPrescripcion() {
-		if (rdbtnPrescripcionPrescripcion == null) {
-			rdbtnPrescripcionPrescripcion = new JRadioButton("Meses");
-			rdbtnPrescripcionPrescripcion.setEnabled(false);
-			rdbtnPrescripcionPrescripcion.setBackground(new Color(135, 206, 235));
-			rdbtnPrescripcionPrescripcion.setBounds(304, 147, 84, 23);
+	private JRadioButton getRdbtnMesesPrescripcion() {
+		if (rdbtnMesesPrescripcion == null) {
+			rdbtnMesesPrescripcion = new JRadioButton("Meses");
+			rdbtnMesesPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbtnMesesPrescripcion.isSelected()==true) {
+						
+						rdbtnSemanasPrescripcion.setSelected(false);
+						rdbtnDiasPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(false);
+						rdbtnMesesPrescripcion.setSelected(true);
+					}
+				}
+			});
+			rdbtnMesesPrescripcion.setEnabled(false);
+			rdbtnMesesPrescripcion.setBackground(new Color(135, 206, 235));
+			rdbtnMesesPrescripcion.setBounds(304, 147, 84, 23);
 		}
-		return rdbtnPrescripcionPrescripcion;
+		return rdbtnMesesPrescripcion;
 	}
 	private JRadioButton getRdbtnAnosPrescripcion() {
 		if (rdbtnAnosPrescripcion == null) {
 			rdbtnAnosPrescripcion = new JRadioButton("A\u00F1os");
+			rdbtnAnosPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbtnAnosPrescripcion.isSelected()==true) {
+						
+						rdbtnSemanasPrescripcion.setSelected(false);
+						rdbtnMesesPrescripcion.setSelected(false);
+						rdbtnDiasPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(true);
+						
+					}
+				}
+			});
 			rdbtnAnosPrescripcion.setEnabled(false);
 			rdbtnAnosPrescripcion.setBackground(new Color(135, 206, 235));
 			rdbtnAnosPrescripcion.setBounds(390, 147, 84, 23);
@@ -1743,7 +1858,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_8_1_2_1_1 == null) {
 			lblNewLabel_8_1_2_1_1 = new JLabel("Notaciones adicionales :");
 			lblNewLabel_8_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8_1_2_1_1.setBounds(40, 193, 145, 25);
+			lblNewLabel_8_1_2_1_1.setBounds(22, 193, 145, 25);
 		}
 		return lblNewLabel_8_1_2_1_1;
 	}
@@ -1751,7 +1866,7 @@ public class VentanaPrincipal extends JFrame {
 		if (textFieldNotasAdicionalesPrescripcion == null) {
 			textFieldNotasAdicionalesPrescripcion = new JTextField();
 			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
-			textFieldNotasAdicionalesPrescripcion.setBounds(189, 195, 341, 20);
+			textFieldNotasAdicionalesPrescripcion.setBounds(176, 195, 314, 20);
 			textFieldNotasAdicionalesPrescripcion.setColumns(10);
 		}
 		return textFieldNotasAdicionalesPrescripcion;
@@ -1767,6 +1882,13 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnCancelarCrearPrescripcionNueva() {
 		if (btnCancelarCrearPrescripcionNueva == null) {
 			btnCancelarCrearPrescripcionNueva = new JButton("Cancelar");
+			btnCancelarCrearPrescripcionNueva.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelPrescripcion");
+					
+				}
+			});
 			btnCancelarCrearPrescripcionNueva.setForeground(Color.RED);
 			btnCancelarCrearPrescripcionNueva.setBounds(847, 470, 130, 35);
 		}
