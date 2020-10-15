@@ -30,7 +30,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.awt.event.ActionEvent;
@@ -53,6 +55,7 @@ import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JSpinnerDateEditor;
+import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
 
 public class VentanaPrincipal extends JFrame {
@@ -197,6 +200,8 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblNewLabel_10;
 	private JLabel lblNewLabel_10_1;
 	private JDateChooser dateChooser;
+	private JLabel lblNewLabel_11;
+	private JLabel lblNewLabel_12;
 
 	/**
 	 * Launch the application.
@@ -1543,6 +1548,8 @@ public class VentanaPrincipal extends JFrame {
 			panelCrearPrescripcion.add(getLblNewLabel_10());
 			panelCrearPrescripcion.add(getLblNewLabel_10_1());
 			panelCrearPrescripcion.add(getDateChooser());
+			panelCrearPrescripcion.add(getLblNewLabel_11());
+			panelCrearPrescripcion.add(getLblNewLabel_12());
 		}
 		return panelCrearPrescripcion;
 	}
@@ -1552,7 +1559,7 @@ public class VentanaPrincipal extends JFrame {
 			panelTipoPrescripcion.setBorder(new TitledBorder(null, "Elegir tipo de prescripcion", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelTipoPrescripcion.setForeground(Color.WHITE);
 			panelTipoPrescripcion.setBackground(new Color(135, 206, 235));
-			panelTipoPrescripcion.setBounds(73, 39, 257, 100);
+			panelTipoPrescripcion.setBounds(90, 44, 257, 100);
 			panelTipoPrescripcion.setLayout(null);
 			panelTipoPrescripcion.add(getRdbtnMedicamento());
 			panelTipoPrescripcion.add(getRdbtnOtroTipo());
@@ -1583,14 +1590,14 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_7 == null) {
 			lblNewLabel_7 = new JLabel("Instruccion/es :");
 			lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblNewLabel_7.setBounds(400, 44, 138, 25);
+			lblNewLabel_7.setBounds(384, 44, 138, 25);
 		}
 		return lblNewLabel_7;
 	}
 	private JTextField getTextFieldInstrucciones() {
 		if (textFieldInstrucciones == null) {
 			textFieldInstrucciones = new JTextField();
-			textFieldInstrucciones.setBounds(548, 39, 386, 41);
+			textFieldInstrucciones.setBounds(517, 39, 332, 41);
 			textFieldInstrucciones.setColumns(10);
 		}
 		return textFieldInstrucciones;
@@ -1600,7 +1607,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedicamento = new JPanel();
 			panelMedicamento.setBorder(new TitledBorder(null, "Medicamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelMedicamento.setBackground(new Color(135, 206, 250));
-			panelMedicamento.setBounds(548, 224, 540, 250);
+			panelMedicamento.setBounds(460, 209, 540, 250);
 			panelMedicamento.setLayout(null);
 			panelMedicamento.add(getLblNewLabel_8());
 			panelMedicamento.add(getTextFieldNombreMedicamento());
@@ -1631,6 +1638,7 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField getTextFieldNombreMedicamento() {
 		if (textFieldNombreMedicamento == null) {
 			textFieldNombreMedicamento = new JTextField();
+			textFieldNombreMedicamento.setEnabled(false);
 			textFieldNombreMedicamento.setBounds(113, 35, 162, 20);
 			textFieldNombreMedicamento.setColumns(10);
 		}
@@ -1647,7 +1655,9 @@ public class VentanaPrincipal extends JFrame {
 	private JSpinner getSpinnerCantidadMedicamento() {
 		if (spinnerCantidadMedicamento == null) {
 			spinnerCantidadMedicamento = new JSpinner();
-			spinnerCantidadMedicamento.setBounds(113, 69, 30, 20);
+			spinnerCantidadMedicamento.setEnabled(false);
+			spinnerCantidadMedicamento.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+			spinnerCantidadMedicamento.setBounds(113, 69, 43, 20);
 		}
 		return spinnerCantidadMedicamento;
 	}
@@ -1655,7 +1665,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_8_1_1 == null) {
 			lblNewLabel_8_1_1 = new JLabel("Unidades");
 			lblNewLabel_8_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_8_1_1.setBounds(153, 69, 84, 25);
+			lblNewLabel_8_1_1.setBounds(166, 69, 84, 25);
 		}
 		return lblNewLabel_8_1_1;
 	}
@@ -1670,6 +1680,7 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox getComboBox() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
+			comboBox.setEnabled(false);
 			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Cada 4 horas", "Cada 8 horas", "Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes"}));
 			comboBox.setBounds(113, 105, 162, 22);
 		}
@@ -1686,6 +1697,7 @@ public class VentanaPrincipal extends JFrame {
 	private JSpinner getSpinner_1() {
 		if (spinner_1 == null) {
 			spinner_1 = new JSpinner();
+			spinner_1.setEnabled(false);
 			spinner_1.setBounds(113, 148, 30, 20);
 		}
 		return spinner_1;
@@ -1693,32 +1705,37 @@ public class VentanaPrincipal extends JFrame {
 	private JRadioButton getRdbtnDiasPrescripcion() {
 		if (rdbtnDiasPrescripcion == null) {
 			rdbtnDiasPrescripcion = new JRadioButton("Dias");
+			rdbtnDiasPrescripcion.setEnabled(false);
+			rdbtnDiasPrescripcion.setSelected(true);
 			rdbtnDiasPrescripcion.setBackground(new Color(135, 206, 235));
-			rdbtnDiasPrescripcion.setBounds(153, 147, 84, 23);
+			rdbtnDiasPrescripcion.setBounds(153, 147, 63, 23);
 		}
 		return rdbtnDiasPrescripcion;
 	}
 	private JRadioButton getRdbtnSemanasPrescripcion() {
 		if (rdbtnSemanasPrescripcion == null) {
 			rdbtnSemanasPrescripcion = new JRadioButton("Semanas");
+			rdbtnSemanasPrescripcion.setEnabled(false);
 			rdbtnSemanasPrescripcion.setBackground(new Color(135, 206, 235));
-			rdbtnSemanasPrescripcion.setBounds(254, 147, 84, 23);
+			rdbtnSemanasPrescripcion.setBounds(218, 147, 84, 23);
 		}
 		return rdbtnSemanasPrescripcion;
 	}
 	private JRadioButton getRdbtnPrescripcionPrescripcion() {
 		if (rdbtnPrescripcionPrescripcion == null) {
 			rdbtnPrescripcionPrescripcion = new JRadioButton("Meses");
+			rdbtnPrescripcionPrescripcion.setEnabled(false);
 			rdbtnPrescripcionPrescripcion.setBackground(new Color(135, 206, 235));
-			rdbtnPrescripcionPrescripcion.setBounds(351, 147, 84, 23);
+			rdbtnPrescripcionPrescripcion.setBounds(304, 147, 84, 23);
 		}
 		return rdbtnPrescripcionPrescripcion;
 	}
 	private JRadioButton getRdbtnAnosPrescripcion() {
 		if (rdbtnAnosPrescripcion == null) {
 			rdbtnAnosPrescripcion = new JRadioButton("A\u00F1os");
+			rdbtnAnosPrescripcion.setEnabled(false);
 			rdbtnAnosPrescripcion.setBackground(new Color(135, 206, 235));
-			rdbtnAnosPrescripcion.setBounds(452, 147, 84, 23);
+			rdbtnAnosPrescripcion.setBounds(390, 147, 84, 23);
 		}
 		return rdbtnAnosPrescripcion;
 	}
@@ -1733,7 +1750,8 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField getTextFieldNotasAdicionalesPrescripcion() {
 		if (textFieldNotasAdicionalesPrescripcion == null) {
 			textFieldNotasAdicionalesPrescripcion = new JTextField();
-			textFieldNotasAdicionalesPrescripcion.setBounds(189, 195, 347, 20);
+			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
+			textFieldNotasAdicionalesPrescripcion.setBounds(189, 195, 341, 20);
 			textFieldNotasAdicionalesPrescripcion.setColumns(10);
 		}
 		return textFieldNotasAdicionalesPrescripcion;
@@ -1741,14 +1759,16 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnCrearPrescripcionNueva() {
 		if (btnCrearPrescripcionNueva == null) {
 			btnCrearPrescripcionNueva = new JButton("Crear");
-			btnCrearPrescripcionNueva.setBounds(791, 500, 130, 35);
+			btnCrearPrescripcionNueva.setForeground(Color.GREEN);
+			btnCrearPrescripcionNueva.setBounds(701, 470, 130, 35);
 		}
 		return btnCrearPrescripcionNueva;
 	}
 	private JButton getBtnCancelarCrearPrescripcionNueva() {
 		if (btnCancelarCrearPrescripcionNueva == null) {
 			btnCancelarCrearPrescripcionNueva = new JButton("Cancelar");
-			btnCancelarCrearPrescripcionNueva.setBounds(958, 500, 130, 35);
+			btnCancelarCrearPrescripcionNueva.setForeground(Color.RED);
+			btnCancelarCrearPrescripcionNueva.setBounds(847, 470, 130, 35);
 		}
 		return btnCancelarCrearPrescripcionNueva;
 	}
@@ -1756,7 +1776,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_9 == null) {
 			lblNewLabel_9 = new JLabel("Dia de asignacion : ");
 			lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_9.setBounds(548, 91, 151, 24);
+			lblNewLabel_9.setBounds(517, 91, 151, 24);
 		}
 		return lblNewLabel_9;
 	}
@@ -1764,7 +1784,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel_9_1 == null) {
 			lblNewLabel_9_1 = new JLabel("Hora de asignacion : ");
 			lblNewLabel_9_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_9_1.setBounds(548, 142, 151, 24);
+			lblNewLabel_9_1.setBounds(517, 142, 151, 24);
 		}
 		return lblNewLabel_9_1;
 	}
@@ -1799,7 +1819,7 @@ public class VentanaPrincipal extends JFrame {
 		if (spinnerHoraAsignacion == null) {
 			spinnerHoraAsignacion = new JSpinner();
 			spinnerHoraAsignacion.setModel(new SpinnerNumberModel(0, 0, 24, 1));
-			spinnerHoraAsignacion.setBounds(702, 145, 52, 20);
+			spinnerHoraAsignacion.setBounds(653, 145, 52, 20);
 			spinnerHoraAsignacion.setValue(obtenerHoraActual());
 		}
 		return spinnerHoraAsignacion;
@@ -1808,7 +1828,7 @@ public class VentanaPrincipal extends JFrame {
 		if (spinnerMinutosAsignacion == null) {
 			spinnerMinutosAsignacion = new JSpinner();
 			spinnerMinutosAsignacion.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-			spinnerMinutosAsignacion.setBounds(764, 145, 52, 20);
+			spinnerMinutosAsignacion.setBounds(725, 145, 52, 20);
 			spinnerMinutosAsignacion.setValue(obtenerMinutosActual());
 		}
 		return spinnerMinutosAsignacion;
@@ -1817,7 +1837,7 @@ public class VentanaPrincipal extends JFrame {
 		if (spinnerSegundosAsignacion == null) {
 			spinnerSegundosAsignacion = new JSpinner();
 			spinnerSegundosAsignacion.setModel(new SpinnerNumberModel(0, 0, 59, 1));
-			spinnerSegundosAsignacion.setBounds(826, 145, 52, 20);
+			spinnerSegundosAsignacion.setBounds(797, 145, 52, 20);
 			spinnerSegundosAsignacion.setValue(obtenerSegundosActual());
 		}
 		return spinnerSegundosAsignacion;
@@ -1825,22 +1845,68 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblNewLabel_10() {
 		if (lblNewLabel_10 == null) {
 			lblNewLabel_10 = new JLabel(":");
-			lblNewLabel_10.setBounds(820, 148, 22, 14);
+			lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_10.setForeground(new Color(0, 0, 0));
+			lblNewLabel_10.setBounds(787, 148, 22, 14);
 		}
 		return lblNewLabel_10;
 	}
 	private JLabel getLblNewLabel_10_1() {
 		if (lblNewLabel_10_1 == null) {
 			lblNewLabel_10_1 = new JLabel(":");
-			lblNewLabel_10_1.setBounds(758, 148, 30, 14);
+			lblNewLabel_10_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_10_1.setBounds(715, 148, 22, 14);
 		}
 		return lblNewLabel_10_1;
 	}
 	private JDateChooser getDateChooser() {
 		if (dateChooser == null) {
 			dateChooser = new JDateChooser();
-			dateChooser.setBounds(675, 95, 70, 20);
+			
+			Calendar fecha = new GregorianCalendar();
+			
+			int dia = fecha.get(Calendar.DAY_OF_MONTH);
+			int mes = fecha.get(Calendar.MONTH);
+			int ano = fecha.get(Calendar.YEAR);
+			
+			SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
+			Date date2 = new Date();
+			try {
+				date2 = dateformat3.parse(ano + "/" +mes +"/" + dia);
+				dateChooser.setDate(date2);
+				dateChooser.getJCalendar().setMinSelectableDate(date2);
+				((JTextFieldDateEditor)dateChooser.getDateEditor()).setEditable(false);
+				
+				
+			
+			 } catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			 }
+			
+			dateChooser.getCalendarButton().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			dateChooser.setBounds(653, 95, 113, 20);
 		}
 		return dateChooser;
+	}
+	private JLabel getLblNewLabel_11() {
+		if (lblNewLabel_11 == null) {
+			lblNewLabel_11 = new JLabel("HH/mm/ss");
+			lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_11.setBounds(874, 148, 85, 14);
+		}
+		return lblNewLabel_11;
+	}
+	private JLabel getLblNewLabel_12() {
+		if (lblNewLabel_12 == null) {
+			lblNewLabel_12 = new JLabel("");
+			lblNewLabel_12.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/ICONOS-AGENDA-Y-MEMORIA3.png")));
+			lblNewLabel_12.setBounds(0, 0, 1103, 533);
+		}
+		return lblNewLabel_12;
 	}
 }
