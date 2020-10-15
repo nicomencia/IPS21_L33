@@ -7,5 +7,6 @@ public class MedicamentoDTO {
 	public int cantidad;
 	public String intervalo;
 	public String duracion;
+	public String observacion;
 	
 }

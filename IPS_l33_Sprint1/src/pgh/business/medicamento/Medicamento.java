@@ -41,6 +41,13 @@ public class Medicamento {
 			return m.duracion;
 			
 		}
+		
+		public String getObservacion() {
+			
+			return m.observacion;
+			
+		}
+
 
 
 }

@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllMedicamentos {
 
-	private static String SQL = "select idMedicamento, idPrescripcion, cantidad, intervalo, duracion from Medicamento";
+	private static String SQL = "select idMedicamento, idPrescripcion, cantidad, intervalo, duracion, anotacion from Medicamento";
 	
 	Database db = new Database();
 	
@@ -36,6 +36,7 @@ public class FindAllMedicamentos {
 					medicamento.cantidad = rs.getInt("cantidad");
 					medicamento.intervalo = rs.getString("intervalo");
 					medicamento.duracion = rs.getString("duracion");
+					medicamento.observacion = rs.getString("anotacion");
 					medicamentos.add(medicamento);
 				}
 			} catch (SQLException e) {

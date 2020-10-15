@@ -17,9 +17,9 @@ public class Prescripcion {
 			
 	}
 		
-	public String getIdPaciente() {
+	public boolean es_medicamento() {
 			
-		return p.idPaciente;
+		return p.es_medicamento;
 			
 	}
 		
