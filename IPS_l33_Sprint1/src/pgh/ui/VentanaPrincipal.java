@@ -1776,6 +1776,10 @@ public class VentanaPrincipal extends JFrame {
 						rdbtnAnosPrescripcion.setSelected(false);
 						rdbtnDiasPrescripcion.setSelected(true);
 					}
+					if(rdbtnDiasPrescripcion.isSelected()==false) {
+					
+						rdbtnDiasPrescripcion.setSelected(true);
+					}
 				}
 			});
 			rdbtnDiasPrescripcion.setEnabled(false);
@@ -1825,6 +1829,10 @@ public class VentanaPrincipal extends JFrame {
 						rdbtnAnosPrescripcion.setSelected(false);
 						rdbtnMesesPrescripcion.setSelected(true);
 					}
+					if(rdbtnMesesPrescripcion.isSelected()==false) {
+						
+						rdbtnMesesPrescripcion.setSelected(true);
+					}
 				}
 			});
 			rdbtnMesesPrescripcion.setEnabled(false);
@@ -1843,6 +1851,11 @@ public class VentanaPrincipal extends JFrame {
 						rdbtnSemanasPrescripcion.setSelected(false);
 						rdbtnMesesPrescripcion.setSelected(false);
 						rdbtnDiasPrescripcion.setSelected(false);
+						rdbtnAnosPrescripcion.setSelected(true);
+						
+					}
+					if(rdbtnAnosPrescripcion.isSelected()==false) {
+						
 						rdbtnAnosPrescripcion.setSelected(true);
 						
 					}
