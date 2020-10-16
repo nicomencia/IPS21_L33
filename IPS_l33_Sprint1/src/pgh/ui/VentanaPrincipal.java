@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
-import pgh.business.cita.crearCitas;
+import pgh.business.cita.CrearCitas;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
 import pgh.business.paciente.ListaPacientes;
@@ -146,7 +146,7 @@ public class VentanaPrincipal extends JFrame {
 	private JList listPacientesCita;
 	private CitaDTO citaDTO;
 	private Cita cita;
-	private crearCitas crearCitas;
+	private CrearCitas crearCitas;
 	private JButton btnAnadirPacienteListaCita;
 	private JScrollPane scrollPanePacienteSeleccionado;
 	private JList listPacienteSeleccionado;
@@ -709,7 +709,7 @@ public class VentanaPrincipal extends JFrame {
 					 
 					 int contador = 77;
 					
-			         crearCitas = new crearCitas();
+			         crearCitas = new CrearCitas();
 					 citaDTO = new CitaDTO();
 
 					 citaDTO.asistencia=false;

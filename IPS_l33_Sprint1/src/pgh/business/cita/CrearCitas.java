@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import pgh.jdbc.Database;
 
-public class crearCitas {
+public class CrearCitas {
 	
 	private static String SQL = "Insert into Cita (idcita, id_paciente, idmedico, fecha, horaInicio, horaFin, ubicacion, asistencia) values (?,?,?,?,?,?,?,?) ";
 	
