@@ -31,7 +31,7 @@ public class FindAllMedicos {
 				medicos = new ArrayList<>();
 				while(rs.next()) {
 					MedicoDTO medico = new MedicoDTO();
-					medico.idMedico = rs.getString("idMedico");
+					medico.idMedico = rs.getInt("idMedico");
 					medico.nombre=rs.getString("nombre");;
 					medico.apellidos=rs.getString("apellidos");;
 					medico.email=rs.getString("email");

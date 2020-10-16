@@ -31,8 +31,8 @@ public class FindAllVacacionesEnfermero {
 				vacacionesEnfermeros = new ArrayList<>();
 				while(rs.next()) {
 					VacacionesEnfermeroDTO vacacionesEnfermero = new VacacionesEnfermeroDTO();
-					vacacionesEnfermero.idVacacionesEnfermero = rs.getString("idVacaciones_Enfermero");
-					vacacionesEnfermero.idEnfermero = rs.getString("idEnfermero");
+					vacacionesEnfermero.idVacacionesEnfermero = rs.getInt("idVacaciones_Enfermero");
+					vacacionesEnfermero.idEnfermero = rs.getInt("idEnfermero");
 					vacacionesEnfermero.diaInicio = rs.getDate("dia_Inicio");
 					vacacionesEnfermero.diaFin = rs.getDate("dia_Fin");
 					vacacionesEnfermeros.add(vacacionesEnfermero);

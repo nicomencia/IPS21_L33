@@ -2,7 +2,7 @@ package pgh.business.historial;
 
 public class HistorialDTO {
 
-	public String idHistorial;
-	public String idPaciente;
+	public int idHistorial;
+	public int idPaciente;
 	
 }

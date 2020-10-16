@@ -11,13 +11,13 @@ public class Medicamento {
 		this.m = md;
 	}
 	
-	  public String getIdMedicamento() {
+	  public int getIdMedicamento() {
 			
 			return m.idMedicamento;
 			
 		}
 		
-		public String getIdPrescripcion() {
+		public int getIdPrescripcion() {
 			
 			return m.idPrescripcion;
 			
@@ -41,13 +41,6 @@ public class Medicamento {
 			return m.duracion;
 			
 		}
-		
-		public String getObservacion() {
-			
-			return m.observacion;
-			
-		}
-
 
 
 }

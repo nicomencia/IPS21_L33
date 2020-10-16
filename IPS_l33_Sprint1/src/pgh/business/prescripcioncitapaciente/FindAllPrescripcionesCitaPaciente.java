@@ -11,12 +11,12 @@ import pgh.jdbc.Database;
 
 public class FindAllPrescripcionesCitaPaciente {
 
-	private static String SQL = "select idPrescripcion, id_paciente, idcita from PrescripcionCitasPaciente";
+	private static String SQL = "select idPrescripcion, idCita, idPaciente from PRESCRIPCION_CITAS_PACIENTE";
 	
 	Database db = new Database();
 	
 		public List<PrescripcionCitaPacienteDTO> execute() {
-			List<PrescripcionCitaPacienteDTO> prescripcionesCitaPaciente;
+			List<PrescripcionCitaPacienteDTO> prescripciones;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -28,13 +28,13 @@ public class FindAllPrescripcionesCitaPaciente {
 				pst = c.prepareStatement(SQL);
 				
 				rs = pst.executeQuery();
-				prescripcionesCitaPaciente = new ArrayList<>();
+				prescripciones = new ArrayList<>();
 				while(rs.next()) {
 					PrescripcionCitaPacienteDTO prescripcion = new PrescripcionCitaPacienteDTO();
 					prescripcion.idPrescripcion = rs.getInt("idPrescripcion");
-					prescripcion.idPaciente = rs.getInt("id_paciente");
-					prescripcion.idcita = rs.getInt("idcita");
-					prescripcionesCitaPaciente.add(prescripcion);
+					prescripcion.idCita = rs.getInt("idcita");
+					prescripcion.idPaciente = rs.getInt("idPaciente");
+					prescripciones.add(prescripcion);
 				}
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class FindAllPrescripcionesCitaPaciente {
 			finally {
 				db.close(rs, pst, c);
 			}
-			return prescripcionesCitaPaciente;
+			return prescripciones;
 		}
 	
 }

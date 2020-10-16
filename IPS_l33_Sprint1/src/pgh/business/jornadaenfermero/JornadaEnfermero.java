@@ -12,13 +12,13 @@ public class JornadaEnfermero {
 		
 	}
 	
-	public String getIdJornadaEnfermero() {
+	public int getIdJornadaEnfermero() {
 		
 		return j.idJornadaEnfermero;
 		
 	}
 	
-	public String getIdEnfermero() {
+	public int getIdEnfermero() {
 		
 		return j.idEnfermero;
 		

@@ -2,8 +2,9 @@ package pgh.business.diagnostico;
 
 public class DiagnosticoDTO {
 
-	public String idDiagnostico;
-	public String idCita;
+	public int idDiagnostico;
+	public int idCita;
 	public String descripcion;
+	public int idPaciente;
 	
 }

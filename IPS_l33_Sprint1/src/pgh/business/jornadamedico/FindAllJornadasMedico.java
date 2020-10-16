@@ -31,8 +31,8 @@ public class FindAllJornadasMedico {
 				jornadasMedico = new ArrayList<>();
 				while(rs.next()) {
 					JornadaMedicoDTO jornadaMedico = new JornadaMedicoDTO();
-					jornadaMedico.idJornadaMedico = rs.getString("idJornada_Medico");
-					jornadaMedico.idMedico = rs.getString("idMedico");
+					jornadaMedico.idJornadaMedico = rs.getInt("idJornada_Medico");
+					jornadaMedico.idMedico = rs.getInt("idMedico");
 					jornadaMedico.dias = rs.getString("dias");
 					jornadaMedico.diaInicio = rs.getDate("dia_Inicio");
 					jornadaMedico.diaFin = rs.getDate("dia_Fin");

@@ -31,8 +31,8 @@ public class FindAllHistorial {
 				historiales = new ArrayList<>();
 				while(rs.next()) {
 					HistorialDTO historial = new HistorialDTO();
-					historial.idHistorial = rs.getString("idHistorial");
-					historial.idPaciente = rs.getString("id_paciente");
+					historial.idHistorial = rs.getInt("idHistorial");
+					historial.idPaciente = rs.getInt("id_paciente");
 					historiales.add(historial);
 				}
 			} catch (SQLException e) {

@@ -11,9 +11,9 @@ import java.sql.SQLException;
 
 import pgh.jdbc.Database;
 
-public class crearCitas {
+public class CrearCitas {
 	
-	private static String SQL = "Insert into Cita (idcita, id_paciente, idmedico, fecha, horaInicio, horaFin, ubicacion, asistencia) values (?,?,?,?,?,?,?,?) ";
+	private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, fecha, horaInicio, horaFin, ubicacion, asistencia, urgente, infocontacto) values (?,?,?,?,?,?,?,?,?,?) ";
 	
 	Database db = new Database();
 	
@@ -33,14 +33,16 @@ public class crearCitas {
 			
 			
 		    pst = c.prepareStatement(query.toString());
-			pst.setString(1, cita.getIdCita());
-			pst.setString(2, cita.getIdPaciente());
-			pst.setString(3, cita.getIdMedico());
+			pst.setInt(1, cita.getIdCita());
+			pst.setInt(2, cita.getIdPaciente());
+			pst.setInt(3, cita.getIdHorario());
 			pst.setDate(4, sqlDate);
 			pst.setString(5,cita.getHoraInicio());
 			pst.setString(6, cita.getHoraFinal());
 			pst.setString(7, cita.getUbicacion());
 			pst.setBoolean(8, cita.getAsistencia());
+			pst.setBoolean(9, cita.getUrgente());
+			pst.setString(10, cita.infoContacto());
 			
 			
 		    pst.executeUpdate();	

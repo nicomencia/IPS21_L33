@@ -12,13 +12,13 @@ public class JornadaMedico {
 	
 	}
 	
-    public String getIdJornadaMedico() {
+    public int getIdJornadaMedico() {
 		
 		return jm.idJornadaMedico;
 		
 	}
 	
-	public String getIdMedico() {
+	public int getIdMedico() {
 		
 		return jm.idMedico;
 		

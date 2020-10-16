@@ -13,18 +13,14 @@ public class Cita {
 		
 	}
 	
-	public String getIdCita() {
+	public int getIdCita() {
 		return c.idCita;
 	}
 	
-	public String getIdPaciente() {
+	public int getIdPaciente() {
 		return c.idPaciente;
 	}
 	
-	public String getIdMedico() {
-		return c.idmedico;
-	}
-
 	public Date getDate() {
 		return c.fecha;
 	}
@@ -44,6 +40,22 @@ public class Cita {
 	public boolean getAsistencia() {
 		return c.asistencia;
 	}
+
+	public boolean getUrgente() {
+		return c.urgente;
+	}
+
+	public String infoContacto() {
+		return c.infocontacto;
+	}
+
+	
+	public int getIdHorario() {
+		return c.idHorario;
+	}
+	
+	
+	
 	
 	
 

@@ -2,7 +2,9 @@ package pgh.business.causa;
 
 public class CausaDTO {
 
-	public String idCausa;
+	public int idCausa;
 	public String descripcion;
+	public int idPaciente;
+	public int idCita;
 	
 }

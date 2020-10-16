@@ -16,19 +16,22 @@ public class PrescripcionCitaPaciente {
 		return p.idPrescripcion;
 			
 	}
+	
+	public int getIdCita() {
 		
-	public int getIdPaciente() {
+		return p.idCita;
 			
+	}
+	
+	public int getIdPaciente() {
+		
 		return p.idPaciente;
 			
 	}
-		
-	public int getIdCita() {
-		
-		return p.idcita;
-			
-	}
-		
 	
+
+		
+		
+
 
 }

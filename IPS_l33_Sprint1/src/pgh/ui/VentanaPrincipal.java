@@ -9,11 +9,23 @@ import javax.swing.border.EmptyBorder;
 
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
-import pgh.business.cita.crearCitas;
+import pgh.business.cita.CrearCitas;
+import pgh.business.medicamento.CrearMedicamento;
+import pgh.business.medicamento.Medicamento;
+import pgh.business.medicamento.MedicamentoDTO;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.business.medicocita.CrearMedicoCita;
+import pgh.business.medicocita.MedicoCita;
+import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.business.paciente.ListaPacientes;
 import pgh.business.paciente.Paciente;
+import pgh.business.prescripcion.ListaPrescripciones;
+import pgh.business.prescripcion.Prescripcion;
+import pgh.business.prescripcion.PrescripcionDTO;
+import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
+import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
+import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -24,13 +36,17 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
@@ -38,6 +54,19 @@ import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.JRadioButton;
+import java.awt.GridLayout;
+import javax.swing.border.TitledBorder;
+
+import org.hsqldb.lib.tar.RB;
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.components.JSpinField;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.SpinnerNumberModel;
+import com.toedter.calendar.JTextFieldDateEditor;
+import com.toedter.calendar.JYearChooser;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -80,7 +109,6 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel panelJornadasMedico;
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
-	private JComboBox comboBoxMedicosJornada;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_4_1;
 	private JLabel lblNewLabel_5;
@@ -101,13 +129,11 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel lblNewLabel_6_1_2;
 	private JComboBox comboBoxAnoInicioJornadaMedico;
 	private JComboBox comboBoxAnoFinJornadaMedico_1;
-	private JLabel lblNewLabel_7;
 	private JScrollPane scrollPane;
 	private JList listDias;
 	private JButton btnAñadirDiasJornada;
 	private JScrollPane scrollPaneDiasSeleccionados;
-	private JTextArea textAreaDiasSeleccionados;
-	private JButton btnNewButton_1;
+	private JButton btnBorrarDiasSeleccionados;
 	private String dias = "";
 	private boolean lunes = false, martes = false, miercoles = false, jueves = false, viernes = false, sabado = false, domingo = false;
 	private JScrollPane scrollPaneMedicos;
@@ -119,29 +145,100 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Medico> modeloListMedicosAnadidos;
 	private DefaultListModel<Paciente> modeloListPacientesCita;
 	private DefaultListModel<Paciente> modeloListPacienteCita;
-	private DefaultListModel<Medico> modeloListMedicosLogeado;
+	private DefaultListModel<String> modeloListDiasJornada;
+	private DefaultListModel<String> modeloListDiasSeleccionadosJornadaMedico;
+	private DefaultListModel<Medico> modeloListMedicosSeleccionadosJornada;
+	private DefaultListModel<Prescripcion> modeloListPrescripciones;
 	private JScrollPane scrollPane_1;
 	private JList listPacientesCita;
 	private CitaDTO citaDTO;
 	private Cita cita;
-	private crearCitas crearCitas;
+	private CrearCitas crearCitas;
 	private JButton btnAnadirPacienteListaCita;
 	private JScrollPane scrollPanePacienteSeleccionado;
 	private JList listPacienteSeleccionado;
 	
 	private int contador;
-	private JPanel panelLoginMedico;
-	private JScrollPane scrollPaneLoginMedico;
-	private JList listMedicosLogin;
-	private JScrollPane scrollPaneMedicoLogeado;
-	private JButton btnNewButton_2;
-	private JList listMedicoLogeado;
-	private JButton btnEliminar;
-	private JButton btnNewButton_3;
-	private JButton btnCancelar;
-	
-	private String id_medico;
+	private JList listDiasSeleccionadosJornadaMedico;
+	private JScrollPane scrollPaneSeleccionarMedicoJornada;
+	private JList listMedicosJornada;
+	private JButton btnAnadirMedicoJornadas;
+	private JScrollPane scrollPaneMedicoSeleccionadoJornada;
+	private JList listMedicosSeleccionadosJornada;
+	private JButton btnNewButton_1;
 	private JButton btnIndicarPrescripcion;
+	private JPanel panelPrescripcion;
+	private JButton btnAnadirNuevaPrescripcion;
+	private JScrollPane scrollPanePrescripciones;
+	private JButton btnAnadirPrescripcion;
+	private JScrollPane scrollPanePrescripcionSeleccionada;
+	private JButton btnBorrarPrescripcion;
+	private JList listPrescripciones;
+	private JList listPrescripcionSeleccionada;
+	private JButton btnAsignarPrescripcion;
+	private JButton btnCancelarPrescripcion;
+	private JPanel panelCrearPrescripcion;
+	private JPanel panelTipoPrescripcion;
+	private JRadioButton rdbtnMedicamento;
+	private JRadioButton rdbtnOtroTipo;
+	private JLabel lblNewLabel_7;
+	private JTextField textFieldInstrucciones;
+	private JPanel panelMedicamento;
+	private JLabel lblNewLabel_8;
+	private JTextField textFieldNombreMedicamento;
+	private JLabel lblNewLabel_8_1;
+	private JSpinner spinnerCantidadMedicamento;
+	private JLabel lblNewLabel_8_1_1;
+	private JLabel lblNewLabel_8_1_2;
+	private JComboBox comboBoxIntervalo;
+	private JLabel lblNewLabel_8_1_2_1;
+	private JSpinner spinnerDiasSemanas;
+	private JLabel lblNewLabel_8_1_2_1_1;
+	private JTextField textFieldNotasAdicionalesPrescripcion;
+	private JButton btnCrearPrescripcionNueva;
+	private JButton btnCancelarCrearPrescripcionNueva;
+	private JLabel lblNewLabel_9;
+	private JLabel lblNewLabel_9_1;
+	private ListaPrescripciones listaPrescripciones;
+	private JSpinner spinnerHoraAsignacion;
+	private JSpinner spinnerMinutosAsignacion;
+	private JSpinner spinnerSegundosAsignacion;
+	private JLabel lblNewLabel_10;
+	private JLabel lblNewLabel_10_1;
+	private JLabel lblNewLabel_11;
+	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
+	private PrescripcionDTO prescripcionDTO;
+	private Prescripcion prescripcion;
+	private MedicamentoDTO medicamentoDTO;
+	private Medicamento medicamento;
+	private CrearMedicamento crearMedicamento;
+	private JList listPacientesPrescripcion;
+	private DefaultListModel<Paciente> modeloListaPacientesPrescripcion;
+	private JPanel panelElegirCita;
+	private JButton btnEliminarCitaElegida;
+	private JButton btnTerminarProceso;
+	private JButton btnCancelarProceso;
+	
+	private PrescripcionCitaPaciente pcp;
+	private PrescripcionCitaPacienteDTO pcpDTOs;
+	private CrearPrescripcionCitaPaciente cpcp;
+	
+	private MedicoCita medicoCita;
+	private MedicoCitaDTO medicoCitaDTO;
+	private CrearMedicoCita crearMedicoCita;
+	private JPanel panelLoginMedico;
+	private JScrollPane scrollPane_4;
+	
+	private DefaultListModel<Medico> modeloListaMedicosLogin;
+	private DefaultListModel<Medico> modeloListaMedicosLogueados;
+	private int id_medico;
+	private JList listMedicosLogin;
+	private JButton btnSeleccionarMedicoLogin;
+	private JScrollPane scrollPane_5;
+	private JList listMedicoLogueado;
+	private JButton btnEliminarMedicoLogueado;
+	private JButton btnSiguienteLogin;
+	
 
 	/**
 	 * Launch the application.
@@ -166,9 +263,10 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		setResizable(false);
 		setTitle("Gestor Hospital");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1045, 562);
+		setBounds(100, 100, 1129, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -188,7 +286,10 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelCitas(), "name_190322796624300");
 			panelContenido.add(getPanelJornadasMedico(), "name_328185980980700");
-			panelContenido.add(getPanelLoginMedico(), "name_37820264085600");
+			panelContenido.add(getPanelPrescripcion(), "name_88672483873800");
+			panelContenido.add(getPanelCrearPrescripcion(), "name_89559032849200");
+			panelContenido.add(getPanelElegirCita(), "name_98460094904300");
+			panelContenido.add(getPanelLoginMedico(), "name_119791109586100");
 		}
 		return panelContenido;
 	}
@@ -209,7 +310,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("New label");
 			lblNewLabel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/cruz.png")));
-			lblNewLabel.setBounds(699, 22, 217, 209);
+			lblNewLabel.setBounds(821, 22, 217, 209);
 		}
 		return lblNewLabel;
 	}
@@ -217,7 +318,7 @@ public class VentanaPrincipal extends JFrame {
 		if (lblCentroMedico == null) {
 			lblCentroMedico = new JLabel("CENTRO MEDICO");
 			lblCentroMedico.setFont(new Font("Sitka Small", Font.PLAIN, 40));
-			lblCentroMedico.setBounds(191, 98, 404, 52);
+			lblCentroMedico.setBounds(329, 98, 404, 52);
 		}
 		return lblCentroMedico;
 	}
@@ -234,7 +335,7 @@ public class VentanaPrincipal extends JFrame {
 			btnAdministrativo.setBackground(Color.RED);
 			btnAdministrativo.setForeground(Color.WHITE);
 			btnAdministrativo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnAdministrativo.setBounds(329, 224, 286, 52);
+			btnAdministrativo.setBounds(362, 220, 286, 52);
 		}
 		return btnAdministrativo;
 	}
@@ -251,7 +352,7 @@ public class VentanaPrincipal extends JFrame {
 			btnEntrarComoMdico.setForeground(Color.WHITE);
 			btnEntrarComoMdico.setBackground(Color.RED);
 			btnEntrarComoMdico.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnEntrarComoMdico.setBounds(329, 298, 286, 52);
+			btnEntrarComoMdico.setBounds(362, 298, 286, 52);
 		}
 		return btnEntrarComoMdico;
 	}
@@ -267,7 +368,7 @@ public class VentanaPrincipal extends JFrame {
 			btnAdministrativo_1_1.setForeground(Color.WHITE);
 			btnAdministrativo_1_1.setBackground(Color.RED);
 			btnAdministrativo_1_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnAdministrativo_1_1.setBounds(329, 380, 286, 52);
+			btnAdministrativo_1_1.setBounds(362, 380, 286, 52);
 		}
 		return btnAdministrativo_1_1;
 	}
@@ -309,6 +410,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(false);
 			
 		}
@@ -319,6 +422,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(false);
 			
 		}
@@ -329,6 +434,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(false);
 		}
 		else if (nombre=="panelEnfermero"){
@@ -338,6 +445,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(true);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(false);
 			
 		}
@@ -348,6 +457,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(true);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(false);
 			
 		}
@@ -358,6 +469,32 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(true);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
+			panelLoginMedico.setVisible(false);
+			
+		}
+		else if (nombre=="panelPrescripcion"){
+			panelPrincipal.setVisible(false);
+			panelAdministrativo.setVisible(false);
+			panelMedico.setVisible(false);
+			panelEnfermero.setVisible(false);
+			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(true);
+			panelCrearPrescripcion.setVisible(false);
+			panelLoginMedico.setVisible(false);
+			
+		}
+		else if (nombre=="panelCrearPrescripcion"){
+			panelPrincipal.setVisible(false);
+			panelAdministrativo.setVisible(false);
+			panelMedico.setVisible(false);
+			panelEnfermero.setVisible(false);
+			panelCitas.setVisible(false);
+			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(true);
 			panelLoginMedico.setVisible(false);
 			
 		}
@@ -368,6 +505,8 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setVisible(false);
 			panelCitas.setVisible(false);
 			panelJornadasMedico.setVisible(false);
+			panelPrescripcion.setVisible(false);
+			panelCrearPrescripcion.setVisible(false);
 			panelLoginMedico.setVisible(true);
 			
 		}
@@ -619,22 +758,25 @@ public class VentanaPrincipal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					
 					Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
-					String idPaciente= paciente.getIdPaciente();
+					int idPaciente= paciente.getIdPaciente();
 					
 					 List<CitaDTO> citasDto = new ArrayList<CitaDTO>();
 					 List<Cita> citas = new ArrayList<Cita>();
-					 
-					 int contador = 77;
 					
-			         crearCitas = new crearCitas();
+					 crearCitas = new CrearCitas();
 					 citaDTO = new CitaDTO();
+					 
+					 citaDTO.idCita=400;
 
+					      
+					 //VALORES PARA QUE METAIS VUESTRA PARTE DE CREAR CITA
+					 
 					 citaDTO.asistencia=false;
 					 citaDTO.horaInicio="10:00";
 					 citaDTO.horaFin="10:30";
 					 citaDTO.idPaciente= idPaciente;
 					 citaDTO.ubicacion="Consulta 2";
-					 citaDTO.idCita=contador + "";
+					 
 						
 					 
 					 SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
@@ -647,30 +789,32 @@ public class VentanaPrincipal extends JFrame {
 						e1.printStackTrace();
 					 }
 					 
-//					 Medico m = (Medico) listMedicos.getSelectedValue();
-//					 citaDTO.idmedico=m.getIdMedico();
-//					 citasDto.add(citaDTO);
-//					 
-					 for(int i=0; i<modeloListMedicosAnadidos.getSize(); i++) { 
-						 
-						 Medico m = modeloListMedicosAnadidos.getElementAt(i);
-						 
-						 citaDTO.idmedico=m.getIdMedico();
-						 
-						 cita = new Cita(citaDTO);
-						 
-						 System.out.println("id medicos " + cita.getIdMedico());
-						 
-						 crearCitas.crearCita(cita);
-						 
-						 contador++;
-						 
-						 citaDTO.idCita=contador + "";
-						 
-						 System.out.println("id citas " + cita.getIdCita());
-		
-					 }
-					
+
+					 
+//						 cita = new Cita(citaDTO);
+	 
+						 //ASEGURARSE DE QUE EN EL CITADTO ESTAN TODOS LOS VALORES DE LA TABLA CITA ANTES DE CREAR LA CITA
+//						 crearCitas.crearCita(cita);
+					 
+					 //HISTORIA ALBERTO 
+//					 for(int i=0; i<modeloListMedicosAnadidos.getSize(); i++) {
+//						 
+//						 
+//						 medicoCitaDTO= new MedicoCitaDTO(); 
+//						 
+//						 medicoCitaDTO.idCita=4000;  //el id cita de la cita creada previamente
+//						 Medico m = modeloListMedicosAnadidos.getElementAt(i);
+//						 medicoCitaDTO.idMedico = m.getIdMedico();
+//						 
+//						 medicoCita = new MedicoCita(medicoCitaDTO);
+//						 crearMedicoCita = new CrearMedicoCita();
+//						 
+//						 crearMedicoCita.crearMedicoCita(medicoCita);
+//						 			 
+//						 
+//					 }
+
+
 					 
 				}
 			});
@@ -818,7 +962,6 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico = new JPanel();
 			panelJornadasMedico.setBackground(Color.WHITE);
 			panelJornadasMedico.setLayout(null);
-			panelJornadasMedico.add(getComboBoxMedicosJornada());
 			panelJornadasMedico.add(getLblNewLabel_4());
 			panelJornadasMedico.add(getLblNewLabel_4_1());
 			panelJornadasMedico.add(getLblNewLabel_5());
@@ -839,10 +982,13 @@ public class VentanaPrincipal extends JFrame {
 			panelJornadasMedico.add(getLblNewLabel_6_1_2());
 			panelJornadasMedico.add(getComboBoxAnoInicioJornadaMedico());
 			panelJornadasMedico.add(getComboBoxAnoFinJornadaMedico_1());
-			panelJornadasMedico.add(getLblNewLabel_7());
 			panelJornadasMedico.add(getScrollPane());
 			panelJornadasMedico.add(getBtnAñadirDiasJornada());
 			panelJornadasMedico.add(getScrollPaneDiasSeleccionados());
+			panelJornadasMedico.add(getBtnBorrarDiasSeleccionados());
+			panelJornadasMedico.add(getScrollPaneSeleccionarMedicoJornada());
+			panelJornadasMedico.add(getBtnAnadirMedicoJornadas());
+			panelJornadasMedico.add(getScrollPaneMedicoSeleccionadoJornada());
 			panelJornadasMedico.add(getBtnNewButton_1());
 		}
 		return panelJornadasMedico;
@@ -870,31 +1016,11 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnAsignarJornadasAEnfermeros;
 	}
-	private JComboBox getComboBoxMedicosJornada() {
-		if (comboBoxMedicosJornada == null) {
-			comboBoxMedicosJornada = new JComboBox();
-			comboBoxMedicosJornada.setFocusable(false);
-			comboBoxMedicosJornada.setBounds(379, 77, 359, 22);
-			
-			lm = new ListaMedicos();
-			lm.creaListaMedicos();
-			String[] medico = new String[lm.getMedicos().size()];
-			int i=0;
-			for(int j=0; j<lm.getMedicos().size();j++) {
-				 medico[i] = lm.getMedicos().get(j).toString();
-				 i++;
-			}
-			 comboBoxMedicosJornada.setModel(new DefaultComboBoxModel<String>(medico));
-			
-			
-		}
-		return comboBoxMedicosJornada;
-	}
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("Seleccionar Medico :");
 			lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_4.setBounds(236, 76, 147, 22);
+			lblNewLabel_4.setBounds(72, 74, 147, 22);
 		}
 		return lblNewLabel_4;
 	}
@@ -1068,14 +1194,6 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return comboBoxAnoFinJornadaMedico_1;
 	}
-	private JLabel getLblNewLabel_7() {
-		if (lblNewLabel_7 == null) {
-			lblNewLabel_7 = new JLabel("Nota: marcar uno , a\u00F1adir y repetir procedimiento si se desea\r\n");
-			lblNewLabel_7.setForeground(Color.RED);
-			lblNewLabel_7.setBounds(414, 376, 428, 14);
-		}
-		return lblNewLabel_7;
-	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -1086,16 +1204,15 @@ public class VentanaPrincipal extends JFrame {
 	}
 	private JList getListDias() {
 		if (listDias == null) {
-			listDias = new JList();
-			listDias.setModel(new AbstractListModel() {
-				String[] values = new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
+			modeloListDiasJornada = new DefaultListModel();
+			listDias = new JList(modeloListDiasJornada);
+			modeloListDiasJornada.addElement("Lunes");
+			modeloListDiasJornada.addElement("Martes");
+			modeloListDiasJornada.addElement("Miercoles");
+			modeloListDiasJornada.addElement("Jueves");
+			modeloListDiasJornada.addElement("Viernes");
+			modeloListDiasJornada.addElement("Sabado");
+			modeloListDiasJornada.addElement("Domingo");
 		}
 		return listDias;
 	}
@@ -1105,49 +1222,15 @@ public class VentanaPrincipal extends JFrame {
 			btnAñadirDiasJornada = new JButton("A\u00F1adir dias");
 			btnAñadirDiasJornada.addActionListener(new ActionListener() {
 
-				
-
 				public void actionPerformed(ActionEvent e) {
-
-				
-
-					if ((String) listDias.getSelectedValue() == "Lunes" && !lunes) {
-						
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						lunes = true;
+					
+					for(Object o : listDias.getSelectedValuesList()) {
+						if(!modeloListDiasSeleccionadosJornadaMedico.contains(o)){
+							modeloListDiasSeleccionadosJornadaMedico.addElement((String) o);
+						}
 					}
-					if ((String) listDias.getSelectedValue() == "Martes" && !martes) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						martes = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Miercoles" && !miercoles) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						miercoles = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Jueves" && !jueves) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						jueves = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Viernes" && !viernes) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						viernes = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Sabado" && !sabado) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						sabado = true;
-					}
-					if ((String) listDias.getSelectedValue() == "Domingo" && !domingo) {
-						dias = dias + (String) listDias.getSelectedValue() + "\n";
-						textAreaDiasSeleccionados.setText(dias);
-						domingo = true;
-					}
-
+					
+					
 				}
 			});
 			btnAñadirDiasJornada.setBounds(152, 434, 113, 23);
@@ -1159,37 +1242,24 @@ public class VentanaPrincipal extends JFrame {
 		if (scrollPaneDiasSeleccionados == null) {
 			scrollPaneDiasSeleccionados = new JScrollPane();
 			scrollPaneDiasSeleccionados.setBounds(414, 401, 207, 86);
-			scrollPaneDiasSeleccionados.setViewportView(getTextAreaDiasSeleccionados());
+			scrollPaneDiasSeleccionados.setViewportView(getListDiasSeleccionadosJornadaMedico());
 		}
 		return scrollPaneDiasSeleccionados;
 	}
-
-	private JTextArea getTextAreaDiasSeleccionados() {
-		if (textAreaDiasSeleccionados == null) {
-			textAreaDiasSeleccionados = new JTextArea();
-		}
-		return textAreaDiasSeleccionados;
-	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("Borrar dias");
-			btnNewButton_1.addActionListener(new ActionListener() {
+	private JButton getBtnBorrarDiasSeleccionados() {
+		if (btnBorrarDiasSeleccionados == null) {
+			btnBorrarDiasSeleccionados = new JButton("Borrar dias");
+			btnBorrarDiasSeleccionados.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					textAreaDiasSeleccionados.setText("");;
-					dias="";
-					lunes=false;
-					martes=false;
-					miercoles=false;
-					jueves=false;
-					viernes=false;
-					sabado=false;
-					domingo=false;
+					modeloListDiasSeleccionadosJornadaMedico.removeAllElements();
+					
+	
 				}
 			});
-			btnNewButton_1.setBounds(631, 417, 89, 23);
+			btnBorrarDiasSeleccionados.setBounds(631, 417, 126, 23);
 		}
-		return btnNewButton_1;
+		return btnBorrarDiasSeleccionados;
 	}
 	private JScrollPane getScrollPaneMedicos() {
 		if (scrollPaneMedicos == null) {
@@ -1333,114 +1403,748 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return listPacienteSeleccionado;
 	}
+	private JList getListDiasSeleccionadosJornadaMedico() {
+		if (listDiasSeleccionadosJornadaMedico == null) {
+			modeloListDiasSeleccionadosJornadaMedico= new DefaultListModel();
+			listDiasSeleccionadosJornadaMedico = new JList(modeloListDiasSeleccionadosJornadaMedico);
+		}
+		return listDiasSeleccionadosJornadaMedico;
+	}
+	private JScrollPane getScrollPaneSeleccionarMedicoJornada() {
+		if (scrollPaneSeleccionarMedicoJornada == null) {
+			scrollPaneSeleccionarMedicoJornada = new JScrollPane();
+			scrollPaneSeleccionarMedicoJornada.setBounds(229, 57, 261, 77);
+			scrollPaneSeleccionarMedicoJornada.setViewportView(getListMedicosJornada());
+		}
+		return scrollPaneSeleccionarMedicoJornada;
+	}
+	private JList getListMedicosJornada() {
+		if (listMedicosJornada == null) {
+			modeloListMedicos= new DefaultListModel();
+			listMedicosJornada = new JList(modeloListMedicos);
+			listMedicosJornada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			anadirMedicosALaLista();
+			
+		}
+		return listMedicosJornada;
+	}
+	private JButton getBtnAnadirMedicoJornadas() {
+		if (btnAnadirMedicoJornadas == null) {
+			btnAnadirMedicoJornadas = new JButton("A\u00F1adir");
+			btnAnadirMedicoJornadas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(modeloListMedicosSeleccionadosJornada.getSize()<1) {
+						if(!modeloListMedicosSeleccionadosJornada.contains((Medico) listMedicosJornada.getSelectedValue())) {
+							modeloListMedicosSeleccionadosJornada.addElement((Medico) listMedicosJornada.getSelectedValue());
+						}
+					}
+		
+				}
+			});
+			btnAnadirMedicoJornadas.setBounds(509, 86, 89, 23);
+		}
+		return btnAnadirMedicoJornadas;
+	}
+	private JScrollPane getScrollPaneMedicoSeleccionadoJornada() {
+		if (scrollPaneMedicoSeleccionadoJornada == null) {
+			scrollPaneMedicoSeleccionadoJornada = new JScrollPane();
+			scrollPaneMedicoSeleccionadoJornada.setBounds(615, 57, 269, 77);
+			scrollPaneMedicoSeleccionadoJornada.setViewportView(getListMedicosSeleccionadosJornada());
+		}
+		return scrollPaneMedicoSeleccionadoJornada;
+	}
+	private JList getListMedicosSeleccionadosJornada() {
+		if (listMedicosSeleccionadosJornada == null) {
+			modeloListMedicosSeleccionadosJornada= new DefaultListModel();
+			listMedicosSeleccionadosJornada = new JList(modeloListMedicosSeleccionadosJornada);
+		}
+		return listMedicosSeleccionadosJornada;
+	}
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Borrar Medico");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					modeloListMedicosSeleccionadosJornada.removeAllElements();
+				}
+			});
+			btnNewButton_1.setBounds(894, 86, 115, 23);
+		}
+		return btnNewButton_1;
+	}
+	private JButton getBtnIndicarPrescripcion() {
+		if (btnIndicarPrescripcion == null) {
+			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelPrescripcion");
+				}
+			});
+			btnIndicarPrescripcion.setBounds(78, 69, 151, 38);
+		}
+		return btnIndicarPrescripcion;
+	}
+	private JPanel getPanelPrescripcion() {
+		if (panelPrescripcion == null) {
+			panelPrescripcion = new JPanel();
+			panelPrescripcion.setBackground(Color.WHITE);
+			panelPrescripcion.setLayout(null);
+			panelPrescripcion.add(getBtnAnadirNuevaPrescripcion());
+			panelPrescripcion.add(getScrollPanePrescripciones());
+			panelPrescripcion.add(getBtnAnadirPrescripcion());
+			panelPrescripcion.add(getScrollPanePrescripcionSeleccionada());
+			panelPrescripcion.add(getBtnBorrarPrescripcion());
+			panelPrescripcion.add(getBtnAsignarPrescripcion());
+			panelPrescripcion.add(getBtnCancelarPrescripcion());
+			
+			JButton btnNewButton_2 = new JButton("Seleccionar Paciente");
+			btnNewButton_2.setBounds(433, 306, 224, 47);
+			panelPrescripcion.add(btnNewButton_2);
+			
+			JScrollPane scrollPanePaciente = new JScrollPane();
+			scrollPanePaciente.setBounds(716, 258, 328, 137);
+			panelPrescripcion.add(scrollPanePaciente);
+			scrollPanePaciente.setViewportView(getListPacientesPrescripcion());
+		}
+		return panelPrescripcion;
+	}
+	private JButton getBtnAnadirNuevaPrescripcion() {
+		if (btnAnadirNuevaPrescripcion == null) {
+			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
+			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelCrearPrescripcion");
+				}
+			});
+			btnAnadirNuevaPrescripcion.setBounds(85, 484, 224, 47);
+		}
+		return btnAnadirNuevaPrescripcion;
+	}
+	private JScrollPane getScrollPanePrescripciones() {
+		if (scrollPanePrescripciones == null) {
+			scrollPanePrescripciones = new JScrollPane();
+			scrollPanePrescripciones.setBounds(40, 50, 328, 401);
+			scrollPanePrescripciones.setViewportView(getListPrescripciones());
+		}
+		return scrollPanePrescripciones;
+	}
+	private JButton getBtnAnadirPrescripcion() {
+		if (btnAnadirPrescripcion == null) {
+			btnAnadirPrescripcion = new JButton("A\u00F1adir Prescripcion se\u00F1alizada");
+			btnAnadirPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					for(Object o : listPrescripciones.getSelectedValuesList()) {
+						if(!modeloListPrescripcionesSeleccionada.contains(o)) {
+							if(modeloListPrescripcionesSeleccionada.getSize()<1) {
+								modeloListPrescripcionesSeleccionada.addElement((Prescripcion) o);
+							}
+						}
+					}
+				
+				}
+			});
+			btnAnadirPrescripcion.setBounds(433, 50, 226, 47);
+		}
+		return btnAnadirPrescripcion;
+	}
+	private JScrollPane getScrollPanePrescripcionSeleccionada() {
+		if (scrollPanePrescripcionSeleccionada == null) {
+			scrollPanePrescripcionSeleccionada = new JScrollPane();
+			scrollPanePrescripcionSeleccionada.setBounds(716, 50, 328, 103);
+			scrollPanePrescripcionSeleccionada.setViewportView(getListPrescripcionSeleccionada());
+		}
+		return scrollPanePrescripcionSeleccionada;
+	}
+	private JButton getBtnBorrarPrescripcion() {
+		if (btnBorrarPrescripcion == null) {
+			btnBorrarPrescripcion = new JButton("Eliminar prescripcion");
+			btnBorrarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					modeloListPrescripcionesSeleccionada.removeAllElements();
+				}
+			});
+			btnBorrarPrescripcion.setForeground(Color.RED);
+			btnBorrarPrescripcion.setBounds(784, 176, 190, 40);
+		}
+		return btnBorrarPrescripcion;
+	}
+	private JList getListPrescripciones() {
+		if (listPrescripciones == null) {
+			modeloListPrescripciones = new DefaultListModel();
+			listPrescripciones = new JList(modeloListPrescripciones);
+			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			mostrarPrescripciones();
+		}
+		return listPrescripciones;
+	}
+	
+	private void mostrarPrescripciones() {
+		
+		listaPrescripciones = new ListaPrescripciones();
+		
+		listaPrescripciones.creaListaPrescripciones();
+		
+		for(Prescripcion p : listaPrescripciones.getPrescripciones()) {
+			
+			modeloListPrescripciones.addElement(p);
+			
+		}
+		
+		
+		
+	}
+
+	private JList getListPrescripcionSeleccionada() {
+		if (listPrescripcionSeleccionada == null) {
+			modeloListPrescripcionesSeleccionada= new DefaultListModel();
+			listPrescripcionSeleccionada = new JList(modeloListPrescripcionesSeleccionada);
+		}
+		return listPrescripcionSeleccionada;
+	}
+	private JButton getBtnAsignarPrescripcion() {
+		if (btnAsignarPrescripcion == null) {
+			btnAsignarPrescripcion = new JButton("Asignar Prescripcion");
+			btnAsignarPrescripcion.setForeground(new Color(0, 128, 0));
+			btnAsignarPrescripcion.setBounds(716, 487, 167, 41);
+		}
+		return btnAsignarPrescripcion;
+	}
+	private JButton getBtnCancelarPrescripcion() {
+		if (btnCancelarPrescripcion == null) {
+			btnCancelarPrescripcion = new JButton("Cancelar");
+			btnCancelarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					modeloListPrescripcionesSeleccionada.removeAllElements();
+					cambiarPanel("panelMedico");
+				}
+			});
+			btnCancelarPrescripcion.setForeground(Color.RED);
+			btnCancelarPrescripcion.setBounds(906, 487, 156, 41);
+		}
+		return btnCancelarPrescripcion;
+	}
+	private JPanel getPanelCrearPrescripcion() {
+		if (panelCrearPrescripcion == null) {
+			panelCrearPrescripcion = new JPanel();
+			panelCrearPrescripcion.setBackground(Color.WHITE);
+			panelCrearPrescripcion.setLayout(null);
+			panelCrearPrescripcion.add(getPanelTipoPrescripcion());
+			panelCrearPrescripcion.add(getLblNewLabel_7());
+			panelCrearPrescripcion.add(getTextFieldInstrucciones());
+			panelCrearPrescripcion.add(getPanelMedicamento());
+			panelCrearPrescripcion.add(getBtnCrearPrescripcionNueva());
+			panelCrearPrescripcion.add(getBtnCancelarCrearPrescripcionNueva());
+			panelCrearPrescripcion.add(getLblNewLabel_9());
+			panelCrearPrescripcion.add(getLblNewLabel_9_1());
+			panelCrearPrescripcion.add(getSpinnerHoraAsignacion());
+			panelCrearPrescripcion.add(getSpinnerMinutosAsignacion());
+			panelCrearPrescripcion.add(getSpinnerSegundosAsignacion());
+			panelCrearPrescripcion.add(getLblNewLabel_10());
+			panelCrearPrescripcion.add(getLblNewLabel_10_1());
+			panelCrearPrescripcion.add(getLblNewLabel_11());
+		}
+		return panelCrearPrescripcion;
+	}
+	private JPanel getPanelTipoPrescripcion() {
+		if (panelTipoPrescripcion == null) {
+			panelTipoPrescripcion = new JPanel();
+			panelTipoPrescripcion.setBorder(new TitledBorder(null, "Elegir tipo de prescripcion", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelTipoPrescripcion.setForeground(Color.WHITE);
+			panelTipoPrescripcion.setBackground(new Color(135, 206, 235));
+			panelTipoPrescripcion.setBounds(90, 44, 257, 100);
+			panelTipoPrescripcion.setLayout(null);
+			panelTipoPrescripcion.add(getRdbtnMedicamento());
+			panelTipoPrescripcion.add(getRdbtnOtroTipo());
+		}
+		return panelTipoPrescripcion;
+	}
+	private JRadioButton getRdbtnMedicamento() {
+		if (rdbtnMedicamento == null) {
+			rdbtnMedicamento = new JRadioButton("Medicamento");
+			rdbtnMedicamento.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprobarMedicamentoSeleccionado();
+				}
+			});
+			rdbtnMedicamento.setForeground(new Color(0, 0, 0));
+			rdbtnMedicamento.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnMedicamento.setBackground(new Color(135, 206, 235));
+			rdbtnMedicamento.setBounds(28, 40, 109, 23);
+			
+			
+			
+		}
+		return rdbtnMedicamento;
+	}
+	
+	
+	private void comprobarMedicamentoSeleccionado() {
+		
+		if(rdbtnMedicamento.isSelected()==true) {
+			
+			rdbtnOtroTipo.setSelected(false);
+			textFieldNombreMedicamento.setEnabled(true);
+			spinnerCantidadMedicamento.setEnabled(true); 
+			comboBoxIntervalo.setEnabled(true);
+			spinnerDiasSemanas.setEnabled(true);
+			textFieldNotasAdicionalesPrescripcion.setEnabled(true);
+		
+			
+			
+		}
+		
+	}
+	
+	private void comprobarOtroTipoSeleccionado() {
+		
+		if(rdbtnOtroTipo.isSelected()==true) {
+			
+			rdbtnMedicamento.setSelected(false);
+			textFieldNombreMedicamento.setEnabled(false);
+			spinnerCantidadMedicamento.setEnabled(false); 
+			comboBoxIntervalo.setEnabled(false);
+			spinnerDiasSemanas.setEnabled(false);
+			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
+		
+			
+		}
+		
+	}
+
+
+	private JRadioButton getRdbtnOtroTipo() {
+		if (rdbtnOtroTipo == null) {
+			rdbtnOtroTipo = new JRadioButton("Otro tipo");
+			rdbtnOtroTipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comprobarOtroTipoSeleccionado();
+				}
+			});
+			rdbtnOtroTipo.setSelected(true);
+			rdbtnOtroTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
+			rdbtnOtroTipo.setBackground(new Color(135, 206, 235));
+			rdbtnOtroTipo.setBounds(139, 40, 88, 23);
+			
+		}
+		return rdbtnOtroTipo;
+	}
+	private JLabel getLblNewLabel_7() {
+		if (lblNewLabel_7 == null) {
+			lblNewLabel_7 = new JLabel("Instruccion/es :");
+			lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			lblNewLabel_7.setBounds(384, 44, 138, 25);
+		}
+		return lblNewLabel_7;
+	}
+	private JTextField getTextFieldInstrucciones() {
+		if (textFieldInstrucciones == null) {
+			textFieldInstrucciones = new JTextField();
+			textFieldInstrucciones.setBounds(517, 39, 332, 41);
+			textFieldInstrucciones.setColumns(10);
+		}
+		return textFieldInstrucciones;
+	}
+	private JPanel getPanelMedicamento() {
+		if (panelMedicamento == null) {
+			panelMedicamento = new JPanel();
+			panelMedicamento.setBorder(new TitledBorder(null, "Medicamento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelMedicamento.setBackground(new Color(135, 206, 250));
+			panelMedicamento.setBounds(460, 209, 517, 250);
+			panelMedicamento.setLayout(null);
+			panelMedicamento.add(getLblNewLabel_8());
+			panelMedicamento.add(getTextFieldNombreMedicamento());
+			panelMedicamento.add(getLblNewLabel_8_1());
+			panelMedicamento.add(getSpinnerCantidadMedicamento());
+			panelMedicamento.add(getLblNewLabel_8_1_1());
+			panelMedicamento.add(getLblNewLabel_8_1_2());
+			panelMedicamento.add(getComboBoxIntervalo());
+			panelMedicamento.add(getLblNewLabel_8_1_2_1());
+			panelMedicamento.add(getSpinnerDiasSemanas());
+			panelMedicamento.add(getLblNewLabel_8_1_2_1_1());
+			panelMedicamento.add(getTextFieldNotasAdicionalesPrescripcion());
+		}
+		return panelMedicamento;
+	}
+	private JLabel getLblNewLabel_8() {
+		if (lblNewLabel_8 == null) {
+			lblNewLabel_8 = new JLabel("Nombre :");
+			lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8.setBounds(22, 33, 74, 25);
+		}
+		return lblNewLabel_8;
+	}
+	private JTextField getTextFieldNombreMedicamento() {
+		if (textFieldNombreMedicamento == null) {
+			textFieldNombreMedicamento = new JTextField();
+			textFieldNombreMedicamento.setEnabled(false);
+			textFieldNombreMedicamento.setBounds(113, 35, 162, 20);
+			textFieldNombreMedicamento.setColumns(10);
+		}
+		return textFieldNombreMedicamento;
+	}
+	private JLabel getLblNewLabel_8_1() {
+		if (lblNewLabel_8_1 == null) {
+			lblNewLabel_8_1 = new JLabel("Cantidad :");
+			lblNewLabel_8_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1.setBounds(22, 67, 84, 25);
+		}
+		return lblNewLabel_8_1;
+	}
+	private JSpinner getSpinnerCantidadMedicamento() {
+		if (spinnerCantidadMedicamento == null) {
+			spinnerCantidadMedicamento = new JSpinner();
+			spinnerCantidadMedicamento.setEnabled(false);
+			spinnerCantidadMedicamento.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+			spinnerCantidadMedicamento.setBounds(113, 69, 43, 20);
+		}
+		return spinnerCantidadMedicamento;
+	}
+	private JLabel getLblNewLabel_8_1_1() {
+		if (lblNewLabel_8_1_1 == null) {
+			lblNewLabel_8_1_1 = new JLabel("Unidades");
+			lblNewLabel_8_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_1.setBounds(166, 69, 84, 25);
+		}
+		return lblNewLabel_8_1_1;
+	}
+	private JLabel getLblNewLabel_8_1_2() {
+		if (lblNewLabel_8_1_2 == null) {
+			lblNewLabel_8_1_2 = new JLabel("Intervalo :");
+			lblNewLabel_8_1_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2.setBounds(22, 104, 84, 25);
+		}
+		return lblNewLabel_8_1_2;
+	}
+	private JComboBox getComboBoxIntervalo() {
+		if (comboBoxIntervalo == null) {
+			comboBoxIntervalo = new JComboBox();
+			comboBoxIntervalo.setEnabled(false);
+			comboBoxIntervalo.setModel(new DefaultComboBoxModel(new String[] {"Cada 4 horas", "Cada 8 horas", "Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes"}));
+			comboBoxIntervalo.setBounds(113, 105, 162, 22);
+		}
+		return comboBoxIntervalo;
+	}
+	private JLabel getLblNewLabel_8_1_2_1() {
+		if (lblNewLabel_8_1_2_1 == null) {
+			lblNewLabel_8_1_2_1 = new JLabel("Duracion :");
+			lblNewLabel_8_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2_1.setBounds(22, 146, 84, 25);
+		}
+		return lblNewLabel_8_1_2_1;
+	}
+	private JSpinner getSpinnerDiasSemanas() {
+		if (spinnerDiasSemanas == null) {
+			spinnerDiasSemanas = new JSpinner();
+			spinnerDiasSemanas.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+			spinnerDiasSemanas.setEnabled(false);
+			spinnerDiasSemanas.setBounds(113, 148, 30, 20);
+		}
+		return spinnerDiasSemanas;
+	}
+	private JLabel getLblNewLabel_8_1_2_1_1() {
+		if (lblNewLabel_8_1_2_1_1 == null) {
+			lblNewLabel_8_1_2_1_1 = new JLabel("Notaciones adicionales :");
+			lblNewLabel_8_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_8_1_2_1_1.setBounds(22, 193, 145, 25);
+		}
+		return lblNewLabel_8_1_2_1_1;
+	}
+	private JTextField getTextFieldNotasAdicionalesPrescripcion() {
+		if (textFieldNotasAdicionalesPrescripcion == null) {
+			textFieldNotasAdicionalesPrescripcion = new JTextField();
+			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
+			textFieldNotasAdicionalesPrescripcion.setBounds(176, 195, 314, 20);
+			textFieldNotasAdicionalesPrescripcion.setColumns(10);
+		}
+		return textFieldNotasAdicionalesPrescripcion;
+	}
+	private JButton getBtnCrearPrescripcionNueva() {
+		if (btnCrearPrescripcionNueva == null) {
+			btnCrearPrescripcionNueva = new JButton("Crear");
+			btnCrearPrescripcionNueva.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					prescripcionDTO = new PrescripcionDTO();
+					
+					if(textFieldInstrucciones.getText()!="") {
+						prescripcionDTO.instruccion = textFieldInstrucciones.getText() ;
+					
+					}
+					else {
+						JOptionPane.showMessageDialog(textFieldInstrucciones, "El campo instrucciones no se puede dejar vacio");
+					}
+					
+					
+					String hora = spinnerHoraAsignacion + "";
+					String minutos = spinnerMinutosAsignacion + "";
+					String segundos = spinnerSegundosAsignacion + "";
+					
+					String horaAsignacion = hora +" : "+ minutos+ " : " + segundos;
+					
+					prescripcionDTO.horaAsignacion= horaAsignacion;
+					
+	
+	
+					
+					
+				}
+			});
+			btnCrearPrescripcionNueva.setForeground(Color.GREEN);
+			btnCrearPrescripcionNueva.setBounds(701, 470, 130, 35);
+		}
+		return btnCrearPrescripcionNueva;
+	}
+	private JButton getBtnCancelarCrearPrescripcionNueva() {
+		if (btnCancelarCrearPrescripcionNueva == null) {
+			btnCancelarCrearPrescripcionNueva = new JButton("Cancelar");
+			btnCancelarCrearPrescripcionNueva.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					cambiarPanel("panelPrescripcion");
+					
+				}
+			});
+			btnCancelarCrearPrescripcionNueva.setForeground(Color.RED);
+			btnCancelarCrearPrescripcionNueva.setBounds(847, 470, 130, 35);
+		}
+		return btnCancelarCrearPrescripcionNueva;
+	}
+	private JLabel getLblNewLabel_9() {
+		if (lblNewLabel_9 == null) {
+			lblNewLabel_9 = new JLabel("Dia de asignacion : ");
+			lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_9.setBounds(517, 91, 151, 24);
+		}
+		return lblNewLabel_9;
+	}
+	private JLabel getLblNewLabel_9_1() {
+		if (lblNewLabel_9_1 == null) {
+			lblNewLabel_9_1 = new JLabel("Hora de asignacion : ");
+			lblNewLabel_9_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			lblNewLabel_9_1.setBounds(517, 142, 151, 24);
+		}
+		return lblNewLabel_9_1;
+	}
+	
+	
+	private JSpinner getSpinnerHoraAsignacion() {
+		if (spinnerHoraAsignacion == null) {
+			spinnerHoraAsignacion = new JSpinner();
+			spinnerHoraAsignacion.setModel(new SpinnerNumberModel(0, 0, 24, 1));
+			spinnerHoraAsignacion.setBounds(653, 145, 52, 20);
+			
+		}
+		return spinnerHoraAsignacion;
+	}
+	private JSpinner getSpinnerMinutosAsignacion() {
+		if (spinnerMinutosAsignacion == null) {
+			spinnerMinutosAsignacion = new JSpinner();
+			spinnerMinutosAsignacion.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+			spinnerMinutosAsignacion.setBounds(725, 145, 52, 20);
+			
+		}
+		return spinnerMinutosAsignacion;
+	}
+	private JSpinner getSpinnerSegundosAsignacion() {
+		if (spinnerSegundosAsignacion == null) {
+			spinnerSegundosAsignacion = new JSpinner();
+			spinnerSegundosAsignacion.setModel(new SpinnerNumberModel(0, 0, 59, 1));
+			spinnerSegundosAsignacion.setBounds(797, 145, 52, 20);
+			
+		}
+		return spinnerSegundosAsignacion;
+	}
+	private JLabel getLblNewLabel_10() {
+		if (lblNewLabel_10 == null) {
+			lblNewLabel_10 = new JLabel(":");
+			lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_10.setForeground(new Color(0, 0, 0));
+			lblNewLabel_10.setBounds(787, 148, 22, 14);
+		}
+		return lblNewLabel_10;
+	}
+	private JLabel getLblNewLabel_10_1() {
+		if (lblNewLabel_10_1 == null) {
+			lblNewLabel_10_1 = new JLabel(":");
+			lblNewLabel_10_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_10_1.setBounds(715, 148, 22, 14);
+		}
+		return lblNewLabel_10_1;
+	}
+	
+	private JLabel getLblNewLabel_11() {
+		if (lblNewLabel_11 == null) {
+			lblNewLabel_11 = new JLabel("HH/mm/ss");
+			lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_11.setBounds(874, 148, 85, 14);
+		}
+		return lblNewLabel_11;
+	}
+	
+	private JList getListPacientesPrescripcion() {
+		if (listPacientesPrescripcion == null) {
+			modeloListaPacientesPrescripcion = new DefaultListModel();
+			listPacientesPrescripcion = new JList(modeloListaPacientesPrescripcion);
+			listPacientesPrescripcion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			lp= new ListaPacientes();
+			lp.creaListaPacientes();
+			
+		    for(Paciente p : lp.getPacientes()) {
+		    	
+		    	modeloListaPacientesPrescripcion.addElement(p);
+		    }
+			
+		}
+		return listPacientesPrescripcion;
+	}
+	private JPanel getPanelElegirCita() {
+		if (panelElegirCita == null) {
+			panelElegirCita = new JPanel();
+			panelElegirCita.setBackground(Color.WHITE);
+			panelElegirCita.setLayout(null);
+			
+			JScrollPane scrollPane_2 = new JScrollPane();
+			scrollPane_2.setBounds(80, 91, 351, 395);
+			panelElegirCita.add(scrollPane_2);
+			
+			JScrollPane scrollPane_3 = new JScrollPane();
+			scrollPane_3.setBounds(764, 181, 276, 173);
+			panelElegirCita.add(scrollPane_3);
+			
+			JButton btnElegirCita = new JButton("Elegir Cita");
+			btnElegirCita.setBounds(510, 252, 160, 54);
+			panelElegirCita.add(btnElegirCita);
+			panelElegirCita.add(getBtnEliminarCitaElegida());
+			panelElegirCita.add(getBtnTerminarProceso());
+			panelElegirCita.add(getBtnCancelarProceso());
+		}
+		return panelElegirCita;
+	}
+	private JButton getBtnEliminarCitaElegida() {
+		if (btnEliminarCitaElegida == null) {
+			btnEliminarCitaElegida = new JButton("Eliminar Cita Elegida");
+			btnEliminarCitaElegida.setBounds(839, 383, 127, 23);
+		}
+		return btnEliminarCitaElegida;
+	}
+	private JButton getBtnTerminarProceso() {
+		if (btnTerminarProceso == null) {
+			btnTerminarProceso = new JButton("Terminar Proceso");
+			btnTerminarProceso.setBounds(764, 477, 115, 42);
+		}
+		return btnTerminarProceso;
+	}
+	private JButton getBtnCancelarProceso() {
+		if (btnCancelarProceso == null) {
+			btnCancelarProceso = new JButton("CancelarProceso");
+			btnCancelarProceso.setBounds(925, 477, 115, 42);
+		}
+		return btnCancelarProceso;
+	}
 	private JPanel getPanelLoginMedico() {
 		if (panelLoginMedico == null) {
 			panelLoginMedico = new JPanel();
 			panelLoginMedico.setBackground(Color.WHITE);
 			panelLoginMedico.setLayout(null);
-			panelLoginMedico.add(getScrollPaneLoginMedico());
-			panelLoginMedico.add(getScrollPaneMedicoLogeado());
-			panelLoginMedico.add(getBtnNewButton_2());
-			panelLoginMedico.add(getBtnEliminar());
-			panelLoginMedico.add(getBtnNewButton_3());
-			panelLoginMedico.add(getBtnCancelar());
+			panelLoginMedico.add(getScrollPane_4());
+			panelLoginMedico.add(getBtnSeleccionarMedicoLogin());
+			panelLoginMedico.add(getScrollPane_5());
+			panelLoginMedico.add(getBtnEliminarMedicoLogueado());
+			panelLoginMedico.add(getBtnSiguienteLogin());
+			
 		}
 		return panelLoginMedico;
 	}
-	private JScrollPane getScrollPaneLoginMedico() {
-		if (scrollPaneLoginMedico == null) {
-			scrollPaneLoginMedico = new JScrollPane();
-			scrollPaneLoginMedico.setBounds(85, 31, 442, 421);
-			scrollPaneLoginMedico.setViewportView(getListMedicosLogin());
+	private JScrollPane getScrollPane_4() {
+		if (scrollPane_4 == null) {
+			scrollPane_4 = new JScrollPane();
+			scrollPane_4.setBounds(119, 152, 283, 263);
+			scrollPane_4.setViewportView(getListMedicosLogin());
+			
+		
 		}
-		return scrollPaneLoginMedico;
+		return scrollPane_4;
 	}
 	private JList getListMedicosLogin() {
 		if (listMedicosLogin == null) {
-			modeloListMedicos = new DefaultListModel();
-			listMedicosLogin = new JList(modeloListMedicos);
+			modeloListaMedicosLogin = new DefaultListModel();
+			listMedicosLogin = new JList(modeloListaMedicosLogin);
 			listMedicosLogin.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			anadirMedicosALaLista();
+			lm=new ListaMedicos();
+			lm.creaListaMedicos();
+			for(Medico m : lm.getMedicos()) {
+				modeloListaMedicosLogin.addElement((Medico)m);
+			}
 			
 		}
 		return listMedicosLogin;
 	}
-	private JScrollPane getScrollPaneMedicoLogeado() {
-		if (scrollPaneMedicoLogeado == null) {
-			scrollPaneMedicoLogeado = new JScrollPane();
-			scrollPaneMedicoLogeado.setBounds(721, 143, 244, 156);
-			scrollPaneMedicoLogeado.setViewportView(getListMedicoLogeado());
-		}
-		return scrollPaneMedicoLogeado;
-	}
-	private JButton getBtnNewButton_2() {
-		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("A\u00F1adir");
-			btnNewButton_2.addActionListener(new ActionListener() {
+	private JButton getBtnSeleccionarMedicoLogin() {
+		if (btnSeleccionarMedicoLogin == null) {
+			btnSeleccionarMedicoLogin = new JButton("Seleccionar Medico");
+			btnSeleccionarMedicoLogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					for(Object o: listMedicosLogin.getSelectedValuesList()) {
-						if(!modeloListMedicosLogeado.contains(o)) {
-							if(modeloListMedicosLogeado.getSize()<1) {
-								modeloListMedicosLogeado.addElement((Medico) o);
+					for(Object o :listMedicosLogin.getSelectedValuesList()) {
+						if(!modeloListaMedicosLogueados.contains(o)) {
+							if(modeloListaMedicosLogueados.getSize()<1){
+								
+								modeloListaMedicosLogueados.addElement((Medico) o);
+								
 							}
 						}
 					}
-					
 				}
 			});
-			btnNewButton_2.setBounds(578, 201, 89, 23);
+			btnSeleccionarMedicoLogin.setBounds(462, 249, 166, 39);
+			
 		}
-		return btnNewButton_2;
+		return btnSeleccionarMedicoLogin;
 	}
-	private JList getListMedicoLogeado() {
-		if (listMedicoLogeado == null) {
-			modeloListMedicosLogeado= new DefaultListModel();
-			listMedicoLogeado = new JList(modeloListMedicosLogeado);
+	private JScrollPane getScrollPane_5() {
+		if (scrollPane_5 == null) {
+			scrollPane_5 = new JScrollPane();
+			scrollPane_5.setBounds(678, 167, 338, 184);
+			scrollPane_5.setViewportView(getListMedicoLogueado());
 		}
-		return listMedicoLogeado;
+		return scrollPane_5;
 	}
-	private JButton getBtnEliminar() {
-		if (btnEliminar == null) {
-			btnEliminar = new JButton("Eliminar");
-			btnEliminar.addActionListener(new ActionListener() {
+	private JList getListMedicoLogueado() {
+		if (listMedicoLogueado == null) {
+			modeloListaMedicosLogueados= new DefaultListModel();
+			listMedicoLogueado = new JList(modeloListaMedicosLogueados);
+		}
+		return listMedicoLogueado;
+	}
+	private JButton getBtnEliminarMedicoLogueado() {
+		if (btnEliminarMedicoLogueado == null) {
+			btnEliminarMedicoLogueado = new JButton("Eliminar");
+			btnEliminarMedicoLogueado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					modeloListMedicosLogeado.removeAllElements();
+					modeloListaMedicosLogueados.removeAllElements();
 				}
 			});
-			btnEliminar.setBounds(801, 314, 89, 23);
+			btnEliminarMedicoLogueado.setBounds(807, 373, 89, 23);
 		}
-		return btnEliminar;
+		return btnEliminarMedicoLogueado;
 	}
-	private JButton getBtnNewButton_3() {
-		if (btnNewButton_3 == null) {
-			btnNewButton_3 = new JButton("Siguiente");
-			btnNewButton_3.addActionListener(new ActionListener() {
+	private JButton getBtnSiguienteLogin() {
+		if (btnSiguienteLogin == null) {
+			btnSiguienteLogin = new JButton("Siguiente");
+			btnSiguienteLogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					id_medico = modeloListMedicosLogeado.get(0).getIdMedico();
-					
+					id_medico = modeloListaMedicosLogueados.getElementAt(0).getIdMedico();
 					cambiarPanel("panelMedico");
-					
 				}
 			});
-			btnNewButton_3.setBounds(773, 466, 89, 23);
+			btnSiguienteLogin.setBounds(889, 502, 89, 23);
 		}
-		return btnNewButton_3;
-	}
-	private JButton getBtnCancelar() {
-		if (btnCancelar == null) {
-			btnCancelar = new JButton("cancelar");
-			btnCancelar.setBounds(886, 466, 89, 23);
-		}
-		return btnCancelar;
-	}
-	private JButton getBtnIndicarPrescripcion() {
-		if (btnIndicarPrescripcion == null) {
-			btnIndicarPrescripcion = new JButton("Prescripciones");
-			btnIndicarPrescripcion.setBounds(69, 50, 131, 39);
-		}
-		return btnIndicarPrescripcion;
+		return btnSiguienteLogin;
 	}
 }

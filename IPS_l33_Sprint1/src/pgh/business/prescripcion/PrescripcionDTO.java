@@ -1,11 +1,13 @@
 package pgh.business.prescripcion;
 
+import java.util.Date;
+
 public class PrescripcionDTO {
 
-	public String idPrescripcion;
+	public int idPrescripcion;
 	public String instruccion;
 	public String horaAsignacion;
-	public String diaAsignacion;
-	public boolean es_medicamento;
+	public Date diaAsignacion;
+	public boolean esMedicamento;
 	
 }

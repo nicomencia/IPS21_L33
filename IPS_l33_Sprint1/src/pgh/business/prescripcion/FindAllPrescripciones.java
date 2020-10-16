@@ -31,11 +31,11 @@ public class FindAllPrescripciones {
 				prescripciones = new ArrayList<>();
 				while(rs.next()) {
 					PrescripcionDTO prescripcion = new PrescripcionDTO();
-					prescripcion.idPrescripcion = rs.getString("idPrescripcion");
+					prescripcion.idPrescripcion = rs.getInt("idPrescripcion");
 					prescripcion.instruccion = rs.getString("instruccion");
 					prescripcion.horaAsignacion = rs.getString("hora_Asignacion");
-					prescripcion.diaAsignacion = rs.getString("dia_Asignacion");
-					prescripcion.es_medicamento = rs.getBoolean("es_medicamento");
+					prescripcion.diaAsignacion = rs.getDate("dia_Asignacion");
+					prescripcion.esMedicamento = rs.getBoolean("es_medicamento");
 					prescripciones.add(prescripcion);
 				}
 			} catch (SQLException e) {

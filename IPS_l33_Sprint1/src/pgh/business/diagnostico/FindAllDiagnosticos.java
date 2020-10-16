@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllDiagnosticos {
 	
-	private static String SQL = "select idDiagnostico, idCita, descripcion from Diagnostico";
+	private static String SQL = "select idDiagnostico, idCita, idpaciente, descripcion from Diagnostico";
 	
 	Database db = new Database();
 	
@@ -31,8 +31,9 @@ public class FindAllDiagnosticos {
 				diagnosticos = new ArrayList<>();
 				while(rs.next()) {
 					DiagnosticoDTO diagnostico = new DiagnosticoDTO();
-					diagnostico.idDiagnostico = rs.getString("idDiagnostico");
-					diagnostico.idCita = rs.getString("idCita");
+					diagnostico.idDiagnostico = rs.getInt("idDiagnostico");
+					diagnostico.idCita = rs.getInt("idCita");
+					diagnostico.idPaciente = rs.getInt("idpaciente");
 					diagnostico.descripcion = rs.getString("descripcion");
 					diagnosticos.add(diagnostico);
 				}

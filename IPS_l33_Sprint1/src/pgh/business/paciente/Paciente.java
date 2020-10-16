@@ -12,7 +12,7 @@ public class Paciente {
 	
 	}
 	
-	public String getIdPaciente() {
+	public int getIdPaciente() {
 		return p.idPaciente;
 	}
 	
