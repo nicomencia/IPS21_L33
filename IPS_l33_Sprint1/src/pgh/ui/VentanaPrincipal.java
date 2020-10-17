@@ -72,6 +72,7 @@ import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
 import javax.swing.JTextPane;
+import java.awt.Dimension;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -246,7 +247,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnEliminarMedicoLogueado;
 	private JButton btnSiguienteLogin;
 	private JLabel lblInfocontacto;
-	private JTextField textField;
+	private JTextField txtFieldInfoContacto;
 	
 
 	/**
@@ -581,7 +582,7 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas.add(getBtnAnadirPacienteListaCita());
 			panelCitas.add(getScrollPanePacienteSeleccionado());
 			panelCitas.add(getLblInfocontacto());
-			panelCitas.add(getTextField());
+			panelCitas.add(getTxtFieldInfoContacto());
 		}
 		return panelCitas;
 	}
@@ -778,45 +779,47 @@ public class VentanaPrincipal extends JFrame {
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-				crearCitas = new CrearCitas();
-				citaDTO = new CitaDTO();
-				 
-				citaDTO.idCita = generarIdCita();
-				
-				Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
-				int idPaciente = paciente.getIdPaciente();
-				citaDTO.idPaciente = idPaciente;
-				 
-				SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
-				Date date;
-				try {
-					date = dateformat3.parse("2021/03/27");
-					citaDTO.fecha=date;
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
+					crearCitas = new CrearCitas();
+					citaDTO = new CitaDTO();
 					 
-				citaDTO.asistencia = false;
-				citaDTO.urgente = false;
-				citaDTO.infocontacto = "todo";
-				citaDTO.idHorario = 6001;
-				
-				Ubicacion ubicacion = (Ubicacion) comboBoxUbicacion.getSelectedItem();
-				int idUbicacion = ubicacion.getIdUbicacion();
-				citaDTO.idUbicacion = idUbicacion;
-					 
-				cita = new Cita(citaDTO);
-				crearCitas.crearCita(cita);
-
-					 
-				}
-
-				private int generarIdCita() {
-					ListaCitas lc = new ListaCitas();
-					lc.creaListaCitas();
+					citaDTO.idCita = generarIdCita();
 					
-					return 4000 + lc.getCitas().size();
-				}
+					Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
+					int idPaciente = paciente.getIdPaciente();
+					citaDTO.idPaciente = idPaciente;
+					 
+					SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
+					Date date;
+					try {
+						date = dateformat3.parse("2021/03/27");
+						citaDTO.fecha=date;
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+						 
+					citaDTO.asistencia = false;
+					citaDTO.urgente = false;
+					
+					citaDTO.infocontacto = txtFieldInfoContacto.getText();
+					
+					citaDTO.idHorario = 6001;
+					
+					Ubicacion ubicacion = (Ubicacion) comboBoxUbicacion.getSelectedItem();
+					int idUbicacion = ubicacion.getIdUbicacion();
+					citaDTO.idUbicacion = idUbicacion;
+						 
+					cita = new Cita(citaDTO);
+					crearCitas.crearCita(cita);
+	
+						 
+					}
+
+					private int generarIdCita() {
+						ListaCitas lc = new ListaCitas();
+						lc.creaListaCitas();
+						
+						return 4000 + lc.getCitas().size();
+					}
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnCrearCita.setBounds(719, 468, 125, 23);
@@ -1379,7 +1382,9 @@ public class VentanaPrincipal extends JFrame {
 			if(modeloListPacienteCita.getSize()<1) {
 				
 				if(!modeloListPacienteCita.contains(o)) {
-					modeloListPacienteCita.addElement((Paciente) o);
+					Paciente paciente = (Paciente) o;
+					modeloListPacienteCita.addElement(paciente);
+					txtFieldInfoContacto.setText("Teléfono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
 				}
 				
 			}
@@ -2151,17 +2156,18 @@ public class VentanaPrincipal extends JFrame {
 		if (lblInfocontacto == null) {
 			lblInfocontacto = new JLabel("Informaci\u00F3n contacto :");
 			lblInfocontacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblInfocontacto.setBounds(83, 441, 235, 22);
+			lblInfocontacto.setBounds(83, 430, 235, 22);
 		}
 		return lblInfocontacto;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			textField.setBounds(321, 443, 346, 20);
-			textField.setColumns(10);
+	private JTextField getTxtFieldInfoContacto() {
+		if (txtFieldInfoContacto == null) {
+			txtFieldInfoContacto = new JTextField();
+			txtFieldInfoContacto.setText("(A\u00F1adir paciente)");
+			txtFieldInfoContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			txtFieldInfoContacto.setBounds(321, 435, 346, 20);
+			txtFieldInfoContacto.setColumns(10);
 		}
-		return textField;
+		return txtFieldInfoContacto;
 	}
 }
