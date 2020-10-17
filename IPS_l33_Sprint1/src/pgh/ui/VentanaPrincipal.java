@@ -74,6 +74,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
 import javax.swing.JTextPane;
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -250,6 +251,8 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnSiguienteLogin;
 	private JLabel lblInfocontacto;
 	private JTextField txtFieldInfoContacto;
+	private JLabel lblUrgente;
+	private JCheckBox chckbxUrgente;
 
 	/**
 	 * Launch the application.
@@ -584,6 +587,8 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas.add(getScrollPanePacienteSeleccionado());
 			panelCitas.add(getLblInfocontacto());
 			panelCitas.add(getTxtFieldInfoContacto());
+			panelCitas.add(getLblUrgente());
+			panelCitas.add(getChckbxUrgente());
 		}
 		return panelCitas;
 	}
@@ -2187,5 +2192,20 @@ public class VentanaPrincipal extends JFrame {
 			txtFieldInfoContacto.setColumns(10);
 		}
 		return txtFieldInfoContacto;
+	}
+	private JLabel getLblUrgente() {
+		if (lblUrgente == null) {
+			lblUrgente = new JLabel("Urgente :");
+			lblUrgente.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lblUrgente.setBounds(83, 478, 191, 29);
+		}
+		return lblUrgente;
+	}
+	private JCheckBox getChckbxUrgente() {
+		if (chckbxUrgente == null) {
+			chckbxUrgente = new JCheckBox("Si");
+			chckbxUrgente.setBounds(321, 485, 33, 23);
+		}
+		return chckbxUrgente;
 	}
 }
