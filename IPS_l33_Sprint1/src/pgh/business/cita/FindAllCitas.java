@@ -11,8 +11,8 @@ import pgh.jdbc.Database;
 
 public class FindAllCitas {
 	
-	private static String SQL = "select idcita, idpaciente, idhorario, fecha, horaInicio, horaFin, ubicacion, asistencia, urgente, infocontacto from Cita";
-		
+private static String SQL = "select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto from Cita";
+	
 	Database db = new Database();
 	
 		public List<CitaDTO> execute() {
@@ -35,10 +35,8 @@ public class FindAllCitas {
 					cita.idCita = rs.getInt("idcita");
 					cita.idPaciente  = rs.getInt("idpaciente");
 					cita.idHorario  = rs.getInt("idhorario");
+					cita.idUbicacion  = rs.getInt("idubicacion");
 					cita.fecha=rs.getDate("fecha");
-					cita.horaInicio=rs.getString("horainicio");
-					cita.horaFin=rs.getString("horafin");
-					cita.ubicacion=rs.getString("ubicacion");
 					cita.asistencia=rs.getBoolean("asistencia");
 					cita.urgente=rs.getBoolean("urgente");
 					cita.infocontacto=rs.getString("infocontacto");

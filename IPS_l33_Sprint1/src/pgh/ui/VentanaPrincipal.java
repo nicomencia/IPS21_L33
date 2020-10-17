@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
+import pgh.business.cita.FindAllCitas;
+import pgh.business.cita.ListaCitas;
 import pgh.business.medicamento.CrearMedicamento;
 import pgh.business.medicamento.Medicamento;
 import pgh.business.medicamento.MedicamentoDTO;
@@ -26,6 +28,8 @@ import pgh.business.prescripcion.PrescripcionDTO;
 import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
+import pgh.business.ubicacion.ListaUbicaciones;
+import pgh.business.ubicacion.Ubicacion;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -106,6 +110,7 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox comboBoxDiaDia;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
+	private ListaUbicaciones lu;
 	private JPanel panelJornadasMedico;
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
@@ -149,6 +154,7 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<String> modeloListDiasSeleccionadosJornadaMedico;
 	private DefaultListModel<Medico> modeloListMedicosSeleccionadosJornada;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
+	private DefaultComboBoxModel<Ubicacion> modeloComboUbicacionesCita;
 	private JScrollPane scrollPane_1;
 	private JList listPacientesCita;
 	private CitaDTO citaDTO;
@@ -635,20 +641,30 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return lblUbicacion;
 	}
+	
 	private JComboBox getComboBoxUbicacion() {
 		if (comboBoxUbicacion == null) {
-			comboBoxUbicacion = new JComboBox();
+			modeloComboUbicacionesCita = new DefaultComboBoxModel<Ubicacion>();
+			comboBoxUbicacion = new JComboBox(modeloComboUbicacionesCita);
+			anadirUbicacionesCitas();
+			
 			comboBoxUbicacion.setFocusable(false);
 			comboBoxUbicacion.setBounds(320, 380, 347, 22);
-			String[] consultas = new String[10];
-			for(int i=0; i<consultas.length;i++) {
-				int suma =i+1;
-				consultas[i]="Consulta " + suma;
-			}
-			comboBoxUbicacion.setModel(new DefaultComboBoxModel<String>(consultas));
 		}
 		return comboBoxUbicacion;
 	}
+	
+	private void anadirUbicacionesCitas() {
+			
+			lu = new ListaUbicaciones();
+			lu.creaListaUbicaciones();
+			
+		    for(Ubicacion u : lu.getUbicacion()) {
+
+		    	modeloComboUbicacionesCita.addElement((Ubicacion)u);
+		    }
+			
+		}
 	
 	private JComboBox getComboBoxHorasFinCita() {
 		if (comboBoxHorasFinCita == null) {
@@ -757,65 +773,44 @@ public class VentanaPrincipal extends JFrame {
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
-					int idPaciente= paciente.getIdPaciente();
+				crearCitas = new CrearCitas();
+				citaDTO = new CitaDTO();
+				 
+				citaDTO.idCita = generarIdCita();
+				
+				Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
+				int idPaciente = paciente.getIdPaciente();
+				citaDTO.idPaciente = idPaciente;
+				 
+				SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
+				Date date;
+				try {
+					date = dateformat3.parse("2021/03/27");
+					citaDTO.fecha=date;
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+					 
+				citaDTO.asistencia = false;
+				citaDTO.urgente = false;
+				citaDTO.infocontacto = "todo";
+				citaDTO.idHorario = 6001;
+				
+				Ubicacion ubicacion = (Ubicacion) comboBoxUbicacion.getSelectedItem();
+				int idUbicacion = ubicacion.getIdUbicacion();
+				citaDTO.idUbicacion = idUbicacion;
+					 
+				cita = new Cita(citaDTO);
+				crearCitas.crearCita(cita);
+
+					 
+				}
+
+				private int generarIdCita() {
+					ListaCitas lc = new ListaCitas();
+					lc.creaListaCitas();
 					
-					 List<CitaDTO> citasDto = new ArrayList<CitaDTO>();
-					 List<Cita> citas = new ArrayList<Cita>();
-					
-					 crearCitas = new CrearCitas();
-					 citaDTO = new CitaDTO();
-					 
-					 citaDTO.idCita=400;
-
-					      
-					 //VALORES PARA QUE METAIS VUESTRA PARTE DE CREAR CITA
-					 
-					 citaDTO.asistencia=false;
-					 citaDTO.horaInicio="10:00";
-					 citaDTO.horaFin="10:30";
-					 citaDTO.idPaciente= idPaciente;
-					 citaDTO.ubicacion="Consulta 2";
-					 
-						
-					 
-					 SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
-					 Date date;
-					 try {
-						date = dateformat3.parse("2021/03/27");
-						citaDTO.fecha=date;
-					 } catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					 }
-					 
-
-					 
-//						 cita = new Cita(citaDTO);
-	 
-						 //ASEGURARSE DE QUE EN EL CITADTO ESTAN TODOS LOS VALORES DE LA TABLA CITA ANTES DE CREAR LA CITA
-//						 crearCitas.crearCita(cita);
-					 
-					 //HISTORIA ALBERTO 
-//					 for(int i=0; i<modeloListMedicosAnadidos.getSize(); i++) {
-//						 
-//						 
-//						 medicoCitaDTO= new MedicoCitaDTO(); 
-//						 
-//						 medicoCitaDTO.idCita=4000;  //el id cita de la cita creada previamente
-//						 Medico m = modeloListMedicosAnadidos.getElementAt(i);
-//						 medicoCitaDTO.idMedico = m.getIdMedico();
-//						 
-//						 medicoCita = new MedicoCita(medicoCitaDTO);
-//						 crearMedicoCita = new CrearMedicoCita();
-//						 
-//						 crearMedicoCita.crearMedicoCita(medicoCita);
-//						 			 
-//						 
-//					 }
-
-
-					 
+					return 4000 + lc.getCitas().size();
 				}
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
