@@ -48,6 +48,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -55,6 +56,14 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.JScrollPane;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
@@ -74,6 +83,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
 import javax.swing.JTextPane;
 import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -148,7 +158,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAnadirMedicos;
 	private JList listMedicos;
 	private JScrollPane scrollPaneMedicosAnadidos;
-	private JList listMedicosAnadidos;
+	private JList<Medico> listMedicosAnadidos;
 	private DefaultListModel<Medico> modeloListMedicos;
 	private DefaultListModel<Medico> modeloListMedicosAnadidos;
 	private DefaultListModel<Paciente> modeloListPacientesCita;
@@ -250,6 +260,8 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnSiguienteLogin;
 	private JLabel lblInfocontacto;
 	private JTextField txtFieldInfoContacto;
+	private JLabel lblUrgente;
+	private JCheckBox chckbxUrgente;
 
 	/**
 	 * Launch the application.
@@ -584,6 +596,8 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas.add(getScrollPanePacienteSeleccionado());
 			panelCitas.add(getLblInfocontacto());
 			panelCitas.add(getTxtFieldInfoContacto());
+			panelCitas.add(getLblUrgente());
+			panelCitas.add(getChckbxUrgente());
 		}
 		return panelCitas;
 	}
@@ -801,7 +815,11 @@ public class VentanaPrincipal extends JFrame {
 					}
 						 
 					citaDTO.asistencia = false;
-					citaDTO.urgente = false;
+					
+					if (chckbxUrgente.isSelected()) {
+						citaDTO.urgente = true;
+					} else 
+						citaDTO.urgente = false;
 					
 					citaDTO.infocontacto = txtFieldInfoContacto.getText();
 					
@@ -816,14 +834,87 @@ public class VentanaPrincipal extends JFrame {
 						int a = JOptionPane.showConfirmDialog(getPanelCitas(), "La ubicación está ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
 						
 						if (a==JOptionPane.OK_OPTION) {
+							
+							if (citaDTO.urgente) {
+								mandarEmailMedicosCita();
+							}
+							
 							cita = new Cita(citaDTO);
 							crearCitas.crearCita(cita);
 						}
 					} else {
+						
+						if (citaDTO.urgente) {
+							mandarEmailMedicosCita();
+						}
+						
 						cita = new Cita(citaDTO);
 						crearCitas.crearCita(cita);
 					}
 	
+					}
+
+					private void mandarEmailMedicosCita() {
+						
+						for(int i = 0; i< listMedicosAnadidos.getModel().getSize();i++){
+							mandarEmail(listMedicosAnadidos.getModel().getElementAt(i));
+				        }
+					
+					}
+
+					private void mandarEmail(Medico m){
+						
+						Properties props = new Properties();
+
+						props.setProperty("mail.smtp.host", "smtp.gmail.com");
+						props.setProperty("mail.smtp.starttls.enable", "true");
+						props.setProperty("mail.smtp.port","587");
+						props.setProperty("mail.smtp.auth", "true");
+						
+						Session session = Session.getInstance(props,
+				                new javax.mail.Authenticator() {
+		                    protected PasswordAuthentication getPasswordAuthentication() {
+		                        return new PasswordAuthentication("ips.l33.hospital@gmail.com", "IPSl33**__");
+		                    }
+		                });
+						session.setDebug(true);
+						
+						MimeMessage message = new MimeMessage(session);
+						
+						try {
+							message.setFrom(new InternetAddress("ips.l33.hospital@gmail.com"));
+	
+							message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
+	
+							message.setSubject("Cita urgente nº " + citaDTO.idCita);
+							message.setText("Buenos días "+m.getNombreMedico()+" "+m.getApellidosMedico()+". \n"
+									+ "Este es un recordatorio de que tiene una cita urgente con identificador " + citaDTO.idCita
+									+ " el día "+ citaDTO.fecha.toString() + ".\n"
+									+ "La ubicación de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
+							
+							Transport t = session.getTransport("smtp");
+	
+							t.connect("ips.l33.hospital@gmail.com","IPSl33**__");
+	
+							t.sendMessage(message,message.getAllRecipients());
+							
+							t.close();
+						
+						} catch(AddressException ae) {
+							ae.printStackTrace();
+						} catch(MessagingException me) {
+							me.printStackTrace();
+						}
+						System.out.println("Mandado email a " + m.getNombreMedico() + " " + m.getApellidosMedico() + "  (" + m.getEmailMedico() + ")");
+					}
+
+					private String getUbicacionNombreCita(int idUbicacion) {
+						String ubicacion = "No disponible";
+						for (Ubicacion u : lu.getUbicacion()) {
+							if (u.getIdUbicacion()==idUbicacion)
+								ubicacion=u.getNombreUbicacion();
+						}
+						return ubicacion;
 					}
 
 					private boolean comprobarDisponibilidad(int idUbicacion, int idHorario, Date fecha) {
@@ -840,7 +931,7 @@ public class VentanaPrincipal extends JFrame {
 					}
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearCita.setBounds(719, 468, 125, 23);
+			btnCrearCita.setBounds(729, 481, 125, 23);
 		}
 		return btnCrearCita;
 	}
@@ -854,7 +945,7 @@ public class VentanaPrincipal extends JFrame {
 				}
 			});
 			btncancelarCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btncancelarCita.setBounds(854, 468, 116, 23);
+			btncancelarCita.setBounds(864, 481, 116, 23);
 		}
 		return btncancelarCita;
 	}
@@ -2187,5 +2278,20 @@ public class VentanaPrincipal extends JFrame {
 			txtFieldInfoContacto.setColumns(10);
 		}
 		return txtFieldInfoContacto;
+	}
+	private JLabel getLblUrgente() {
+		if (lblUrgente == null) {
+			lblUrgente = new JLabel("Urgente :");
+			lblUrgente.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lblUrgente.setBounds(83, 478, 191, 29);
+		}
+		return lblUrgente;
+	}
+	private JCheckBox getChckbxUrgente() {
+		if (chckbxUrgente == null) {
+			chckbxUrgente = new JCheckBox("Si");
+			chckbxUrgente.setBounds(321, 485, 41, 23);
+		}
+		return chckbxUrgente;
 	}
 }
