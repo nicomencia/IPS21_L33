@@ -61,6 +61,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JRadioButton;
 import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 
 import org.hsqldb.lib.tar.RB;
 
@@ -162,6 +163,7 @@ public class VentanaPrincipal extends JFrame {
 	private CitaDTO citaDTO;
 	private Cita cita;
 	private CrearCitas crearCitas;
+	private ListaCitas lc;
 	private JButton btnAnadirPacienteListaCita;
 	private JScrollPane scrollPanePacienteSeleccionado;
 	private JList listPacienteSeleccionado;
@@ -248,7 +250,6 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnSiguienteLogin;
 	private JLabel lblInfocontacto;
 	private JTextField txtFieldInfoContacto;
-	
 
 	/**
 	 * Launch the application.
@@ -648,10 +649,12 @@ public class VentanaPrincipal extends JFrame {
 		return lblUbicacion;
 	}
 	
-	private JComboBox getComboBoxUbicacion() {
+	private JComboBox<Ubicacion> getComboBoxUbicacion() {
 		if (comboBoxUbicacion == null) {
 			modeloComboUbicacionesCita = new DefaultComboBoxModel<Ubicacion>();
-			comboBoxUbicacion = new JComboBox(modeloComboUbicacionesCita);
+			comboBoxUbicacion = new JComboBox<Ubicacion>(modeloComboUbicacionesCita);
+			comboBoxUbicacion.setEditable(true);
+			
 			anadirUbicacionesCitas();
 			
 			comboBoxUbicacion.setFocusable(false);
@@ -667,11 +670,10 @@ public class VentanaPrincipal extends JFrame {
 			
 		    for(Ubicacion u : lu.getUbicacion()) {
 
-		    	modeloComboUbicacionesCita.addElement((Ubicacion)u);
+		    	modeloComboUbicacionesCita.addElement(u);
 		    }
-			
-		}
-	
+	}
+
 	private JComboBox getComboBoxHorasFinCita() {
 		if (comboBoxHorasFinCita == null) {
 			comboBoxHorasFinCita = new JComboBox();
@@ -778,7 +780,8 @@ public class VentanaPrincipal extends JFrame {
 			btnCrearCita.setFocusable(false);
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					lc = new ListaCitas();
+					lc.creaListaCitas();
 					crearCitas = new CrearCitas();
 					citaDTO = new CitaDTO();
 					 
@@ -789,7 +792,7 @@ public class VentanaPrincipal extends JFrame {
 					citaDTO.idPaciente = idPaciente;
 					 
 					SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
-					Date date;
+					Date date = new Date();
 					try {
 						date = dateformat3.parse("2021/03/27");
 						citaDTO.fecha=date;
@@ -802,22 +805,37 @@ public class VentanaPrincipal extends JFrame {
 					
 					citaDTO.infocontacto = txtFieldInfoContacto.getText();
 					
-					citaDTO.idHorario = 6001;
+					int idHorario = 6002;
+					citaDTO.idHorario = idHorario;
 					
 					Ubicacion ubicacion = (Ubicacion) comboBoxUbicacion.getSelectedItem();
 					int idUbicacion = ubicacion.getIdUbicacion();
 					citaDTO.idUbicacion = idUbicacion;
-						 
-					cita = new Cita(citaDTO);
-					crearCitas.crearCita(cita);
+					
+					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
+						int a = JOptionPane.showConfirmDialog(getPanelCitas(), "La ubicación está ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
+						
+						if (a==JOptionPane.OK_OPTION) {
+							cita = new Cita(citaDTO);
+							crearCitas.crearCita(cita);
+						}
+					} else {
+						cita = new Cita(citaDTO);
+						crearCitas.crearCita(cita);
+					}
 	
-						 
+					}
+
+					private boolean comprobarDisponibilidad(int idUbicacion, int idHorario, Date fecha) {
+						for (Cita cita : lc.getCitas()) {
+							if (cita.getIdUbicacion() == idUbicacion && cita.getIdHorario() == idHorario && cita.getDate().equals(fecha)) {
+								return true;
+							}
+						}
+						return false;
 					}
 
 					private int generarIdCita() {
-						ListaCitas lc = new ListaCitas();
-						lc.creaListaCitas();
-						
 						return 4000 + lc.getCitas().size();
 					}
 			});

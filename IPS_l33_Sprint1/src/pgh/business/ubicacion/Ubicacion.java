@@ -4,7 +4,6 @@ public class Ubicacion {
 
 	UbicacionDTO u; 
 	
-
 	public Ubicacion (UbicacionDTO ubicacion) {
 		u = ubicacion;
 	}
@@ -18,7 +17,6 @@ public class Ubicacion {
 	}
 	
 	public String toString() {
-		
 		return u.nombre;
 	}
 	
