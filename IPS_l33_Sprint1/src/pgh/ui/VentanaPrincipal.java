@@ -71,6 +71,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
+import javax.swing.JTextPane;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -244,6 +245,8 @@ public class VentanaPrincipal extends JFrame {
 	private JList listMedicoLogueado;
 	private JButton btnEliminarMedicoLogueado;
 	private JButton btnSiguienteLogin;
+	private JLabel lblInfocontacto;
+	private JTextField textField;
 	
 
 	/**
@@ -577,6 +580,8 @@ public class VentanaPrincipal extends JFrame {
 			panelCitas.add(getScrollPane_1());
 			panelCitas.add(getBtnAnadirPacienteListaCita());
 			panelCitas.add(getScrollPanePacienteSeleccionado());
+			panelCitas.add(getLblInfocontacto());
+			panelCitas.add(getTextField());
 		}
 		return panelCitas;
 	}
@@ -2141,5 +2146,22 @@ public class VentanaPrincipal extends JFrame {
 			btnSiguienteLogin.setBounds(889, 502, 89, 23);
 		}
 		return btnSiguienteLogin;
+	}
+	private JLabel getLblInfocontacto() {
+		if (lblInfocontacto == null) {
+			lblInfocontacto = new JLabel("Informaci\u00F3n contacto :");
+			lblInfocontacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lblInfocontacto.setBounds(83, 441, 235, 22);
+		}
+		return lblInfocontacto;
+	}
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			textField.setBounds(321, 443, 346, 20);
+			textField.setColumns(10);
+		}
+		return textField;
 	}
 }
