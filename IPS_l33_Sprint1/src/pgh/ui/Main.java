@@ -1,6 +1,23 @@
 package pgh.ui;
 
+
+import pgh.business.causa.ListaCausas;
+import pgh.business.cita.ListaCitas;
+import pgh.business.diagnostico.ListaDiagnosticos;
+import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.historial.ListaHistorial;
+import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
+import pgh.business.jornadamedico.ListaJornadasMedico;
+import pgh.business.medicamento.ListaMedicamentos;
+import pgh.business.medico.ListaMedicos;
+import pgh.business.medicocita.ListaMedicoCita;
+import pgh.business.paciente.ListaPacientes;
+import pgh.business.prescripcion.ListaPrescripciones;
+import pgh.business.vacacionesenfermero.ListaVacacionesEnfermero;
+import pgh.business.vacacionesmedico.ListaVacacionesMedico;
+
 import pgh.business.ubicacion.ListaUbicaciones;
+
 
 public class Main {
 
@@ -11,9 +28,11 @@ public class Main {
 	//	lm.listarMedicos();
 		
 		
-	//	ListaCitas lp = new ListaCitas();
-	//	lp.listarCitas();
-		
+
+//		ListaCitas lp = new ListaCitas();
+//		lp.creaCitas();
+//		lp.ListarCitas();
+
 //		ListaCausas l = new ListaCausas();
 //		l.listarCausas();
 		

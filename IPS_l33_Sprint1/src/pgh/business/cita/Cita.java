@@ -1,6 +1,7 @@
 package pgh.business.cita;
 
 import java.util.Date;
+import java.util.List;
 
 public class Cita {
 	
@@ -24,6 +25,7 @@ public class Cita {
 		return c.fecha;
 	}
 	
+
 	public boolean getAsistencia() {
 		return c.asistencia;
 	}
@@ -40,8 +42,20 @@ public class Cita {
 		return c.idHorario;
 	}
 	
+	public String toString() {
+		
+		StringBuilder sb =new StringBuilder();
+		sb.append("Cita del dia " + getDate() + " con el paciente elegido");
+		return sb.toString();
+	}
+
 	public int getIdUbicacion() {
 		return c.idUbicacion;
 	}
+	
+	
+	
+	
+	
 
 }

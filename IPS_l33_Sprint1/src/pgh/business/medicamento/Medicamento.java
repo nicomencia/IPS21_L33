@@ -42,5 +42,20 @@ public class Medicamento {
 			
 		}
 
+		public String getNombre() {
+			return m.nombre;
+		}
+
+		public String getAnotacion() {
+			return m.anotacion;
+		}
+
+		@Override
+		public String toString() {
+			return "Nombre: " + m.nombre + " Cantidad: "+ m.cantidad + " Duracion: " + m.duracion + " Intervalo: " + m.intervalo + " Anotacion: " + m.anotacion;
+		}
+		
+		
+
 
 }
