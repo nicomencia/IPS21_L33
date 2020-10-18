@@ -18,21 +18,6 @@ public class ListaCitas {
 		return citas;
 	}
 
-
-		List<CitaDTO> result;
-		
-		List<Cita> citas = new ArrayList<Cita>();
-		
-		
-		public ListaCitas () {
-			result = new FindAllCitas().execute();
-			
-		}
-		
-		public List<Cita> getCitas(){
-			return citas;
-		}
-
 		
 		public void creaCitas() {
 			
@@ -63,6 +48,6 @@ public class ListaCitas {
 		
 		
 		
-	
+	}
 	
 }
