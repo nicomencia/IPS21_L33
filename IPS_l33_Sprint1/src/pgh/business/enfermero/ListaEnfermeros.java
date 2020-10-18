@@ -1,18 +1,42 @@
 package pgh.business.enfermero;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class ListaEnfermeros {
 
-	public void listarEnfermeros() {
+	List<Enfermero> enfermeros = new ArrayList<Enfermero>();
+	List<EnfermeroDTO> result ;
+	
+	public ListaEnfermeros() {
 		
-		List<EnfermeroDTO> result = new FindAllEnfermeros().execute();
+		result = new FindAllEnfermeros().execute();
+	
+	}
+	
+	public List<Enfermero> getEnfermeros(){
+		return enfermeros;
+	}
+
+	
+	public void creaListaEnfermeros() {
 		
-		for(EnfermeroDTO e : result) {
-			System.out.println(e.idEnfermero);
-			System.out.println(e.nombre);
-			System.out.println(e.apellidos);
+		for(EnfermeroDTO m : result) {
+			Enfermero enfermero = new Enfermero(m);
+			enfermeros.add(enfermero);
 		}
+	}
+	
+	
+	public void listarEnfermeros() {
+
+		for(EnfermeroDTO m : result) {
+			System.out.println(m.nombre);
+			System.out.println(m.apellidos);
+		}
+		
 	}
 	
 }

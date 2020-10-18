@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class VacacionesEnfermeroDTO {
 
-	public String idVacacionesEnfermero;
-	public String idEnfermero;
+	public int idVacacionesEnfermero;
+	public int idEnfermero;
 	public Date diaInicio;
 	public Date diaFin;
 	

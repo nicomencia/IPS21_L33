@@ -31,7 +31,7 @@ public class FindAllEnfermeros {
 				enfermeros = new ArrayList<>();
 				while(rs.next()) {
 					EnfermeroDTO enfermero = new EnfermeroDTO();
-					enfermero.idEnfermero = rs.getString("idEnfermero");
+					enfermero.idEnfermero = rs.getInt("idEnfermero");
 					enfermero.nombre=rs.getString("nombre");
 					enfermero.apellidos=rs.getString("apellidos");
 					enfermeros.add(enfermero);

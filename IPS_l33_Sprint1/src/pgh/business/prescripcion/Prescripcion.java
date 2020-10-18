@@ -1,5 +1,6 @@
 package pgh.business.prescripcion;
 
+import java.util.Date;
 
 public class Prescripcion {
 	
@@ -11,17 +12,12 @@ public class Prescripcion {
 	    	
 	 }
 	
-	public String getIdPrescripcion() {
+	public int getIdPrescripcion() {
 			
 		return p.idPrescripcion;
 			
 	}
 		
-	public String getIdPaciente() {
-			
-		return p.idPaciente;
-			
-	}
 		
 	public String getInstruccion() {
 			
@@ -35,17 +31,27 @@ public class Prescripcion {
 		
 	}
 		
-	public String getDiaAsignacion() {
+	public Date getDiaAsignacion() {
 		
 		return p.diaAsignacion;
 			
+	}
+	
+	public boolean esMedicamento() {
+		return p.esMedicamento;
 	}
 	
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
 
-		sb.append( getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion());
+		if(esMedicamento()) {
+			sb.append("Medicamento : "+ getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion() );
+		}
+		else {
+			sb.append("No medicamento : " + getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion() );
+		}
+		
 		
 		return sb.toString();
 		

@@ -12,13 +12,13 @@ public class JornadaMedico {
 	
 	}
 	
-    public String getIdJornadaMedico() {
+    public int getIdJornadaMedico() {
 		
 		return jm.idJornadaMedico;
 		
 	}
 	
-	public String getIdMedico() {
+	public int getIdMedico() {
 		
 		return jm.idMedico;
 		
@@ -45,6 +45,12 @@ public class JornadaMedico {
 	public String getIdHoraInicio() {
 		
 		return jm.horaInicio;
+		
+	}
+	
+   public String getIdHoraFin() {
+		
+		return jm.horaFin;
 		
 	}
 

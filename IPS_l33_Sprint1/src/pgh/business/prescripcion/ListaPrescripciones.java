@@ -33,7 +33,6 @@ public class ListaPrescripciones {
 		
 		for (PrescripcionDTO p : result) {
 			System.out.println(p.idPrescripcion);
-			System.out.println(p.idPaciente);
 			System.out.println(p.instruccion);
 			System.out.println(p.horaAsignacion);
 			System.out.println(p.diaAsignacion);

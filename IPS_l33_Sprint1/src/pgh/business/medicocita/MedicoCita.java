@@ -11,13 +11,13 @@ public class MedicoCita {
 		
 	}
 	
-	public String getIdCita() {
+	public int getIdCita() {
 		
 		return mc.idCita;
 		
 	}
 	
-    public String getIdMedico() {
+    public int getIdMedico() {
 		
 		return mc.idMedico;
 		

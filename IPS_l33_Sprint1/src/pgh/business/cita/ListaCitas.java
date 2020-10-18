@@ -1,23 +1,43 @@
 package pgh.business.cita;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class ListaCitas {
 
-	public void listarCitas() {
-	
-		List<CitaDTO> result = new FindAllCitas().execute();
+		List<CitaDTO> result;
 		
-		for(CitaDTO c : result) {
-			System.out.println(c.idCita);
-			System.out.println(c.idPaciente);
-			System.out.println(c.idmedico);
-			System.out.println(c.fecha);
-			System.out.println(c.horaInicio);
-			System.out.println(c.horaFin);
-			System.out.println(c.ubicacion);
-			System.out.println(c.asistencia);
+		List<Cita> citas = new ArrayList<Cita>();
+		
+		
+		public ListaCitas () {
+			result = new FindAllCitas().execute();
+			
 		}
-	}
+		
+		public List<Cita> getCitas(){
+			return citas;
+		}
+
+		
+		public void creaCitas() {
+			
+			for(CitaDTO c : result) {
+				Cita cita = new Cita(c);
+				citas.add(cita);
+			}
+		}
+		
+		public void ListarCitas() {
+			
+			for(CitaDTO c : result) {
+				System.out.println(c.idCita);
+			}
+		}
+		
+		
+		
+	
 	
 }

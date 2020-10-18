@@ -11,13 +11,13 @@ public class Medicamento {
 		this.m = md;
 	}
 	
-	  public String getIdMedicamento() {
+	  public int getIdMedicamento() {
 			
 			return m.idMedicamento;
 			
 		}
 		
-		public String getIdPrescripcion() {
+		public int getIdPrescripcion() {
 			
 			return m.idPrescripcion;
 			
@@ -41,6 +41,21 @@ public class Medicamento {
 			return m.duracion;
 			
 		}
+
+		public String getNombre() {
+			return m.nombre;
+		}
+
+		public String getAnotacion() {
+			return m.anotacion;
+		}
+
+		@Override
+		public String toString() {
+			return "Nombre: " + m.nombre + " Cantidad: "+ m.cantidad + " Duracion: " + m.duracion + " Intervalo: " + m.intervalo + " Anotacion: " + m.anotacion;
+		}
+		
+		
 
 
 }

@@ -11,8 +11,11 @@ import pgh.jdbc.Database;
 
 public class FindAllCitas {
 	
-	private static String SQL = "select idcita, id_paciente, idmedico, fecha, horaInicio, horaFin, ubicacion, asistencia from Cita";
-		
+	
+	private static String SQL2 = "select idcita, fecha, asistencia from CITA where idpaciente = ? AND idcita in (select idcita from MEDICO_CITAS where idmedico=?)";
+	
+	private static String SQL = "select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto from Cita";
+	
 	Database db = new Database();
 	
 		public List<CitaDTO> execute() {
@@ -32,15 +35,14 @@ public class FindAllCitas {
 				citas = new ArrayList<>();
 				while(rs.next()) {
 					CitaDTO cita = new CitaDTO();
-					cita.idCita = rs.getString("idcita");
-					cita.idPaciente  = rs.getString("id_paciente");
-					cita.idmedico=rs.getString("idmedico");
+					cita.idCita = rs.getInt("idcita");
+					cita.idPaciente  = rs.getInt("idpaciente");
+					cita.idHorario  = rs.getInt("idhorario");
+					cita.idUbicacion  = rs.getInt("idubicacion");
 					cita.fecha=rs.getDate("fecha");
-					System.out.print(cita.fecha);
-					cita.horaInicio=rs.getString("horainicio");
-					cita.horaFin=rs.getString("horafin");
-					cita.ubicacion=rs.getString("ubicacion");
 					cita.asistencia=rs.getBoolean("asistencia");
+					cita.urgente=rs.getBoolean("urgente");
+					cita.infocontacto=rs.getString("infocontacto");
 					citas.add(cita);
 				}
 			} catch (SQLException e) {
@@ -49,6 +51,45 @@ public class FindAllCitas {
 			finally {
 				db.close(rs, pst, c);
 			}
+			return citas;
+		}
+		
+		public List<CitaDTO> FindIdCita( int idMedico, int idPaciente) {
+			
+			
+			List<CitaDTO> citas = new ArrayList<CitaDTO>();
+			
+			Connection c = null;
+			PreparedStatement pst = null;
+			ResultSet rs = null;
+	
+			try {
+				c = db.getConnection();
+				
+				pst = c.prepareStatement(SQL2);
+							
+				pst.setInt(1, idPaciente);
+				pst.setInt(2, idMedico);
+				
+				rs = pst.executeQuery();
+
+				while(rs.next()) {
+					CitaDTO cita = new CitaDTO();
+					cita.idCita=rs.getInt("idcita");	
+					cita.fecha=rs.getDate("fecha");
+					cita.asistencia=rs.getBoolean("asistencia");
+					citas.add(cita);
+				}
+				
+			
+				
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				db.close(rs, pst, c);
+			}
+			
 			return citas;
 		}
 	

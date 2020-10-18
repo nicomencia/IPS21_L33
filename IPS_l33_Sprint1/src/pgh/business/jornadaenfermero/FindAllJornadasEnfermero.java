@@ -31,8 +31,8 @@ public class FindAllJornadasEnfermero {
 				jornadasEnfermero = new ArrayList<>();
 				while(rs.next()) {
 					JornadaEnfermeroDTO jornadaEnfermero = new JornadaEnfermeroDTO();
-					jornadaEnfermero.idJornadaEnfermero = rs.getString("idJornada_Enfermero");
-					jornadaEnfermero.idEnfermero = rs.getString("idEnfermero");
+					jornadaEnfermero.idJornadaEnfermero = rs.getInt("idJornada_Enfermero");
+					jornadaEnfermero.idEnfermero = rs.getInt("idEnfermero");
 					jornadaEnfermero.dias = rs.getString("dias");
 					jornadaEnfermero.diaInicio = rs.getDate("dia_Inicio");
 					jornadaEnfermero.diaFin = rs.getDate("dia_Fin");

@@ -10,7 +10,7 @@ public class Medico {
 		m=medico;
 	}
 	
-	public String getIdMedico() {
+	public int getIdMedico() {
 		return m.idMedico;
 	}
 	

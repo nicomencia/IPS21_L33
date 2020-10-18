@@ -1,7 +1,6 @@
 package pgh.ui;
 
 import pgh.business.causa.ListaCausas;
-import pgh.business.causahistorial.ListaCausaHistorial;
 import pgh.business.cita.ListaCitas;
 import pgh.business.diagnostico.ListaDiagnosticos;
 import pgh.business.enfermero.ListaEnfermeros;
@@ -25,8 +24,9 @@ public class Main {
 	//	lm.listarMedicos();
 		
 		
-	//	ListaCitas lp = new ListaCitas();
-	//	lp.listarCitas();
+//		ListaCitas lp = new ListaCitas();
+//		lp.creaCitas();
+//		lp.ListarCitas();
 		
 //		ListaCausas l = new ListaCausas();
 //		l.listarCausas();
@@ -55,8 +55,8 @@ public class Main {
 //		ListaMedicamentos l = new ListaMedicamentos();
 //		l.listarMedicamentos();
 		
-		ListaPacientes l = new ListaPacientes();
-		l.listarPacientes();
+//		ListaPacientes l = new ListaPacientes();
+//		l.listarPacientes();
 		
 //		ListaPrescripciones l = new ListaPrescripciones();
 //		l.listarPrescripciones();

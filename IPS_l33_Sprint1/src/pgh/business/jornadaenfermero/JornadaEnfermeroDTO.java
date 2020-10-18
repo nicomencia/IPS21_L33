@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class JornadaEnfermeroDTO {
 
-	public String idJornadaEnfermero;
-	public String idEnfermero;
+	public int idJornadaEnfermero;
+	public int idEnfermero;
 	public String dias;
 	public Date diaInicio;
 	public Date diaFin;

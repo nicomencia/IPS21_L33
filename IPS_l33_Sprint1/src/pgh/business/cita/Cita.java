@@ -13,37 +13,49 @@ public class Cita {
 		
 	}
 	
-	public String getIdCita() {
+	public int getIdCita() {
 		return c.idCita;
 	}
 	
-	public String getIdPaciente() {
+	public int getIdPaciente() {
 		return c.idPaciente;
 	}
 	
-	public String getIdMedico() {
-		return c.idmedico;
-	}
-
 	public Date getDate() {
 		return c.fecha;
 	}
 	
-	public String getHoraInicio() {
-		return c.horaInicio;
-	}
-	
-	public String getHoraFinal() {
-		return c.horaFin;
-	}
-	
-	public String getUbicacion() {
-		return c.ubicacion;
-	}
 	
 	public boolean getAsistencia() {
 		return c.asistencia;
 	}
+
+	public boolean getUrgente() {
+		return c.urgente;
+	}
+
+	public String infoContacto() {
+		return c.infocontacto;
+	}
+
+	
+	public int getIdHorario() {
+		return c.idHorario;
+	}
+	
+	public String toString() {
+		
+		StringBuilder sb =new StringBuilder();
+		sb.append("Cita del dia " + getDate() + " con el paciente elegido");
+		return sb.toString();
+	}
+
+	public int getIdUbicacion() {
+		return c.idUbicacion;
+	}
+	
+	
+	
 	
 	
 

@@ -31,8 +31,8 @@ public class FindAllVacacionesMedico {
 				vacacionesMedicos = new ArrayList<>();
 				while(rs.next()) {
 					VacacionesMedicoDTO vacacionesMedico = new VacacionesMedicoDTO();
-					vacacionesMedico.idVacacionesMedico = rs.getString("idVacaciones_Medico");
-					vacacionesMedico.idMedico = rs.getString("idMedico");
+					vacacionesMedico.idVacacionesMedico = rs.getInt("idVacaciones_Medico");
+					vacacionesMedico.idMedico = rs.getInt("idMedico");
 					vacacionesMedico.diaInicio = rs.getDate("dia_Inicio");
 					vacacionesMedico.diaFin = rs.getDate("dia_Fin");
 					vacacionesMedicos.add(vacacionesMedico);
