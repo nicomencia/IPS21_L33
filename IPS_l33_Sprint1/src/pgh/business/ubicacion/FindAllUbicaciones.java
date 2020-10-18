@@ -1,4 +1,4 @@
-package pgh.business.medico;
+package pgh.business.ubicacion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +9,14 @@ import java.util.List;
 
 import pgh.jdbc.Database;
 
-public class FindAllMedicos {
+public class FindAllUbicaciones {
+
+	private static String SQL = "select idUbicacion, nombre from Ubicacion";
 	
-	private static String SQL = "select idMedico, nombre, apellidos, email from Medico";
-		
 	Database db = new Database();
 	
-		public List<MedicoDTO> execute() {
-			List<MedicoDTO> medicos;
+		public List<UbicacionDTO> execute() {
+			List<UbicacionDTO> ubicaciones;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -28,14 +28,12 @@ public class FindAllMedicos {
 				pst = c.prepareStatement(SQL);
 				
 				rs = pst.executeQuery();
-				medicos = new ArrayList<>();
+				ubicaciones = new ArrayList<>();
 				while(rs.next()) {
-					MedicoDTO medico = new MedicoDTO();
-					medico.idMedico = rs.getInt("idMedico");
-					medico.nombre=rs.getString("nombre");;
-					medico.apellidos=rs.getString("apellidos");;
-					medico.email=rs.getString("email");
-					medicos.add(medico);
+					UbicacionDTO ubicacion = new UbicacionDTO();
+					ubicacion.idUbicacion = rs.getInt("idUbicacion");
+					ubicacion.nombre=rs.getString("nombre");;
+					ubicaciones.add(ubicacion);
 				}
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -44,7 +42,6 @@ public class FindAllMedicos {
 				db.close(rs, pst, c);
 			}
 			
-			return medicos;
+			return ubicaciones;
 		}
-	
 }

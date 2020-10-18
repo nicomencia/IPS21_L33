@@ -37,7 +37,9 @@ private static String SQL = "Insert into PRESCRIPCION_CITAS_PACIENTE (idPrescrip
 		    pst.close();
 		    c.close();
 		    
+
 		    System.out.print("PrescripcionCitaPaciente creada con exito");
+
 		  
 
 			

@@ -11,10 +11,12 @@ import pgh.jdbc.Database;
 
 public class FindAllCitas {
 	
+
 	
 	private static String SQL2 = "select idcita, fecha, asistencia from CITA where idpaciente = ? AND idcita in (select idcita from MEDICO_CITAS where idmedico=?)";
 	
 	private static String SQL = "select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto from Cita";
+
 	
 	Database db = new Database();
 	

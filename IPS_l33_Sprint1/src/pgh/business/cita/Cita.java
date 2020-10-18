@@ -25,7 +25,7 @@ public class Cita {
 		return c.fecha;
 	}
 	
-	
+
 	public boolean getAsistencia() {
 		return c.asistencia;
 	}
@@ -38,7 +38,6 @@ public class Cita {
 		return c.infocontacto;
 	}
 
-	
 	public int getIdHorario() {
 		return c.idHorario;
 	}
@@ -58,6 +57,5 @@ public class Cita {
 	
 	
 	
-
 
 }

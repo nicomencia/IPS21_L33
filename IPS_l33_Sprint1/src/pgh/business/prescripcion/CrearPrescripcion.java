@@ -24,22 +24,23 @@ Database db = new Database();
 		try {
 			
 			c = db.getConnection();
+
 			
 			java.sql.Date sqlDate = new java.sql.Date(prescripcion.getDiaAsignacion().getTime());
 		
-		    pst = c.prepareStatement(query.toString());
+		  pst = c.prepareStatement(query.toString());
 			pst.setInt(1, prescripcion.getIdPrescripcion());
 			pst.setString(2,prescripcion.getInstruccion());
 			pst.setString(3, prescripcion.getHoraAsignacion());
 			pst.setDate(4,sqlDate);
-            pst.setBoolean(5,prescripcion.esMedicamento());
+      pst.setBoolean(5,prescripcion.esMedicamento());
 			
-		    pst.executeUpdate();	
+		  pst.executeUpdate();	
 		    
-		    pst.close();
-		    c.close();
+		  pst.close();
+		  c.close();
 		    
-		    System.out.print("Prescripcion creada con exito");
+		  System.out.print("Prescripcion creada con exito");
 		  
 
 			

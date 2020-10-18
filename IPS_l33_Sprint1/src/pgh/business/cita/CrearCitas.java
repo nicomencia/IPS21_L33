@@ -1,6 +1,7 @@
 package pgh.business.cita;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,18 +10,21 @@ import java.sql.SQLException;
 
 
 
+
 import pgh.jdbc.Database;
 
 public class CrearCitas {
 	
-	private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto) values (?,?,?,?,?,?,?,?) ";
+
+private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto) values (?,?,?,?,?,?,?,?) ";
+
 	
 	Database db = new Database();
 	
 	public void crearCita(Cita cita) {
 		
 		Connection c = null;
-		ResultSet rs = null;
+
 		PreparedStatement pst = null;
 		StringBuilder query=new StringBuilder();
 		query.append(SQL);
