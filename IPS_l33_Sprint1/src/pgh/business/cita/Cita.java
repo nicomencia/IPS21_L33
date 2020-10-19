@@ -5,11 +5,12 @@ import java.util.Date;
 public class Cita {
 	
 	private CitaDTO c;
+	private ListaCitas l;
 	
 	public Cita(CitaDTO cita) {
 		
 		this.c=cita;
-		
+	
 	}
 	
 	public int getIdCita() {
@@ -42,6 +43,14 @@ public class Cita {
 	
 	public int getIdUbicacion() {
 		return c.idUbicacion;
+	}
+	
+	public String toString()
+	{
+		l = new ListaCitas();
+		l.creaListaCitas();
+		return ("Cita con: " + l.encontrarPacienteCita(c).nombre + " " + l.encontrarPacienteCita(c).apellidos + " Fecha: " + c.fecha + " " + l.encontrarHorarioCita(c).horaInicio + "-" +  l.encontrarHorarioCita(c).horaFin );
+		
 	}
 
 }
