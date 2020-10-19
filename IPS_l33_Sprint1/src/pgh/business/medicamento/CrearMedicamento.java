@@ -7,15 +7,9 @@ import java.sql.SQLException;
 
 import pgh.business.cita.Cita;
 
-import pgh.jdbc.Database;
-
-
 public class CrearMedicamento {
 	
 	private static String SQL = "Insert into Medicamento (idmedicamento, idprescripcion, nombre, cantidad, intervalo, duracion, anotacion) values (?,?,?,?,?,?,?) ";
-
-	Database db = new Database();
-
 	
 	public void crearMedicamento(Medicamento medicamento) {
 		
@@ -27,18 +21,18 @@ public class CrearMedicamento {
 		
 		try {
 			
-
-			c = db.getConnection();	
-			
-		    pst = c.prepareStatement(query.toString());
-			pst.setInt(1, medicamento.getIdMedicamento());
-			pst.setInt(2, medicamento.getIdPrescripcion());
-			pst.setString(3,medicamento.getNombre());
-			pst.setInt(4, medicamento.getCantidad());
-			pst.setString(5,medicamento.getIntervalo());
-			pst.setString(6, medicamento.getDuracion());
-			pst.setString(7, medicamento.getAnotacion());
-
+//			c = db.getConnection();
+//			
+//			
+//			
+//		    pst = c.prepareStatement(query.toString());
+//			pst.setInt(1, medicamento.getIdMedicamento());
+//			pst.setInt(2, medicamento.getIdPrescripcion());
+//			pst.setString(3,medicamento.getNombre());
+//			pst.setInt(4, medicamento.getCantidad());
+//			pst.setString(5,medicamento.getIntervalo());
+//			pst.setString(6, medicamento.getDuracion());
+//			pst.setString(7, medicamento.getAnotacion());
 			
 		    pst.executeUpdate();	
 		    
