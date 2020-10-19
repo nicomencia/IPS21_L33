@@ -12,6 +12,10 @@ import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.cita.ListaCitas;
+import pgh.business.historial.FindAllHistorial;
+import pgh.business.historial.Historial;
+import pgh.business.historial.HistorialDTO;
+import pgh.business.historial.ListaHistorial;
 import pgh.business.horario.Horario;
 import pgh.business.horario.ListaHorarios;
 import pgh.business.medicamento.CrearMedicamento;
@@ -170,6 +174,7 @@ public class VentanaPrincipal extends JFrame {
 	private Cita cita;
 	private CrearCitas crearCitas;
 	private ListaCitas lc;
+	private ListaCitas lcm;
 	private JButton btnAnadirPacienteListaCita;
 	private JScrollPane scrollPanePacienteSeleccionado;
 	private JList listPacienteSeleccionado;
@@ -249,6 +254,7 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Cita> modeloListaCitasHorario;
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
 	private DefaultListModel<Cita> modeloListaCitas;
+	private DefaultListModel<Historial> modeloListaHistorialMedicos;
 	private int id_medico;
 	private JList listMedicosLogin;
 	private JButton btnSeleccionarMedicoLogin;
@@ -267,6 +273,13 @@ public class VentanaPrincipal extends JFrame {
 	private JList listaCitas;
 	private JButton button;
 	private Medico m;
+	private JPanel panelHistorial;
+	private JScrollPane scrollPane_6;
+	private JScrollPane scrollPane_7;
+	private JLabel lblHistoriales;
+	private JLabel lblCausas;
+	private JScrollPane scrollHistorial;
+	private JList listaHistorial;
 
 	/**
 	 * Launch the application.
@@ -320,6 +333,7 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelElegirCita(), "name_98460094904300");
 			panelContenido.add(getPanelLoginMedico(), "name_119791109586100");
 			panelContenido.add(getPanelCita(), "name_9261398518900");
+			panelContenido.add(getPanelHistorial(), "name_84030323687800");
 		}
 		return panelContenido;
 	}
@@ -1617,13 +1631,14 @@ public class VentanaPrincipal extends JFrame {
 			panelCita.setBackground(Color.WHITE);
 			panelCita.setLayout(null);
 			panelCita.add(getPanelCalendario());
+			panelCita.add(getScrollHistorial());
 		}
 		return panelCita;
 	}
 	private JScrollPane getPanelCalendario() {
 		if (panelCalendario == null) {
 			panelCalendario = new JScrollPane();
-			panelCalendario.setBounds(91, 64, 685, 381);
+			panelCalendario.setBounds(104, 23, 685, 236);
 			panelCalendario.setViewportView(getListaCitas());
 		}
 		return panelCalendario;
@@ -2124,14 +2139,8 @@ public class VentanaPrincipal extends JFrame {
 			listaCitas = new JList(modeloListaCitasHorario);
 			listaCitas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			lc = new ListaCitas();
-			if(m!=null)
-			{
-				lc.creaListaCitasMedico(m);
-			}
-			else
-			{
 				lc.creaListaCitas();
-			}
+			
 				
 			for(Cita m : lc.getCitas()) {
 				modeloListaCitasHorario.addElement((Cita)m);
@@ -2139,6 +2148,52 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return listaCitas;
 	}
+	
+	private JScrollPane getScrollHistorial() {
+		if (scrollHistorial == null) {
+			scrollHistorial = new JScrollPane();
+			scrollHistorial.setBounds(104, 290, 685, 225);
+			scrollHistorial.setViewportView(getListaHistorial());
+		}
+		return scrollHistorial;
+	}
+	private JList getListaHistorial() {
+		if (listaHistorial == null) {
+			listaHistorial = new JList();
+			modeloListaHistorialMedicos = new DefaultListModel();
+			ListaHistorial lh = new ListaHistorial();
+			lh.creaListaHistorial();
+			listaHistorial = new JList(modeloListaHistorialMedicos);
+			
+			for(Historial h : lh.getHistorial())
+			{
+				modeloListaHistorialMedicos.addElement((Historial)h);
+			}
+		}
+		return listaHistorial;
+	}
+	
+	private void rellenarListaCitas() {
+		modeloListaCitasHorario.removeAllElements();
+		lcm = new ListaCitas();
+		lcm.creaListaCitasMedico(m);
+		for(Cita m : lcm.getCitas()) {
+			modeloListaCitasHorario.addElement((Cita)m);
+		}
+	}
+	
+	private void rellenarListaHistorial()
+	{
+		modeloListaCitasHorario.removeAllElements();
+		lcm = new ListaCitas();
+		lcm.creaListaCitasMedico(m);
+		for(Cita m : lcm.getCitas()) {
+			modeloListaCitasHorario.addElement((Cita)m);
+		}
+	}
+	
+	
+	
 	private JButton getBtnSeleccionarMedicoLogin() {
 		if (btnSeleccionarMedicoLogin == null) {
 			btnSeleccionarMedicoLogin = new JButton("Seleccionar Medico");
@@ -2150,6 +2205,8 @@ public class VentanaPrincipal extends JFrame {
 								
 								modeloListaMedicosLogueados.addElement((Medico) o);
 								m = (Medico) o;
+								rellenarListaCitas();
+								getListaCitas();
 								
 							}
 						}
@@ -2257,4 +2314,45 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return button;
 	}
+	private JPanel getPanelHistorial() {
+		if (panelHistorial == null) {
+			panelHistorial = new JPanel();
+			panelHistorial.setLayout(null);
+			panelHistorial.setBackground(Color.WHITE);
+			panelHistorial.add(getScrollPane_6());
+			panelHistorial.add(getScrollPane_7());
+			panelHistorial.add(getLblHistoriales());
+			panelHistorial.add(getLblCausas());
+		}
+		return panelHistorial;
+	}
+	private JScrollPane getScrollPane_6() {
+		if (scrollPane_6 == null) {
+			scrollPane_6 = new JScrollPane();
+			scrollPane_6.setBounds(23, 60, 445, 336);
+		}
+		return scrollPane_6;
+	}
+	private JScrollPane getScrollPane_7() {
+		if (scrollPane_7 == null) {
+			scrollPane_7 = new JScrollPane();
+			scrollPane_7.setBounds(528, 60, 551, 336);
+		}
+		return scrollPane_7;
+	}
+	private JLabel getLblHistoriales() {
+		if (lblHistoriales == null) {
+			lblHistoriales = new JLabel("Historiales");
+			lblHistoriales.setBounds(156, 35, 224, 14);
+		}
+		return lblHistoriales;
+	}
+	private JLabel getLblCausas() {
+		if (lblCausas == null) {
+			lblCausas = new JLabel("Causas");
+			lblCausas.setBounds(569, 35, 138, 14);
+		}
+		return lblCausas;
+	}
+	
 }

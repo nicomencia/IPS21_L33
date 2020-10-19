@@ -1,4 +1,4 @@
-package pgh.business.historial;
+package pgh.business.causahistorial;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,16 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.jdbc.Database;
 
-public class FindAllHistorial {
-
-	private static String SQL = "select idHistorial, idpaciente from Historial";
+public class FindAllCausaHistorial {
+private static String SQL = "SELECT idcausa, idhistorial FROM CAUSA_HISTORIAL";
 	
 	Database db = new Database();
 	
-		public List<HistorialDTO> execute() {
-			List<HistorialDTO> historiales;
+		public List<MedicoCitaDTO> execute() {
+			List<MedicoCitaDTO> medicoCitas;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -28,12 +28,12 @@ public class FindAllHistorial {
 				pst = c.prepareStatement(SQL);
 				
 				rs = pst.executeQuery();
-				historiales = new ArrayList<>();
+				medicoCitas = new ArrayList<>();
 				while(rs.next()) {
-					HistorialDTO historial = new HistorialDTO();
-					historial.idHistorial = rs.getInt("idHistorial");
-					historial.idPaciente = rs.getInt("idpaciente");
-					historiales.add(historial);
+					MedicoCitaDTO medicoCita = new MedicoCitaDTO();
+					medicoCita.idCita=rs.getInt("idcita");
+					medicoCita.idMedico = rs.getInt("idmedico");
+					medicoCitas.add(medicoCita);
 				}
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -41,7 +41,8 @@ public class FindAllHistorial {
 			finally {
 				db.close(rs, pst, c);
 			}
-			return historiales;
+			
+			return medicoCitas;
 		}
-	
+		
 }

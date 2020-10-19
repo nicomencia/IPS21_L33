@@ -91,9 +91,14 @@ public class ListaCitas {
 	public void creaListaCitasMedico(Medico m) {
 		
 		for(CitaDTO c : result) {
+			Cita Cita = new Cita(c);
+			citas.remove(Cita);
+		}
+		
+		for(CitaDTO c : result) {
 			for(MedicoCitaDTO  mc : citasMedico)
 			{
-			if((m.getIdMedico() == mc.idMedico) && (mc.idCita == mc.idMedico))
+			if((m.getIdMedico() == mc.idMedico) && (mc.idCita == c.idCita))
 			{
 			Cita Cita = new Cita(c);
 			citas.add(Cita);
