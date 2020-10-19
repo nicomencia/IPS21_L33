@@ -48,8 +48,4 @@ public class JornadaEnfermero {
 		
 	}
 
-	public String getIdHoraFin() {
-		return j.horaFin;
-	}
-
 }

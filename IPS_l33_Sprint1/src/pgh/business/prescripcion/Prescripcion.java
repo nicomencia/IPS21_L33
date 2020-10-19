@@ -37,25 +37,11 @@ public class Prescripcion {
 			
 	}
 	
-
-	public boolean esMedicamento() {
-		return p.esMedicamento;
-	}
-	
-
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
 
-
-		if(esMedicamento()) {
-			sb.append("Medicamento : "+ getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion() );
-		}
-		else {
-			sb.append("No medicamento : " + getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion() );
-		}
-		
-
+		sb.append( getInstruccion() + " - DIA DE ASIGNACION : " +getDiaAsignacion() + " - HORA DE ASIGNACION : " + getHoraAsignacion());
 		
 		return sb.toString();
 		
