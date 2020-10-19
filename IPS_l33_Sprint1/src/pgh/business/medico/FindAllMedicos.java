@@ -46,7 +46,5 @@ public class FindAllMedicos {
 			
 			return medicos;
 		}
-		
-	
 	
 }

@@ -1,27 +1,38 @@
 package pgh.business.enfermero;
 
-public class Enfermero {
 
-	EnfermeroDTO e;
+public class Enfermero {
 	
-	public Enfermero(EnfermeroDTO en) {
-		this.e = en;
+
+	EnfermeroDTO m ;
+	
+	
+	public Enfermero (EnfermeroDTO enfermero) {
+		m=enfermero;
 	}
 	
 	public int getIdEnfermero() {
-		return e.idEnfermero;
+		return m.idEnfermero;
 	}
 	
-	public String getNombre() {
-		return e.nombre;
+	public String getNombreEnfermero() {
+		return m.nombre;
 	}
 	
-	public String getApellidos() {
-		return e.apellidos;
+	public String getApellidosEnfermo() {
+		return m.apellidos;
 	}
+
 	
 	public String toString() {
-		return e.nombre + " " + e.apellidos;
+		
+		StringBuilder s = new StringBuilder();
+	    s.append(m.nombre +" " + m.apellidos);
+	   
+	   return s.toString();
+		
+		
 	}
-	
+
+
 }
