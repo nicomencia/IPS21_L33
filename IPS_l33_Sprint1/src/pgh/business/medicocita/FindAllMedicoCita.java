@@ -12,7 +12,6 @@ import pgh.jdbc.Database;
 public class FindAllMedicoCita {
 	
 private static String SQL = "SELECT idmedico, idcita FROM MEDICO_CITAS";
-
 	
 	Database db = new Database();
 	
@@ -45,8 +44,6 @@ private static String SQL = "SELECT idmedico, idcita FROM MEDICO_CITAS";
 			
 			return medicoCitas;
 		}
-		
-		
 		
 
 

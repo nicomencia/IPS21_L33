@@ -1,6 +1,5 @@
 package pgh.ui;
 
-
 import pgh.business.causa.ListaCausas;
 import pgh.business.cita.ListaCitas;
 import pgh.business.diagnostico.ListaDiagnosticos;
@@ -16,9 +15,6 @@ import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.vacacionesenfermero.ListaVacacionesEnfermero;
 import pgh.business.vacacionesmedico.ListaVacacionesMedico;
 
-import pgh.business.ubicacion.ListaUbicaciones;
-
-
 public class Main {
 
 	public static void main(String[] args){
@@ -28,11 +24,9 @@ public class Main {
 	//	lm.listarMedicos();
 		
 		
-
-//		ListaCitas lp = new ListaCitas();
-//		lp.creaCitas();
-//		lp.ListarCitas();
-
+	//	ListaCitas lp = new ListaCitas();
+	//	lp.listarCitas();
+		
 //		ListaCausas l = new ListaCausas();
 //		l.listarCausas();
 		
@@ -71,10 +65,6 @@ public class Main {
 		
 //		ListaVacacionesMedico l = new ListaVacacionesMedico();
 //		l.listarVacacionesMedicos();
-		
-//		ListaUbicaciones l = new ListaUbicaciones();
-//		l.creaListaUbicaciones();
-//		l.listarUbicaciones();
 	}
 
 }
