@@ -7,19 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import pgh.business.cita.Cita;
-import pgh.business.medicocita.MedicoCitaDTO;
-
 import pgh.jdbc.Database;
 
 public class FindAllPrescripcionesCitaPaciente {
 
 	private static String SQL = "select idPrescripcion, idCita, idPaciente from PRESCRIPCION_CITAS_PACIENTE";
 	
-
-	
-
 	Database db = new Database();
 	
 		public List<PrescripcionCitaPacienteDTO> execute() {
@@ -51,7 +44,5 @@ public class FindAllPrescripcionesCitaPaciente {
 			}
 			return prescripciones;
 		}
-
-
 	
 }
