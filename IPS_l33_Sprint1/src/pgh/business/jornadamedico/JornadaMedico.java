@@ -47,12 +47,6 @@ public class JornadaMedico {
 		return jm.horaInicio;
 		
 	}
-	
-   public String getIdHoraFin() {
-		
-		return jm.horaFin;
-		
-	}
 
 	
 

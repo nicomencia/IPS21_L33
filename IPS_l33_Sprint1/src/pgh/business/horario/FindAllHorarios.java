@@ -1,4 +1,4 @@
-package pgh.business.ubicacion;
+package pgh.business.horario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +9,14 @@ import java.util.List;
 
 import pgh.jdbc.Database;
 
-public class FindAllUbicaciones {
+public class FindAllHorarios {
 
-	private static String SQL = "select idUbicacion, nombre from Ubicacion";
+	private static String SQL = "select idHorario, hora_Inicio, hora_Fin from Horario";
 	
 	Database db = new Database();
 	
-		public List<UbicacionDTO> execute() {
-			List<UbicacionDTO> ubicaciones;
+		public List<HorarioDTO> execute() {
+			List<HorarioDTO> horarios;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -28,12 +28,13 @@ public class FindAllUbicaciones {
 				pst = c.prepareStatement(SQL);
 				
 				rs = pst.executeQuery();
-				ubicaciones = new ArrayList<>();
+				horarios = new ArrayList<>();
 				while(rs.next()) {
-					UbicacionDTO ubicacion = new UbicacionDTO();
-					ubicacion.idUbicacion = rs.getInt("idUbicacion");
-					ubicacion.nombre=rs.getString("nombre");;
-					ubicaciones.add(ubicacion);
+					HorarioDTO horario = new HorarioDTO();
+					horario.idHorario = rs.getInt("idHorario");
+					horario.horaInicio=rs.getString("hora_Inicio");
+					horario.horaFin=rs.getString("hora_Fin");
+					horarios.add(horario);
 				}
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -42,6 +43,7 @@ public class FindAllUbicaciones {
 				db.close(rs, pst, c);
 			}
 			
-			return ubicaciones;
+			return horarios;
 		}
+	
 }

@@ -1,35 +1,22 @@
 package pgh.business.jornadaenfermero;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class ListaJornadasEnfermero {
 
-	List<JornadaEnfermeroDTO> result;
-	
-	List<JornadaEnfermero> jornadas = new ArrayList<JornadaEnfermero>();
-	
-	
-	public ListaJornadasEnfermero () {
-		result = new FindAllJornadasEnfermero().execute();
+	public void listarJornadasEnfermeros() {
 		
-	}
-	
-	public List<JornadaEnfermero> getJornadasEnfermeros(){
-		return jornadas;
-	}
-
-	
-	public void creaJornadaEnfermeros() {
+		List<JornadaEnfermeroDTO> jornadasEnfermero = new FindAllJornadasEnfermero().execute();
 		
-		for(JornadaEnfermeroDTO c : result) {
-			JornadaEnfermero jornada = new JornadaEnfermero(c);
-			jornadas.add(jornada);
+		for(JornadaEnfermeroDTO je : jornadasEnfermero) {
+			System.out.println(je.idJornadaEnfermero);
+			System.out.println(je.idEnfermero);
+			System.out.println(je.diaInicio);
+			System.out.println(je.diaFin);
+			System.out.println(je.horaInicio);
+			System.out.println(je.horaFin);
 		}
+		
 	}
-	
-	
 	
 }
