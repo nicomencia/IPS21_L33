@@ -105,6 +105,7 @@ public class PanelCitas extends JPanel{
 	}
 	
 	private void getPanelCitas() {
+		
 			this.setBackground(Color.WHITE);
 			this.setLayout(null);
 			this.add(getLblMedicos());
