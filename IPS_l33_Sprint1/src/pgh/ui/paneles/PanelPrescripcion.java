@@ -66,11 +66,8 @@ public class PanelPrescripcion extends JPanel {
 	private ListaCitas listaCitas;
 	private FindAllCitas findAllCitas;
 	private JButton btnEliminarPacientePrescripcion;
-	private JLabel lblNewLabel_5_1;
-	private JLabel lblNewLabel_16;
 	private JLabel lblNewLabel_17;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
-	private JButton btnIndicarPrescripcion;
 	private JPanel panelPrescripcion;
 	private JButton btnAnadirNuevaPrescripcion;
 	private JScrollPane scrollPanePrescripciones;
@@ -85,9 +82,6 @@ public class PanelPrescripcion extends JPanel {
 	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
 	private JList listPacientesPrescripcion;
 	private DefaultListModel<Paciente> modeloListaPacientesPrescripcion;
-	private PrescripcionCitaPaciente pcp;
-	private PrescripcionCitaPacienteDTO pcpDTOs;
-	private CrearPrescripcionCitaPaciente cpcp;
 	private int id_medico;
 	private int id_prescripcion;
 	

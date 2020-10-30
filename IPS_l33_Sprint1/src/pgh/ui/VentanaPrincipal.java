@@ -128,7 +128,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAsignarCita;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
-	private JPanel panelJornadasMedico;
+	//private JPanel panelJornadasMedico;
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
 //	private JLabel lblNewLabel_4;
@@ -1098,6 +1098,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnIndicarPrescripcion() {
 		if (btnIndicarPrescripcion == null) {
 			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.setFocusable(false);
 			btnIndicarPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -1105,6 +1106,7 @@ public class VentanaPrincipal extends JFrame {
 					contentPane.add( panel);
 					panelMedico.setVisible(false);
 					panel.setVisible(true);
+					cambiarPanel("PanelPrescripcion");
 					
 				}
 			});

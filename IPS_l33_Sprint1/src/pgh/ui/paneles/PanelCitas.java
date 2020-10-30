@@ -104,6 +104,8 @@ public class PanelCitas extends JPanel{
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JLabel lblFiltroPaciente;
+	private JLabel lblFiltroPaciente_1;
 	
 	public PanelCitas(JPanel panelAnterior) {
 		this.panelAnterior = panelAnterior;
@@ -144,6 +146,8 @@ public class PanelCitas extends JPanel{
 			this.add(getChckbxUrgente());
 			this.add(getBtnEliminarPacienteCita());
 			this.add(getBtnEliminarMedicoCita());
+			add(getLblFiltroPaciente());
+			add(getLblFiltroPaciente_1());
 		
 			
 			
@@ -885,6 +889,20 @@ public class PanelCitas extends JPanel{
 		}
 		return btnCrearCita;
 	}
-	
-	
+	private JLabel getLblFiltroPaciente() {
+		if (lblFiltroPaciente == null) {
+			lblFiltroPaciente = new JLabel("Filtrar por nombre :");
+			lblFiltroPaciente.setFont(new Font("Tahoma", Font.BOLD, 12));
+			lblFiltroPaciente.setBounds(181, 98, 137, 14);
+		}
+		return lblFiltroPaciente;
+	}
+	private JLabel getLblFiltroPaciente_1() {
+		if (lblFiltroPaciente_1 == null) {
+			lblFiltroPaciente_1 = new JLabel("Filtrar por nombre :");
+			lblFiltroPaciente_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+			lblFiltroPaciente_1.setBounds(181, 215, 137, 14);
+		}
+		return lblFiltroPaciente_1;
+	}
 }
