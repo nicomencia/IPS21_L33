@@ -34,6 +34,7 @@ import pgh.business.jornadaenfermero.JornadaEnfermero;
 import pgh.business.jornadaenfermero.JornadaEnfermeroDTO;
 import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
 import pgh.ui.VentanaPrincipal;
+import pgh.ui.paneles.filtros.JListFiltroJornadaEnfermeros;
 
 public class PanelJornadaEnfermero extends JPanel {
 
@@ -73,7 +74,7 @@ public class PanelJornadaEnfermero extends JPanel {
 	private JSpinner spinnerMinutosInicioJornadaEnfermero;
 	private JSpinner spinnerMinutosInicioJornadaEnfermero2;
 	private JSpinner spinnerMinutosFinJornadaEnfermero2;
-	private JList listEnfermerosJornada;
+	private JListFiltroJornadaEnfermeros listEnfermerosJornada;
 	private JList listEnfermerosSeleccionadosJornada;
 	private JList listDiasSemanaJornadaEnfermero;
 	private JList listDiasSeleccionadosJornadaEnfermero;
@@ -541,12 +542,14 @@ public class PanelJornadaEnfermero extends JPanel {
 	private JList getListEnfermerosJornada() {
 		if (listEnfermerosJornada == null) {
 			modeloListaEnfermerosJornada = new DefaultListModel();
-			listEnfermerosJornada = new JList(modeloListaEnfermerosJornada);
 			le = new ListaEnfermeros();
 			le.creaListaEnfermeros();
 			for (Enfermero e : le.getEnfermeros()) {
 				modeloListaEnfermerosJornada.addElement(e);
 			}
+			listEnfermerosJornada = new JListFiltroJornadaEnfermeros(modeloListaEnfermerosJornada);
+			this.add(listEnfermerosJornada.gettextoFiltro());
+			
 		}
 		return listEnfermerosJornada;
 	}

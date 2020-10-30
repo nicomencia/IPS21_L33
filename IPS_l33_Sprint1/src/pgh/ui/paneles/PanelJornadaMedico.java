@@ -38,6 +38,10 @@ import pgh.business.jornadamedico.ListaJornadasMedico;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
 import pgh.ui.VentanaPrincipal;
+import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
+
+
+import javax.swing.JTextField;
 
 public class PanelJornadaMedico extends JPanel  {
 	
@@ -81,11 +85,12 @@ public class PanelJornadaMedico extends JPanel  {
 	private DefaultListModel<Medico> modeloListMedicosSeleccionadosJornada;
 	private JList listDiasSeleccionadosJornadaMedico;
 	private JScrollPane scrollPaneSeleccionarMedicoJornada;
-	private JList listMedicosJornada;
+	private JListFiltroJornadaMedicos listMedicosJornada;
 	private JButton btnAnadirMedicoJornadas;
 	private JScrollPane scrollPaneMedicoSeleccionadoJornada;
 	private JList listMedicosSeleccionadosJornada;
 	private JButton btnNewButton_1;
+	private JTextField textFieldFiltro;
 	
 
 	
@@ -127,6 +132,7 @@ public class PanelJornadaMedico extends JPanel  {
 			this.add(getSpinnerMinutosInicioJornadamedico2());
 			this.add(getSpinnerMinutosFinJornadamedico2());
 			this.add(getLblNewLabel_14());
+	
 
 		
 		
@@ -417,9 +423,11 @@ public class PanelJornadaMedico extends JPanel  {
 	private JList getListMedicosJornada() {
 		if (listMedicosJornada == null) {
 			modeloListMedicos = new DefaultListModel();
-			listMedicosJornada = new JList(modeloListMedicos);
-			listMedicosJornada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			anadirMedicosALaLista();
+			listMedicosJornada = new JListFiltroJornadaMedicos(modeloListMedicos); //CREAR A JLISTFILTRADO NO JLIST Y CAMBIAR ARRIBA LA INICIALIZACION
+			this.add(listMedicosJornada.gettextoFiltro()); //AÑADIR ESO PARA QUE SALGA EL CUADRO PARA ESCRIBIR
+			listMedicosJornada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			
 
 		}
 		return listMedicosJornada;
@@ -661,6 +669,5 @@ public class PanelJornadaMedico extends JPanel  {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-
-
+	
 }

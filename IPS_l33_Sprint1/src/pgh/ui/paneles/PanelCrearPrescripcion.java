@@ -60,7 +60,6 @@ public class PanelCrearPrescripcion extends JPanel {
 	private JSpinner spinnerCantidadMedicamento;
 	private JLabel lblNewLabel_8_1_1;
 	private JLabel lblNewLabel_8_1_2;
-	private JComboBox comboBoxIntervalo;
 	private JLabel lblNewLabel_8_1_2_1;
 	private JSpinner spinnerDiasSemanas;
 	private JLabel lblNewLabel_8_1_2_1_1;
@@ -84,6 +83,11 @@ public class PanelCrearPrescripcion extends JPanel {
 	private CrearMedicamento crearMedicamento;
 	private int idmedico;
 	private JPanel panelCrearPrescripcion;
+	private JRadioButton rdbtnDiasIntervalo;
+	private JRadioButton rdbtnSemanasIntervalo;
+	private JRadioButton rdbtnMesesIntervalo;
+	private JRadioButton rdbtnAnosIntervalo;
+	private JSpinner spinnerIntervalo;
 	
 	
 	public PanelCrearPrescripcion(JPanel panelAnterior, JPanel panelContenido, int id_medico) {
@@ -159,7 +163,7 @@ public class PanelCrearPrescripcion extends JPanel {
 			rdbtnOtroTipo.setSelected(false);
 			textFieldNombreMedicamento.setEnabled(true);
 			spinnerCantidadMedicamento.setEnabled(true);
-			comboBoxIntervalo.setEnabled(true);
+			spinnerIntervalo.setEnabled(true);
 			spinnerDiasSemanas.setEnabled(true);
 			rdbtnAnosPrescripcion.setEnabled(true);
 			rdbtnDiasPrescripcion.setEnabled(true);
@@ -178,12 +182,17 @@ public class PanelCrearPrescripcion extends JPanel {
 			rdbtnMedicamento.setSelected(false);
 			textFieldNombreMedicamento.setEnabled(false);
 			spinnerCantidadMedicamento.setEnabled(false);
-			comboBoxIntervalo.setEnabled(false);
+			spinnerIntervalo.setEnabled(false);
 			spinnerDiasSemanas.setEnabled(false);
 			rdbtnAnosPrescripcion.setEnabled(false);
 			rdbtnDiasPrescripcion.setEnabled(false);
 			rdbtnSemanasPrescripcion.setEnabled(false);
 			rdbtnMesesPrescripcion.setEnabled(false);
+			rdbtnAnosPrescripcion.setEnabled(false);
+			rdbtnDiasIntervalo.setEnabled(false);
+			rdbtnSemanasIntervalo.setEnabled(false);
+			rdbtnMesesIntervalo.setEnabled(false);
+			rdbtnAnosIntervalo.setEnabled(false);
 			textFieldNotasAdicionalesPrescripcion.setEnabled(false);
 
 		}
@@ -239,7 +248,6 @@ public class PanelCrearPrescripcion extends JPanel {
 			panelMedicamento.add(getSpinnerCantidadMedicamento());
 			panelMedicamento.add(getLblNewLabel_8_1_1());
 			panelMedicamento.add(getLblNewLabel_8_1_2());
-			panelMedicamento.add(getComboBoxIntervalo());
 			panelMedicamento.add(getLblNewLabel_8_1_2_1());
 			panelMedicamento.add(getSpinnerDiasSemanas());
 			panelMedicamento.add(getRdbtnDiasPrescripcion());
@@ -248,6 +256,11 @@ public class PanelCrearPrescripcion extends JPanel {
 			panelMedicamento.add(getRdbtnAnosPrescripcion());
 			panelMedicamento.add(getLblNewLabel_8_1_2_1_1());
 			panelMedicamento.add(getTextFieldNotasAdicionalesPrescripcion());
+			panelMedicamento.add(getRdbtnDiasIntervalo());
+			panelMedicamento.add(getRdbtnSemanasIntervalo());
+			panelMedicamento.add(getRdbtnMesesIntervalo());
+			panelMedicamento.add(getRdbtnAnosIntervalo());
+			panelMedicamento.add(getSpinnerIntervalo());
 		}
 		return panelMedicamento;
 	}
@@ -307,17 +320,6 @@ public class PanelCrearPrescripcion extends JPanel {
 			lblNewLabel_8_1_2.setBounds(22, 104, 84, 25);
 		}
 		return lblNewLabel_8_1_2;
-	}
-
-	private JComboBox getComboBoxIntervalo() {
-		if (comboBoxIntervalo == null) {
-			comboBoxIntervalo = new JComboBox();
-			comboBoxIntervalo.setEnabled(false);
-			comboBoxIntervalo.setModel(new DefaultComboBoxModel(new String[] { "Cada 4 horas", "Cada 8 horas",
-					"Cada 12 horas", "Cada 24 horas", "Cada 2 dias", "Cada semana", "Cada dos semanas", "Cada mes" }));
-			comboBoxIntervalo.setBounds(113, 105, 162, 22);
-		}
-		return comboBoxIntervalo;
 	}
 
 	private JLabel getLblNewLabel_8_1_2_1() {
@@ -504,6 +506,11 @@ public class PanelCrearPrescripcion extends JPanel {
 					String mes = spinnerCantidadMedicamento.getValue().toString() + " mes/es";
 					String ano = spinnerCantidadMedicamento.getValue().toString() + " año/s";
 					
+					String diaIntervalo = spinnerIntervalo.getValue().toString() + " dia/s";
+					String semanasIntervalo = spinnerIntervalo.getValue().toString() + " semana/s";
+					String mesIntervalo = spinnerIntervalo.getValue().toString() + " mes/es";
+					String anoIntervalo = spinnerIntervalo.getValue().toString() + " año/s";
+					
 					System.out.print(dia);
 					if (rdbtnMedicamento.isSelected()) {
 						prescripcionDTO.esMedicamento=true;
@@ -528,7 +535,20 @@ public class PanelCrearPrescripcion extends JPanel {
 						}
 
 						medicamentoDTO.cantidad = (int) spinnerCantidadMedicamento.getValue();
-						medicamentoDTO.intervalo = (String) comboBoxIntervalo.getSelectedItem();
+						
+						if (rdbtnDiasIntervalo.isSelected()) {
+							medicamentoDTO.intervalo = dia;
+						}
+						if (rdbtnSemanasIntervalo.isSelected()) {
+							medicamentoDTO.intervalo = semanas;
+						}
+						if (rdbtnMesesIntervalo.isSelected()) {
+							medicamentoDTO.intervalo = mes;
+						}
+						if (rdbtnAnosIntervalo.isSelected()) {
+							medicamentoDTO.intervalo = ano;
+						}
+						
 						if (rdbtnDiasPrescripcion.isSelected()) {
 							medicamentoDTO.duracion = dia;
 						}
@@ -793,5 +813,120 @@ public class PanelCrearPrescripcion extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
+	private JRadioButton getRdbtnDiasIntervalo() {
+		if (rdbtnDiasIntervalo == null) {
+			rdbtnDiasIntervalo = new JRadioButton("Dias");
+			rdbtnDiasIntervalo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (rdbtnDiasIntervalo.isSelected() == true) {
 
+						rdbtnSemanasIntervalo.setSelected(false);
+						rdbtnMesesIntervalo.setSelected(false);
+						rdbtnAnosIntervalo.setSelected(false);
+						rdbtnDiasIntervalo.setSelected(true);
+					}
+					if (rdbtnDiasIntervalo.isSelected() == false) {
+
+						rdbtnDiasIntervalo.setSelected(true);
+					}
+				}
+			});
+			rdbtnDiasIntervalo.setSelected(true);
+			rdbtnDiasIntervalo.setEnabled(false);
+			rdbtnDiasIntervalo.setBackground(new Color(135, 206, 235));
+			rdbtnDiasIntervalo.setBounds(153, 106, 63, 23);
+		}
+		return rdbtnDiasIntervalo;
+	}
+	private JRadioButton getRdbtnSemanasIntervalo() {
+		if (rdbtnSemanasIntervalo == null) {
+			rdbtnSemanasIntervalo = new JRadioButton("Semanas");
+			rdbtnSemanasIntervalo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (rdbtnSemanasIntervalo.isSelected() == true) {
+
+						rdbtnSemanasIntervalo.setSelected(true);
+						rdbtnMesesIntervalo.setSelected(false);
+						rdbtnAnosIntervalo.setSelected(false);
+						rdbtnDiasIntervalo.setSelected(false);
+					}
+					if (rdbtnSemanasIntervalo.isSelected() == false) {
+
+						rdbtnSemanasIntervalo.setSelected(true);
+					}
+				}
+			});
+			rdbtnSemanasIntervalo.setEnabled(false);
+			rdbtnSemanasIntervalo.setBackground(new Color(135, 206, 235));
+			rdbtnSemanasIntervalo.setBounds(218, 106, 84, 23);
+		}
+		return rdbtnSemanasIntervalo;
+	}
+	private JRadioButton getRdbtnMesesIntervalo() {
+		if (rdbtnMesesIntervalo == null) {
+			rdbtnMesesIntervalo = new JRadioButton("Meses");
+			rdbtnMesesIntervalo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (rdbtnMesesIntervalo.isSelected() == true) {
+
+						rdbtnSemanasIntervalo.setSelected(false);
+						rdbtnMesesIntervalo.setSelected(true);
+						rdbtnAnosIntervalo.setSelected(false);
+						rdbtnDiasIntervalo.setSelected(false);
+					}
+					if (rdbtnMesesIntervalo.isSelected() == false) {
+
+						rdbtnMesesIntervalo.setSelected(true);
+					}
+				}
+			});
+			rdbtnMesesIntervalo.setEnabled(false);
+			rdbtnMesesIntervalo.setBackground(new Color(135, 206, 235));
+			rdbtnMesesIntervalo.setBounds(304, 106, 84, 23);
+		}
+		return rdbtnMesesIntervalo;
+	}
+	private JRadioButton getRdbtnAnosIntervalo() {
+		if (rdbtnAnosIntervalo == null) {
+			rdbtnAnosIntervalo = new JRadioButton("A\u00F1os");
+			rdbtnAnosIntervalo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (rdbtnAnosIntervalo.isSelected() == true) {
+
+						rdbtnSemanasIntervalo.setSelected(false);
+						rdbtnMesesIntervalo.setSelected(false);
+						rdbtnAnosIntervalo.setSelected(true);
+						rdbtnDiasIntervalo.setSelected(false);
+					}
+					if (rdbtnAnosIntervalo.isSelected() == false) {
+
+						rdbtnAnosIntervalo.setSelected(true);
+					}
+				}
+			});
+			rdbtnAnosIntervalo.setEnabled(false);
+			rdbtnAnosIntervalo.setBackground(new Color(135, 206, 235));
+			rdbtnAnosIntervalo.setBounds(390, 106, 84, 23);
+		}
+		return rdbtnAnosIntervalo;
+	}
+	
+	
+	
+	
+	private JSpinner getSpinnerIntervalo() {
+		if (spinnerIntervalo == null) {
+			spinnerIntervalo = new JSpinner();
+			spinnerIntervalo.setBounds(113, 106, 29, 20);
+		}
+		
+		
+		return spinnerIntervalo;							
+					
+	}
+	
+	
+	
+	
+	
 }

@@ -43,6 +43,8 @@ import pgh.business.paciente.ListaPacientes;
 import pgh.business.paciente.Paciente;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.Ubicacion;
+import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
+import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 
 public class PanelCitas extends JPanel{
 	
@@ -60,7 +62,7 @@ public class PanelCitas extends JPanel{
 	private CrearCitas crearCitas;
 	private ListaCitas lc;
 	private JButton btnAnadirPacienteListaCita;
-	private JList listPacientesCita;
+	private JListFiltroPacientesCita listPacientesCita;
 	private DefaultComboBoxModel<Ubicacion> modeloComboUbicacionesCita;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPanePacienteSeleccionado;
@@ -70,7 +72,7 @@ public class PanelCitas extends JPanel{
 	private DefaultListModel<Medico> modeloListMedicos; //Rep
 	private JScrollPane scrollPaneMedicos;
 	private JButton btnAnadirMedicos;
-	private JList listMedicos; //Rep 
+	private JListFiltroJornadaMedicos listMedicos; //Rep 
 	private JScrollPane scrollPaneMedicosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
 	private JList listPacienteSeleccionado;
@@ -161,9 +163,10 @@ public class PanelCitas extends JPanel{
 	private JList getListPacientesCita() {
 		if (listPacientesCita == null) {
 			modeloListPacientesCita = new DefaultListModel();
-			listPacientesCita = new JList(modeloListPacientesCita);
-
 			anadirPacientesCitas();
+			listPacientesCita = new JListFiltroPacientesCita(modeloListPacientesCita);
+			this.add(listPacientesCita.gettextoFiltro());
+			
 		}
 		return listPacientesCita;
 	}
@@ -320,8 +323,10 @@ public class PanelCitas extends JPanel{
 	private JList getListMedicos() {
 		if (listMedicos == null) {
 			modeloListMedicos = new DefaultListModel();
-			listMedicos = new JList(modeloListMedicos);
 			anadirMedicosALaLista();
+			listMedicos = new JListFiltroJornadaMedicos(modeloListMedicos);
+			this.add(listMedicos.gettextoFiltro());
+
 		}
 		return listMedicos;
 	}
