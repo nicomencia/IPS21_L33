@@ -44,6 +44,7 @@ import pgh.business.paciente.Paciente;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.Ubicacion;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
+import pgh.ui.paneles.filtros.JListFiltroMedicosCita;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 
 public class PanelCitas extends JPanel{
@@ -72,7 +73,7 @@ public class PanelCitas extends JPanel{
 	private DefaultListModel<Medico> modeloListMedicos; //Rep
 	private JScrollPane scrollPaneMedicos;
 	private JButton btnAnadirMedicos;
-	private JListFiltroJornadaMedicos listMedicos; //Rep 
+	private JListFiltroMedicosCita listMedicos; //Rep 
 	private JScrollPane scrollPaneMedicosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
 	private JList listPacienteSeleccionado;
@@ -100,6 +101,9 @@ public class PanelCitas extends JPanel{
 	private MedicoCitaDTO medicoCitaDTO;
 	private CrearMedicoCita crearMedicoCita;
 	private JPanel panelAnterior;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 	
 	public PanelCitas(JPanel panelAnterior) {
 		this.panelAnterior = panelAnterior;
@@ -140,6 +144,10 @@ public class PanelCitas extends JPanel{
 			this.add(getChckbxUrgente());
 			this.add(getBtnEliminarPacienteCita());
 			this.add(getBtnEliminarMedicoCita());
+		
+			
+			
+			
 	}
 	
 	private void anadirMedicosALaLista() {
@@ -314,7 +322,7 @@ public class PanelCitas extends JPanel{
 	private JScrollPane getScrollPaneMedicos() {
 		if (scrollPaneMedicos == null) {
 			scrollPaneMedicos = new JScrollPane();
-			scrollPaneMedicos.setBounds(323, 213, 287, 88);
+			scrollPaneMedicos.setBounds(320, 231, 287, 88);
 			scrollPaneMedicos.setViewportView(getListMedicos());
 		}
 		return scrollPaneMedicos;
@@ -324,7 +332,7 @@ public class PanelCitas extends JPanel{
 		if (listMedicos == null) {
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
-			listMedicos = new JListFiltroJornadaMedicos(modeloListMedicos);
+			listMedicos = new JListFiltroMedicosCita(modeloListMedicos);
 			this.add(listMedicos.gettextoFiltro());
 
 		}
@@ -361,7 +369,7 @@ public class PanelCitas extends JPanel{
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Seleccionar Medicos :");
 			lblMedicos.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblMedicos.setBounds(83, 236, 211, 22);
+			lblMedicos.setBounds(83, 257, 211, 22);
 		}
 		return lblMedicos;
 	}
@@ -877,5 +885,6 @@ public class PanelCitas extends JPanel{
 		}
 		return btnCrearCita;
 	}
+	
 	
 }
