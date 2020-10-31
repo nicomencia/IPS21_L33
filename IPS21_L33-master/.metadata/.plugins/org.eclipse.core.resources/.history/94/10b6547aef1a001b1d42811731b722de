@@ -1,0 +1,9 @@
+package pgh.ui.paneles;
+
+import javax.swing.JPanel;
+
+public class PanelAntecedentesClinicos extends JPanel {
+	
+	
+
+}

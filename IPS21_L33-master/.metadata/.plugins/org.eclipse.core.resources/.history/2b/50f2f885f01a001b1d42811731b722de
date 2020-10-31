@@ -1,0 +1,15 @@
+package pgh.ui.paneles;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class PanelAntecedentesClinicos extends JPanel {
+	public PanelAntecedentesClinicos() {
+		this.setBackground(new Color(135, 206, 235));
+		setLayout(null);
+	}
+	
+	
+
+}

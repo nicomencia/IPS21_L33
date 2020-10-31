@@ -1,0 +1,10 @@
+package pgh.ui.paneles;
+
+import javax.swing.JPanel;
+
+public class PanelCrearAntecedente extends JPanel {
+	public PanelCrearAntecedente() {
+		setBounds(100, 100, 1129, 600);
+	}
+
+}

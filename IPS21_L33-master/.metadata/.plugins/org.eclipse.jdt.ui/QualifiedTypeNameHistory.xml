@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="pgh.ui.paneles.PanelMedico"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.JListFiltradoMedicos"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.JListFiltradoMedicos.FilterModel"/>
+<fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
+<fullyQualifiedTypeName name="javax.swing.JList"/>
+<fullyQualifiedTypeName name="pgh.business.medico.Medico"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.JListFiltroMedicos"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.JListFiltroMedicos.TextoFiltro"/>
+<fullyQualifiedTypeName name="pgh.business.paciente.Paciente"/>
+<fullyQualifiedTypeName name="pgh.business.enfermero.Enfermero"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.filtros.JListFiltroEnfermeros"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.filtros.JListFiltroPacientes"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.filtros.JListFiltroMedicos"/>
+<fullyQualifiedTypeName name="org.omg.CORBA.Bounds"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.filtros.JListFiltroJornadaMedicos"/>
+<fullyQualifiedTypeName name="pgh.ui.paneles.PanelAntecedentesClinicos"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+</qualifiedTypeNameHistroy>
