@@ -56,6 +56,7 @@ import pgh.ui.paneles.PanelLoginMedico;
 import pgh.ui.paneles.PanelMedico;
 import pgh.ui.paneles.PanelPrescripcion;
 
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
@@ -325,6 +326,7 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scrollPane_4;
 	private DefaultListModel<Medico> modeloListaMedicosLogin;
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
+	private JButton btnNewButton;
 	
 
 
@@ -647,6 +649,7 @@ public class VentanaPrincipal extends JFrame {
 			panelMedico.setLayout(null);
 			panelMedico.add(getBtnIndicarPrescripcion());
 			panelMedico.add(getBtnSalirPanelMedico());
+			
 		}
 		return panelMedico;
 	}
@@ -1102,7 +1105,7 @@ public class VentanaPrincipal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 
 					PanelPrescripcion panel = new PanelPrescripcion(panelMedico, id_medico, panelContenido);
-					contentPane.add( panel);
+					panelContenido.add( panel);
 					panelMedico.setVisible(false);
 					panel.setVisible(true);
 					
@@ -3049,4 +3052,5 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnSalirPanelMedico;
 	}
+	
 }

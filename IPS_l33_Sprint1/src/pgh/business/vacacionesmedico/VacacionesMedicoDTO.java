@@ -9,4 +9,6 @@ public class VacacionesMedicoDTO {
 	public Date diaInicio;
 	public Date diaFin;
 	
+
+	
 }

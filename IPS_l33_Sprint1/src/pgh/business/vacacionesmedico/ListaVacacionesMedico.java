@@ -1,20 +1,28 @@
 package pgh.business.vacacionesmedico;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListaVacacionesMedico {
 
-	public void listarVacacionesMedicos() {
-		
-		List<VacacionesMedicoDTO> vacacionesMedico = new FindAllVacacionesMedico().execute();
-		
-		for(VacacionesMedicoDTO vm : vacacionesMedico) {
-			System.out.println(vm.idVacacionesMedico);
-			System.out.println(vm.idMedico);
-			System.out.println(vm.diaInicio);
-			System.out.println(vm.diaFin);
-		}
-		
+	List<VacacionesMedico> vacaciones = new ArrayList<VacacionesMedico>();
+	List<VacacionesMedicoDTO> result;
+
+	public ListaVacacionesMedico() {
+
+		result = new FindAllVacacionesMedico().execute();
 	}
-	
+
+	public List<VacacionesMedico> getVacacionesSolicitadas() {
+		return vacaciones;
+	}
+
+	public void creaVacaciones() {
+
+		for (VacacionesMedicoDTO c : result) {
+			VacacionesMedico v = new VacacionesMedico(c);
+			vacaciones.add(v);
+		}
+	}
+
 }
