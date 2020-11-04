@@ -53,12 +53,11 @@ import pgh.ui.paneles.PanelCitas;
 import pgh.ui.paneles.PanelElegirCita;
 import pgh.ui.paneles.PanelJornadaEnfermero;
 import pgh.ui.paneles.PanelJornadaMedico;
-
 import pgh.ui.paneles.PanelMedico;
 import pgh.ui.paneles.PanelMedicoCita;
 import pgh.ui.paneles.PanelPrescripcion;
 import pgh.ui.paneles.filtros.JListFiltroLoginMedico;
-
+import pgh.ui.paneles.PanelLoginMedico;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
@@ -154,6 +153,7 @@ public class VentanaPrincipal extends JFrame {
 	private ListaPrescripciones listaPrescripciones;
 	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
 	private JPanel panelLoginMedico;
+	private JLabel lblNewLabel_16;
 	private int id_medico;
 	private JListFiltroLoginMedico listMedicosLogin;
 	private JButton btnSeleccionarMedicoLogin;
@@ -168,6 +168,7 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
 	private JButton btnNewButton;
 	private JButton btnComprobarVacacionesSolicitadas;
+
 	
 
 
@@ -213,8 +214,6 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelPrincipal(), "name_185722150351700");
 			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelLoginMedico(), "name_186491911563700");
-			
-
 		}
 		return panelContenido;
 	}
@@ -309,19 +308,15 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	
-	
 	private void cambiarPanel(String nombre) {
 
 		if (nombre == "panelPrincipal") {
 			panelPrincipal.setVisible(true);
 			panelEnfermero.setVisible(false);
-			panelLoginMedico.setVisible(false);
-
-
-		
+			panelLoginMedico.setVisible(false);	
 		} else if (nombre == "panelMedico") {
 			panelPrincipal.setVisible(false);
-		    panelEnfermero.setVisible(false);
+		  panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(false);
 
 		} else if (nombre == "panelEnfermero") {
@@ -334,7 +329,6 @@ public class VentanaPrincipal extends JFrame {
 			panelPrincipal.setVisible(false);
 			panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(true);
-
 		}
 	}
 
@@ -344,64 +338,6 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setBackground(Color.WHITE);
 		}
 		return panelEnfermero;
-	}
-
-
-
-	private JButton getBtnAnadirNuevaPrescripcion() {
-		if (btnAnadirNuevaPrescripcion == null) {
-			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
-			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-
-					cambiarPanel("panelCrearPrescripcion");
-				}
-			});
-			btnAnadirNuevaPrescripcion.setBounds(92, 202, 224, 40);
-		}
-		return btnAnadirNuevaPrescripcion;
-	}
-
-	private JScrollPane getScrollPanePrescripciones() {
-		if (scrollPanePrescripciones == null) {
-			scrollPanePrescripciones = new JScrollPane();
-			scrollPanePrescripciones.setBounds(40, 11, 328, 162);
-			scrollPanePrescripciones.setViewportView(getListPrescripciones());
-		}
-		return scrollPanePrescripciones;
-	}
-
-
-	private JList getListPrescripciones() {
-		if (listPrescripciones == null) {
-			modeloListPrescripciones = new DefaultListModel();
-			listPrescripciones = new JList(modeloListPrescripciones);
-			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			mostrarPrescripciones();
-		}
-		return listPrescripciones;
-	}
-
-	private void mostrarPrescripciones() {
-
-		listaPrescripciones = new ListaPrescripciones();
-
-		listaPrescripciones.creaListaPrescripciones();
-
-		for (Prescripcion p : listaPrescripciones.getPrescripciones()) {
-
-			modeloListPrescripciones.addElement(p);
-
-		}
-
-	}
-
-	private JList getListPrescripcionSeleccionada() {
-		if (listPrescripcionSeleccionada == null) {
-			modeloListPrescripcionesSeleccionada = new DefaultListModel();
-			listPrescripcionSeleccionada = new JList(modeloListPrescripcionesSeleccionada);
-		}
-		return listPrescripcionSeleccionada;
 	}
 
 
@@ -456,7 +392,6 @@ public class VentanaPrincipal extends JFrame {
 					for (Object o : listMedicosLogin.getSelectedValuesList()) {
 						if (!modeloListaMedicosLogueados.contains(o)) {
 							if (modeloListaMedicosLogueados.getSize() < 1) {
-
 								modeloListaMedicosLogueados.addElement((Medico) o);
 
 							}
@@ -465,7 +400,6 @@ public class VentanaPrincipal extends JFrame {
 				}
 			});
 			btnSeleccionarMedicoLogin.setBounds(462, 249, 166, 39);
-
 		}
 		return btnSeleccionarMedicoLogin;
 	}
@@ -519,10 +453,12 @@ public class VentanaPrincipal extends JFrame {
 					
 				}
 			});
-			btnSiguienteLogin.setBounds(807, 503, 89, 23);
+
 		}
-		return btnSiguienteLogin;
+		return btnSeleccionarMedicoLogin;
 	}
+
+
 
 	private JList getListCitasMedicoPaciente() {
 		if (listCitasMedicoPaciente == null) {
@@ -540,7 +476,6 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return listCitaElegida;
 	}
-
 
 	private JLabel getLblNewLabel_16() {
 		if (lblNewLabel_16 == null) {

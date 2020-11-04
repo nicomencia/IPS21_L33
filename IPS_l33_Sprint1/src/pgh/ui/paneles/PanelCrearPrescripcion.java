@@ -93,13 +93,13 @@ public class PanelCrearPrescripcion extends JPanel {
 	
 	
 	public PanelCrearPrescripcion(JPanel panelAnterior, JPanel panelContenido, int id_medico, int idPaciente, int idCita) {
-		
 		this.panelAnterior = panelAnterior;
 		this.panelContenido= panelContenido;
 		panelCrearPrescripcion= this;
 		this.idmedico= id_medico;
 		this.idCita = idCita;
 		this.idPaciente= idPaciente;
+
 		getPanelCrearPrescripcion();
 	}
 
@@ -178,6 +178,7 @@ public class PanelCrearPrescripcion extends JPanel {
 			rdbtnSemanasIntervalo.setEnabled(true);
 			rdbtnMesesIntervalo.setEnabled(true);
 			rdbtnAnosIntervalo.setEnabled(true);
+
 
 
 		}
@@ -586,17 +587,16 @@ public class PanelCrearPrescripcion extends JPanel {
 						crearMedicamento.crearMedicamento(medicamento);
 						
 
+
 					}
-					
 					
 					 textFieldInstrucciones.setText("");
 					 
 					    PanelPrescripcion panel = new PanelPrescripcion(panelCrearPrescripcion,idmedico,idPaciente,idCita,panelContenido, panelAnterior);
+
 					    panelCrearPrescripcion .setVisible(false);
 						panelContenido.add(panel);
 						panel.setVisible(true);
-					 
-					 
 
 				}
 
@@ -622,7 +622,6 @@ public class PanelCrearPrescripcion extends JPanel {
 	
 	
 	
-	
 
 	private void mostrarPrescripciones() {
 
@@ -645,9 +644,7 @@ public class PanelCrearPrescripcion extends JPanel {
 			btnCancelarCrearPrescripcionNueva = new JButton("Cancelar");
 			btnCancelarCrearPrescripcionNueva.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
 					closePanel();
-
 				}
 			});
 			btnCancelarCrearPrescripcionNueva.setForeground(Color.RED);
@@ -919,6 +916,7 @@ public class PanelCrearPrescripcion extends JPanel {
 		if (spinnerIntervalo == null) {
 			spinnerIntervalo = new JSpinner();
 			spinnerIntervalo.setEnabled(false);
+
 			spinnerIntervalo.setBounds(113, 106, 29, 20);
 		}
 		
@@ -927,9 +925,5 @@ public class PanelCrearPrescripcion extends JPanel {
 					
 	}
 	
-	
-	
-	
-	
-	
+
 }

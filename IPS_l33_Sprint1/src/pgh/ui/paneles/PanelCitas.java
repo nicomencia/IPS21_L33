@@ -47,6 +47,7 @@ import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 import pgh.ui.paneles.filtros.JListFitroMedicosCita;
 
+
 public class PanelCitas extends JPanel{
 	
 	private JButton btnEliminarPacienteCita;
@@ -142,8 +143,7 @@ public class PanelCitas extends JPanel{
 			this.add(getChckbxUrgente());
 			this.add(getBtnEliminarPacienteCita());
 			this.add(getBtnEliminarMedicoCita());
-			add(getLblNewLabel());
-			
+			add(getLblNewLabel());		
 			
 	}
 	
@@ -204,10 +204,11 @@ public class PanelCitas extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					
 					modeloListPacienteCita.removeAllElements();
-					txtFieldInfoContacto.setText("(A�adir paciente)");
+					txtFieldInfoContacto.setText("(Añadir paciente)");
 				}
 			});
 			btnEliminarPacienteCita.setBounds(1002, 124, 103, 23);
+
 		}
 		return btnEliminarPacienteCita;
 	}
@@ -269,6 +270,7 @@ public class PanelCitas extends JPanel{
 				}
 			});
 			btnAnadirPacienteListaCita.setBounds(630, 108, 149, 55);
+
 		}
 		return btnAnadirPacienteListaCita;
 	}
@@ -281,7 +283,7 @@ public class PanelCitas extends JPanel{
 				if(!modeloListPacienteCita.contains(o)) {
 					Paciente paciente = (Paciente) o;
 					modeloListPacienteCita.addElement(paciente);
-					txtFieldInfoContacto.setText("Tel�fono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
+					txtFieldInfoContacto.setText("Teléfono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
 				}
 				
 			}
@@ -293,6 +295,7 @@ public class PanelCitas extends JPanel{
 		if (scrollPanePacienteSeleccionado == null) {
 			scrollPanePacienteSeleccionado = new JScrollPane();
 			scrollPanePacienteSeleccionado.setBounds(794, 88, 186, 88);
+
 			scrollPanePacienteSeleccionado.setViewportView(getListPacienteSeleccionado());
 		}
 		return scrollPanePacienteSeleccionado;
@@ -302,6 +305,7 @@ public class PanelCitas extends JPanel{
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
 			scrollPane_1.setBounds(321, 88, 289, 88);
+
 			scrollPane_1.setViewportView(getListPacientesCita());
 		}
 		return scrollPane_1;
@@ -320,6 +324,7 @@ public class PanelCitas extends JPanel{
 		if (scrollPaneMedicos == null) {
 			scrollPaneMedicos = new JScrollPane();
 			scrollPaneMedicos.setBounds(323, 213, 287, 88);
+
 			scrollPaneMedicos.setViewportView(getListMedicos());
 		}
 		return scrollPaneMedicos;
@@ -330,6 +335,7 @@ public class PanelCitas extends JPanel{
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
 			listMedicos = new JListFitroMedicosCita(modeloListMedicos);
+
 			this.add(listMedicos.gettextoFiltro());
 
 		}
@@ -367,6 +373,7 @@ public class PanelCitas extends JPanel{
 			lblMedicos = new JLabel("Seleccionar Medicos :");
 			lblMedicos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblMedicos.setBounds(83, 236, 211, 22);
+
 		}
 		return lblMedicos;
 	}
@@ -569,6 +576,7 @@ public class PanelCitas extends JPanel{
 		this.panelAnterior.setVisible(true);
 	}
 
+
 	private JComboBox getComboBoxMinutosInicioCita() {
 		if (comboBoxMinutosInicioCita == null) {
 			comboBoxMinutosInicioCita = new JComboBox();
@@ -729,7 +737,7 @@ public class PanelCitas extends JPanel{
 					citaDTO.idUbicacion = idUbicacion;
 					
 					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
-						int a = JOptionPane.showConfirmDialog(new JPanel(), "La ubicacion esta ocupada durante esa franja horaria, �quiere crear la cita igualmente?");
+						int a = JOptionPane.showConfirmDialog(new JPanel(), "La ubicacion esta ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
 						
 						if (a==JOptionPane.OK_OPTION) {
 							
@@ -822,11 +830,11 @@ public class PanelCitas extends JPanel{
 	
 							message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
 	
-							message.setSubject("Cita urgente nº " + citaDTO.idCita);
-							message.setText("Buenos días "+m.getNombreMedico()+" "+m.getApellidosMedico()+". \n"
+							message.setSubject("Cita urgente nÂº " + citaDTO.idCita);
+							message.setText("Buenos dÃ­as "+m.getNombreMedico()+" "+m.getApellidosMedico()+". \n"
 									+ "Este es un recordatorio de que tiene una cita urgente con identificador " + citaDTO.idCita
-									+ " el día "+ citaDTO.fecha.toString() + ".\n"
-									+ "La ubicación de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
+									+ " el dÃ­a "+ citaDTO.fecha.toString() + ".\n"
+									+ "La ubicaciÃ³n de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
 							
 							Transport t = session.getTransport("smtp");
 	
@@ -872,7 +880,7 @@ public class PanelCitas extends JPanel{
 			btnCrearCita.setBounds(729, 481, 125, 23);
 		}
 		return btnCrearCita;
-	}
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Filtro sensible a MAYUSCULAS");
@@ -881,5 +889,6 @@ public class PanelCitas extends JPanel{
 			lblNewLabel.setBounds(74, 51, 200, 50);
 		}
 		return lblNewLabel;
+
 	}
 }

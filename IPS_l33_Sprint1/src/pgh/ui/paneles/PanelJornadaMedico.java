@@ -92,6 +92,7 @@ public class PanelJornadaMedico extends JPanel  {
 	private JButton btnNewButton_1;
 	private JTextField textFieldFiltro;
 	private JLabel lblNewLabel;
+
 	
 
 	
@@ -134,6 +135,7 @@ public class PanelJornadaMedico extends JPanel  {
 			this.add(getSpinnerMinutosFinJornadamedico2());
 			this.add(getLblNewLabel_14());
 			add(getLblNewLabel());
+
 	
 
 		
@@ -271,7 +273,9 @@ public class PanelJornadaMedico extends JPanel  {
 	}
 	
 	private int generarIdJornadaMedico() {
+
 		ListaJornadasMedico lc = new ListaJornadasMedico(0);
+
 		lc.creaJornadaMedico();
 		return 2200 + lc.getJornadasMedicos().size();
 	}
@@ -402,6 +406,7 @@ public class PanelJornadaMedico extends JPanel  {
 		lm.creaListaMedicos();
 		for (Medico m : lm.getMedicos()) {
 			modeloListMedicos.addElement(m);
+
 		}
 	}
 
@@ -427,7 +432,7 @@ public class PanelJornadaMedico extends JPanel  {
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
 			listMedicosJornada = new JListFiltroJornadaMedicos(modeloListMedicos); //CREAR A JLISTFILTRADO NO JLIST Y CAMBIAR ARRIBA LA INICIALIZACION
-			this.add(listMedicosJornada.gettextoFiltro()); //AÑADIR ESO PARA QUE SALGA EL CUADRO PARA ESCRIBIR
+			this.add(listMedicosJornada.gettextoFiltro()); //AÃ‘ADIR ESO PARA QUE SALGA EL CUADRO PARA ESCRIBIR
 			listMedicosJornada.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			
 
@@ -663,6 +668,7 @@ public class PanelJornadaMedico extends JPanel  {
 			lblNewLabel_14 = new JLabel("");
 			lblNewLabel_14.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/085e2efd9a10a1d20e259f487a17cf23-malet--n-medico-by-vexels.png")));
 			lblNewLabel_14.setBounds(290, 11, 808, 561);
+
 		}
 		return lblNewLabel_14;
 	}
@@ -671,7 +677,7 @@ public class PanelJornadaMedico extends JPanel  {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-	
+  
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Filtro sensible a MAYUSCULAS");
@@ -681,4 +687,5 @@ public class PanelJornadaMedico extends JPanel  {
 		}
 		return lblNewLabel;
 	}
+
 }

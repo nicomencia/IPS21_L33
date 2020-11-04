@@ -50,6 +50,7 @@ import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
 import pgh.ui.VentanaPrincipal;
 import pgh.ui.paneles.filtros.JListFiltroPrescripcion;
 
+
 public class PanelPrescripcion extends JPanel {
 	
 	private JPanel panelAnterior;
@@ -69,18 +70,22 @@ public class PanelPrescripcion extends JPanel {
 	private JLabel lblNewLabel_17;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
 	private JButton btnIndicarPrescripcion;
+
 	private JPanel panelPrescripcion;
 	private JButton btnAnadirNuevaPrescripcion;
 	private JScrollPane scrollPanePrescripciones;
 	private JButton btnAnadirPrescripcion;
 	private JScrollPane scrollPanePrescripcionSeleccionada;
 	private JButton btnBorrarPrescripcion;
+
 	private JListFiltroPrescripcion listPrescripciones;
+
 	private JList listPrescripcionSeleccionada;
 	private JButton btnAsignarPrescripcion;
 	private JButton btnCancelarPrescripcion;
 	private ListaPrescripciones listaPrescripciones;
 	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
+
 	private DefaultListModel<Paciente> modeloListaPacientesPrescripcion;
 	private PrescripcionCitaPaciente pcp;
 	private PrescripcionCitaPacienteDTO pcpDTOs;
@@ -108,6 +113,7 @@ public class PanelPrescripcion extends JPanel {
 		this.id_paciente= idPaciente;
 		panelPrescripcion = this;
 		this.panelCambiar=PanelMedicoCita;
+
 		this.id_medico = id_medico;
 		getPanelPrescripcion();
 		
@@ -123,6 +129,7 @@ public class PanelPrescripcion extends JPanel {
 			this.add(getBtnBorrarPrescripcion());
 			this.add(getBtnAsignarPrescripcion());
 			this.add(getBtnCancelarPrescripcion());
+
 			this.add(getScrollPane_6());
 			this.add(getLblNewLabel_13());
 			this.add(getBtnAnadirPrescripcion());
@@ -130,6 +137,7 @@ public class PanelPrescripcion extends JPanel {
 		
 		
 		
+
 	}
 	
 	private JLabel getLblNewLabel_17() {
@@ -141,10 +149,12 @@ public class PanelPrescripcion extends JPanel {
 		return lblNewLabel_17;
 	}
 	
+
 	private JScrollPane getScrollPane_6() {
 		if (scrollPane_6 == null) {
 			scrollPane_6 = new JScrollPane();
 			scrollPane_6.setBounds(714, 301, 328, 84);
+
 			scrollPane_6.setViewportView(getTextAreaMedicinaInformacion());
 		}
 		return scrollPane_6;
@@ -163,7 +173,6 @@ public class PanelPrescripcion extends JPanel {
 			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
 			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
 					PanelCrearPrescripcion panel = new PanelCrearPrescripcion(panelPrescripcion, panelContenido, id_medico, id_paciente, idCita);
 					panelPrescripcion .setVisible(false);
 					panelContenido.add(panel);
@@ -171,6 +180,7 @@ public class PanelPrescripcion extends JPanel {
 				}
 			});
 			btnAnadirNuevaPrescripcion.setBounds(90, 387, 224, 40);
+
 		}
 		return btnAnadirNuevaPrescripcion;
 	}
@@ -178,7 +188,9 @@ public class PanelPrescripcion extends JPanel {
 	private JScrollPane getScrollPanePrescripciones() {
 		if (scrollPanePrescripciones == null) {
 			scrollPanePrescripciones = new JScrollPane();
+
 			scrollPanePrescripciones.setBounds(43, 46, 328, 308);
+
 			scrollPanePrescripciones.setViewportView(getListPrescripciones());
 		}
 		return scrollPanePrescripciones;
@@ -188,7 +200,9 @@ public class PanelPrescripcion extends JPanel {
 		if (btnAnadirPrescripcion == null) {
 			btnAnadirPrescripcion = new JButton("A\u00F1adir Prescripcion se\u00F1alizada");
 			btnAnadirPrescripcion.setForeground(new Color(0, 128, 0));
+
 			btnAnadirPrescripcion.setBounds(439, 186, 212, 47);
+
 			btnAnadirPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -221,7 +235,9 @@ public class PanelPrescripcion extends JPanel {
 	private JScrollPane getScrollPanePrescripcionSeleccionada() {
 		if (scrollPanePrescripcionSeleccionada == null) {
 			scrollPanePrescripcionSeleccionada = new JScrollPane();
+
 			scrollPanePrescripcionSeleccionada.setBounds(714, 72, 328, 103);
+
 			scrollPanePrescripcionSeleccionada.setViewportView(getListPrescripcionSeleccionada());
 		}
 		return scrollPanePrescripcionSeleccionada;
@@ -238,7 +254,9 @@ public class PanelPrescripcion extends JPanel {
 				}
 			});
 			btnBorrarPrescripcion.setForeground(Color.RED);
+
 			btnBorrarPrescripcion.setBounds(781, 207, 190, 40);
+
 		}
 		return btnBorrarPrescripcion;
 	}
@@ -246,10 +264,12 @@ public class PanelPrescripcion extends JPanel {
 	private JList getListPrescripciones() {
 		if (listPrescripciones == null) {
 			modeloListPrescripciones = new DefaultListModel();
+
 			mostrarPrescripciones();
 			listPrescripciones = new JListFiltroPrescripcion(modeloListPrescripciones);
 			this.add(listPrescripciones.gettextoFiltro());
 			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		}
 		return listPrescripciones;
 	}
@@ -282,7 +302,7 @@ public class PanelPrescripcion extends JPanel {
 			btnAsignarPrescripcion = new JButton("Asignar Prescripcion");
 			btnAsignarPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					id_prescripcion = modeloListPrescripcionesSeleccionada.getElementAt(0).getIdPrescripcion();
 					
 					crearPrescripcionCitaPaciente = new CrearPrescripcionCitaPaciente();
@@ -321,6 +341,7 @@ public class PanelPrescripcion extends JPanel {
 			});
 			btnAsignarPrescripcion.setForeground(new Color(0, 128, 0));
 			btnAsignarPrescripcion.setBounds(715, 466, 167, 41);
+
 		}
 		return btnAsignarPrescripcion;
 	}
@@ -336,11 +357,14 @@ public class PanelPrescripcion extends JPanel {
 				}
 			});
 			btnCancelarPrescripcion.setForeground(Color.RED);
+
 			btnCancelarPrescripcion.setBounds(892, 466, 156, 41);
+
 		}
 		return btnCancelarPrescripcion;
 	}
 	
+
 	private JLabel getLblNewLabel_13() {
 		if (lblNewLabel_13 == null) {
 			lblNewLabel_13 = new JLabel("Informacion si la prescripcion se trata de un medicamento ");
@@ -353,17 +377,7 @@ public class PanelPrescripcion extends JPanel {
 	protected void closePanel() {
 		panelCambiar.setVisible(true);
 		this.setVisible(false);
+
 	}
-	
-	
-	
-	
-
-	
-
-	
-
-	
-
 	
 }

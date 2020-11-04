@@ -4,15 +4,19 @@ package pgh.ui.paneles;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+
 import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -21,6 +25,7 @@ import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.cita.ListaCitas;
 import pgh.business.medico.ListaMedicos;
+
 import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
@@ -30,12 +35,14 @@ import pgh.ui.paneles.filtros.JListFiltroPanelElegirCita;
 public class PanelElegirCita extends JPanel {
 	
 	private JListFiltroPanelElegirCita listCitasMedicoPacienteAFC;
+
 	private JList listCitaElegidaAFC;
 	private JLabel lblNewLabelElegirCitaAFC;
 	private JButton btnEliminarCitaElegidaAFC;
 	private JButton btnTerminarProcesoAFC;
 	private JButton btnCancelarProcesoAFC;
 	private DefaultListModel<Cita> modelListaCitasMedicoPaciente;
+
 	private DefaultListModel<Cita> modelListaCitaMedicoPacienteElegida;
 	private CrearPrescripcionCitaPaciente crearPrescripcionCitaPaciente;
 	private PrescripcionCitaPacienteDTO prescripcionCitaPacienteDTO;
@@ -59,6 +66,7 @@ public class PanelElegirCita extends JPanel {
 		this.id_medico = idmedico;
 		this.panelContenido = panelContenido;
 		panelElegirCita=this;
+
 		setBackground(new Color(135, 206, 235));
 		setLayout(null);
 		
@@ -88,7 +96,9 @@ public class PanelElegirCita extends JPanel {
 				
 			}
 		});
+
 		btnElegirCitaAFC.setBounds(135, 470, 160, 42);
+
 		this.add(btnElegirCitaAFC);
 		this.add(getBtnEliminarCitaElegidaAFC());
 		this.add(getBtnTerminarProcesoAFC());
@@ -107,6 +117,7 @@ public class PanelElegirCita extends JPanel {
 			});
 			btnEliminarCitaElegidaAFC.setForeground(new Color(255, 0, 0));
 			btnEliminarCitaElegidaAFC.setBounds(806, 356, 276, 23);
+
 		}
 		return btnEliminarCitaElegidaAFC;
 	}
@@ -148,11 +159,13 @@ public class PanelElegirCita extends JPanel {
 					
 					
 		
+
 					
 				}
 			});
 			btnTerminarProcesoAFC.setForeground(new Color(0, 128, 0));
 			btnTerminarProcesoAFC.setBounds(728, 476, 160, 42);
+
 		}
 		return btnTerminarProcesoAFC;
 	}
@@ -160,6 +173,7 @@ public class PanelElegirCita extends JPanel {
 	private JButton getBtnCancelarProcesoAFC() {
 		if (btnCancelarProcesoAFC == null) {
 			btnCancelarProcesoAFC = new JButton("Cancelar Proceso");
+
 			btnCancelarProcesoAFC.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -171,6 +185,7 @@ public class PanelElegirCita extends JPanel {
 			});
 			btnCancelarProcesoAFC.setForeground(new Color(255, 0, 0));
 			btnCancelarProcesoAFC.setBounds(921, 476, 160, 42);
+
 		}
 		return btnCancelarProcesoAFC;
 	}
@@ -181,6 +196,7 @@ public class PanelElegirCita extends JPanel {
 			llenarLista();
 			listCitasMedicoPacienteAFC = new JListFiltroPanelElegirCita(modelListaCitasMedicoPaciente);
 			this.add(listCitasMedicoPacienteAFC.gettextoFiltro());
+
 			
 			
 		}
@@ -194,6 +210,7 @@ public class PanelElegirCita extends JPanel {
 		return listCitaElegidaAFC;
 	}
 	
+
 	private void llenarLista() {
 		citas = new ArrayList<Cita>();
 		findCitas= new FindAllCitas();
