@@ -31,7 +31,7 @@ private static String SQL = "Insert into Vacaciones_Medico (idVacaciones_Medico,
 			
 			
 		    pst = c.prepareStatement(query.toString());
-			pst.setInt(1, vacaciones.getIdVacacionesSolicitadas());
+			pst.setInt(1, vacaciones.getIdVacaciones());
 			pst.setInt(2, vacaciones.getIdMedico());
 			pst.setDate(3, fechaInicio);
 			pst.setDate(4, fechaFin);

@@ -10,7 +10,7 @@ public class VacacionesMedico {
 		this.vacaciones = vacaciones;
 	}
 	
-	public int getIdVacacionesSolicitadas() {
+	public int getIdVacaciones() {
 		return vacaciones.idVacacionesMedico;
 	}
 	

@@ -13,7 +13,7 @@ public class ListaVacacionesMedico {
 		result = new FindAllVacacionesMedico().execute();
 	}
 
-	public List<VacacionesMedico> getVacacionesSolicitadas() {
+	public List<VacacionesMedico> getVacaciones() {
 		return vacaciones;
 	}
 
