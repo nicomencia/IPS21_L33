@@ -44,9 +44,12 @@ import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
 import pgh.business.prescripcion.PrescripcionDTO;
 import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
+import pgh.business.prescripcioncitapaciente.ListaPrescripcionesCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
 import pgh.ui.VentanaPrincipal;
+import pgh.ui.paneles.filtros.JListFiltroPrescripcion;
+
 
 public class PanelPrescripcion extends JPanel {
 	
@@ -57,41 +60,60 @@ public class PanelPrescripcion extends JPanel {
 	private JScrollPane scrollPane_6;
 	private JTextArea textAreaMedicinaInformacion;
 	private JLabel lblNewLabel_13;
-	private JScrollPane scrollPane_7;
-	private JList listpacienteSeleccionadoPrescripcion;
 	private DefaultListModel<Paciente> modeloListaPacienteSeleccionadoPrescripcion;
 	private DefaultListModel<Cita> modelListaCitasMedicoPaciente;
 	private ListaMedicamentos listaMedicamentos;
-	private int id_paciente;
 	private ListaCitas listaCitas;
 	private FindAllCitas findAllCitas;
-	private JButton btnEliminarPacientePrescripcion;
+	private JLabel lblNewLabel_5_1;
+	private JLabel lblNewLabel_16;
 	private JLabel lblNewLabel_17;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
+	private JButton btnIndicarPrescripcion;
+
 	private JPanel panelPrescripcion;
 	private JButton btnAnadirNuevaPrescripcion;
 	private JScrollPane scrollPanePrescripciones;
 	private JButton btnAnadirPrescripcion;
 	private JScrollPane scrollPanePrescripcionSeleccionada;
 	private JButton btnBorrarPrescripcion;
-	private JList listPrescripciones;
+
+	private JListFiltroPrescripcion listPrescripciones;
+
 	private JList listPrescripcionSeleccionada;
 	private JButton btnAsignarPrescripcion;
 	private JButton btnCancelarPrescripcion;
 	private ListaPrescripciones listaPrescripciones;
 	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
-	private JList listPacientesPrescripcion;
+
 	private DefaultListModel<Paciente> modeloListaPacientesPrescripcion;
+	private PrescripcionCitaPaciente pcp;
+	private PrescripcionCitaPacienteDTO pcpDTOs;
+	private CrearPrescripcionCitaPaciente cpcp;
+	private ListaPrescripcionesCitaPaciente lpcp;
 	private int id_medico;
 	private int id_prescripcion;
+	private int idmedico;
+	private PrescripcionCitaPaciente prescripcionCitaPaciente;
+	private int id_paciente;
+	private int idCita;
+	private CrearPrescripcionCitaPaciente crearPrescripcionCitaPaciente;
+	private PrescripcionCitaPacienteDTO prescripcionCitaPacienteDTO;
+	private JPanel panelCambiar;
+	private JTextField textField;
 	
 	
 	
-	public PanelPrescripcion (JPanel panelAnterior, int id_medico, JPanel panelContenido) {
+	public PanelPrescripcion (JPanel panelAnterior, int id_medico, int idPaciente, int idCita, JPanel panelContenido, JPanel PanelMedicoCita) {
 		
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
+		this.idmedico = id_medico;
+		this.idCita = idCita;
+		this.id_paciente= idPaciente;
 		panelPrescripcion = this;
+		this.panelCambiar=PanelMedicoCita;
+
 		this.id_medico = id_medico;
 		getPanelPrescripcion();
 		
@@ -108,36 +130,14 @@ public class PanelPrescripcion extends JPanel {
 			this.add(getBtnAsignarPrescripcion());
 			this.add(getBtnCancelarPrescripcion());
 
-			JButton btnNewButton_2 = new JButton("Seleccionar Paciente");
-			btnNewButton_2.setForeground(new Color(0, 128, 0));
-			btnNewButton_2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-					for(Object o : listPacientesPrescripcion.getSelectedValuesList()) {
-						if(!modeloListaPacienteSeleccionadoPrescripcion.contains(o)) {
-							if(modeloListaPacienteSeleccionadoPrescripcion.getSize()<1) {
-								modeloListaPacienteSeleccionadoPrescripcion.addElement((Paciente) o);
-							}
-						}
-					}
-					
-				}
-			});
-			btnNewButton_2.setBounds(418, 351, 224, 47);
-			this.add(btnNewButton_2);
-
-			JScrollPane scrollPanePaciente = new JScrollPane();
-			scrollPanePaciente.setBounds(40, 329, 328, 101);
-			this.add(scrollPanePaciente);
-			scrollPanePaciente.setViewportView(getListPacientesPrescripcion());
 			this.add(getScrollPane_6());
 			this.add(getLblNewLabel_13());
-			this.add(getScrollPane_7());
 			this.add(getBtnAnadirPrescripcion());
-			this.add(getBtnEliminarPacientePrescripcion());
 			this.add(getLblNewLabel_17());
 		
 		
+		
+
 	}
 	
 	private JLabel getLblNewLabel_17() {
@@ -149,24 +149,12 @@ public class PanelPrescripcion extends JPanel {
 		return lblNewLabel_17;
 	}
 	
-	private JButton getBtnEliminarPacientePrescripcion() {
-		if (btnEliminarPacientePrescripcion == null) {
-			btnEliminarPacientePrescripcion = new JButton("Eliminar paciente");
-			btnEliminarPacientePrescripcion.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					modeloListaPacienteSeleccionadoPrescripcion.removeAllElements();
-				}
-			});
-			btnEliminarPacientePrescripcion.setForeground(new Color(255, 0, 0));
-			btnEliminarPacientePrescripcion.setBounds(779, 432, 190, 40);
-		}
-		return btnEliminarPacientePrescripcion;
-	}
-	
+
 	private JScrollPane getScrollPane_6() {
 		if (scrollPane_6 == null) {
 			scrollPane_6 = new JScrollPane();
-			scrollPane_6.setBounds(714, 211, 328, 84);
+			scrollPane_6.setBounds(714, 301, 328, 84);
+
 			scrollPane_6.setViewportView(getTextAreaMedicinaInformacion());
 		}
 		return scrollPane_6;
@@ -185,15 +173,14 @@ public class PanelPrescripcion extends JPanel {
 			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
 			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
-					PanelCrearPrescripcion panel = new PanelCrearPrescripcion(panelPrescripcion, panelContenido, id_medico);
+					PanelCrearPrescripcion panel = new PanelCrearPrescripcion(panelPrescripcion, panelContenido, id_medico, id_paciente, idCita);
 					panelPrescripcion .setVisible(false);
 					panelContenido.add(panel);
-					panelContenido.remove(panelPrescripcion);
 					panel.setVisible(true);
 				}
 			});
-			btnAnadirNuevaPrescripcion.setBounds(92, 202, 224, 40);
+			btnAnadirNuevaPrescripcion.setBounds(90, 387, 224, 40);
+
 		}
 		return btnAnadirNuevaPrescripcion;
 	}
@@ -201,7 +188,9 @@ public class PanelPrescripcion extends JPanel {
 	private JScrollPane getScrollPanePrescripciones() {
 		if (scrollPanePrescripciones == null) {
 			scrollPanePrescripciones = new JScrollPane();
-			scrollPanePrescripciones.setBounds(40, 11, 328, 162);
+
+			scrollPanePrescripciones.setBounds(43, 46, 328, 308);
+
 			scrollPanePrescripciones.setViewportView(getListPrescripciones());
 		}
 		return scrollPanePrescripciones;
@@ -211,7 +200,9 @@ public class PanelPrescripcion extends JPanel {
 		if (btnAnadirPrescripcion == null) {
 			btnAnadirPrescripcion = new JButton("A\u00F1adir Prescripcion se\u00F1alizada");
 			btnAnadirPrescripcion.setForeground(new Color(0, 128, 0));
-			btnAnadirPrescripcion.setBounds(430, 32, 212, 47);
+
+			btnAnadirPrescripcion.setBounds(439, 186, 212, 47);
+
 			btnAnadirPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
@@ -244,7 +235,9 @@ public class PanelPrescripcion extends JPanel {
 	private JScrollPane getScrollPanePrescripcionSeleccionada() {
 		if (scrollPanePrescripcionSeleccionada == null) {
 			scrollPanePrescripcionSeleccionada = new JScrollPane();
-			scrollPanePrescripcionSeleccionada.setBounds(714, 11, 328, 103);
+
+			scrollPanePrescripcionSeleccionada.setBounds(714, 72, 328, 103);
+
 			scrollPanePrescripcionSeleccionada.setViewportView(getListPrescripcionSeleccionada());
 		}
 		return scrollPanePrescripcionSeleccionada;
@@ -261,7 +254,9 @@ public class PanelPrescripcion extends JPanel {
 				}
 			});
 			btnBorrarPrescripcion.setForeground(Color.RED);
-			btnBorrarPrescripcion.setBounds(779, 135, 190, 40);
+
+			btnBorrarPrescripcion.setBounds(781, 207, 190, 40);
+
 		}
 		return btnBorrarPrescripcion;
 	}
@@ -269,9 +264,12 @@ public class PanelPrescripcion extends JPanel {
 	private JList getListPrescripciones() {
 		if (listPrescripciones == null) {
 			modeloListPrescripciones = new DefaultListModel();
-			listPrescripciones = new JList(modeloListPrescripciones);
-			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 			mostrarPrescripciones();
+			listPrescripciones = new JListFiltroPrescripcion(modeloListPrescripciones);
+			this.add(listPrescripciones.gettextoFiltro());
+			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		}
 		return listPrescripciones;
 	}
@@ -304,50 +302,46 @@ public class PanelPrescripcion extends JPanel {
 			btnAsignarPrescripcion = new JButton("Asignar Prescripcion");
 			btnAsignarPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					id_paciente = modeloListaPacienteSeleccionadoPrescripcion.getElementAt(0).getIdPaciente();
+
 					id_prescripcion = modeloListPrescripcionesSeleccionada.getElementAt(0).getIdPrescripcion();
-					modelListaCitasMedicoPaciente = new DefaultListModel();
 					
-					findAllCitas = new FindAllCitas();
-					listaCitas = new ListaCitas();
-					listaCitas.creaCitas();
-					listaMedicoCita= new ListaMedicoCita();
-					listaMedicoCita.creaListaMedicoCitas();
+					crearPrescripcionCitaPaciente = new CrearPrescripcionCitaPaciente();
 					
+					prescripcionCitaPacienteDTO = new PrescripcionCitaPacienteDTO();
 					
-					List<CitaDTO> filtroCitas= new ArrayList<CitaDTO>();
-					filtroCitas = findAllCitas.FindIdCita(id_medico, id_paciente);
+				
 					
-					List<Cita> citas = new ArrayList<Cita>();	
-					
-					
-					for(CitaDTO c : filtroCitas) {
-						Cita cita = new Cita(c);
-						citas.add(cita);
-					}
-					
-					if(citas.size()==0) {
-						JOptionPane.showMessageDialog(getBtnAsignarPrescripcion(), "El paciente no tiene ni ha tenido ninguna cita con usted");
-					}
-					else {
+						prescripcionCitaPacienteDTO.idCita= idCita;
+						prescripcionCitaPacienteDTO.idPaciente= id_paciente;
+						prescripcionCitaPacienteDTO.idPrescripcion= id_prescripcion;
 						
-					for(Cita c: citas ) {
+						lpcp = new ListaPrescripcionesCitaPaciente();
+						lpcp.creaListaPrescripciones();
 						
-						modelListaCitasMedicoPaciente.addElement(c);
-					}
-					
-					PanelElegirCita pec = new PanelElegirCita(panelPrescripcion, modelListaCitasMedicoPaciente);
-					panelContenido.add(pec);
-					panelPrescripcion.setVisible(false);
-					pec.setVisible(true);
-					
-					}
-					}
+						for(int i = 0 ; i < lpcp.getPrescripciones().size();i++){
+							if(lpcp.getPrescripciones().get(i).getIdCita()==prescripcionCitaPacienteDTO.idCita) {
+								if(lpcp.getPrescripciones().get(i).getIdPaciente()==prescripcionCitaPacienteDTO.idPaciente) {
+									if(lpcp.getPrescripciones().get(i).getIdPrescripcion()==prescripcionCitaPacienteDTO.idPrescripcion) {
+										JOptionPane.showMessageDialog(getBtnAsignarPrescripcion(), "Ya esta esta prescripion asignada para esa consulta");
+									}
+								}
+							}
+						}
+						
+						prescripcionCitaPaciente = new PrescripcionCitaPaciente(prescripcionCitaPacienteDTO);
+						crearPrescripcionCitaPaciente.crearCita(prescripcionCitaPaciente); 
+						
+						closePanel();
+						
+						
+						
+			
+				}
 				
 			});
 			btnAsignarPrescripcion.setForeground(new Color(0, 128, 0));
-			btnAsignarPrescripcion.setBounds(714, 509, 167, 41);
+			btnAsignarPrescripcion.setBounds(715, 466, 167, 41);
+
 		}
 		return btnAsignarPrescripcion;
 	}
@@ -363,66 +357,27 @@ public class PanelPrescripcion extends JPanel {
 				}
 			});
 			btnCancelarPrescripcion.setForeground(Color.RED);
-			btnCancelarPrescripcion.setBounds(905, 509, 156, 41);
+
+			btnCancelarPrescripcion.setBounds(892, 466, 156, 41);
+
 		}
 		return btnCancelarPrescripcion;
 	}
 	
-	private JList getListPacientesPrescripcion() {
-		if (listPacientesPrescripcion == null) {
-			modeloListaPacientesPrescripcion = new DefaultListModel();
-			listPacientesPrescripcion = new JList(modeloListaPacientesPrescripcion);
-			listPacientesPrescripcion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			lp = new ListaPacientes();
-			lp.creaListaPacientes();
 
-			for (Paciente p : lp.getPacientes()) {
-
-				modeloListaPacientesPrescripcion.addElement(p);
-			}
-
-		}
-		return listPacientesPrescripcion;
-	}
-	
-	private JList getListpacienteSeleccionadoPrescripcion() {
-		if (listpacienteSeleccionadoPrescripcion == null) {
-			modeloListaPacienteSeleccionadoPrescripcion = new DefaultListModel();
-			listpacienteSeleccionadoPrescripcion = new JList(modeloListaPacienteSeleccionadoPrescripcion);
-		}
-		return listpacienteSeleccionadoPrescripcion;
-	}
-	
 	private JLabel getLblNewLabel_13() {
 		if (lblNewLabel_13 == null) {
 			lblNewLabel_13 = new JLabel("Informacion si la prescripcion se trata de un medicamento ");
-			lblNewLabel_13.setBounds(714, 186, 389, 14);
+			lblNewLabel_13.setBounds(714, 276, 389, 14);
 		}
 		return lblNewLabel_13;
-	}
-	private JScrollPane getScrollPane_7() {
-		if (scrollPane_7 == null) {
-			scrollPane_7 = new JScrollPane();
-			scrollPane_7.setBounds(714, 329, 328, 92);
-			scrollPane_7.setViewportView(getListpacienteSeleccionadoPrescripcion());
-		}
-		return scrollPane_7;
 	}
 	
 	
 	protected void closePanel() {
+		panelCambiar.setVisible(true);
 		this.setVisible(false);
-		this.panelAnterior.setVisible(true);
+
 	}
 	
-	
-	
-	
-
-	
-
-	
-
-	
-
 }

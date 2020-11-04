@@ -44,8 +44,9 @@ import pgh.business.paciente.Paciente;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.Ubicacion;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
-import pgh.ui.paneles.filtros.JListFiltroMedicosCita;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita;
+
 
 public class PanelCitas extends JPanel{
 	
@@ -73,7 +74,7 @@ public class PanelCitas extends JPanel{
 	private DefaultListModel<Medico> modeloListMedicos; //Rep
 	private JScrollPane scrollPaneMedicos;
 	private JButton btnAnadirMedicos;
-	private JListFiltroMedicosCita listMedicos; //Rep 
+	private JListFitroMedicosCita listMedicos; //Rep 
 	private JScrollPane scrollPaneMedicosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
 	private JList listPacienteSeleccionado;
@@ -89,7 +90,6 @@ public class PanelCitas extends JPanel{
 	private JComboBox comboBoxHorasInicioCita;
 	private JButton btnCrearCita;
 	private JButton btncancelarCita;
-	private JLabel lblNewLabel_1;
 	private JComboBox comboBoxMinutosInicioCita;
 	private JLabel lblNewLabel_2;
 	private JComboBox comboBoxMinutosFinCita;
@@ -101,11 +101,9 @@ public class PanelCitas extends JPanel{
 	private MedicoCitaDTO medicoCitaDTO;
 	private CrearMedicoCita crearMedicoCita;
 	private JPanel panelAnterior;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JLabel lblFiltroPaciente;
-	private JLabel lblFiltroPaciente_1;
+	private JTextField textFieldMedicos;
+	private JTextField textFieldpacientes;
+	private JLabel lblNewLabel;
 	
 	public PanelCitas(JPanel panelAnterior) {
 		this.panelAnterior = panelAnterior;
@@ -114,7 +112,7 @@ public class PanelCitas extends JPanel{
 	
 	private void getPanelCitas() {
 		
-			this.setBackground(Color.WHITE);
+			this.setBackground(new Color(135, 206, 235));
 			this.setLayout(null);
 			this.add(getLblMedicos());
 			this.add(getLblPaciente());
@@ -127,7 +125,6 @@ public class PanelCitas extends JPanel{
 			this.add(getComboBoxHorasFinCita());
 			this.add(getBtnCrearCita());
 			this.add(getBtncancelarCita());
-			this.add(getLblNewLabel_1());
 			this.add(getComboBoxMinutosInicioCita());
 			this.add(getLblNewLabel_2());
 			this.add(getComboBox_1());
@@ -146,11 +143,7 @@ public class PanelCitas extends JPanel{
 			this.add(getChckbxUrgente());
 			this.add(getBtnEliminarPacienteCita());
 			this.add(getBtnEliminarMedicoCita());
-			add(getLblFiltroPaciente());
-			add(getLblFiltroPaciente_1());
-		
-			
-			
+			add(getLblNewLabel());		
 			
 	}
 	
@@ -211,10 +204,11 @@ public class PanelCitas extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					
 					modeloListPacienteCita.removeAllElements();
-					txtFieldInfoContacto.setText("(A�adir paciente)");
+					txtFieldInfoContacto.setText("(Añadir paciente)");
 				}
 			});
-			btnEliminarPacienteCita.setBounds(1000, 145, 103, 23);
+			btnEliminarPacienteCita.setBounds(1002, 124, 103, 23);
+
 		}
 		return btnEliminarPacienteCita;
 	}
@@ -275,7 +269,8 @@ public class PanelCitas extends JPanel{
 					anadirPacienteListaCita();
 				}
 			});
-			btnAnadirPacienteListaCita.setBounds(630, 126, 149, 55);
+			btnAnadirPacienteListaCita.setBounds(630, 108, 149, 55);
+
 		}
 		return btnAnadirPacienteListaCita;
 	}
@@ -288,7 +283,7 @@ public class PanelCitas extends JPanel{
 				if(!modeloListPacienteCita.contains(o)) {
 					Paciente paciente = (Paciente) o;
 					modeloListPacienteCita.addElement(paciente);
-					txtFieldInfoContacto.setText("Tel�fono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
+					txtFieldInfoContacto.setText("Teléfono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
 				}
 				
 			}
@@ -299,7 +294,8 @@ public class PanelCitas extends JPanel{
 	private JScrollPane getScrollPanePacienteSeleccionado() {
 		if (scrollPanePacienteSeleccionado == null) {
 			scrollPanePacienteSeleccionado = new JScrollPane();
-			scrollPanePacienteSeleccionado.setBounds(794, 114, 186, 88);
+			scrollPanePacienteSeleccionado.setBounds(794, 88, 186, 88);
+
 			scrollPanePacienteSeleccionado.setViewportView(getListPacienteSeleccionado());
 		}
 		return scrollPanePacienteSeleccionado;
@@ -308,7 +304,8 @@ public class PanelCitas extends JPanel{
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(321, 114, 289, 88);
+			scrollPane_1.setBounds(321, 88, 289, 88);
+
 			scrollPane_1.setViewportView(getListPacientesCita());
 		}
 		return scrollPane_1;
@@ -326,7 +323,8 @@ public class PanelCitas extends JPanel{
 	private JScrollPane getScrollPaneMedicos() {
 		if (scrollPaneMedicos == null) {
 			scrollPaneMedicos = new JScrollPane();
-			scrollPaneMedicos.setBounds(320, 231, 287, 88);
+			scrollPaneMedicos.setBounds(323, 213, 287, 88);
+
 			scrollPaneMedicos.setViewportView(getListMedicos());
 		}
 		return scrollPaneMedicos;
@@ -336,7 +334,8 @@ public class PanelCitas extends JPanel{
 		if (listMedicos == null) {
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
-			listMedicos = new JListFiltroMedicosCita(modeloListMedicos);
+			listMedicos = new JListFitroMedicosCita(modeloListMedicos);
+
 			this.add(listMedicos.gettextoFiltro());
 
 		}
@@ -373,7 +372,8 @@ public class PanelCitas extends JPanel{
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Seleccionar Medicos :");
 			lblMedicos.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblMedicos.setBounds(83, 257, 211, 22);
+			lblMedicos.setBounds(83, 236, 211, 22);
+
 		}
 		return lblMedicos;
 	}
@@ -576,14 +576,6 @@ public class PanelCitas extends JPanel{
 		this.panelAnterior.setVisible(true);
 	}
 
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("CREAR CITA");
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 40));
-			lblNewLabel_1.setBounds(380, 28, 235, 46);
-		}
-		return lblNewLabel_1;
-	}
 
 	private JComboBox getComboBoxMinutosInicioCita() {
 		if (comboBoxMinutosInicioCita == null) {
@@ -745,7 +737,7 @@ public class PanelCitas extends JPanel{
 					citaDTO.idUbicacion = idUbicacion;
 					
 					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
-						int a = JOptionPane.showConfirmDialog(new JPanel(), "La ubicacion esta ocupada durante esa franja horaria, �quiere crear la cita igualmente?");
+						int a = JOptionPane.showConfirmDialog(new JPanel(), "La ubicacion esta ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
 						
 						if (a==JOptionPane.OK_OPTION) {
 							
@@ -838,11 +830,11 @@ public class PanelCitas extends JPanel{
 	
 							message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
 	
-							message.setSubject("Cita urgente nº " + citaDTO.idCita);
-							message.setText("Buenos días "+m.getNombreMedico()+" "+m.getApellidosMedico()+". \n"
+							message.setSubject("Cita urgente nÂº " + citaDTO.idCita);
+							message.setText("Buenos dÃ­as "+m.getNombreMedico()+" "+m.getApellidosMedico()+". \n"
 									+ "Este es un recordatorio de que tiene una cita urgente con identificador " + citaDTO.idCita
-									+ " el día "+ citaDTO.fecha.toString() + ".\n"
-									+ "La ubicación de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
+									+ " el dÃ­a "+ citaDTO.fecha.toString() + ".\n"
+									+ "La ubicaciÃ³n de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
 							
 							Transport t = session.getTransport("smtp");
 	
@@ -888,21 +880,15 @@ public class PanelCitas extends JPanel{
 			btnCrearCita.setBounds(729, 481, 125, 23);
 		}
 		return btnCrearCita;
-	}
-	private JLabel getLblFiltroPaciente() {
-		if (lblFiltroPaciente == null) {
-			lblFiltroPaciente = new JLabel("Filtrar por nombre :");
-			lblFiltroPaciente.setFont(new Font("Tahoma", Font.BOLD, 12));
-			lblFiltroPaciente.setBounds(181, 98, 137, 14);
+
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("Filtro sensible a MAYUSCULAS");
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel.setForeground(Color.RED);
+			lblNewLabel.setBounds(74, 51, 200, 50);
 		}
-		return lblFiltroPaciente;
-	}
-	private JLabel getLblFiltroPaciente_1() {
-		if (lblFiltroPaciente_1 == null) {
-			lblFiltroPaciente_1 = new JLabel("Filtrar por nombre :");
-			lblFiltroPaciente_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-			lblFiltroPaciente_1.setBounds(181, 215, 137, 14);
-		}
-		return lblFiltroPaciente_1;
+		return lblNewLabel;
+
 	}
 }
