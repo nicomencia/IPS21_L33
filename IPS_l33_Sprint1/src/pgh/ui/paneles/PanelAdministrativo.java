@@ -126,7 +126,10 @@ public class PanelAdministrativo extends JPanel {
 			btnComprobarVacacionesSolicitadas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					
+					PanelSolicitudesVacacionesAdministrador panel = new PanelSolicitudesVacacionesAdministrador(panelAdministrativo, panelContenido, panelAdministrativo);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
 					
 				}
 			});

@@ -70,7 +70,10 @@ public class PanelMedico extends JPanel {
 			btnPedirVacaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					
+					PanelPedirVacaciones panel = new PanelPedirVacaciones(panelMedico, panelContenido, idmedico);
+					panelContenido.add(panel);
+					panelMedico.setVisible(false);
+					panel.setVisible(true);
 					
 				}
 			});
