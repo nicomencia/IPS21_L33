@@ -1,6 +1,5 @@
 package pgh.ui.paneles;
 
-
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -71,6 +70,8 @@ public class PanelMedico extends JPanel {
 			btnPedirVacaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					
+					
 				}
 			});
 			btnPedirVacaciones.setBounds(542, 72, 140, 36);
@@ -91,5 +92,4 @@ public class PanelMedico extends JPanel {
 		}
 		return btnSalir;
 	}
-
 }

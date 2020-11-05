@@ -8,109 +8,33 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import pgh.business.cita.Cita;
-import pgh.business.cita.CitaDTO;
-import pgh.business.cita.CrearCitas;
-import pgh.business.cita.FindAllCitas;
-import pgh.business.cita.ListaCitas;
-
-import pgh.business.enfermero.Enfermero;
-import pgh.business.enfermero.EnfermeroDTO;
-import pgh.business.enfermero.ListaEnfermeros;
-import pgh.business.jornadaenfermero.CrearJornadaEnfermero;
-import pgh.business.jornadaenfermero.JornadaEnfermero;
-import pgh.business.jornadaenfermero.JornadaEnfermeroDTO;
-import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
-import pgh.business.jornadamedico.CrearJornadaMedico;
-import pgh.business.jornadamedico.JornadaMedico;
-import pgh.business.jornadamedico.JornadaMedicoDTO;
-import pgh.business.jornadamedico.ListaJornadasMedico;
-import pgh.business.medicamento.CrearMedicamento;
-import pgh.business.medicamento.ListaMedicamentos;
 
 
-import pgh.business.medicamento.Medicamento;
-import pgh.business.medicamento.MedicamentoDTO;
+
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
-import pgh.business.medicocita.CrearMedicoCita;
-import pgh.business.medicocita.ListaMedicoCita;
-import pgh.business.medicocita.MedicoCita;
-import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.business.paciente.ListaPacientes;
-import pgh.business.paciente.Paciente;
-import pgh.business.prescripcion.CrearPrescripcion;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
-import pgh.business.prescripcion.PrescripcionDTO;
-import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
-import pgh.business.prescripcioncitapaciente.FindAllPrescripcionesCitaPaciente;
-import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
-import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
-import pgh.business.ubicacion.ListaUbicaciones;
-import pgh.business.ubicacion.Ubicacion;
 import pgh.ui.paneles.PanelAdministrativo;
-import pgh.ui.paneles.PanelCitas;
-import pgh.ui.paneles.PanelElegirCita;
-import pgh.ui.paneles.PanelJornadaEnfermero;
-import pgh.ui.paneles.PanelJornadaMedico;
+
 import pgh.ui.paneles.PanelMedico;
-import pgh.ui.paneles.PanelMedicoCita;
-import pgh.ui.paneles.PanelPrescripcion;
 import pgh.ui.paneles.filtros.JListFiltroLoginMedico;
-import pgh.ui.paneles.PanelLoginMedico;
+
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
 import javax.swing.JScrollPane;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.swing.AbstractListModel;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.JRadioButton;
-import java.awt.GridLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
-import org.hsqldb.lib.tar.RB;
-import com.toedter.calendar.JCalendar;
-import com.toedter.components.JLocaleChooser;
-import com.toedter.components.JSpinField;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.SpinnerNumberModel;
-import com.toedter.calendar.JTextFieldDateEditor;
-import com.toedter.calendar.JYearChooser;
-import javax.swing.SpinnerListModel;
-import javax.swing.SpinnerDateModel;
-import javax.swing.JTextPane;
-import java.awt.Dimension;
-import javax.swing.JCheckBox;
+
 
 
 public class VentanaPrincipal extends JFrame {
@@ -123,29 +47,15 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAdministrativo;
 	private JButton btnEntrarComoMdico;
 	private JButton btnAdministrativo_1_1;
-	private JButton btnSalir;
-	private JPanel panelMedico;
 	private JPanel panelEnfermero;
-	private JButton btnAsignarCita;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
-	private JPanel panelJornadasMedico;
-	private JButton btnAsignarJornadasMedicos;
-	private JButton btnAsignarJornadasAEnfermeros;
 	private DefaultListModel<Cita> modelListaCitasMedicoPaciente;
 	private DefaultListModel<Cita> modelListaCitaMedicoPacienteElegida;
-	private int id_prescripcion;
-	private ListaEnfermeros le;
-	private CrearJornadaEnfermero crearJornadaEnfermero;
-	private ListaMedicamentos listaMedicamentos;
 	private JList listCitasMedicoPaciente;
 	private JList listCitaElegida;
-	private int id_paciente;
-	private ListaCitas listaCitas;
-	private FindAllCitas findAllCitas;
 	private JLabel lblNewLabel_16;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
-	private JButton btnIndicarPrescripcion;
 	private JButton btnAnadirNuevaPrescripcion;
 	private JScrollPane scrollPanePrescripciones;
 	private JList listPrescripciones;
@@ -153,7 +63,6 @@ public class VentanaPrincipal extends JFrame {
 	private ListaPrescripciones listaPrescripciones;
 	private DefaultListModel<Prescripcion> modeloListPrescripcionesSeleccionada;
 	private JPanel panelLoginMedico;
-	private JLabel lblNewLabel_16;
 	private int id_medico;
 	private JListFiltroLoginMedico listMedicosLogin;
 	private JButton btnSeleccionarMedicoLogin;
@@ -166,8 +75,6 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scrollPane_4;
 	private DefaultListModel<Medico> modeloListaMedicosLogin;
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
-	private JButton btnNewButton;
-	private JButton btnComprobarVacacionesSolicitadas;
 
 	
 
@@ -214,6 +121,8 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.add(getPanelPrincipal(), "name_185722150351700");
 			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelLoginMedico(), "name_186491911563700");
+			
+
 		}
 		return panelContenido;
 	}
@@ -308,15 +217,19 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	
+	
 	private void cambiarPanel(String nombre) {
 
 		if (nombre == "panelPrincipal") {
 			panelPrincipal.setVisible(true);
 			panelEnfermero.setVisible(false);
-			panelLoginMedico.setVisible(false);	
+			panelLoginMedico.setVisible(false);
+
+
+		
 		} else if (nombre == "panelMedico") {
 			panelPrincipal.setVisible(false);
-		  panelEnfermero.setVisible(false);
+		    panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(false);
 
 		} else if (nombre == "panelEnfermero") {
@@ -329,6 +242,7 @@ public class VentanaPrincipal extends JFrame {
 			panelPrincipal.setVisible(false);
 			panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(true);
+
 		}
 	}
 
@@ -338,6 +252,64 @@ public class VentanaPrincipal extends JFrame {
 			panelEnfermero.setBackground(Color.WHITE);
 		}
 		return panelEnfermero;
+	}
+
+
+
+	private JButton getBtnAnadirNuevaPrescripcion() {
+		if (btnAnadirNuevaPrescripcion == null) {
+			btnAnadirNuevaPrescripcion = new JButton("A\u00F1adir nueva prescripcion");
+			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					cambiarPanel("panelCrearPrescripcion");
+				}
+			});
+			btnAnadirNuevaPrescripcion.setBounds(92, 202, 224, 40);
+		}
+		return btnAnadirNuevaPrescripcion;
+	}
+
+	private JScrollPane getScrollPanePrescripciones() {
+		if (scrollPanePrescripciones == null) {
+			scrollPanePrescripciones = new JScrollPane();
+			scrollPanePrescripciones.setBounds(40, 11, 328, 162);
+			scrollPanePrescripciones.setViewportView(getListPrescripciones());
+		}
+		return scrollPanePrescripciones;
+	}
+
+
+	private JList getListPrescripciones() {
+		if (listPrescripciones == null) {
+			modeloListPrescripciones = new DefaultListModel();
+			listPrescripciones = new JList(modeloListPrescripciones);
+			listPrescripciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			mostrarPrescripciones();
+		}
+		return listPrescripciones;
+	}
+
+	private void mostrarPrescripciones() {
+
+		listaPrescripciones = new ListaPrescripciones();
+
+		listaPrescripciones.creaListaPrescripciones();
+
+		for (Prescripcion p : listaPrescripciones.getPrescripciones()) {
+
+			modeloListPrescripciones.addElement(p);
+
+		}
+
+	}
+
+	private JList getListPrescripcionSeleccionada() {
+		if (listPrescripcionSeleccionada == null) {
+			modeloListPrescripcionesSeleccionada = new DefaultListModel();
+			listPrescripcionSeleccionada = new JList(modeloListPrescripcionesSeleccionada);
+		}
+		return listPrescripcionSeleccionada;
 	}
 
 
@@ -392,6 +364,7 @@ public class VentanaPrincipal extends JFrame {
 					for (Object o : listMedicosLogin.getSelectedValuesList()) {
 						if (!modeloListaMedicosLogueados.contains(o)) {
 							if (modeloListaMedicosLogueados.getSize() < 1) {
+
 								modeloListaMedicosLogueados.addElement((Medico) o);
 
 							}
@@ -400,6 +373,7 @@ public class VentanaPrincipal extends JFrame {
 				}
 			});
 			btnSeleccionarMedicoLogin.setBounds(462, 249, 166, 39);
+
 		}
 		return btnSeleccionarMedicoLogin;
 	}
@@ -453,12 +427,10 @@ public class VentanaPrincipal extends JFrame {
 					
 				}
 			});
-
+			btnSiguienteLogin.setBounds(807, 503, 89, 23);
 		}
-		return btnSeleccionarMedicoLogin;
+		return btnSiguienteLogin;
 	}
-
-
 
 	private JList getListCitasMedicoPaciente() {
 		if (listCitasMedicoPaciente == null) {
@@ -476,6 +448,7 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return listCitaElegida;
 	}
+
 
 	private JLabel getLblNewLabel_16() {
 		if (lblNewLabel_16 == null) {
