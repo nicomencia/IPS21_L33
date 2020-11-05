@@ -87,6 +87,10 @@ public class PanelMedicoCita extends JPanel {
 			btnAntecedentesClinicos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(panelMedicoCita, panelContenido, id_paciente, panelMedicoCita,id_cita );
+					panelContenido.add(panel);
+					panelMedicoCita.setVisible(false);
+					panel.setVisible(true);
 					
 				}
 			});
