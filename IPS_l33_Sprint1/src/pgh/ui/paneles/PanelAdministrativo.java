@@ -69,7 +69,7 @@ public class PanelAdministrativo extends JPanel {
 			btnAsignarCita.setFocusable(false);
 			btnAsignarCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					PanelCitas pc = new PanelCitas(panelAdministrativo);
+					PanelCitas pc = new PanelCitas(panelAdministrativo, panelContenido);
 					panelContenido.add(pc);
 					panelAdministrativo.setVisible(false);
 					pc.setVisible(true);
