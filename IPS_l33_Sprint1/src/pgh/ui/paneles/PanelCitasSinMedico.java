@@ -334,13 +334,17 @@ public class PanelCitasSinMedico extends JPanel {
 
 				private void mandarEmailMedicosCita() {
 
+					List<Medico> lm = new ArrayList<Medico>();
+					
 					for (int i = 0; i < listMedicosAnadidos.getModel().getSize(); i++) {
-						mandarEmail(listMedicosAnadidos.getModel().getElementAt(i));
+						lm.add(listMedicosAnadidos.getModel().getElementAt(i));
 					}
+					
+					mandarEmail(lm);
 
 				}
 
-				private void mandarEmail(Medico m) {
+				private void mandarEmail(List<Medico> lm) {
 
 					Properties props = new Properties();
 
@@ -356,6 +360,8 @@ public class PanelCitasSinMedico extends JPanel {
 					});
 					session.setDebug(true);
 
+					for (Medico m : lm) {
+					
 					MimeMessage message = new MimeMessage(session);
 
 					try {
@@ -364,10 +370,10 @@ public class PanelCitasSinMedico extends JPanel {
 						message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
 
 						message.setSubject("Cita urgente nº " + citaDTO.idCita);
-						message.setText("Buenos días " + m.getNombreMedico() + " " + m.getApellidosMedico() + ". \n"
+						message.setText("Buenos dias " + m.getNombreMedico() + " " + m.getApellidosMedico() + ". \n"
 								+ "Este es un recordatorio de que tiene una cita urgente con identificador "
-								+ citaDTO.idCita + " el día " + citaDTO.fecha.toString() + ".\n"
-								+ "La ubicación de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
+								+ citaDTO.idCita + " el dia " + citaDTO.fecha.toString() + ".\n"
+								+ "La ubicacion de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
 
 						Transport t = session.getTransport("smtp");
 
@@ -384,9 +390,12 @@ public class PanelCitasSinMedico extends JPanel {
 					}
 					System.out.println("Mandado email a " + m.getNombreMedico() + " " + m.getApellidosMedico() + "  ("
 							+ m.getEmailMedico() + ")");
+					}
 				}
 
 				private String getUbicacionNombreCita(int idUbicacion) {
+					ListaUbicaciones lu = new ListaUbicaciones();
+					lu.creaListaUbicaciones();
 					String ubicacion = "No disponible";
 					for (Ubicacion u : lu.getUbicacion()) {
 						if (u.getIdUbicacion() == idUbicacion)
