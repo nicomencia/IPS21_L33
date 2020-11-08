@@ -43,6 +43,19 @@ public class PanelAdministrativo extends JPanel {
 			this.add(getBtnAsignarJornadasMedicos());
 			this.add(getBtnAsignarJornadasAEnfermeros());
 			this.add(getBtnComprobarVacacionesSolicitadas());
+			
+			JButton btnNewButton = new JButton("Asignar Medico a Cita");
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelCitasSinMedico pc = new PanelCitasSinMedico(panelAdministrativo, panelContenido);
+					panelContenido.add(pc);
+					panelAdministrativo.setVisible(false);
+					pc.setVisible(true);
+				}
+			});
+			btnNewButton.setBounds(45, 135, 198, 38);
+			add(btnNewButton);
 		
 		    return panelAdministrativo;
 	}
@@ -143,7 +156,4 @@ public class PanelAdministrativo extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-
-
-
 }

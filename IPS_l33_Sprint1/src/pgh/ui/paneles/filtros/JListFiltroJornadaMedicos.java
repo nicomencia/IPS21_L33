@@ -9,8 +9,6 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.omg.CORBA.Bounds;
-
 import pgh.business.medico.Medico;
 
 public class JListFiltroJornadaMedicos extends JList {

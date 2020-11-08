@@ -45,7 +45,7 @@ public class Cita {
 	public String toString() {
 		
 		StringBuilder sb =new StringBuilder();
-		sb.append("Cita del dia " + getDate() + " con el paciente elegido");
+		sb.append("Cita del dia: " + getDate() + " con el paciente: " + getNombrePaciente() + " ubicacion: " +  getIdUbicacion() + " Contacto " + infoContacto());
 		return sb.toString();
 	}
 
@@ -54,7 +54,13 @@ public class Cita {
 	}
 	
 	
-	
+	public String getNombrePaciente() {
+		return c.nombrePaciente;
+	}
+
+	public boolean getMedicoAsignado() {
+		return c.medicoAsignado;
+	}
 	
 	
 
