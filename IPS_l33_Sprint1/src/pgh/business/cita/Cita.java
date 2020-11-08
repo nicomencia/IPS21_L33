@@ -55,13 +55,6 @@ public class Cita {
 	}
 	
 	public String getNombrePaciente() {
-		
-		return c.nombrePaciente;
-		
-	}
-	
-	
-	public String getNombrePaciente() {
 		return c.nombrePaciente;
 	}
 
