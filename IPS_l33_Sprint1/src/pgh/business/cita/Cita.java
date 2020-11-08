@@ -61,7 +61,13 @@ public class Cita {
 	}
 	
 	
-	
+	public String getNombrePaciente() {
+		return c.nombrePaciente;
+	}
+
+	public boolean getMedicoAsignado() {
+		return c.medicoAsignado;
+	}
 	
 	
 

@@ -13,5 +13,7 @@ public class CitaDTO {
 	public String infocontacto;
 	public int idHorario;
 	public String nombrePaciente;
+	public boolean medicoAsignado;
+
 
 }
