@@ -117,6 +117,7 @@ public class PanelSolicitudesVacacionesAdministrador extends JPanel {
 		for (VacacionesSolicitadasMedico e : lvs.getVacacionesSolicitadas()) {
 			if(e.getEsperando()==true) {
 				modeloVacacioneSolicitadas.addElement(e);
+				System.out.println(modeloVacacioneSolicitadas.getSize());
 			}
 			
 		}

@@ -98,16 +98,16 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 		setBackground(new Color(135, 206, 235));
 		setBounds(100, 100, 1129, 545);
 		setLayout(null);
-		add(getScrollPaneCitasMedicoAnterior());
-		add(getScrollPane());
-		add(getScrollPane_1());
 		add(getBtnSeleccionarMedicoTitular());
 		add(getBtnSeleccionarMedicoSuplente());
 		add(getBtnAsignarCita());
 		add(getBtnCancelarCita());
-		add(getScrollPane_3());
 		add(getBtnEliminarCitaSeleccionada());
 		add(getBtnSeleccionarCita());
+		add(getScrollPane_3());
+		add(getScrollPaneCitasMedicoAnterior());
+		add(getScrollPane());
+		add(getScrollPane_1());
 		add(getLblNewLabel());
 		add(getLblListaDeMedicos());
 		add(getLblListaDeMedicos_2());
@@ -141,7 +141,9 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 		
 		for(CitaDTO c : findCitas.FindCitaIdMedico(vacaciones.getIdMedico())) {
 			
-		
+					System.out.println(findCitas.FindCitaIdMedico(vacaciones.getIdMedico()).size());
+					
+					System.out.println(c.idCita);
 		
 					if(vacaciones.getFechaInicio().before(c.fecha) || vacaciones.getFechaInicio().equals(c.fecha) || vacaciones.getFechaFin().equals(c.fecha) ) {
 						if(vacaciones.getFechaFin().after(c.fecha)) {
@@ -353,11 +355,14 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 							
 							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdMedico() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
 							JOptionPane.showMessageDialog(getBtnAsignarCita(), "Cita/s otorgadas con exito");
+							
+							System.out.println(modeloCitasAAsignar.getSize());
 							modeloCitasAAsignar.removeAllElements();
+							System.out.println(modeloCitasAAsignar.getSize());
 							modeloCitasAsignadas.removeAllElements();
 							modeloListMedicos.removeAllElements();
 							modeloListMedicosSuplentes.removeAllElements();
-							llenarListaCitas();
+							//llenarListaCitas();
 							añadirMedicos();
 							añadirMedicosSuplentes();
 	
@@ -415,6 +420,13 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	private JButton getBtnEliminarCitaSeleccionada() {
 		if (btnEliminarCitaSeleccionada == null) {
 			btnEliminarCitaSeleccionada = new JButton("Eliminar cita/s seleccionada");
+			btnEliminarCitaSeleccionada.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					modeloCitasAsignadas.removeAllElements();
+					modeloCitasAAsignar.removeAllElements();
+				}
+			});
 			btnEliminarCitaSeleccionada.setBounds(856, 310, 235, 23);
 		}
 		return btnEliminarCitaSeleccionada;
@@ -431,6 +443,8 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 								modeloCitasAsignadas.addElement((Cita) o);
 							}
 						}
+						
+						
 					}
 				}
 			});

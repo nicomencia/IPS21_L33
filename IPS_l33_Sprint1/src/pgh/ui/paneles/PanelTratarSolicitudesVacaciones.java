@@ -173,7 +173,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 					
 					modificar = new ModificarVacacionesSolicitadasMedico();
 					
-					modificar.modificarEstados(true, false, false);
+					modificar.modificarEstados(true, false, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
 					
 					closePanel();
 					
@@ -219,7 +219,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					
 					modificar = new ModificarVacacionesSolicitadasMedico();
-					modificar.modificarEstados(false, true, false);
+					modificar.modificarEstados(false, true, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
 					
 					closePanel();
 				}
