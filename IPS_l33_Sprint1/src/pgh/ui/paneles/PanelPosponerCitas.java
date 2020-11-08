@@ -200,8 +200,14 @@ public class PanelPosponerCitas extends JPanel {
 					
 					
 					modeloCitaSeleccionada.removeAllElements();
-					modeloCita.removeAllElements();
-					llenarCita();
+					
+//					modeloCita.removeAllElements();
+//					llenarCita();
+					PanelPosponerCitas panel= new PanelPosponerCitas(panelPorponerCitas, panelContenido, VacacioneSolicitadas, panelcambiar);
+					panelContenido.add(panel);
+					panelPorponerCitas.setVisible(false);
+					panel.setVisible(true);
+					
 					
 					
 					

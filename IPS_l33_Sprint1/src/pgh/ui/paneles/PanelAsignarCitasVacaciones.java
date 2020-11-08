@@ -118,21 +118,24 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	
 
 	private JScrollPane getScrollPaneCitasMedicoAnterior() {
-		if (scrollPaneCitasMedicoAnterior == null) {
+			if (scrollPaneCitasMedicoAnterior == null) {
 			scrollPaneCitasMedicoAnterior = new JScrollPane();
 			scrollPaneCitasMedicoAnterior.setBounds(39, 51, 412, 423);
 			scrollPaneCitasMedicoAnterior.setViewportView(getListCitasMedicoAnterior());
-		}
+			}
+		
 		return scrollPaneCitasMedicoAnterior;
 	}
 	private JList getListCitasMedicoAnterior() {
-		if (listCitasMedicoAnterior == null) {
+		
+			if(listCitasMedicoAnterior==null) {
 			modeloCitasAAsignar = new DefaultListModel<Cita>();
 			llenarListaCitas();
 			listCitasMedicoAnterior = new JListFiltroPanelCitaAsignarCitasVacaciones(modeloCitasAAsignar);
 			this.add(listCitasMedicoAnterior.gettextoFiltro());
 			listCitasMedicoAnterior.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		}
+			}
+		
 		return listCitasMedicoAnterior;
 	}
 	private void llenarListaCitas() {
@@ -319,13 +322,10 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdMedico() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
 							JOptionPane.showMessageDialog(getBtnAsignarCita(), "Cita/s otorgadas con exito");
 							
-							modeloCitasAAsignar.removeAllElements();
-							llenarListaCitas();
-							modeloCitasAsignadas.removeAllElements();
-							modeloListMedicos.removeAllElements();
-							añadirMedicos();
-							modeloListMedicosSuplentes.removeAllElements();
-							añadirMedicosSuplentes();
+							PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(estePanel, panelContenido, vacaciones, panelcambiar);
+							panelContenido.add(panel);
+							estePanel.setVisible(false);
+							panel.setVisible(true);
 		
 						}
 						
@@ -359,12 +359,10 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 							System.out.println(modeloCitasAAsignar.getSize());
 							modeloCitasAAsignar.removeAllElements();
 							System.out.println(modeloCitasAAsignar.getSize());
-							modeloCitasAsignadas.removeAllElements();
-							modeloListMedicos.removeAllElements();
-							modeloListMedicosSuplentes.removeAllElements();
-							//llenarListaCitas();
-							añadirMedicos();
-							añadirMedicosSuplentes();
+							PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(estePanel, panelContenido, vacaciones, panelcambiar);
+							panelContenido.add(panel);
+							estePanel.setVisible(false);
+							panel.setVisible(true);
 	
 						}
 						
@@ -424,7 +422,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					
 					modeloCitasAsignadas.removeAllElements();
-					modeloCitasAAsignar.removeAllElements();
+					
 				}
 			});
 			btnEliminarCitaSeleccionada.setBounds(856, 310, 235, 23);
