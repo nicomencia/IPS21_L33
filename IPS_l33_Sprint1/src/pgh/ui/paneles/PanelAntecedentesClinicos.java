@@ -210,7 +210,7 @@ public class PanelAntecedentesClinicos extends JPanel {
 
 	protected void closePanel() {
 		this.setVisible(false);
-		this.panelAnterior.setVisible(true);
+		this.panelPrevio.setVisible(true);
 	}
 	
 	

@@ -84,6 +84,17 @@ public class VacacionesSolicitadasMedico {
 				
 	}
 	
+	public String fechaVacaciones() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString());
+		
+		
+		return sb.toString();
+				
+	}
+	
 	
 
 }
