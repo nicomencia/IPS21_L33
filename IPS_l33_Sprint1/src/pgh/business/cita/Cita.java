@@ -42,6 +42,7 @@ public class Cita {
 		return c.idHorario;
 	}
 	
+	
 	public String toString() {
 		
 		StringBuilder sb =new StringBuilder();
@@ -51,6 +52,12 @@ public class Cita {
 
 	public int getIdUbicacion() {
 		return c.idUbicacion;
+	}
+	
+	public String getNombrePaciente() {
+		
+		return c.nombrePaciente;
+		
 	}
 	
 	

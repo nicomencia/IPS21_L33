@@ -15,4 +15,5 @@ public class CitaDTO {
 	public String nombrePaciente;
 	public boolean medicoAsignado;
 
+
 }

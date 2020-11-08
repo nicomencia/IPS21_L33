@@ -16,6 +16,7 @@ public class CrearCitas {
 
 private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto, nombrepaciente, medicoasignado) values (?,?,?,?,?,?,?,?,?,?) ";
 
+
 	
 	Database db = new Database();
 	
@@ -45,6 +46,7 @@ private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, id
 			pst.setString(8, cita.infoContacto());
 			pst.setString(9, cita.getNombrePaciente());
 			pst.setBoolean(10, cita.getMedicoAsignado());
+
 			
 			
 		    pst.executeUpdate();	

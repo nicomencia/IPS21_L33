@@ -217,7 +217,7 @@ public class PanelCitas extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 
 					modeloListPacienteCita.removeAllElements();
-					txtFieldInfoContacto.setText("(A�adir paciente)");
+					txtFieldInfoContacto.setText("(Añadir paciente)");
 				}
 			});
 			btnEliminarPacienteCita.setBounds(1002, 124, 103, 23);
@@ -299,7 +299,7 @@ public class PanelCitas extends JPanel {
 					Paciente paciente = (Paciente) o;
 					modeloListPacienteCita.addElement(paciente);
 					txtFieldInfoContacto
-							.setText("Tel�fono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
+							.setText("Teléfono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
 				}
 
 			}
@@ -747,7 +747,7 @@ public class PanelCitas extends JPanel {
 
 					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
 						int a = JOptionPane.showConfirmDialog(new JPanel(),
-								"La ubicacion esta ocupada durante esa franja horaria, �quiere crear la cita igualmente?");
+								"La ubicacion esta ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
 
 						if (a == JOptionPane.OK_OPTION) {
 
@@ -914,11 +914,11 @@ public class PanelCitas extends JPanel {
 
 						message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
 
-						message.setSubject("Cita urgente nº " + citaDTO.idCita);
-						message.setText("Buenos días " + m.getNombreMedico() + " " + m.getApellidosMedico() + ". \n"
+						message.setSubject("Cita urgente nÂº " + citaDTO.idCita);
+						message.setText("Buenos dÃ­as " + m.getNombreMedico() + " " + m.getApellidosMedico() + ". \n"
 								+ "Este es un recordatorio de que tiene una cita urgente con identificador "
-								+ citaDTO.idCita + " el día " + citaDTO.fecha.toString() + ".\n"
-								+ "La ubicación de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
+								+ citaDTO.idCita + " el dÃ­a " + citaDTO.fecha.toString() + ".\n"
+								+ "La ubicaciÃ³n de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
 
 						Transport t = session.getTransport("smtp");
 

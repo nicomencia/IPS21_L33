@@ -91,7 +91,6 @@ public class PanelMedicoCita extends JPanel {
 					panelContenido.add(panel);
 					panelMedicoCita.setVisible(false);
 					panel.setVisible(true);
-					
 				}
 			});
 			btnAntecedentesClinicos.setBounds(279, 69, 177, 38);
