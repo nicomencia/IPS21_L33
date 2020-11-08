@@ -35,6 +35,9 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
 import pgh.business.cita.ListaCitas;
+import pgh.business.horario.CrearHorario;
+import pgh.business.horario.HorarioDTO;
+import pgh.business.horario.ListaHorario;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
 import pgh.business.medicocita.CrearMedicoCita;
@@ -45,11 +48,9 @@ import pgh.business.paciente.ListaPacientes;
 import pgh.business.paciente.Paciente;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.Ubicacion;
-import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
 import pgh.business.vacacionesmedico.FindAllVacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedicoDTO;
-import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 import pgh.ui.paneles.filtros.JListFitroMedicosCita;
 
@@ -115,6 +116,8 @@ public class PanelCitas extends JPanel {
 	private VacacionesMedico vm;
 	private VacacionesMedicoDTO vmDTO;
 	private List<VacacionesMedico> vacaciones = new ArrayList<VacacionesMedico>();
+	private List<HorarioDTO> horarios = new ArrayList<HorarioDTO>();
+	private CrearHorario crearHorario;
 
 	public PanelCitas(JPanel panelAnterior, JPanel panelContenido) {
 		this.panelAnterior = panelAnterior;
@@ -706,6 +709,14 @@ public class PanelCitas extends JPanel {
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
+					horarios = new ListaHorario().getHorarios();
+					crearHorario = new CrearHorario();
+					
+					HorarioDTO horario = new HorarioDTO();
+					horario.horaInicio = (String) comboBoxHorasInicioCita.getSelectedItem() + ":" + (String) comboBoxMinutosInicioCita.getSelectedItem();
+					horario.horaFin = (String) comboBoxHorasFinCita.getSelectedItem() + ":" + (String) comboBoxMinutosFinCita.getSelectedItem();
+					horario.idHorario = horarios.size() + 3000;
+					
 					boolean vacaciones =false;
 					lc = new ListaCitas();
 					lc.creaListaCitas();

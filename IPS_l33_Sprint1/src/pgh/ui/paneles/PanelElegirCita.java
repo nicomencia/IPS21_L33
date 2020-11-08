@@ -52,6 +52,7 @@ public class PanelElegirCita extends JPanel {
 	private List<Cita> citas;
 	private JPanel panelElegirCita;
 	private int idCita;
+	private JButton btnVerCita;
 	
 	public PanelElegirCita(JPanel panelAnterior, JPanel panelContenido, int idmedico, int idPaciente) {
 		this.panelAnterior = panelAnterior;
@@ -94,6 +95,7 @@ public class PanelElegirCita extends JPanel {
 		this.add(getBtnTerminarProcesoAFC());
 		this.add(getBtnCancelarProcesoAFC());
 		this.add(getLblNewLabelElegirCitaAFC());
+		add(getBtnVerCita());
 	}
 	
 	
@@ -225,9 +227,39 @@ public class PanelElegirCita extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-
-
 	
-
+	private Cita findCita(int id)
+	{
+		for(int i=0; i<citas.size();i++)
+		{
+			if(citas.get(i).getIdCita() == id)
+			{
+				return citas.get(i);
+			}
+		}
+		return null;
+	}
+	
+	private JButton getBtnVerCita() {
+		if (btnVerCita == null) {
+			btnVerCita = new JButton("Ver Cita");
+			btnVerCita.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(modelListaCitaMedicoPacienteElegida.isEmpty()) {
+						JOptionPane.showMessageDialog(getBtnTerminarProcesoAFC(), "Tienes que elegir una cita");
+					}
+					
+					else {
+						PanelCita panel = new PanelCita(panelContenido, findCita(idCita));
+						panelContenido.add(panel);
+						panel.setVisible(true);
+						panelElegirCita.setVisible(false);
+					}
+				}
+			});
+			btnVerCita.setBounds(135, 534, 160, 49);
+		}
+		return btnVerCita;
+	}
 }
 

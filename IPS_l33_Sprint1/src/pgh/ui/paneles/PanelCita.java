@@ -8,13 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
+import pgh.business.horario.HorarioDTO;
+import pgh.business.horario.ListaHorario;
 import pgh.business.medico.FindMedicoById;
 import pgh.business.medico.MedicoDTO;
 import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.medicocita.MedicoCita;
-import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.business.paciente.FindPacienteById;
 import pgh.business.paciente.PacienteDTO;
+import pgh.business.ubicacion.ListaUbicaciones;
+import pgh.business.ubicacion.UbicacionDTO;
 
 public class PanelCita extends JPanel {
 	private JLabel lblPaciente;
@@ -34,15 +37,23 @@ public class PanelCita extends JPanel {
 	private PacienteDTO paciente;
 	private MedicoDTO medico;
 	private List<MedicoCita> medicoCita;
+	private List<HorarioDTO> horarios;
+	private HorarioDTO horario;
+	private UbicacionDTO ubicacion;
+	private JPanel panelAnterior;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelCita(Cita cita) {
+	public PanelCita(JPanel panelAnterior, Cita cita) {
+		this.panelAnterior = panelAnterior;
 		this.cita = cita;
+		horarios = new ListaHorario().getHorarios();
 		paciente = new FindPacienteById().execute(cita.getIdPaciente());
 		medicoCita = new ListaMedicoCita().getMedicoCitas();
 		medico = getIdMedico();
+		horario = getHorario();
+		ubicacion = new ListaUbicaciones().getUbicacionById(cita.getIdUbicacion());
 		setLayout(null);
 		add(getLblPaciente());
 		add(getLabelNombreApellidosPaciente());
@@ -67,6 +78,17 @@ public class PanelCita extends JPanel {
 			if(medicoCita.get(i).getIdCita() == cita.getIdCita())
 			{
 				return new FindMedicoById().execute(medicoCita.get(i).getIdMedico());
+			}
+		}
+		return null;
+	}
+	
+	private HorarioDTO getHorario() {
+		for(int i=0;i<horarios.size();i++)
+		{
+			if(horarios.get(i).idHorario == cita.getIdHorario())
+			{
+				return horarios.get(i);
 			}
 		}
 		return null;
@@ -119,7 +141,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLabelHoras() {
 		if (labelHoras == null) {
 			labelHoras = new JLabel("");
-			labelHoras.setText(cita.getIdHorario());
+			labelHoras.setText(horario.horaInicio + ":" + horario.horaFin);
 			labelHoras.setBounds(587, 171, 119, 20);
 		}
 		return labelHoras;
@@ -133,7 +155,7 @@ public class PanelCita extends JPanel {
 	}
 	private JLabel getLabelSala() {
 		if (labelSala == null) {
-			labelSala = new JLabel("");
+			labelSala = new JLabel(ubicacion.nombre);
 			labelSala.setBounds(587, 237, 176, 17);
 		}
 		return labelSala;
@@ -147,7 +169,14 @@ public class PanelCita extends JPanel {
 	}
 	private JLabel getLabelUrgente() {
 		if (labelUrgente == null) {
-			labelUrgente = new JLabel("");
+			if(cita.getUrgente())
+			{
+			labelUrgente = new JLabel("Es Urgente");
+			}
+			else
+			{
+				labelUrgente = new JLabel("No es Urgente");
+			}
 			labelUrgente.setBounds(587, 310, 61, 17);
 		}
 		return labelUrgente;
@@ -161,7 +190,7 @@ public class PanelCita extends JPanel {
 	}
 	private JLabel getLabelContacto() {
 		if (labelContacto == null) {
-			labelContacto = new JLabel("");
+			labelContacto = new JLabel(cita.infoContacto());
 			labelContacto.setBounds(635, 385, 176, 23);
 		}
 		return labelContacto;
