@@ -12,5 +12,6 @@ public class CitaDTO {
 	public boolean urgente;
 	public String infocontacto;
 	public int idHorario;
+	public String nombrePaciente;
 
 }

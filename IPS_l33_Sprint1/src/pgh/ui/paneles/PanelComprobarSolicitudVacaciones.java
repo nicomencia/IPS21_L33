@@ -73,9 +73,11 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 		findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasMedico();
 		vsmDTO= new VacacionesSolicitadasMedicoDTO();
 		
-		if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()==1) {
+		if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()>0) {
 			for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas.FindIdMedico(id_medico)) {
+				
 				vsmDTO=va;
+			
 			}
 			
 			VacacionesSolicitadasMedico v = new VacacionesSolicitadasMedico(vsmDTO);
@@ -100,7 +102,7 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 			findAllVacacionesSolicitadas2 = new FindAllVacacionesSolicitadasMedico();
 			vsmDTO2= new VacacionesSolicitadasMedicoDTO();
 			
-			if(findAllVacacionesSolicitadas2.FindIdMedico(id_medico).size()==1) {
+			if(findAllVacacionesSolicitadas2.FindIdMedico(id_medico).size()>=1) {
 				for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas2.FindIdMedico(id_medico)) {
 					vsmDTO2=va;
 				}
