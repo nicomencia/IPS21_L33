@@ -144,7 +144,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("New label");
-			lblNewLabel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/cruz.png")));
+			//lblNewLabel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("img/cruz.png")));
 			lblNewLabel.setBounds(821, 22, 217, 209);
 		}
 		return lblNewLabel;

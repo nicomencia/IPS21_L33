@@ -14,6 +14,7 @@ import pgh.business.medico.FindMedicoById;
 import pgh.business.medico.MedicoDTO;
 import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.medicocita.MedicoCita;
+import pgh.business.paciente.FindAllPacientes;
 import pgh.business.paciente.FindPacienteById;
 import pgh.business.paciente.PacienteDTO;
 import pgh.business.ubicacion.ListaUbicaciones;
@@ -38,6 +39,7 @@ public class PanelCita extends JPanel {
 	private MedicoDTO medico;
 	private List<MedicoCita> medicoCita;
 	private List<HorarioDTO> horarios;
+	private List<PacienteDTO> pacientes;
 	private HorarioDTO horario;
 	private UbicacionDTO ubicacion;
 	private JPanel panelAnterior;
@@ -48,8 +50,9 @@ public class PanelCita extends JPanel {
 	public PanelCita(JPanel panelAnterior, Cita cita) {
 		this.panelAnterior = panelAnterior;
 		this.cita = cita;
+		pacientes = new FindAllPacientes().execute();
 		horarios = new ListaHorario().getHorarios();
-		paciente = new FindPacienteById().execute(cita.getIdPaciente());
+		paciente = getPaciente(cita.getIdPaciente());
 		medicoCita = new ListaMedicoCita().getMedicoCitas();
 		medico = getIdMedico();
 		horario = getHorario();
@@ -69,6 +72,18 @@ public class PanelCita extends JPanel {
 		add(getLblInformacionDeContacto());
 		add(getLabelContacto());
 
+	}
+	
+	private PacienteDTO getPaciente(int id)
+	{
+		for(int i =0;i<pacientes.size();i++)
+		{
+			if(pacientes.get(i).idPaciente==id)
+			{
+				return pacientes.get(i);
+			}
+		}
+		return null;
 	}
 	
 	private MedicoDTO getIdMedico()
