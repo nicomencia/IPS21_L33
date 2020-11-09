@@ -717,6 +717,8 @@ public class PanelCitas extends JPanel {
 					horario.horaFin = (String) comboBoxHorasFinCita.getSelectedItem() + ":" + (String) comboBoxMinutosFinCita.getSelectedItem();
 					horario.idHorario = horarios.size() + 3000;
 					
+					crearHorario.crearHorario(horario);
+					
 					boolean vacaciones =false;
 					lc = new ListaCitas();
 					lc.creaListaCitas();
