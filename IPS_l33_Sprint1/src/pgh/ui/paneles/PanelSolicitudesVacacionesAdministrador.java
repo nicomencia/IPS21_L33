@@ -117,6 +117,7 @@ public class PanelSolicitudesVacacionesAdministrador extends JPanel {
 		for (VacacionesSolicitadasMedico e : lvs.getVacacionesSolicitadas()) {
 			if(e.getEsperando()==true) {
 				modeloVacacioneSolicitadas.addElement(e);
+				System.out.println(modeloVacacioneSolicitadas.getSize());
 			}
 			
 		}
@@ -125,8 +126,8 @@ public class PanelSolicitudesVacacionesAdministrador extends JPanel {
 	}
 
 	protected void closePanel() {
-		this.setVisible(false);
-		this.panelCambiar.setVisible(true);
+		p.setVisible(false);
+		panelCambiar.setVisible(true);
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {

@@ -27,6 +27,7 @@ import pgh.business.vacacionesSolicitadas.FindAllVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.ListaVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
+import pgh.business.vacacionesSolicitadas.RemoveVacacionesSolicitadas;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -55,6 +56,8 @@ public class PanelPedirVacaciones extends JPanel {
 	private ListaMedicos lm;
 	private VacacionesSolicitadasMedicoDTO vsmDTO;
 	private FindAllVacacionesSolicitadasMedico findAllVacacionesSolicitadas;
+	private RemoveVacacionesSolicitadas removeVacaciones;
+
 	
 	
 	public PanelPedirVacaciones(JPanel panelAnterior, JPanel panelContenido, int idmedico) {
@@ -233,7 +236,7 @@ public class PanelPedirVacaciones extends JPanel {
 					findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasMedico();
 					vsmDTO= new VacacionesSolicitadasMedicoDTO();
 					
-					if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()==1) {
+					if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()>=1) {
 						
 						for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas.FindIdMedico(id_medico)) {
 							vsmDTO=va;
@@ -246,6 +249,10 @@ public class PanelPedirVacaciones extends JPanel {
 						}
 						
 						else {
+							
+							removeVacaciones = new RemoveVacacionesSolicitadas();
+							removeVacaciones.borrarSustituto(id_medico);
+						
 							vacacionesSolicitadasMedicoDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
 							vacacionesSolicitadasMedicoDTO.idMedico = id_medico;
 							vacacionesSolicitadasMedicoDTO.diaInicio = dateChooserFechaInicio.getDate();
@@ -275,6 +282,9 @@ public class PanelPedirVacaciones extends JPanel {
 						
 					}
 					else {
+						
+					    removeVacaciones = new RemoveVacacionesSolicitadas();
+					    removeVacaciones.borrarSustituto(id_medico);
 						
 						vacacionesSolicitadasMedicoDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
 						vacacionesSolicitadasMedicoDTO.idMedico = id_medico;

@@ -1,4 +1,4 @@
-package pgh.business.medico;
+package pgh.business.medicoSustituto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +9,14 @@ import java.util.List;
 
 import pgh.jdbc.Database;
 
-public class FindAllMedicos {
+public class FindAllMedicosSustitutos {
 	
-	private static String SQL = "select idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico from Medico";
+	private static String SQL = "select idMedicoSustituto, nombre, apellidos, email from MedicoSustituto";
 		
 	Database db = new Database();
 	
-		public List<MedicoDTO> execute() {
-			List<MedicoDTO> medicos;
+		public List<MedicoSustitutoDTO> execute() {
+			List<MedicoSustitutoDTO> medicos;
 			
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -30,13 +30,11 @@ public class FindAllMedicos {
 				rs = pst.executeQuery();
 				medicos = new ArrayList<>();
 				while(rs.next()) {
-					MedicoDTO medico = new MedicoDTO();
-					medico.idMedico = rs.getInt("idMedico");
+					MedicoSustitutoDTO medico = new MedicoSustitutoDTO();
+					medico.idMedicoSustituto = rs.getInt("idMedicoSustituto");
 					medico.nombre=rs.getString("nombre");;
 					medico.apellidos=rs.getString("apellidos");;
 					medico.email=rs.getString("email");
-					medico.especialidad=rs.getString("especialidad");
-					medico.idEquipoMedico=rs.getInt("idEquipo_Medico");
 					medicos.add(medico);
 				}
 			} catch (SQLException e) {

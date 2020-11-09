@@ -8,33 +8,110 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import pgh.business.cita.Cita;
+import pgh.business.cita.CitaDTO;
+import pgh.business.cita.CrearCitas;
+import pgh.business.cita.FindAllCitas;
+import pgh.business.cita.ListaCitas;
+
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.EnfermeroDTO;
+import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.jornadaenfermero.CrearJornadaEnfermero;
+import pgh.business.jornadaenfermero.JornadaEnfermero;
+import pgh.business.jornadaenfermero.JornadaEnfermeroDTO;
+import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
+import pgh.business.jornadamedico.CrearJornadaMedico;
+import pgh.business.jornadamedico.JornadaMedico;
+import pgh.business.jornadamedico.JornadaMedicoDTO;
+import pgh.business.jornadamedico.ListaJornadasMedico;
+import pgh.business.medicamento.CrearMedicamento;
+import pgh.business.medicamento.ListaMedicamentos;
 
 
-
+import pgh.business.medicamento.Medicamento;
+import pgh.business.medicamento.MedicamentoDTO;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.business.medicocita.CrearMedicoCita;
+import pgh.business.medicocita.ListaMedicoCita;
+import pgh.business.medicocita.MedicoCita;
+import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.business.paciente.ListaPacientes;
+import pgh.business.paciente.Paciente;
+import pgh.business.prescripcion.CrearPrescripcion;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
+import pgh.business.prescripcion.PrescripcionDTO;
+import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
+import pgh.business.prescripcioncitapaciente.FindAllPrescripcionesCitaPaciente;
+import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
+import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
+import pgh.business.ubicacion.ListaUbicaciones;
+import pgh.business.ubicacion.Ubicacion;
 import pgh.ui.paneles.PanelAdministrativo;
+import pgh.ui.paneles.PanelCitas;
+import pgh.ui.paneles.PanelElegirCita;
+import pgh.ui.paneles.PanelJornadaEnfermero;
+import pgh.ui.paneles.PanelJornadaMedico;
 
 import pgh.ui.paneles.PanelMedico;
+import pgh.ui.paneles.PanelMedicoCita;
+import pgh.ui.paneles.PanelPrescripcion;
 import pgh.ui.paneles.filtros.JListFiltroLoginMedico;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
 import javax.swing.JScrollPane;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.AbstractListModel;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-
+import javax.swing.JRadioButton;
+import java.awt.GridLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
+import org.hsqldb.lib.tar.RB;
+import com.toedter.calendar.JCalendar;
+import com.toedter.components.JLocaleChooser;
+import com.toedter.components.JSpinField;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.SpinnerNumberModel;
+import com.toedter.calendar.JTextFieldDateEditor;
+import com.toedter.calendar.JYearChooser;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerDateModel;
+import javax.swing.JTextPane;
+import java.awt.Dimension;
+import javax.swing.JCheckBox;
 
 
 public class VentanaPrincipal extends JFrame {
@@ -47,15 +124,29 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnAdministrativo;
 	private JButton btnEntrarComoMdico;
 	private JButton btnAdministrativo_1_1;
+	private JButton btnSalir;
+	private JPanel panelMedico;
 	private JPanel panelEnfermero;
+	private JButton btnAsignarCita;
 	private ListaMedicos lm;
 	private ListaPacientes lp;
+	private JPanel panelJornadasMedico;
+	private JButton btnAsignarJornadasMedicos;
+	private JButton btnAsignarJornadasAEnfermeros;
 	private DefaultListModel<Cita> modelListaCitasMedicoPaciente;
 	private DefaultListModel<Cita> modelListaCitaMedicoPacienteElegida;
+	private int id_prescripcion;
+	private ListaEnfermeros le;
+	private CrearJornadaEnfermero crearJornadaEnfermero;
+	private ListaMedicamentos listaMedicamentos;
 	private JList listCitasMedicoPaciente;
 	private JList listCitaElegida;
+	private int id_paciente;
+	private ListaCitas listaCitas;
+	private FindAllCitas findAllCitas;
 	private JLabel lblNewLabel_16;
 	private DefaultListModel<Prescripcion> modeloListPrescripciones;
+	private JButton btnIndicarPrescripcion;
 	private JButton btnAnadirNuevaPrescripcion;
 	private JScrollPane scrollPanePrescripciones;
 	private JList listPrescripciones;
@@ -75,7 +166,8 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scrollPane_4;
 	private DefaultListModel<Medico> modeloListaMedicosLogin;
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
-
+	private JButton btnNewButton;
+	private JButton btnComprobarVacacionesSolicitadas;
 	
 
 
