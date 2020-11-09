@@ -1,21 +1,20 @@
-package pgh.business.medico;
+package pgh.business.enfermero;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import pgh.business.cita.Cita;
+import pgh.business.medico.Medico;
 import pgh.jdbc.Database;
 
-public class crearMedico {
-	
-	
-private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, email) values (?,?,?,?) ";
+public class ActualizarEquipoEnfermero {
+
+	private static String SQL = "Update Enfermero Set idequipo_medico = ? where idenfermero = ?";
 
 	
 	Database db = new Database();
 	
-	public void crearMedico(Medico medico) {
+	public void actualizar(Enfermero enf, int idEquipo) {
 		
 		Connection c = null;
 
@@ -27,30 +26,24 @@ private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, em
 			
 			c = db.getConnection();
 			
-			
-			
 		    pst = c.prepareStatement(query.toString());
-			pst.setInt(1, medico.getIdMedico());
-			pst.setString(2, medico.getNombreMedico());
-			pst.setString(3, medico.getApellidosMedico());
-			pst.setString(4, medico.getEmailMedico());
-			
+			pst.setInt(1, idEquipo);
+			pst.setInt(2, enf.getIdEnfermero());
 			
 		    pst.executeUpdate();	
 		    
 		    pst.close();
 		    c.close();
 		    
-		    System.out.print("Medico pasado a titular con exito");
+		    System.out.println("Enfermero añadido al equipo con exito");
 		  
 
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
-
+	
 }
