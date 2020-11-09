@@ -34,8 +34,8 @@ private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, em
 			pst.setString(2, medico.getNombreMedico());
 			pst.setString(3, medico.getApellidosMedico());
 			pst.setString(4, medico.getEmailMedico());
-			pst.setString(4, medico.getEspecialidad());
-			pst.setInt(5, medico.getIdEquipoMedico());
+			pst.setString(5, medico.getEspecialidad());
+			pst.setInt(6, medico.getIdEquipoMedico());
 			
 			
 		    pst.executeUpdate();	

@@ -125,20 +125,18 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 						}
 					}
 					
-					if(correcto == true && modelCitas.isEmpty()) {
+					if(correcto == true ) {
 							
 						JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Las vacaciones pueden ser asignadas");
+						getBtnPosponerCitas().setEnabled(true);
+						getBtnAsignarMedico().setEnabled(true);
 						
 					}
 					else{
 						
-						if(modelCitas.getSize()>0) {
-							
-							JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Antes de asignar las vacaciones debe asignar o posponer las citas");
-							
-						}else if(!correcto) {
+						
 							JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Las vacaciones no pueden ser asignadas, no estan dentro de su jornada laboral");
-						}
+						
 						
 						
 					}
@@ -159,23 +157,29 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnAsignarVacaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					vacacionesMedicoDTO = new VacacionesMedicoDTO();
-					vacacionesMedicoDTO.idVacacionesMedico= generarIDVacacionesMedico();
-					vacacionesMedicoDTO.idMedico = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
-					vacacionesMedicoDTO.diaInicio = modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio();
-					vacacionesMedicoDTO.diaFin = modeloVacacioneSolicitadas.getElementAt(0).getFechaFin();
+					if(!modelCitas.isEmpty()) {
+						JOptionPane.showMessageDialog(getBtnAsignarVacaciones(), "Las vacaciones no pueden ser asignadas sin posponer o asignar sus citas previamente");
+					}
+					else {
+						vacacionesMedicoDTO = new VacacionesMedicoDTO();
+						vacacionesMedicoDTO.idVacacionesMedico= generarIDVacacionesMedico();
+						vacacionesMedicoDTO.idMedico = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
+						vacacionesMedicoDTO.diaInicio = modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio();
+						vacacionesMedicoDTO.diaFin = modeloVacacioneSolicitadas.getElementAt(0).getFechaFin();
+						
+						vacacionesMedico = new VacacionesMedico(vacacionesMedicoDTO);
+						crearVacaciones= new CrearVacacionesMedico();
+						crearVacaciones.crearVacaciones(vacacionesMedico);
+						
+						modeloVacacioneSolicitadas.removeAllElements();
+						
+						modificar = new ModificarVacacionesSolicitadasMedico();
+						
+						modificar.modificarEstados(true, false, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
+						
+						closePanel();
+					}
 					
-					vacacionesMedico = new VacacionesMedico(vacacionesMedicoDTO);
-					crearVacaciones= new CrearVacacionesMedico();
-					crearVacaciones.crearVacaciones(vacacionesMedico);
-					
-					modeloVacacioneSolicitadas.removeAllElements();
-					
-					modificar = new ModificarVacacionesSolicitadasMedico();
-					
-					modificar.modificarEstados(true, false, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
-					
-					closePanel();
 					
 				}
 
@@ -275,6 +279,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private JButton getBtnAsignarMedico() {
 		if (btnAsignarMedico == null) {
 			btnAsignarMedico = new JButton("Asignar citas del medico");
+			btnAsignarMedico.setEnabled(false);
 			btnAsignarMedico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -292,6 +297,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private JButton getBtnPosponerCitas() {
 		if (btnPosponerCitas == null) {
 			btnPosponerCitas = new JButton("Posponer citas");
+			btnPosponerCitas.setEnabled(false);
 			btnPosponerCitas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
