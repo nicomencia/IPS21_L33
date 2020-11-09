@@ -328,6 +328,9 @@ public class PanelCitasSinMedico extends JPanel {
 									}
 								}
 							}
+							
+							panelcita.setVisible(false);
+							panelAnterior.setVisible(true);
 						} 
 
 				}

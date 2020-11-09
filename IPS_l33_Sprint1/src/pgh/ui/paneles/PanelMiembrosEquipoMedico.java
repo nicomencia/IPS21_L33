@@ -62,9 +62,7 @@ import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 import pgh.ui.paneles.filtros.JListFitroMedicosCita;
 
-public class PanelCrearEquipoMedico extends JPanel {
-
-	private JButton btnEliminarPacienteCita;
+public class PanelMiembrosEquipoMedico extends JPanel {
 	private JButton btnEliminarMedicoCita;
 	private DefaultListModel<Enfermero> modeloListEnfermeros;
 	private DefaultListModel<Paciente> modeloListPacienteCita;
@@ -74,11 +72,7 @@ public class PanelCrearEquipoMedico extends JPanel {
 	private CrearEquipoMedico crearEquipoMedico;
 	private ListaCitas lc;
 	private ListaEquiposMedicos lem;
-	private JButton btnAnadirPacienteListaCita;
-	private JListFiltroEnfermerosCita listPacientesCita;
 	private DefaultComboBoxModel<Ubicacion> modeloComboUbicacionesCita;
-	private JScrollPane scrollPane_1;
-	private JScrollPane scrollPanePacienteSeleccionado;
 	private ListaMedicos lm; // Rep
 	private ListaEnfermeros le; // Rep
 	private ListaUbicaciones lu;
@@ -88,9 +82,7 @@ public class PanelCrearEquipoMedico extends JPanel {
 	private JListFitroMedicosCita listMedicos; // Rep
 	private JScrollPane scrollPaneMedicosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
-	private JList listPacienteSeleccionado;
 	private JLabel lblMedicos;
-	private JLabel lblPaciente;
 	private JComboBox comboBoxAnoCita;
 	private JButton btnCrearEquipo;
 	private JButton btncancelarCita;
@@ -98,7 +90,7 @@ public class PanelCrearEquipoMedico extends JPanel {
 	private MedicoCita medicoCita;
 	private MedicoCitaDTO medicoCitaDTO;
 	private CrearMedicoCita crearMedicoCita;
-	private JPanel panelAnterior;
+	private PanelCitas panelAnterior;
 	private JTextField textFieldMedicos;
 	private JTextField textFieldpacientes;
 	private JPanel panelcita;
@@ -108,12 +100,13 @@ public class PanelCrearEquipoMedico extends JPanel {
 	private VacacionesMedico vm;
 	private VacacionesMedicoDTO vmDTO;
 	private List<VacacionesMedico> vacaciones = new ArrayList<VacacionesMedico>();
-	private JLabel lblNombre;
-	private JTextField txtNombre;
+	private int idEquipoMedico;
+	private JCheckBox chckbxAnadirTodos;
 
-	public PanelCrearEquipoMedico(JPanel panelAnterior, JPanel panelContenido) {
+	public PanelMiembrosEquipoMedico(PanelCitas panelAnterior, JPanel panelContenido, int idEquipoMedico) {
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
+		this.idEquipoMedico = idEquipoMedico;
 		panelcita = this;
 		getPanelCitas();
 	}
@@ -123,20 +116,14 @@ public class PanelCrearEquipoMedico extends JPanel {
 		this.setBackground(new Color(135, 206, 235));
 		this.setLayout(null);
 		this.add(getLblMedicos());
-		this.add(getLblPaciente());
 		this.add(getBtnCrearEquipo());
 		this.add(getBtncancelarCita());
 		this.add(getScrollPaneMedicos());
 		this.add(getBtnAnadirMedicos());
 		this.add(getScrollPaneMedicosAnadidos());
-		this.add(getScrollPane_1());
-		this.add(getBtnAnadirPacienteListaCita());
-		this.add(getScrollPanePacienteSeleccionado());
-		this.add(getBtnEliminarPacienteCita());
 		this.add(getBtnEliminarMedicoCita());
 		add(getLblNewLabel());
-		add(getLblNombre());
-		add(getTxtNombre());
+		add(getChckbxAnadirTodos());
 
 	}
 
@@ -145,7 +132,7 @@ public class PanelCrearEquipoMedico extends JPanel {
 		lm = new ListaMedicos();
 		lm.creaListaMedicos();
 		for (Medico m : lm.getMedicos()) {
-			if (m.getIdEquipoMedico()==7000)
+			if (m.getIdEquipoMedico()==idEquipoMedico)
 				modeloListMedicos.addElement((Medico) m);
 		}
 
@@ -157,17 +144,6 @@ public class PanelCrearEquipoMedico extends JPanel {
 			listMedicosAnadidos = new JList(modeloListMedicosAnadidos);
 		}
 		return listMedicosAnadidos;
-	}
-
-	private JList getListPacientesCita() {
-		if (listPacientesCita == null) {
-			modeloListEnfermeros = new DefaultListModel();
-			anadirEnfermeros();
-			listPacientesCita = new JListFiltroEnfermerosCita(modeloListEnfermeros);
-			this.add(listPacientesCita.gettextoFiltro());
-
-		}
-		return listPacientesCita;
 	}
 
 	private void anadirEnfermeros() {
@@ -182,29 +158,6 @@ public class PanelCrearEquipoMedico extends JPanel {
 
 	}
 
-	private JList getListPacienteSeleccionado() {
-		if (listPacienteSeleccionado == null) {
-			modeloListEnfermeros = new DefaultListModel();
-			listPacienteSeleccionado = new JList(modeloListEnfermeros);
-
-		}
-		return listPacienteSeleccionado;
-	}
-
-	private JButton getBtnEliminarPacienteCita() {
-		if (btnEliminarPacienteCita == null) {
-			btnEliminarPacienteCita = new JButton("Eliminar ");
-			btnEliminarPacienteCita.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-
-					modeloListPacienteCita.removeAllElements();
-				}
-			});
-			btnEliminarPacienteCita.setBounds(1002, 124, 87, 23);
-		}
-		return btnEliminarPacienteCita;
-	}
-
 	private JButton getBtnEliminarMedicoCita() {
 		if (btnEliminarMedicoCita == null) {
 			btnEliminarMedicoCita = new JButton("Eliminar");
@@ -217,51 +170,6 @@ public class PanelCrearEquipoMedico extends JPanel {
 			btnEliminarMedicoCita.setBounds(1000, 240, 89, 23);
 		}
 		return btnEliminarMedicoCita;
-	}
-
-	private JButton getBtnAnadirPacienteListaCita() {
-		if (btnAnadirPacienteListaCita == null) {
-			btnAnadirPacienteListaCita = new JButton("A\u00F1adir Enfermero/s");
-			btnAnadirPacienteListaCita.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-
-					anadirEnfermeroEquipo();
-				}
-			});
-			btnAnadirPacienteListaCita.setBounds(630, 108, 149, 55);
-		}
-		return btnAnadirPacienteListaCita;
-	}
-
-	private void anadirEnfermeroEquipo() {
-
-		for (Object o : listPacientesCita.getSelectedValuesList()) {
-
-				if (!modeloListEnfermeros.contains(o)) {
-					Enfermero enfermero = (Enfermero) o;
-					modeloListEnfermeros.addElement(enfermero);
-				}
-
-		}
-
-	}
-
-	private JScrollPane getScrollPanePacienteSeleccionado() {
-		if (scrollPanePacienteSeleccionado == null) {
-			scrollPanePacienteSeleccionado = new JScrollPane();
-			scrollPanePacienteSeleccionado.setBounds(794, 88, 186, 88);
-			scrollPanePacienteSeleccionado.setViewportView(getListPacienteSeleccionado());
-		}
-		return scrollPanePacienteSeleccionado;
-	}
-
-	private JScrollPane getScrollPane_1() {
-		if (scrollPane_1 == null) {
-			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(321, 88, 289, 88);
-			scrollPane_1.setViewportView(getListPacientesCita());
-		}
-		return scrollPane_1;
 	}
 
 	private JScrollPane getScrollPaneMedicosAnadidos() {
@@ -309,14 +217,28 @@ public class PanelCrearEquipoMedico extends JPanel {
 
 	private void anadirMedicosSeleccinados() {
 
-		for (Object o : listMedicos.getSelectedValuesList()) {
-
-			if (!modeloListMedicosAnadidos.contains(o)) {
-				modeloListMedicosAnadidos.addElement((Medico) o);
+		if (chckbxAnadirTodos.isSelected()) {
+			
+			for (int i = 0; i < modeloListMedicos.getSize();i++) {
+				
+				Medico m = modeloListMedicos.elementAt(i);
+				
+				if (!modeloListMedicosAnadidos.contains(m)) {
+					modeloListMedicosAnadidos.addElement(m);
+					
+				}
 			}
-
+			
+		} else {
+		
+			for (Object o : listMedicos.getSelectedValuesList()) {
+	
+				if (!modeloListMedicosAnadidos.contains(o)) {
+					modeloListMedicosAnadidos.addElement((Medico) o);
+				}
+	
+			}
 		}
-
 	}
 
 	private JLabel getLblMedicos() {
@@ -326,15 +248,6 @@ public class PanelCrearEquipoMedico extends JPanel {
 			lblMedicos.setBounds(61, 236, 233, 22);
 		}
 		return lblMedicos;
-	}
-
-	private JLabel getLblPaciente() {
-		if (lblPaciente == null) {
-			lblPaciente = new JLabel("Seleccionar Enfermeros :");
-			lblPaciente.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblPaciente.setBounds(61, 120, 233, 22);
-		}
-		return lblPaciente;
 	}
 
 	private void anadirUbicacionesCitas() {
@@ -376,46 +289,23 @@ public class PanelCrearEquipoMedico extends JPanel {
 
 	private JButton getBtnCrearEquipo() {
 		if (btnCrearEquipo == null) {
-			btnCrearEquipo = new JButton("Crear Equipo");
+			btnCrearEquipo = new JButton("A\u00F1adir Miembros");
 			btnCrearEquipo.setFocusable(false);
 			btnCrearEquipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 						
-						ActualizarEquipoMedico actualizarEquipoMedico = new ActualizarEquipoMedico();
-						ActualizarEquipoEnfermero actualizarEquipoEnfermero = new ActualizarEquipoEnfermero();
-						
-						lem = new ListaEquiposMedicos();
-						lem.creaListaEquiposMedicos();
-						crearEquipoMedico = new CrearEquipoMedico();
-						equipoMedicoDTO = new EquipoMedicoDTO();
-						
-						equipoMedicoDTO.idEquipoMedico = generarIdEquipo();
-						equipoMedicoDTO.nombre = txtNombre.getText();
-						
-						crearEquipoMedico.crearEquipoMedico(new EquipoMedico(equipoMedicoDTO));
-						
 						for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
 							Medico m = modeloListMedicosAnadidos.getElementAt(i);
-							actualizarEquipoMedico.actualizar(m, equipoMedicoDTO.idEquipoMedico);
-						}
-						
-						for (int i = 0; i < modeloListEnfermeros.getSize(); i++) {
-							Enfermero enf = modeloListEnfermeros.getElementAt(i);
-							actualizarEquipoEnfermero.actualizar(enf, equipoMedicoDTO.idEquipoMedico);
+							panelAnterior.anadirMiembrosEquipo(m);
 						}
 						
 						panelcita.setVisible(false);
 						panelAnterior.setVisible(true);
-						
-					}
-
-				private int generarIdEquipo() {
-					return 7000 + lem.getEquiposMedicos().size();
 					}
 				}
 			);
 			btnCrearEquipo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearEquipo.setBounds(705, 481, 149, 23);
+			btnCrearEquipo.setBounds(646, 481, 208, 23);
 		}
 		return btnCrearEquipo;
 	}
@@ -425,25 +315,15 @@ public class PanelCrearEquipoMedico extends JPanel {
 			lblNewLabel = new JLabel("Filtro sensible a MAYUSCULAS");
 			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 			lblNewLabel.setForeground(Color.RED);
-			lblNewLabel.setBounds(74, 51, 200, 50);
+			lblNewLabel.setBounds(61, 175, 200, 50);
 		}
 		return lblNewLabel;
 	}
-	private JLabel getLblNombre() {
-		if (lblNombre == null) {
-			lblNombre = new JLabel("Nombre Equipo Medico :");
-			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNombre.setBounds(61, 422, 253, 22);
+	private JCheckBox getChckbxAnadirTodos() {
+		if (chckbxAnadirTodos == null) {
+			chckbxAnadirTodos = new JCheckBox("A\u00F1adir todos");
+			chckbxAnadirTodos.setBounds(323, 312, 97, 23);
 		}
-		return lblNombre;
-	}
-	private JTextField getTxtNombre() {
-		if (txtNombre == null) {
-			txtNombre = new JTextField();
-			txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			txtNombre.setBounds(323, 422, 287, 25);
-			txtNombre.setColumns(10);
-		}
-		return txtNombre;
+		return chckbxAnadirTodos;
 	}
 }
