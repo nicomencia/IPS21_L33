@@ -16,6 +16,7 @@ public class PanelMedico extends JPanel {
 	private JButton btnSolicitarCita;
 	private JButton btnPedirVacaciones;
 	private JButton btnSalir;
+	private JButton btnCalendario;
 	
 	public PanelMedico(JPanel panelAnterior, int id_medico, JPanel contenido) {
 		
@@ -32,6 +33,7 @@ public class PanelMedico extends JPanel {
 		add(getBtnSolicitarCita());
 		add(getBtnPedirVacaciones());
 		add(getBtnSalir());
+		add(getBtnCalendario());
 		
 	}
 	
@@ -94,5 +96,24 @@ public class PanelMedico extends JPanel {
 			btnSalir.setBounds(776, 476, 140, 36);
 		}
 		return btnSalir;
+	}
+
+	
+	private JButton getBtnCalendario() {
+		if (btnCalendario == null) {
+			btnCalendario = new JButton("Calendario");
+			btnCalendario.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PanelCalendario panel = new PanelCalendario(panelMedico, idmedico);
+					panelContenido.add(panel);
+					panelMedico.setVisible(false);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnCalendario.setBounds(93, 156, 140, 36);
+		}
+		return btnCalendario;
 	}
 }
