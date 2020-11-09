@@ -4,16 +4,17 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
-import pgh.business.jornadamedico.JornadaMedico;
-import pgh.business.jornadamedico.JornadaMedicoDTO;
+import pgh.business.cita.Cita;
+import pgh.business.cita.CitaDTO;
+import pgh.business.cita.FindAllCitas;
 import pgh.business.jornadamedico.ListaJornadasMedico;
-import pgh.business.vacacionesSolicitadas.ListaVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.ModificarVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
 import pgh.business.vacacionesmedico.CrearVacacionesMedico;
 import pgh.business.vacacionesmedico.ListaVacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedicoDTO;
+import pgh.ui.paneles.filtros.JListFiltroPanelSolicitudesCitas;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,7 +22,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 
+@SuppressWarnings("serial")
 public class PanelTratarSolicitudesVacaciones extends JPanel {
 	
 	
@@ -40,24 +44,36 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private JPanel panelCambiar;
 	private JPanel panelContenido;
 	private ModificarVacacionesSolicitadasMedico modificar;
-	
+	private DefaultListModel<Cita> modelCitas;
 	private JPanel estePanel;
 	private JButton btnDenegarlas;
+	private JScrollPane scrollPaneCitasMedico;
+	private JListFiltroPanelSolicitudesCitas listCitasMedico;
+	private JButton btnAsignarMedico;
+	private JButton btnPosponerCitas;
+	private FindAllCitas findCitas;
+	private CitaDTO citaCTO;
+	private Cita cita;
+	private JLabel lblNewLabel;
 	
 	public PanelTratarSolicitudesVacaciones(JPanel panelAnterior, VacacionesSolicitadasMedico v, JPanel panelcambiar, JPanel panelContenido) {
 		setBackground(new Color(135, 206, 235));
 		this.panelAnterior=panelAnterior;
 		this.vacacionesSeleccionada = v;
 		this.panelContenido = panelContenido;
-		this.panelCambiar = panelCambiar;
+		this.panelCambiar = panelcambiar;
 		estePanel=this;
-		setBounds(100, 100, 1129, 600);
+		setBounds(100, 100, 1129, 545);
 		setLayout(null);
 		add(getScrollPane());
 		add(getBtnComprobarDisponibilidad());
 		add(getBtnAsignarVacaciones());
 		add(getBtnCancelar());
 		add(getBtnDenegarlas());
+		add(getScrollPaneCitasMedico());
+		add(getBtnAsignarMedico());
+		add(getBtnPosponerCitas());
+		add(getLblNewLabel());
 	}
 	
 	
@@ -65,7 +81,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(175, 173, 380, 76);
+			scrollPane.setBounds(175, 71, 380, 76);
 			scrollPane.setViewportView(getListSolicitudadVacacionesElegida());
 		}
 		return scrollPane;
@@ -109,19 +125,26 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 						}
 					}
 					
-					if(correcto == true) {
+					if(correcto == true ) {
 							
 						JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Las vacaciones pueden ser asignadas");
+						getBtnPosponerCitas().setEnabled(true);
+						getBtnAsignarMedico().setEnabled(true);
 						
 					}
 					else{
-						JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Las vacaciones no pueden ser asignadas, no estan dentro de su jornada laboral");
+						
+						
+							JOptionPane.showMessageDialog(btnComprobarDisponibilidad, "Las vacaciones no pueden ser asignadas, no estan dentro de su jornada laboral");
+						
+						
+						
 					}
 					
 					
 				}
 			});
-			btnComprobarDisponibilidad.setBounds(666, 186, 200, 50);
+			btnComprobarDisponibilidad.setBounds(672, 81, 200, 50);
 			
 		}
 		return btnComprobarDisponibilidad;
@@ -134,23 +157,29 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnAsignarVacaciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					vacacionesMedicoDTO = new VacacionesMedicoDTO();
-					vacacionesMedicoDTO.idVacacionesMedico= generarIDVacacionesMedico();
-					vacacionesMedicoDTO.idMedico = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
-					vacacionesMedicoDTO.diaInicio = modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio();
-					vacacionesMedicoDTO.diaFin = modeloVacacioneSolicitadas.getElementAt(0).getFechaFin();
+					if(!modelCitas.isEmpty()) {
+						JOptionPane.showMessageDialog(getBtnAsignarVacaciones(), "Las vacaciones no pueden ser asignadas sin posponer o asignar sus citas previamente");
+					}
+					else {
+						vacacionesMedicoDTO = new VacacionesMedicoDTO();
+						vacacionesMedicoDTO.idVacacionesMedico= generarIDVacacionesMedico();
+						vacacionesMedicoDTO.idMedico = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
+						vacacionesMedicoDTO.diaInicio = modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio();
+						vacacionesMedicoDTO.diaFin = modeloVacacioneSolicitadas.getElementAt(0).getFechaFin();
+						
+						vacacionesMedico = new VacacionesMedico(vacacionesMedicoDTO);
+						crearVacaciones= new CrearVacacionesMedico();
+						crearVacaciones.crearVacaciones(vacacionesMedico);
+						
+						modeloVacacioneSolicitadas.removeAllElements();
+						
+						modificar = new ModificarVacacionesSolicitadasMedico();
+						
+						modificar.modificarEstados(true, false, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
+						
+						closePanel();
+					}
 					
-					vacacionesMedico = new VacacionesMedico(vacacionesMedicoDTO);
-					crearVacaciones= new CrearVacacionesMedico();
-					crearVacaciones.crearVacaciones(vacacionesMedico);
-					
-					modeloVacacioneSolicitadas.removeAllElements();
-					
-					modificar = new ModificarVacacionesSolicitadasMedico();
-					
-					modificar.modificarEstados(true, false, false);
-					
-					closePanel();
 					
 				}
 
@@ -194,7 +223,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {
 					
 					modificar = new ModificarVacacionesSolicitadasMedico();
-					modificar.modificarEstados(false, true, false);
+					modificar.modificarEstados(false, true, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
 					
 					closePanel();
 				}
@@ -202,5 +231,92 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnDenegarlas.setBounds(739, 489, 176, 35);
 		}
 		return btnDenegarlas;
+	}
+	private JScrollPane getScrollPaneCitasMedico() {
+		if (scrollPaneCitasMedico == null) {
+			scrollPaneCitasMedico = new JScrollPane();
+			scrollPaneCitasMedico.setBounds(175, 217, 380, 189);
+			scrollPaneCitasMedico.setViewportView(getListCitasMedico());
+		}
+		return scrollPaneCitasMedico;
+	}
+	private JList getListCitasMedico() {
+		if (listCitasMedico == null) {
+			modelCitas = new DefaultListModel<Cita>();
+			llenarListaCitas();
+			listCitasMedico = new JListFiltroPanelSolicitudesCitas(modelCitas);
+			listCitasMedico.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			this.add(listCitasMedico.gettextoFiltro());
+			if(modelCitas.isEmpty()) {
+				getBtnAsignarMedico().setEnabled(false);
+				getBtnPosponerCitas().setEnabled(false);
+			}
+		}
+		return listCitasMedico;
+	}
+	
+	private void llenarListaCitas() {
+		
+		findCitas = new FindAllCitas();
+		
+		for(CitaDTO c : findCitas.FindCitaIdMedico(modeloVacacioneSolicitadas.getElementAt(0).getIdMedico())) {
+			
+		
+		
+					if(modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio().before(c.fecha) || modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio().equals(c.fecha) || modeloVacacioneSolicitadas.getElementAt(0).getFechaFin().equals(c.fecha) ) {
+						if(modeloVacacioneSolicitadas.getElementAt(0).getFechaFin().after(c.fecha)) {
+							cita = new Cita(c);
+							modelCitas.addElement(cita);
+						}
+					}	
+				}
+		}
+			
+			
+
+
+
+	private JButton getBtnAsignarMedico() {
+		if (btnAsignarMedico == null) {
+			btnAsignarMedico = new JButton("Asignar citas del medico");
+			btnAsignarMedico.setEnabled(false);
+			btnAsignarMedico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(panelAnterior, panelContenido, vacacionesSeleccionada, panelCambiar);
+					estePanel.setVisible(false);
+					panelContenido.add(panel);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnAsignarMedico.setBounds(672, 217, 200, 50);
+		}
+		return btnAsignarMedico;
+	}
+	private JButton getBtnPosponerCitas() {
+		if (btnPosponerCitas == null) {
+			btnPosponerCitas = new JButton("Posponer citas");
+			btnPosponerCitas.setEnabled(false);
+			btnPosponerCitas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					PanelPosponerCitas panel = new PanelPosponerCitas(estePanel, panelContenido, vacacionesSeleccionada, panelCambiar);
+					panelContenido.add(panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnPosponerCitas.setBounds(672, 305, 200, 50);
+		}
+		return btnPosponerCitas;
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("NOTA : Si la lista de citas esta vacia es porque no tiene citas durante sus vacaciones ");
+			lblNewLabel.setForeground(new Color(255, 0, 0));
+			lblNewLabel.setBounds(175, 413, 697, 50);
+		}
+		return lblNewLabel;
 	}
 }

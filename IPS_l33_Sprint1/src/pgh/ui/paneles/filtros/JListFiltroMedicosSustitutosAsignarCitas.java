@@ -9,19 +9,15 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-<<<<<<< HEAD
-//import org.omg.CORBA.Bounds;
-
-=======
->>>>>>> master
 import pgh.business.medico.Medico;
+import pgh.business.medicoSustituto.MedicoSustituto;
 
-public class JListFiltroJornadaMedicos extends JList {
+public class JListFiltroMedicosSustitutosAsignarCitas extends JList {
 
 	private TextoFiltro texto;
 	
 
-	public JListFiltroJornadaMedicos(DefaultListModel<Medico> model) {
+	public JListFiltroMedicosSustitutosAsignarCitas(DefaultListModel<MedicoSustituto> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -48,7 +44,7 @@ public class JListFiltroJornadaMedicos extends JList {
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(229, 26, 261, 20);
+			this.setBounds(507, 264, 294, 23);
 			getDocument().addDocumentListener(this);
 		}
 

@@ -12,11 +12,11 @@ import pgh.jdbc.Database;
 
 public class ModificarVacacionesSolicitadasMedico {
 
-private static String SQL = "UPDATE VACACIONES_MEDICO_SOLICITADAS SET esperando = ? , aprobadas=? , canceladas=? ";
+private static String SQL = "UPDATE VACACIONES_MEDICO_SOLICITADAS SET esperando = ? , aprobadas=? , canceladas=? WHERE IDVACACIONES_SOLICITADAS_MEDICO = ? ";
 Database db = new Database();
 	
 		
-	public void modificarEstados (boolean aceptadas, boolean canceladas, boolean esperando) {
+	public void modificarEstados (boolean aceptadas, boolean canceladas, boolean esperando, int idvacaciones) {
 					
 			Connection c = null;
 			PreparedStatement pst = null;
@@ -32,6 +32,7 @@ Database db = new Database();
 				pst.setBoolean(1, esperando);
 				pst.setBoolean(2, aceptadas);
 				pst.setBoolean(3, canceladas);
+				pst.setInt(4, idvacaciones);
 				
 				System.out.println("llega aqui");
 				int retorno =pst.executeUpdate();

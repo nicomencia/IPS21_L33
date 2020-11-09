@@ -22,7 +22,11 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JButton btnComprobarVacacionesSolicitadas;
+<<<<<<< HEAD
 	private JButton btnNewButton;
+=======
+	private JButton btnCrearEquipoMedico;
+>>>>>>> master
 	
 	
 	public PanelAdministrativo (JPanel panelAnterior, JPanel panelContenido) {
@@ -44,7 +48,24 @@ public class PanelAdministrativo extends JPanel {
 			this.add(getBtnAsignarJornadasMedicos());
 			this.add(getBtnAsignarJornadasAEnfermeros());
 			this.add(getBtnComprobarVacacionesSolicitadas());
+<<<<<<< HEAD
 			add(getBtnNewButton());
+=======
+			
+			JButton btnNewButton = new JButton("Asignar Medico a Cita");
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelCitasSinMedico pc = new PanelCitasSinMedico(panelAdministrativo, panelContenido);
+					panelContenido.add(pc);
+					panelAdministrativo.setVisible(false);
+					pc.setVisible(true);
+				}
+			});
+			btnNewButton.setBounds(45, 135, 198, 38);
+			add(btnNewButton);
+			add(getBtnCrearEquipoMedico());
+>>>>>>> master
 		
 		    return panelAdministrativo;
 	}
@@ -145,6 +166,7 @@ public class PanelAdministrativo extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
+<<<<<<< HEAD
 
 
 
@@ -163,5 +185,22 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(56, 131, 147, 38);
 		}
 		return btnNewButton;
+=======
+	private JButton getBtnCrearEquipoMedico() {
+		if (btnCrearEquipoMedico == null) {
+			btnCrearEquipoMedico = new JButton("Crear Equipo Medico");
+			btnCrearEquipoMedico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelCrearEquipoMedico pc = new PanelCrearEquipoMedico(panelAdministrativo, panelContenido);
+					panelContenido.add(pc);
+					panelAdministrativo.setVisible(false);
+					pc.setVisible(true);
+				}
+			});
+			btnCrearEquipoMedico.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnCrearEquipoMedico.setBounds(45, 209, 198, 38);
+		}
+		return btnCrearEquipoMedico;
+>>>>>>> master
 	}
 }

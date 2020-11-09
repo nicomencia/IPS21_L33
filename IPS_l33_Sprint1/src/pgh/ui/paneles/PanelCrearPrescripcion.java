@@ -918,6 +918,7 @@ public class PanelCrearPrescripcion extends JPanel {
 	private JSpinner getSpinnerIntervalo() {
 		if (spinnerIntervalo == null) {
 			spinnerIntervalo = new JSpinner();
+			spinnerIntervalo.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 			spinnerIntervalo.setEnabled(false);
 			spinnerIntervalo.setBounds(113, 106, 29, 20);
 		}

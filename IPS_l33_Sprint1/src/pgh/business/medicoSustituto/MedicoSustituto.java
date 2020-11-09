@@ -1,17 +1,17 @@
-package pgh.business.medico;
+package pgh.business.medicoSustituto;
 
 
-public class Medico {
+public class MedicoSustituto {
 	
-	MedicoDTO m ;
+	MedicoSustitutoDTO m ;
 	
 	
-	public Medico (MedicoDTO medico) {
+	public MedicoSustituto (MedicoSustitutoDTO medico) {
 		m=medico;
 	}
 	
 	public int getIdMedico() {
-		return m.idMedico;
+		return m.idMedicoSustituto;
 	}
 	
 	public String getNombreMedico() {
@@ -26,18 +26,10 @@ public class Medico {
 		return m.email;
 	}
 	
-	public String getEspecialidad() {
-		return m.especialidad;
-	}
-	
-	public int getIdEquipoMedico() {
-		return m.idEquipoMedico;
-	}
-	
 	public String toString() {
 		
 		StringBuilder s = new StringBuilder();
-	    s.append(m.nombre +" " + m.apellidos + " - " + m.especialidad);
+	    s.append(m.nombre +" " + m.apellidos);
 	   
 	   return s.toString();
 		

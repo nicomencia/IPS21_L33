@@ -1,6 +1,7 @@
 package pgh.ui.paneles.filtros;
 
 import java.util.ArrayList;
+
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -9,19 +10,18 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-<<<<<<< HEAD
-//import org.omg.CORBA.Bounds;
-
-=======
->>>>>>> master
+import pgh.business.cita.Cita;
 import pgh.business.medico.Medico;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.Filtro;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.TextoFiltro;
 
-public class JListFiltroJornadaMedicos extends JList {
 
-	private TextoFiltro texto;
+public class JListFiltroPanelCitaAsignarCitasVacaciones extends JList {
+	
+private TextoFiltro texto;
 	
 
-	public JListFiltroJornadaMedicos(DefaultListModel<Medico> model) {
+	public JListFiltroPanelCitaAsignarCitasVacaciones(DefaultListModel<Cita> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -48,7 +48,7 @@ public class JListFiltroJornadaMedicos extends JList {
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(229, 26, 261, 20);
+			this.setBounds(39, 29, 412, 23);
 			getDocument().addDocumentListener(this);
 		}
 
@@ -102,4 +102,6 @@ public class JListFiltroJornadaMedicos extends JList {
 			}
 		}
 	}
+
+
 }

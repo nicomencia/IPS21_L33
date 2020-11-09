@@ -2,9 +2,7 @@ package pgh.business.cita;
 
 import java.sql.Connection;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -16,7 +14,8 @@ import pgh.jdbc.Database;
 public class CrearCitas {
 	
 
-private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto) values (?,?,?,?,?,?,?,?) ";
+private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto, nombrepaciente, medicoasignado) values (?,?,?,?,?,?,?,?,?,?) ";
+
 
 	
 	Database db = new Database();
@@ -45,6 +44,9 @@ private static String SQL = "Insert into Cita (idcita, idpaciente, idhorario, id
 			pst.setBoolean(6, cita.getAsistencia());
 			pst.setBoolean(7, cita.getUrgente());
 			pst.setString(8, cita.infoContacto());
+			pst.setString(9, cita.getNombrePaciente());
+			pst.setBoolean(10, cita.getMedicoAsignado());
+
 			
 			
 		    pst.executeUpdate();	
