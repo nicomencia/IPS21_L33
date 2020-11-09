@@ -105,7 +105,7 @@ public class PanelMedico extends JPanel {
 			btnCalendario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					PanelCalendario panel = new PanelCalendario(panelMedico, idmedico);
+					PanelCalendario panel = new PanelCalendario(panelContenido, panelMedico, idmedico);
 					panelContenido.add(panel);
 					panelMedico.setVisible(false);
 					panel.setVisible(true);

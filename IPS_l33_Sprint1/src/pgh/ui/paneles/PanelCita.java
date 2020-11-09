@@ -45,16 +45,20 @@ public class PanelCita extends JPanel {
 	private HorarioDTO horario;
 	private UbicacionDTO ubicacion;
 	private JPanel panelAnterior;
+	private JPanel panelContenido;
 	private List<MedicoDTO> medicos;
 	private ListaMedicoCita listaMedicoCita = new ListaMedicoCita();
 	private JButton btnAtras;
+	private JPanel estePanel;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelCita(JPanel panelAnterior, Cita cita) {
+	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita) {
 		this.panelAnterior = panelAnterior;
 		this.cita = cita;
+		estePanel = this;
+		this.panelContenido = panelContenido;
 		listaMedicoCita.creaListaMedicoCitas();
 		medicos = new FindAllMedicos().execute();
 		pacientes = new FindAllPacientes().execute();
@@ -162,6 +166,14 @@ public class PanelCita extends JPanel {
 	private JButton getBtnHistorial() {
 		if (btnHistorial == null) {
 			btnHistorial = new JButton("Historial");
+			btnHistorial.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PanelHistorial panel = new PanelHistorial(estePanel, cita.getIdPaciente());
+					panelContenido.add(panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
 			btnHistorial.setBounds(391, 92, 89, 23);
 		}
 		return btnHistorial;

@@ -33,10 +33,12 @@ public class PanelListaCitas extends JPanel {
 	private JPanel panelContenido;
 	private ListaCitas listaCitas = new ListaCitas();
 	private JPanel panelListaCitas;
+	private JPanel estePanel;
 	/**
 	 * Create the panel.
 	 */
 	public PanelListaCitas(JPanel panelAnterior, JPanel panelContenido, Medico medico) {
+		estePanel = this;
 		this.medico = medico;
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
@@ -104,7 +106,7 @@ public class PanelListaCitas extends JPanel {
 			btnVerCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(listCitas.getSelectedValue()!=null) {
-						PanelCita panel = new PanelCita(panelContenido, (Cita) listCitas.getSelectedValue());
+						PanelCita panel = new PanelCita(panelContenido, estePanel, (Cita) listCitas.getSelectedValue());
 						panelContenido.add(panel);
 						panel.setVisible(true);
 						panelListaCitas.setVisible(false);

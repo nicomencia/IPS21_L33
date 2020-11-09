@@ -40,11 +40,15 @@ public class PanelCalendario extends JPanel {
 	private DefaultListModel<Cita> modeloListaCitas = new DefaultListModel<Cita>();
 	private JPanel panelAnterior;
 	private ListaCitas find = new ListaCitas();
-
+	private JButton btnNewButton;
+	private JPanel panelCalendario;
+	private JPanel panelContenido;
 	/**
 	 * Create the panel.
 	 */
-	public PanelCalendario(JPanel panelAnterior, int idmedico) {
+	public PanelCalendario(JPanel panelContenido, JPanel panelAnterior, int idmedico) {
+		panelCalendario = this;
+		this.panelContenido = panelContenido;
 		this.panelAnterior = panelAnterior;
 		this.idmedico = idmedico;
 		find.creaCitas();
@@ -54,6 +58,7 @@ public class PanelCalendario extends JPanel {
 		add(getLabel());
 		add(getBtnComprobarCitas());
 		add(getScrollPane());
+		add(getBtnNewButton());
 
 	}
 	
@@ -146,5 +151,27 @@ public class PanelCalendario extends JPanel {
 			listCitas = new JList(modeloListaCitas);
 		}
 		return listCitas;
+	}
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Ver Cita");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(listCitas.getSelectedValue()!=null)
+					{
+					PanelCita panel = new PanelCita(panelContenido, panelCalendario, (Cita) listCitas.getSelectedValue());
+					panelContenido.add(panel);
+					panelCalendario.setVisible(false);
+					panel.setVisible(true);
+					}
+					else
+					{
+						JOptionPane.showConfirmDialog(btnNewButton, "No has elegido ninguna cita");
+					}
+				}
+			});
+			btnNewButton.setBounds(453, 328, 133, 32);
+		}
+		return btnNewButton;
 	}
 }
