@@ -26,10 +26,18 @@ public class Medico {
 		return m.email;
 	}
 	
+	public String getEspecialidad() {
+		return m.especialidad;
+	}
+	
+	public int getIdEquipoMedico() {
+		return m.idEquipoMedico;
+	}
+	
 	public String toString() {
 		
 		StringBuilder s = new StringBuilder();
-	    s.append(m.nombre +" " + m.apellidos);
+	    s.append(m.nombre +" " + m.apellidos + " - " + m.especialidad);
 	   
 	   return s.toString();
 		

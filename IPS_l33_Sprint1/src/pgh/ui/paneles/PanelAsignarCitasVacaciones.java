@@ -21,7 +21,7 @@ import pgh.business.jornadamedico.ListaJornadasMedico;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
 import pgh.business.medico.MedicoDTO;
-import pgh.business.medico.crearMedico;
+import pgh.business.medico.CrearMedico;
 import pgh.business.medicoSustituto.ListaMedicosSustitutos;
 import pgh.business.medicoSustituto.MedicoSustituto;
 import pgh.business.medicoSustituto.MedicoSustitutoDTO;
@@ -81,7 +81,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	private FindAllMedicoCita findMedicoCita;
 	private MedicoCita medicoCita;
 	private MedicoDTO medicoDTO;
-	private crearMedico crearMedico;
+	private CrearMedico crearMedico;
 	private RemoveMedicoSuplente removeMedicoSuplente;
 	private JPanel panelcambiar;
 	
@@ -340,12 +340,15 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 						medicoDTO.nombre = medicoSuplente.getNombreMedico();
 						medicoDTO.apellidos = medicoSuplente.getApellidosMedico();
 						medicoDTO.email = medicoSuplente.getEmailMedico();
+						medicoDTO.especialidad = "NINGUNA";
+						medicoDTO.idEquipoMedico = 7000;
+						
 						
 						editarMedicoCitas = new EditarMedicoCitas();
 						
 						Medico medico = new Medico(medicoDTO);
 						
-						crearMedico = new crearMedico();
+						crearMedico = new CrearMedico();
 						crearMedico.crearMedico(medico);
 						
 						removeMedicoSuplente = new RemoveMedicoSuplente();

@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllMedicos {
 	
-	private static String SQL = "select idMedico, nombre, apellidos, email from Medico";
+	private static String SQL = "select idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico from Medico";
 		
 	Database db = new Database();
 	
@@ -35,6 +35,8 @@ public class FindAllMedicos {
 					medico.nombre=rs.getString("nombre");;
 					medico.apellidos=rs.getString("apellidos");;
 					medico.email=rs.getString("email");
+					medico.especialidad=rs.getString("especialidad");
+					medico.idEquipoMedico=rs.getInt("idEquipo_Medico");
 					medicos.add(medico);
 				}
 			} catch (SQLException e) {
