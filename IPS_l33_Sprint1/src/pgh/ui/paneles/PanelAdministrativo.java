@@ -22,13 +22,7 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JButton btnComprobarVacacionesSolicitadas;
-
 	private JButton btnNewButton;
-
-	private JButton btnCrearEquipoMedico;
-
-
-
 	private JButton btnCrearEquipoMedico;
 
 	
@@ -184,9 +178,10 @@ public class PanelAdministrativo extends JPanel {
 				}
 			});
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnNewButton.setBounds(56, 131, 147, 38);
+			btnNewButton.setBounds(268, 135, 147, 38);
 		}
 		return btnNewButton;
+	}
 
 	private JButton getBtnCrearEquipoMedico() {
 		if (btnCrearEquipoMedico == null) {
@@ -203,8 +198,6 @@ public class PanelAdministrativo extends JPanel {
 			btnCrearEquipoMedico.setBounds(45, 209, 198, 38);
 		}
 		return btnCrearEquipoMedico;
-
-	}
 
 	}
 

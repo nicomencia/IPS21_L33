@@ -31,4 +31,16 @@ public class ListaUbicaciones {
 		}
 	}
 	
+	public UbicacionDTO getUbicacionById(int id)
+	{
+		for(int i=0;i<result.size();i++)
+		{
+			if(result.get(i).idUbicacion==id)
+			{
+				return result.get(i);
+			}
+		}
+		return null;
+	}
+	
 }
