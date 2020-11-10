@@ -22,14 +22,15 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JButton btnComprobarVacacionesSolicitadas;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	private JButton btnNewButton;
-=======
+
 	private JButton btnCrearEquipoMedico;
->>>>>>> master
-=======
->>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
+
+
+
+	private JButton btnCrearEquipoMedico;
+
 	
 	
 	public PanelAdministrativo (JPanel panelAnterior, JPanel panelContenido) {
@@ -51,10 +52,9 @@ public class PanelAdministrativo extends JPanel {
 			this.add(getBtnAsignarJornadasMedicos());
 			this.add(getBtnAsignarJornadasAEnfermeros());
 			this.add(getBtnComprobarVacacionesSolicitadas());
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			add(getBtnNewButton());
-=======
+
 			
 			JButton btnNewButton = new JButton("Asignar Medico a Cita");
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -69,9 +69,8 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(45, 135, 198, 38);
 			add(btnNewButton);
 			add(getBtnCrearEquipoMedico());
->>>>>>> master
-=======
->>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
+
+
 		
 		    return panelAdministrativo;
 	}
@@ -172,11 +171,7 @@ public class PanelAdministrativo extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-<<<<<<< HEAD
 
-
-
-<<<<<<< HEAD
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Ver Citas");
@@ -192,7 +187,7 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(56, 131, 147, 38);
 		}
 		return btnNewButton;
-=======
+
 	private JButton getBtnCrearEquipoMedico() {
 		if (btnCrearEquipoMedico == null) {
 			btnCrearEquipoMedico = new JButton("Crear Equipo Medico");
@@ -208,8 +203,9 @@ public class PanelAdministrativo extends JPanel {
 			btnCrearEquipoMedico.setBounds(45, 209, 198, 38);
 		}
 		return btnCrearEquipoMedico;
->>>>>>> master
+
 	}
-=======
->>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
+
+	}
+
 }

@@ -9,15 +9,11 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-//import org.omg.CORBA.Bounds;
-=======
-import org.omg.CORBA.Bounds;
->>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
 
-=======
->>>>>>> master
+//import org.omg.CORBA.Bounds;
+
+
+
 import pgh.business.medico.Medico;
 
 public class JListFiltroJornadaMedicos extends JList {
