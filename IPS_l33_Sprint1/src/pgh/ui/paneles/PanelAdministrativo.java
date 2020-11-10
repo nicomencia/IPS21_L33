@@ -22,7 +22,15 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnAsignarJornadasMedicos;
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JButton btnComprobarVacacionesSolicitadas;
+
+	private JButton btnNewButton;
+
 	private JButton btnCrearEquipoMedico;
+
+
+
+	private JButton btnCrearEquipoMedico;
+
 	
 	
 	public PanelAdministrativo (JPanel panelAnterior, JPanel panelContenido) {
@@ -44,6 +52,9 @@ public class PanelAdministrativo extends JPanel {
 			this.add(getBtnAsignarJornadasMedicos());
 			this.add(getBtnAsignarJornadasAEnfermeros());
 			this.add(getBtnComprobarVacacionesSolicitadas());
+
+			add(getBtnNewButton());
+
 			
 			JButton btnNewButton = new JButton("Asignar Medico a Cita");
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -58,6 +69,8 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(45, 135, 198, 38);
 			add(btnNewButton);
 			add(getBtnCrearEquipoMedico());
+
+
 		
 		    return panelAdministrativo;
 	}
@@ -158,6 +171,23 @@ public class PanelAdministrativo extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
+
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("Ver Citas");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PanelListaCitas panel = new PanelListaCitas(panelAdministrativo, panelContenido, null);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton.setBounds(56, 131, 147, 38);
+		}
+		return btnNewButton;
+
 	private JButton getBtnCrearEquipoMedico() {
 		if (btnCrearEquipoMedico == null) {
 			btnCrearEquipoMedico = new JButton("Crear Equipo Medico");
@@ -173,5 +203,9 @@ public class PanelAdministrativo extends JPanel {
 			btnCrearEquipoMedico.setBounds(45, 209, 198, 38);
 		}
 		return btnCrearEquipoMedico;
+
 	}
+
+	}
+
 }

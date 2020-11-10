@@ -35,8 +35,14 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
 import pgh.business.cita.ListaCitas;
+
+import pgh.business.horario.CrearHorario;
+import pgh.business.horario.HorarioDTO;
+import pgh.business.horario.ListaHorario;
+
 import pgh.business.equipomedico.EquipoMedico;
 import pgh.business.equipomedico.ListaEquiposMedicos;
+
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
 import pgh.business.medicocita.CrearMedicoCita;
@@ -119,9 +125,14 @@ public class PanelCitas extends JPanel {
 	private VacacionesMedico vm;
 	private VacacionesMedicoDTO vmDTO;
 	private List<VacacionesMedico> vacaciones = new ArrayList<VacacionesMedico>();
+
+	private List<HorarioDTO> horarios = new ArrayList<HorarioDTO>();
+	private CrearHorario crearHorario;
+
 	private JLabel lblEquipoMedico;
 	private JComboBox comboBoxEquipoMedico;
 	private JButton btnAnadirEquipoMedico;
+
 
 	public PanelCitas(JPanel panelAnterior, JPanel panelContenido) {
 		this.panelAnterior = panelAnterior;
