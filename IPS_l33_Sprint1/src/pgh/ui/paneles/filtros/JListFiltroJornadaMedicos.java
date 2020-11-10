@@ -10,7 +10,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //import org.omg.CORBA.Bounds;
+=======
+import org.omg.CORBA.Bounds;
+>>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
 
 =======
 >>>>>>> master

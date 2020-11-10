@@ -23,10 +23,13 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnAsignarJornadasAEnfermeros;
 	private JButton btnComprobarVacacionesSolicitadas;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private JButton btnNewButton;
 =======
 	private JButton btnCrearEquipoMedico;
 >>>>>>> master
+=======
+>>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
 	
 	
 	public PanelAdministrativo (JPanel panelAnterior, JPanel panelContenido) {
@@ -49,6 +52,7 @@ public class PanelAdministrativo extends JPanel {
 			this.add(getBtnAsignarJornadasAEnfermeros());
 			this.add(getBtnComprobarVacacionesSolicitadas());
 <<<<<<< HEAD
+<<<<<<< HEAD
 			add(getBtnNewButton());
 =======
 			
@@ -66,6 +70,8 @@ public class PanelAdministrativo extends JPanel {
 			add(btnNewButton);
 			add(getBtnCrearEquipoMedico());
 >>>>>>> master
+=======
+>>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
 		
 		    return panelAdministrativo;
 	}
@@ -99,7 +105,7 @@ public class PanelAdministrativo extends JPanel {
 				}
 			});
 			btnAsignarCita.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnAsignarCita.setBounds(56, 54, 147, 38);
+			btnAsignarCita.setBounds(45, 54, 147, 38);
 		}
 		return btnAsignarCita;
 	}
@@ -170,6 +176,7 @@ public class PanelAdministrativo extends JPanel {
 
 
 
+<<<<<<< HEAD
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("Ver Citas");
@@ -203,4 +210,6 @@ public class PanelAdministrativo extends JPanel {
 		return btnCrearEquipoMedico;
 >>>>>>> master
 	}
+=======
+>>>>>>> parent of f4196ac... Merge branch 'HistoriasGuillermoSprint2'
 }

@@ -225,17 +225,9 @@ public class PanelElegirCita extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
+
+
 	
-	private Cita findCita(int id)
-	{
-		for(int i=0; i<citas.size();i++)
-		{
-			if(citas.get(i).getIdCita() == id)
-			{
-				return citas.get(i);
-			}
-		}
-		return null;
-	}
+
 }
 
