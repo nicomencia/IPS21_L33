@@ -57,7 +57,7 @@ public class PanelCalendario extends JPanel {
 		setLayout(null);
 		add(getPanelCalendarioPicker());
 		add(getLabel());
-		add(getBtnComprobarCitas());
+		//add(getBtnComprobarCitas());
 		add(getScrollPane());
 		add(getBtnNewButton());
 
@@ -85,6 +85,7 @@ public class PanelCalendario extends JPanel {
 			p.put("text.year", "Year");
 			
 			panelCalendarioPicker =  new JDatePanelImpl(model, p);
+			
 			panelCalendarioPicker.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseExited(MouseEvent e) {
@@ -97,11 +98,11 @@ public class PanelCalendario extends JPanel {
 						}
 						else
 						{
-							JOptionPane.showConfirmDialog(btnComprobarCitas, "No has elegido un dia en el calendario");
+							//JOptionPane.showConfirmDialog(btnComprobarCitas, "No has elegido un dia en el calendario");
 						}
 				}
 			});
-			panelCalendarioPicker.setBounds(875, 22, 204, 184);
+			panelCalendarioPicker.setBounds(29, 22, 200, 184);
 			panelCalendarioPicker.setLayout(null);
 		}
 		return panelCalendarioPicker;
@@ -157,7 +158,7 @@ public class PanelCalendario extends JPanel {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(29, 65, 824, 417);
+			scrollPane.setBounds(262, 100, 824, 417);
 			scrollPane.setViewportView(getListCitas());
 		}
 		return scrollPane;
@@ -186,7 +187,7 @@ public class PanelCalendario extends JPanel {
 					}
 				}
 			});
-			btnNewButton.setBounds(903, 326, 133, 32);
+			btnNewButton.setBounds(61, 420, 133, 32);
 		}
 		return btnNewButton;
 	}
