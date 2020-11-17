@@ -251,7 +251,8 @@ public class PanelCita extends JPanel {
 			btnAtras = new JButton("Atras");
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					estePanel.setVisible(false);
+					panelAnterior.setVisible(true);
 				}
 			});
 			btnAtras.setBounds(391, 481, 89, 23);

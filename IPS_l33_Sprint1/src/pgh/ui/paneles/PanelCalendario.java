@@ -25,11 +25,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelCalendario extends JPanel {
 	private JPanel panelCalendarioPicker;
 	private int idmedico;
-	private JDatePanelImpl datePanel;
 	private UtilDateModel model;
 	private JLabel label;
 	private JButton btnComprobarCitas;
@@ -43,6 +44,7 @@ public class PanelCalendario extends JPanel {
 	private JButton btnNewButton;
 	private JPanel panelCalendario;
 	private JPanel panelContenido;
+	private JButton btnAtras;
 	/**
 	 * Create the panel.
 	 */
@@ -56,9 +58,10 @@ public class PanelCalendario extends JPanel {
 		setLayout(null);
 		add(getPanelCalendarioPicker());
 		add(getLabel());
-		add(getBtnComprobarCitas());
+		//add(getBtnComprobarCitas());
 		add(getScrollPane());
 		add(getBtnNewButton());
+		add(getBtnAtras());
 
 	}
 	
@@ -82,11 +85,27 @@ public class PanelCalendario extends JPanel {
 			p.put("text.today", "Today");
 			p.put("text.month", "Month");
 			p.put("text.year", "Year");
-			 datePanel = new JDatePanelImpl(model, p);
 			
-			panelCalendarioPicker = new JPanel();
-			panelCalendarioPicker.add(datePanel);
-			panelCalendarioPicker.setBounds(453, 11, 204, 190);
+			panelCalendarioPicker =  new JDatePanelImpl(model, p);
+			
+			panelCalendarioPicker.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if(model.getValue()!=null)
+						{
+							Date prueba = model.getValue();
+							getLabel().setText(prueba.toString());
+							crearModelo(model.getValue());
+							getListCitas();
+						}
+						else
+						{
+							//JOptionPane.showConfirmDialog(btnComprobarCitas, "No has elegido un dia en el calendario");
+						}
+				}
+			});
+			panelCalendarioPicker.setBounds(29, 22, 200, 184);
+			panelCalendarioPicker.setLayout(null);
 		}
 		return panelCalendarioPicker;
 	}
@@ -134,14 +153,14 @@ public class PanelCalendario extends JPanel {
 					}
 				}
 			});
-			btnComprobarCitas.setBounds(453, 261, 133, 32);
+			btnComprobarCitas.setBounds(903, 259, 133, 32);
 		}
 		return btnComprobarCitas;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(61, 95, 281, 353);
+			scrollPane.setBounds(262, 100, 824, 417);
 			scrollPane.setViewportView(getListCitas());
 		}
 		return scrollPane;
@@ -170,8 +189,21 @@ public class PanelCalendario extends JPanel {
 					}
 				}
 			});
-			btnNewButton.setBounds(453, 328, 133, 32);
+			btnNewButton.setBounds(61, 420, 133, 32);
 		}
 		return btnNewButton;
+	}
+	private JButton getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new JButton("Atras");
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					panelCalendario.setVisible(false);
+					panelAnterior.setVisible(true);
+				}
+			});
+			btnAtras.setBounds(61, 463, 133, 32);
+		}
+		return btnAtras;
 	}
 }
