@@ -136,7 +136,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLblPaciente() {
 		if (lblPaciente == null) {
 			lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setBounds(21, 93, 81, 20);
+			lblPaciente.setBounds(134, 93, 81, 20);
 		}
 		return lblPaciente;
 	}
@@ -144,21 +144,21 @@ public class PanelCita extends JPanel {
 		if (labelNombreApellidosPaciente == null) {
 			labelNombreApellidosPaciente = new JLabel("");
 			labelNombreApellidosPaciente.setText(paciente.nombre + " " + paciente.apellidos);
-			labelNombreApellidosPaciente.setBounds(112, 93, 295, 20);
+			labelNombreApellidosPaciente.setBounds(225, 93, 295, 20);
 		}
 		return labelNombreApellidosPaciente;
 	}
 	private JLabel getLblMedicos() {
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Medicos:");
-			lblMedicos.setBounds(21, 171, 81, 20);
+			lblMedicos.setBounds(134, 171, 81, 20);
 		}
 		return lblMedicos;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField(medico.nombre + " " + medico.apellidos);
-			textField.setBounds(112, 171, 237, 223);
+			textField.setBounds(225, 171, 237, 223);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -174,14 +174,14 @@ public class PanelCita extends JPanel {
 					panel.setVisible(true);
 				}
 			});
-			btnHistorial.setBounds(391, 92, 89, 23);
+			btnHistorial.setBounds(637, 93, 89, 23);
 		}
 		return btnHistorial;
 	}
 	private JLabel getLblHorario() {
 		if (lblHorario == null) {
 			lblHorario = new JLabel("Horario:");
-			lblHorario.setBounds(391, 171, 89, 20);
+			lblHorario.setBounds(637, 172, 89, 20);
 		}
 		return lblHorario;
 	}
@@ -189,28 +189,28 @@ public class PanelCita extends JPanel {
 		if (labelHoras == null) {
 			labelHoras = new JLabel("");
 			labelHoras.setText(horario.horaInicio + ":" + horario.horaFin);
-			labelHoras.setBounds(490, 171, 212, 20);
+			labelHoras.setBounds(728, 172, 212, 20);
 		}
 		return labelHoras;
 	}
 	private JLabel getLblUbicacion() {
 		if (lblUbicacion == null) {
 			lblUbicacion = new JLabel("Ubicacion:");
-			lblUbicacion.setBounds(391, 235, 81, 20);
+			lblUbicacion.setBounds(637, 236, 81, 20);
 		}
 		return lblUbicacion;
 	}
 	private JLabel getLabelSala() {
 		if (labelSala == null) {
 			labelSala = new JLabel(ubicacion.nombre);
-			labelSala.setBounds(490, 237, 253, 17);
+			labelSala.setBounds(728, 238, 253, 17);
 		}
 		return labelSala;
 	}
 	private JLabel getLblEsUrgente() {
 		if (lblEsUrgente == null) {
 			lblEsUrgente = new JLabel("Es Urgente:");
-			lblEsUrgente.setBounds(391, 302, 115, 20);
+			lblEsUrgente.setBounds(637, 304, 89, 20);
 		}
 		return lblEsUrgente;
 	}
@@ -228,21 +228,21 @@ public class PanelCita extends JPanel {
 				labelUrgente = new JLabel("No es Urgente");
 			}
 			
-			labelUrgente.setBounds(490, 302, 179, 22);
+			labelUrgente.setBounds(728, 303, 89, 22);
 		}
 		return labelUrgente;
 	}
 	private JLabel getLblInformacionDeContacto() {
 		if (lblInformacionDeContacto == null) {
 			lblInformacionDeContacto = new JLabel("Informacion de Contacto:");
-			lblInformacionDeContacto.setBounds(391, 386, 179, 20);
+			lblInformacionDeContacto.setBounds(637, 387, 179, 20);
 		}
 		return lblInformacionDeContacto;
 	}
 	private JLabel getLabelContacto() {
 		if (labelContacto == null) {
 			labelContacto = new JLabel(cita.infoContacto());
-			labelContacto.setBounds(580, 385, 295, 23);
+			labelContacto.setBounds(826, 386, 295, 23);
 		}
 		return labelContacto;
 	}
@@ -255,7 +255,7 @@ public class PanelCita extends JPanel {
 					panelAnterior.setVisible(true);
 				}
 			});
-			btnAtras.setBounds(391, 481, 89, 23);
+			btnAtras.setBounds(637, 474, 89, 23);
 		}
 		return btnAtras;
 	}
