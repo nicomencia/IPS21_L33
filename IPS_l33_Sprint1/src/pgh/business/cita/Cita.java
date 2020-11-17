@@ -59,7 +59,7 @@ public class Cita {
 	public String toString() {
 		
 		StringBuilder sb =new StringBuilder();
-		sb.append("Cita del dia: " + getDate() + "--A las: " + getHorario() + "--Con el paciente: " + getNombrePaciente() + "--Ubicacion: " +  getNombreUbicacion() + "--Contacto " + infoContacto());
+		sb.append("Cita del dia: " + getDate() + "--Empieza a las: " + getHorario() + " y termina a las: " + getHorarioTarde() + "--Con el paciente: " + getNombrePaciente() + "--Ubicacion: " +  getNombreUbicacion() + "--Contacto " + infoContacto());
 		return sb.toString();
 	}
 
@@ -86,6 +86,18 @@ public class Cita {
 			if(horarios.get(i).idHorario == c.idHorario)
 			{
 				return horarios.get(i).horaInicio;
+			}
+		}
+		return "";
+	}
+	
+	public String getHorarioTarde()
+	{
+		for(int i=0;i<horarios.size();i++)
+		{
+			if(horarios.get(i).idHorario == c.idHorario)
+			{
+				return horarios.get(i).horaFin;
 			}
 		}
 		return "";

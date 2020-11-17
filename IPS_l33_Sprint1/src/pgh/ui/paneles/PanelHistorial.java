@@ -15,6 +15,9 @@ import pgh.business.prescripcion.Prescripcion;
 import pgh.business.prescripcioncitapaciente.ListaPrescripcionesCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
 import javax.swing.JList;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelHistorial extends JPanel {
 	private JScrollPane scrollPaneCitas;
@@ -36,10 +39,13 @@ public class PanelHistorial extends JPanel {
 	private List<PrescripcionCitaPaciente> listaPrescripcionCita;
 	private JList listCitas;
 	private JList listPrescripciones;
+	private JButton btnAtras;
+	private JPanel estePanel;
 	/**
 	 * Create the panel.
 	 */
 	public PanelHistorial(JPanel panelAnterior, int idPaciente) {
+		estePanel = this;
 		findPrescripcionCitaPaciente.creaListaPrescripciones();
 		findCitas.creaCitas();
 		findPrescripciones.creaListaPrescripciones();
@@ -55,6 +61,7 @@ public class PanelHistorial extends JPanel {
 		add(getScrollPanePrescripciones());
 		add(getLblHistorial());
 		add(getScrollPaneHistorial());
+		add(getBtnAtras());
 
 	}
 	
@@ -160,5 +167,18 @@ public class PanelHistorial extends JPanel {
 			listPrescripciones = new JList(modeloListaPrescipciones);
 		}
 		return listPrescripciones;
+	}
+	private JButton getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new JButton("Atras");
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					estePanel.setVisible(false);
+					panelAnterior.setVisible(true);
+				}
+			});
+			btnAtras.setBounds(927, 495, 102, 31);
+		}
+		return btnAtras;
 	}
 }

@@ -44,6 +44,7 @@ public class PanelCalendario extends JPanel {
 	private JButton btnNewButton;
 	private JPanel panelCalendario;
 	private JPanel panelContenido;
+	private JButton btnAtras;
 	/**
 	 * Create the panel.
 	 */
@@ -60,6 +61,7 @@ public class PanelCalendario extends JPanel {
 		//add(getBtnComprobarCitas());
 		add(getScrollPane());
 		add(getBtnNewButton());
+		add(getBtnAtras());
 
 	}
 	
@@ -190,5 +192,18 @@ public class PanelCalendario extends JPanel {
 			btnNewButton.setBounds(61, 420, 133, 32);
 		}
 		return btnNewButton;
+	}
+	private JButton getBtnAtras() {
+		if (btnAtras == null) {
+			btnAtras = new JButton("Atras");
+			btnAtras.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					panelCalendario.setVisible(false);
+					panelAnterior.setVisible(true);
+				}
+			});
+			btnAtras.setBounds(61, 463, 133, 32);
+		}
+		return btnAtras;
 	}
 }
