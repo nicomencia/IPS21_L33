@@ -14,10 +14,11 @@ public class PanelMedicoCita extends JPanel {
 	private int idmedico;
 	private JButton btnSalirPanelMedico;
 	private JButton btnIndicarPrescripcion;
+	private JButton btnAntecedentesClinicos;
 	private JPanel panelContenido;
 	private int id_paciente;
 	private int id_cita ;
-	private JButton btnAntecedentesClinicos;
+	
 	
 	
 	public PanelMedicoCita(JPanel panelAnterior, int id_medico,int idPaciente,int idCita, JPanel contenido) {

@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
+import pgh.business.equipomedico.EquipoMedico;
+import pgh.business.equipomedico.EquipoMedicoDTO;
+import pgh.business.equipomedico.FindAllEquiposMedicos;
 import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
 import pgh.business.medico.FindAllMedicos;
@@ -50,11 +53,19 @@ public class PanelCita extends JPanel {
 	private ListaMedicoCita listaMedicoCita = new ListaMedicoCita();
 	private JButton btnAtras;
 	private JPanel estePanel;
-
+	private FindAllEquiposMedicos fM;
+	private List<EquipoMedicoDTO> equipo;
+	private JLabel lblEquipoDelMdico;
+	private JLabel lblEquipoMedico;
+	private JButton btnIndicarPrescripcion;
+	private JButton btnAntecedentesClinicos;
+	
 	/**
 	 * Create the panel.
 	 */
 	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita) {
+		fM = new FindAllEquiposMedicos();
+		equipo = fM.execute();
 		this.panelAnterior = panelAnterior;
 		this.cita = cita;
 		estePanel = this;
@@ -83,7 +94,25 @@ public class PanelCita extends JPanel {
 		add(getLblInformacionDeContacto());
 		add(getLabelContacto());
 		add(getBtnAtras());
-
+		add(getLblEquipoDelMdico());
+		add(getLblEquipoMedico());
+		add(getBtnIndicarPrescripcion());
+		add(getBtnAntecedentesClinicos());
+		
+	}
+	
+	private String getEquipoMedicos(MedicoDTO medico) {
+		String devolver ="";
+		for(int i=0;i<equipo.size();i++)
+		{
+			if(equipo.get(i).idEquipoMedico==medico.idEquipoMedico)
+			{
+				devolver = equipo.get(i).nombre;  
+			
+			}
+		}
+		return devolver;
+		
 	}
 	
 	private PacienteDTO getPaciente(int id)
@@ -136,7 +165,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLblPaciente() {
 		if (lblPaciente == null) {
 			lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setBounds(21, 93, 81, 20);
+			lblPaciente.setBounds(134, 172, 81, 20);
 		}
 		return lblPaciente;
 	}
@@ -144,21 +173,21 @@ public class PanelCita extends JPanel {
 		if (labelNombreApellidosPaciente == null) {
 			labelNombreApellidosPaciente = new JLabel("");
 			labelNombreApellidosPaciente.setText(paciente.nombre + " " + paciente.apellidos);
-			labelNombreApellidosPaciente.setBounds(112, 93, 295, 20);
+			labelNombreApellidosPaciente.setBounds(225, 172, 295, 20);
 		}
 		return labelNombreApellidosPaciente;
 	}
 	private JLabel getLblMedicos() {
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Medicos:");
-			lblMedicos.setBounds(21, 171, 81, 20);
+			lblMedicos.setBounds(134, 250, 81, 20);
 		}
 		return lblMedicos;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField(medico.nombre + " " + medico.apellidos);
-			textField.setBounds(112, 171, 237, 223);
+			textField.setBounds(225, 250, 237, 20);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -174,14 +203,14 @@ public class PanelCita extends JPanel {
 					panel.setVisible(true);
 				}
 			});
-			btnHistorial.setBounds(391, 92, 89, 23);
+			btnHistorial.setBounds(637, 93, 89, 23);
 		}
 		return btnHistorial;
 	}
 	private JLabel getLblHorario() {
 		if (lblHorario == null) {
 			lblHorario = new JLabel("Horario:");
-			lblHorario.setBounds(391, 171, 89, 20);
+			lblHorario.setBounds(637, 172, 89, 20);
 		}
 		return lblHorario;
 	}
@@ -189,28 +218,28 @@ public class PanelCita extends JPanel {
 		if (labelHoras == null) {
 			labelHoras = new JLabel("");
 			labelHoras.setText(horario.horaInicio + ":" + horario.horaFin);
-			labelHoras.setBounds(490, 171, 212, 20);
+			labelHoras.setBounds(728, 172, 212, 20);
 		}
 		return labelHoras;
 	}
 	private JLabel getLblUbicacion() {
 		if (lblUbicacion == null) {
 			lblUbicacion = new JLabel("Ubicacion:");
-			lblUbicacion.setBounds(391, 235, 81, 20);
+			lblUbicacion.setBounds(637, 236, 81, 20);
 		}
 		return lblUbicacion;
 	}
 	private JLabel getLabelSala() {
 		if (labelSala == null) {
 			labelSala = new JLabel(ubicacion.nombre);
-			labelSala.setBounds(490, 237, 253, 17);
+			labelSala.setBounds(728, 238, 253, 17);
 		}
 		return labelSala;
 	}
 	private JLabel getLblEsUrgente() {
 		if (lblEsUrgente == null) {
 			lblEsUrgente = new JLabel("Es Urgente:");
-			lblEsUrgente.setBounds(391, 302, 115, 20);
+			lblEsUrgente.setBounds(637, 304, 89, 20);
 		}
 		return lblEsUrgente;
 	}
@@ -228,21 +257,21 @@ public class PanelCita extends JPanel {
 				labelUrgente = new JLabel("No es Urgente");
 			}
 			
-			labelUrgente.setBounds(490, 302, 179, 22);
+			labelUrgente.setBounds(728, 303, 89, 22);
 		}
 		return labelUrgente;
 	}
 	private JLabel getLblInformacionDeContacto() {
 		if (lblInformacionDeContacto == null) {
 			lblInformacionDeContacto = new JLabel("Informacion de Contacto:");
-			lblInformacionDeContacto.setBounds(391, 386, 179, 20);
+			lblInformacionDeContacto.setBounds(637, 387, 179, 20);
 		}
 		return lblInformacionDeContacto;
 	}
 	private JLabel getLabelContacto() {
 		if (labelContacto == null) {
 			labelContacto = new JLabel(cita.infoContacto());
-			labelContacto.setBounds(580, 385, 295, 23);
+			labelContacto.setBounds(826, 386, 295, 23);
 		}
 		return labelContacto;
 	}
@@ -255,8 +284,56 @@ public class PanelCita extends JPanel {
 					panelAnterior.setVisible(true);
 				}
 			});
-			btnAtras.setBounds(391, 481, 89, 23);
+			btnAtras.setBounds(637, 474, 89, 23);
 		}
 		return btnAtras;
+	}
+	private JLabel getLblEquipoDelMdico() {
+		if (lblEquipoDelMdico == null) {
+			lblEquipoDelMdico = new JLabel("Equipo del M\u00E9dico:");
+			lblEquipoDelMdico.setBounds(134, 318, 108, 17);
+		}
+		return lblEquipoDelMdico;
+	}
+	private JButton getBtnAntecedentesClinicos() {
+		if (btnAntecedentesClinicos == null) {
+			btnAntecedentesClinicos = new JButton("Antecedentes Clinicos");
+			btnAntecedentesClinicos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(estePanel, panelContenido, paciente.idPaciente, estePanel, cita.getIdCita());
+					panelContenido.add(panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnAntecedentesClinicos.setBounds(341, 68, 179, 28);
+		}
+		return btnAntecedentesClinicos;
+	}
+	private JButton getBtnIndicarPrescripcion() {
+		if (btnIndicarPrescripcion == null) {
+			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					PanelPrescripcion panel = new PanelPrescripcion(estePanel, medico.idMedico, paciente.idPaciente, cita.getIdCita(), panelContenido, estePanel);
+					panelContenido.add( panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnIndicarPrescripcion.setBounds(134, 68, 179, 28);
+		}
+		return btnIndicarPrescripcion;
+	}
+	private JLabel getLblEquipoMedico() {
+		if (lblEquipoMedico == null) {
+			lblEquipoMedico = new JLabel("");
+			lblEquipoMedico.setText(getEquipoMedicos(medico));
+			lblEquipoMedico.setBounds(252, 318, 210, 17);
+		}
+		return lblEquipoMedico;
 	}
 }
