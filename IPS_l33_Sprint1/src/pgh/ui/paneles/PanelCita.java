@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
+import pgh.business.equipomedico.EquipoMedico;
+import pgh.business.equipomedico.EquipoMedicoDTO;
+import pgh.business.equipomedico.FindAllEquiposMedicos;
 import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
 import pgh.business.medico.FindAllMedicos;
@@ -50,11 +53,19 @@ public class PanelCita extends JPanel {
 	private ListaMedicoCita listaMedicoCita = new ListaMedicoCita();
 	private JButton btnAtras;
 	private JPanel estePanel;
-
+	private FindAllEquiposMedicos fM;
+	private List<EquipoMedicoDTO> equipo;
+	private JLabel lblEquipoDelMdico;
+	private JLabel lblEquipoMedico;
+	private JButton btnIndicarPrescripcion;
+	private JButton btnAntecedentesClinicos;
+	
 	/**
 	 * Create the panel.
 	 */
 	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita) {
+		fM = new FindAllEquiposMedicos();
+		equipo = fM.execute();
 		this.panelAnterior = panelAnterior;
 		this.cita = cita;
 		estePanel = this;
@@ -83,7 +94,25 @@ public class PanelCita extends JPanel {
 		add(getLblInformacionDeContacto());
 		add(getLabelContacto());
 		add(getBtnAtras());
-
+		add(getLblEquipoDelMdico());
+		add(getLblEquipoMedico());
+		add(getBtnIndicarPrescripcion());
+		add(getBtnAntecedentesClinicos());
+		
+	}
+	
+	private String getEquipoMedicos(MedicoDTO medico) {
+		String devolver ="";
+		for(int i=0;i<equipo.size();i++)
+		{
+			if(equipo.get(i).idEquipoMedico==medico.idEquipoMedico)
+			{
+				devolver = equipo.get(i).nombre;  
+			
+			}
+		}
+		return devolver;
+		
 	}
 	
 	private PacienteDTO getPaciente(int id)
@@ -136,7 +165,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLblPaciente() {
 		if (lblPaciente == null) {
 			lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setBounds(134, 93, 81, 20);
+			lblPaciente.setBounds(134, 172, 81, 20);
 		}
 		return lblPaciente;
 	}
@@ -144,21 +173,21 @@ public class PanelCita extends JPanel {
 		if (labelNombreApellidosPaciente == null) {
 			labelNombreApellidosPaciente = new JLabel("");
 			labelNombreApellidosPaciente.setText(paciente.nombre + " " + paciente.apellidos);
-			labelNombreApellidosPaciente.setBounds(225, 93, 295, 20);
+			labelNombreApellidosPaciente.setBounds(225, 172, 295, 20);
 		}
 		return labelNombreApellidosPaciente;
 	}
 	private JLabel getLblMedicos() {
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Medicos:");
-			lblMedicos.setBounds(134, 171, 81, 20);
+			lblMedicos.setBounds(134, 250, 81, 20);
 		}
 		return lblMedicos;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField(medico.nombre + " " + medico.apellidos);
-			textField.setBounds(225, 171, 237, 223);
+			textField.setBounds(225, 250, 237, 20);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -258,5 +287,53 @@ public class PanelCita extends JPanel {
 			btnAtras.setBounds(637, 474, 89, 23);
 		}
 		return btnAtras;
+	}
+	private JLabel getLblEquipoDelMdico() {
+		if (lblEquipoDelMdico == null) {
+			lblEquipoDelMdico = new JLabel("Equipo del M\u00E9dico:");
+			lblEquipoDelMdico.setBounds(134, 318, 108, 17);
+		}
+		return lblEquipoDelMdico;
+	}
+	private JButton getBtnAntecedentesClinicos() {
+		if (btnAntecedentesClinicos == null) {
+			btnAntecedentesClinicos = new JButton("Antecedentes Clinicos");
+			btnAntecedentesClinicos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(estePanel, panelContenido, paciente.idPaciente, estePanel, cita.getIdCita());
+					panelContenido.add(panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnAntecedentesClinicos.setBounds(341, 68, 179, 28);
+		}
+		return btnAntecedentesClinicos;
+	}
+	private JButton getBtnIndicarPrescripcion() {
+		if (btnIndicarPrescripcion == null) {
+			btnIndicarPrescripcion = new JButton("Indicar prescripcion");
+			btnIndicarPrescripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					PanelPrescripcion panel = new PanelPrescripcion(estePanel, medico.idMedico, paciente.idPaciente, cita.getIdCita(), panelContenido, estePanel);
+					panelContenido.add( panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnIndicarPrescripcion.setBounds(134, 68, 179, 28);
+		}
+		return btnIndicarPrescripcion;
+	}
+	private JLabel getLblEquipoMedico() {
+		if (lblEquipoMedico == null) {
+			lblEquipoMedico = new JLabel("");
+			lblEquipoMedico.setText(getEquipoMedicos(medico));
+			lblEquipoMedico.setBounds(252, 318, 210, 17);
+		}
+		return lblEquipoMedico;
 	}
 }
