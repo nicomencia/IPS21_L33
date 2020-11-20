@@ -41,11 +41,15 @@ public class PanelHistorial extends JPanel {
 	private JList listPrescripciones;
 	private JButton btnAtras;
 	private JPanel estePanel;
+	private JButton btnHistorialVacunas;
+	private JPanel panelContenido;
+	
 	/**
 	 * Create the panel.
 	 */
-	public PanelHistorial(JPanel panelAnterior, int idPaciente) {
+	public PanelHistorial(JPanel panelAnterior, int idPaciente, JPanel panelContenido) {
 		estePanel = this;
+		this.panelContenido = panelContenido;
 		findPrescripcionCitaPaciente.creaListaPrescripciones();
 		findCitas.creaCitas();
 		findPrescripciones.creaListaPrescripciones();
@@ -62,6 +66,7 @@ public class PanelHistorial extends JPanel {
 		add(getLblHistorial());
 		add(getScrollPaneHistorial());
 		add(getBtnAtras());
+		add(getBtnHistorialVacunas());
 
 	}
 	
@@ -104,7 +109,7 @@ public class PanelHistorial extends JPanel {
 	private JScrollPane getScrollPaneCitas() {
 		if (scrollPaneCitas == null) {
 			scrollPaneCitas = new JScrollPane();
-			scrollPaneCitas.setBounds(82, 407, 810, 119);
+			scrollPaneCitas.setBounds(82, 407, 810, 72);
 			scrollPaneCitas.setViewportView(getListCitas());
 		}
 		return scrollPaneCitas;
@@ -180,5 +185,21 @@ public class PanelHistorial extends JPanel {
 			btnAtras.setBounds(927, 495, 102, 31);
 		}
 		return btnAtras;
+	}
+	private JButton getBtnHistorialVacunas() {
+		if (btnHistorialVacunas == null) {
+			btnHistorialVacunas = new JButton("Historial vacunas");
+			btnHistorialVacunas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PanelHistorialVacunas panel = new PanelHistorialVacunas(estePanel,panelContenido , idPaciente, estePanel);
+					estePanel.setVisible(false);
+					panelContenido.add(panel);
+					panel.setVisible(true);
+				}
+			});
+			btnHistorialVacunas.setBounds(82, 490, 234, 36);
+		}
+		return btnHistorialVacunas;
 	}
 }

@@ -197,7 +197,7 @@ public class PanelCita extends JPanel {
 			btnHistorial = new JButton("Historial");
 			btnHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					PanelHistorial panel = new PanelHistorial(estePanel, cita.getIdPaciente());
+					PanelHistorial panel = new PanelHistorial(estePanel, cita.getIdPaciente(), panelContenido);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);
