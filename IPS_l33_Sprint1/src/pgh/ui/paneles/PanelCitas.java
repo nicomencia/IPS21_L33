@@ -978,6 +978,8 @@ public class PanelCitas extends JPanel {
 					System.out.println("Mandado email a " + m.getNombreMedico() + " " + m.getApellidosMedico() + "  ("
 							+ m.getEmailMedico() + ")");
 					}
+					
+					
 				}
 
 				private String getUbicacionNombreCita(int idUbicacion) {
