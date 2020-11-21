@@ -30,9 +30,10 @@ public class CrearVacuna {
 				java.sql.Date date1 = new java.sql.Date(vacuna.getDiaAsignacion().getTime());
 				java.sql.Date date2 = new java.sql.Date(vacuna.getDiaVacunacion().getTime());
 			
-			  pst = c.prepareStatement(query.toString());
+				pst = c.prepareStatement(query.toString());
 				pst.setInt(1, vacuna.getIdVacuna());
 				pst.setInt(2, vacuna.getIdPaciente());
+				System.out.println("tiene paciente " + vacuna.getIdPaciente());
 				pst.setString(3,vacuna.getNombreVacuna());
 				pst.setDate(4, date1);
 				pst.setDate(5, date2);
@@ -40,12 +41,12 @@ public class CrearVacuna {
 				pst.setString(7,vacuna.getObservacion());
 				pst.setBoolean(8,vacuna.isPuesta());
 				
-			  pst.executeUpdate();	
+				pst.executeUpdate();	
 			    
-			  pst.close();
-			  c.close();
+				pst.close();
+				c.close();
 			    
-			  System.out.print("Vacuna creada con exito");
+				System.out.print("Vacuna creada con exito");
 			  
 
 				

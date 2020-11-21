@@ -32,6 +32,7 @@ import pgh.business.paciente.ListaPacientes;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
 import pgh.ui.paneles.PanelAdministrativo;
+import pgh.ui.paneles.PanelLoginEnfermero;
 import pgh.ui.paneles.PanelMedico;
 import pgh.ui.paneles.filtros.JListFiltroLoginMedico;
 
@@ -133,7 +134,6 @@ public class VentanaPrincipal extends JFrame {
 			panelContenido.setBackground(Color.WHITE);
 			panelContenido.setLayout(new CardLayout(0, 0));
 			panelContenido.add(getPanelPrincipal(), "name_185722150351700");
-			panelContenido.add(getPanelEnfermero(), "name_186491911563700");
 			panelContenido.add(getPanelLoginMedico(), "name_186491911563700");
 			
 
@@ -219,7 +219,10 @@ public class VentanaPrincipal extends JFrame {
 			btnAdministrativo_1_1.setFocusable(false);
 			btnAdministrativo_1_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cambiarPanel("panelEnfermero");
+					PanelLoginEnfermero panel = new PanelLoginEnfermero(panelPrincipal,panelContenido);
+					panelContenido.add(panel);
+					panelPrincipal.setVisible(false);
+					panel.setVisible(true);
 				}
 			});
 			btnAdministrativo_1_1.setForeground(Color.WHITE);
@@ -236,38 +239,23 @@ public class VentanaPrincipal extends JFrame {
 
 		if (nombre == "panelPrincipal") {
 			panelPrincipal.setVisible(true);
-			panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(false);
 
 
 		
 		} else if (nombre == "panelMedico") {
 			panelPrincipal.setVisible(false);
-		    panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(false);
 
-		} else if (nombre == "panelEnfermero") {
-			panelPrincipal.setVisible(false);
-			panelEnfermero.setVisible(true);
-			panelLoginMedico.setVisible(false);
-
-
+		
 		} else if (nombre == "panelLoginMedico") {
 			panelPrincipal.setVisible(false);
-			panelEnfermero.setVisible(false);
 			panelLoginMedico.setVisible(true);
 
 		}
 	}
 
-	private JPanel getPanelEnfermero() {
-		if (panelEnfermero == null) {
-			panelEnfermero = new JPanel();
-			panelEnfermero.setBackground(Color.WHITE);
-		}
-		return panelEnfermero;
-	}
-
+	
 
 
 	private JButton getBtnAnadirNuevaPrescripcion() {
