@@ -15,6 +15,8 @@ public class FindAllCitas {
 	
 	private static String SQL2 = "select idcita, fecha, asistencia, nombrepaciente from CITA where idpaciente = ? AND idcita in (select idcita from MEDICO_CITAS where idmedico=?)";
 	
+	private static String SQL5 = "Select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto, nombrepaciente from Cita a, ENFERMERO_CITAS b where a.idcita = b.idcita and b.idenfermero = ?";
+	
 	private static String SQL = "select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto, nombrepaciente, medicoasignado from Cita";
 	
 	private static String SQL4 = "select idcita, idpaciente, idhorario, idubicacion, fecha, asistencia, urgente, infocontacto, nombrepaciente, medicoasignado from Cita where idcita=?";
@@ -103,6 +105,52 @@ public class FindAllCitas {
 			
 			return citas;
 		}
+		
+		public List<CitaDTO> FindCitaIdEnfermero( int idEnfermero) {
+			
+			
+			List<CitaDTO> citas = new ArrayList<CitaDTO>();
+			
+			Connection c = null;
+			PreparedStatement pst = null;
+			ResultSet rs = null;
+	
+			try {
+				c = db.getConnection();
+				
+				pst = c.prepareStatement(SQL5);
+							
+				pst.setInt(1, idEnfermero);
+				
+				rs = pst.executeQuery();
+
+				while(rs.next()) {
+					CitaDTO cita = new CitaDTO();
+					cita.idCita = rs.getInt("idcita");
+					cita.idPaciente  = rs.getInt("idpaciente");
+					cita.idHorario  = rs.getInt("idhorario");
+					cita.idUbicacion  = rs.getInt("idubicacion");
+					cita.fecha=rs.getDate("fecha");
+					cita.asistencia=rs.getBoolean("asistencia");
+					cita.urgente=rs.getBoolean("urgente");
+					cita.infocontacto=rs.getString("infocontacto");
+					cita.nombrePaciente=rs.getString("nombrepaciente");
+					citas.add(cita);
+				}
+				
+			
+				
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				db.close(rs, pst, c);
+			}
+			
+			return citas;
+		}
+		
+		
 		
 		public List<CitaDTO> FindCitaIdMedico( int idMedico) {
 			
