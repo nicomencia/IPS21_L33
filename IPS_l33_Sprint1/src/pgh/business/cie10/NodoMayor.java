@@ -90,7 +90,7 @@ public class NodoMayor {
 		nodo = new NodoMayor("FACTORES QUE INFLUYEN EN EL ESTADO DE SALUD Y CONTACTO CON LOS SERVICIOS SANITARIOS (Z00-Z99)", "Z00", "Z99");
 		añadirNodos(nodo);
 		nodos.add(nodo);
-		listarNodos();
+		//listarNodos();
 		
 	}
 	

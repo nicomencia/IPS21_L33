@@ -31,7 +31,6 @@ public class ReadFile {
 			linea= fich.readLine();
 			if(linea!=null)
 			{
-			System.out.println(linea);
 			String[] linea2 = linea.split("\t");
 			Nodo nodo = new Nodo();
 			nodo.codigo = linea2[0];
