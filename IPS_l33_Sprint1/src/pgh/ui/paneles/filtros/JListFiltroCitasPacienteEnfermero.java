@@ -11,10 +11,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import pgh.business.cita.Cita;
-import pgh.business.enfermeroCita.EnfermeroCita;
-import pgh.business.paciente.Paciente;
-import pgh.ui.paneles.filtros.JListFiltroPacientesCita.Filtro;
-import pgh.ui.paneles.filtros.JListFiltroPacientesCita.TextoFiltro;
+
 
 public class JListFiltroCitasPacienteEnfermero extends JList {
 	

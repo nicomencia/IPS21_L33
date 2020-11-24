@@ -8,4 +8,5 @@ public class MedicoDTO {
 	public String email;
 	public String especialidad;
 	public int idEquipoMedico;
+	public int diasDisponibles;
 }

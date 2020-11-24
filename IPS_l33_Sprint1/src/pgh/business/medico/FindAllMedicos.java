@@ -11,7 +11,8 @@ import pgh.jdbc.Database;
 
 public class FindAllMedicos {
 	
-	private static String SQL = "select idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico from Medico";
+	private static String SQL = "select idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico, diasdisponibles from Medico";
+	private static String SQL2 = "select diasdisponibles from Medico where idMedico = ? ";
 		
 	Database db = new Database();
 	
@@ -30,6 +31,7 @@ public class FindAllMedicos {
 				rs = pst.executeQuery();
 				medicos = new ArrayList<>();
 				while(rs.next()) {
+					
 					MedicoDTO medico = new MedicoDTO();
 					medico.idMedico = rs.getInt("idMedico");
 					medico.nombre=rs.getString("nombre");;
@@ -37,6 +39,7 @@ public class FindAllMedicos {
 					medico.email=rs.getString("email");
 					medico.especialidad=rs.getString("especialidad");
 					medico.idEquipoMedico=rs.getInt("idEquipo_Medico");
+					medico.diasDisponibles = rs.getInt("diasdisponibles");
 					medicos.add(medico);
 				}
 			} catch (SQLException e) {
@@ -47,6 +50,34 @@ public class FindAllMedicos {
 			}
 			
 			return medicos;
+		}
+		
+		public MedicoDTO diasDisponibles(int id) {
+			Connection c = null;
+			PreparedStatement pst = null;
+			ResultSet rs = null;
+			MedicoDTO medico = null;
+	
+			try {
+				c = db.getConnection();
+				
+				pst = c.prepareStatement(SQL2);
+				pst.setInt(1, id);
+				rs = pst.executeQuery();
+				rs.next();
+				
+				medico = new MedicoDTO();
+				medico.diasDisponibles = rs.getInt("diasdisponibles");
+				
+				
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				db.close(rs, pst, c);
+			}
+			
+			return medico;
 		}
 	
 }

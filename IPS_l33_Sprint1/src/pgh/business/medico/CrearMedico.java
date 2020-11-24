@@ -10,7 +10,7 @@ import pgh.jdbc.Database;
 public class CrearMedico {
 	
 	
-private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico) values (?,?,?,?,?,?) ";
+private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, email, especialidad, idEquipo_Medico, diasdisponibles) values (?,?,?,?,?,?,?) ";
 
 	
 	Database db = new Database();
@@ -36,6 +36,7 @@ private static String SQL = "Insert into Medico (idMedico, nombre, apellidos, em
 			pst.setString(4, medico.getEmailMedico());
 			pst.setString(5, medico.getEspecialidad());
 			pst.setInt(6, medico.getIdEquipoMedico());
+			pst.setInt(7, medico.getDiasDisponibles());
 			
 			
 		    pst.executeUpdate();	

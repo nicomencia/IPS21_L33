@@ -26,9 +26,7 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 	private JPanel panelAnterior;
 	private JScrollPane scrollPane;
 	private JList listInfoSolicitud;
-	private JTextField textFieldEstado;
 	private JLabel lblNewLabel;
-	private JLabel lblEstadoDeLa;
 	private JButton btnVolver;
 	private DefaultListModel<String> modeloVacacioneSolicitadas;
 	private ListaVacacionesSolicitadasMedico lvs;
@@ -46,15 +44,13 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 		setBounds(100, 100, 1129, 600);
 		setLayout(null);
 		add(getScrollPane());
-		add(getTextFieldEstado());
 		add(getLblNewLabel());
-		add(getLblEstadoDeLa());
 		add(getBtnVolver());
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(165, 145, 799, 77);
+			scrollPane.setBounds(165, 145, 799, 305);
 			scrollPane.setViewportView(getListInfoSolicitud());
 		}
 		return scrollPane;
@@ -93,28 +89,6 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 
 		
 	}
-	private JTextField getTextFieldEstado() {
-		if (textFieldEstado == null) {
-			textFieldEstado = new JTextField();
-			textFieldEstado.setBounds(440, 314, 200, 50);
-			textFieldEstado.setColumns(10);
-			
-			findAllVacacionesSolicitadas2 = new FindAllVacacionesSolicitadasMedico();
-			vsmDTO2= new VacacionesSolicitadasMedicoDTO();
-			
-			if(findAllVacacionesSolicitadas2.FindIdMedico(id_medico).size()>=1) {
-				for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas2.FindIdMedico(id_medico)) {
-					vsmDTO2=va;
-				}
-				VacacionesSolicitadasMedico v = new VacacionesSolicitadasMedico(vsmDTO2);
-				
-				textFieldEstado.setText(v.estado());
-			}
-			
-		
-		}
-		return textFieldEstado;
-	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Informacion de las vacaciones solicitadas  ");
@@ -123,15 +97,6 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 			lblNewLabel.setBounds(165, 89, 799, 50);
 		}
 		return lblNewLabel;
-	}
-	private JLabel getLblEstadoDeLa() {
-		if (lblEstadoDeLa == null) {
-			lblEstadoDeLa = new JLabel("Estado de la solicitud");
-			lblEstadoDeLa.setHorizontalAlignment(SwingConstants.CENTER);
-			lblEstadoDeLa.setFont(new Font("Tahoma", Font.BOLD, 20));
-			lblEstadoDeLa.setBounds(142, 264, 799, 50);
-		}
-		return lblEstadoDeLa;
 	}
 	private JButton getBtnVolver() {
 		if (btnVolver == null) {

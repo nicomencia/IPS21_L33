@@ -47,37 +47,19 @@ public class VacacionesSolicitadasMedico {
 	}
 	
 	
-	public String estado() {
-		
-		StringBuilder sb = new StringBuilder();
-		
-		if(getAprobadas()) {
-			sb.append("Estado de la solicitud : aprobadas" );
-		}
-		if(getCanceladas()) {
-			sb.append("Estado de la solicitud : canceladas" );
-		}
-		if(getEsperando()) {
-			sb.append("Estado de la solicitud : esperando" );
-		}
-		
-		return sb.toString();
-				
-	}
-	
 	
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
 		
 		if(getAprobadas()) {
-			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString());
+			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString() + "Estado de la solicitud : aprobadas");
 		}
 		if(getCanceladas()) {
-			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString());
+			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString() + "Estado de la solicitud : canceladas");
 		}
 		if(getEsperando()) {
-			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString());
+			sb.append("Vacaciones solicitadas por el medico : " + getNombreMedico() + " / Motivo (opcional) : " + getMotivo() + " / Fecha de inicio: " + getFechaInicio().toString() + " / Fecha fin: " + getFechaFin().toString() + "Estado de la solicitud : esperando");
 		}
 		
 		return sb.toString();

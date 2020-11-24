@@ -21,7 +21,10 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import pgh.business.jornadamedico.CrearJornadaMedico;
 import pgh.business.jornadamedico.JornadaMedicoDTO;
 import pgh.business.jornadamedico.ListaJornadasMedico;
+import pgh.business.medicamento.FindAllMedicamentos;
+import pgh.business.medico.FindAllMedicos;
 import pgh.business.medico.ListaMedicos;
+import pgh.business.medico.Medico;
 import pgh.business.vacacionesSolicitadas.CrearVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.FindAllVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.ListaVacacionesSolicitadasMedico;
@@ -31,6 +34,7 @@ import pgh.business.vacacionesSolicitadas.RemoveVacacionesSolicitadas;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class PanelPedirVacaciones extends JPanel {
 	
@@ -57,7 +61,11 @@ public class PanelPedirVacaciones extends JPanel {
 	private VacacionesSolicitadasMedicoDTO vsmDTO;
 	private FindAllVacacionesSolicitadasMedico findAllVacacionesSolicitadas;
 	private RemoveVacacionesSolicitadas removeVacaciones;
-
+	private JLabel lblNewLabel_3;
+	private JTextField textFieldDiasDisponibles;
+	private int diasSolicitados;
+	private Medico medico;
+	private FindAllMedicos findMedicos;
 	
 	
 	public PanelPedirVacaciones(JPanel panelAnterior, JPanel panelContenido, int idmedico) {
@@ -79,6 +87,8 @@ public class PanelPedirVacaciones extends JPanel {
 		add(getTextField());
 		add(getBtnMandarSolicitud());
 		add(getBtnCancelar());
+		add(getLblNewLabel_3());
+		add(getTextFieldDiasDisponibles());
 	}
 	
 	
@@ -346,5 +356,31 @@ public class PanelPedirVacaciones extends JPanel {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
+	private JLabel getLblNewLabel_3() {
+		if (lblNewLabel_3 == null) {
+			lblNewLabel_3 = new JLabel("Dias disponibles : ");
+			lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_3.setBounds(136, 477, 140, 38);
+		}
+		return lblNewLabel_3;
+	}
+	private JTextField getTextFieldDiasDisponibles() {
+		if (textFieldDiasDisponibles == null) {
+			textFieldDiasDisponibles = new JTextField();
+			textFieldDiasDisponibles.setHorizontalAlignment(SwingConstants.CENTER);
+			textFieldDiasDisponibles.setBounds(258, 477, 120, 38);
+			textFieldDiasDisponibles.setColumns(10);
+			textFieldDiasDisponibles.setText(""+getDiasDispobibles());
+		}
+		return textFieldDiasDisponibles;
+	}
 
+
+	private int getDiasDispobibles() {
+		
+		findMedicos = new FindAllMedicos();	
+		medico = new Medico(findMedicos.diasDisponibles(id_medico));
+		return medico.getDiasDisponibles();
+			
+	}
 }

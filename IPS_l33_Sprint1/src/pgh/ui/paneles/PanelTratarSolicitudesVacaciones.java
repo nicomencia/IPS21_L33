@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class PanelTratarSolicitudesVacaciones extends JPanel {
@@ -290,7 +291,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 					
 				}
 			});
-			btnAsignarMedico.setBounds(672, 217, 200, 50);
+			btnAsignarMedico.setBounds(672, 232, 200, 50);
 		}
 		return btnAsignarMedico;
 	}
@@ -307,7 +308,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 					panel.setVisible(true);
 				}
 			});
-			btnPosponerCitas.setBounds(672, 305, 200, 50);
+			btnPosponerCitas.setBounds(672, 320, 200, 50);
 		}
 		return btnPosponerCitas;
 	}

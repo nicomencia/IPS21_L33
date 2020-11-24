@@ -17,7 +17,7 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.cita.ListaCitas;
-import pgh.business.enfermeroCita.EnfermeroCita;
+
 import pgh.business.medico.Medico;
 import pgh.ui.paneles.filtros.JListFiltroCitasPacienteEnfermero;
 

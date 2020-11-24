@@ -34,14 +34,23 @@ import pgh.business.jornadamedico.CrearJornadaMedico;
 import pgh.business.jornadamedico.JornadaMedico;
 import pgh.business.jornadamedico.JornadaMedicoDTO;
 import pgh.business.jornadamedico.ListaJornadasMedico;
-
+import pgh.business.medico.EditarDiasVacaciones;
+import pgh.business.medico.FindMedicoById;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.business.medico.MedicoDTO;
 import pgh.ui.VentanaPrincipal;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 
 
 import javax.swing.JTextField;
+import java.awt.BorderLayout;
+import javax.swing.JRadioButton;
+import java.awt.CardLayout;
+import java.awt.GridLayout;
+import javax.swing.border.TitledBorder;
+
+import org.hsqldb.lib.tar.RB;
 
 public class PanelJornadaMedico extends JPanel  {
 	
@@ -72,7 +81,6 @@ public class PanelJornadaMedico extends JPanel  {
 	private CrearJornadaMedico crearJornadaMedico;
 	private JornadaMedico jornadaMedico;
 	private JornadaMedicoDTO jornadaMedicoDTO;
-	private JLabel lblNewLabel_14;
 	private JScrollPane scrollPane;
 	private JList listDias;
 	private JButton btnAnadirDiasJornada;
@@ -92,6 +100,14 @@ public class PanelJornadaMedico extends JPanel  {
 	private JButton btnNewButton_1;
 	private JTextField textFieldFiltro;
 	private JLabel lblNewLabel;
+	private JRadioButton rdbtnAutomaticamente;
+	private JRadioButton rdbtnManualmente;
+	private JLabel lblNewLabel_1;
+	private JPanel panel;
+	private JSpinner spinnerDias;
+	private Medico medico;
+	private MedicoDTO medicoDTO;
+	private EditarDiasVacaciones editarDias;
 	
 
 	
@@ -132,8 +148,10 @@ public class PanelJornadaMedico extends JPanel  {
 			this.add(getSpinnerMinutosInicioJornadamedico());
 			this.add(getSpinnerMinutosInicioJornadamedico2());
 			this.add(getSpinnerMinutosFinJornadamedico2());
-			this.add(getLblNewLabel_14());
 			add(getLblNewLabel());
+			add(getLabel_1());
+			add(getPanel());
+			add(getSpinnerDias());
 	
 
 		
@@ -154,7 +172,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (lblNewLabel_4_1 == null) {
 			lblNewLabel_4_1 = new JLabel("Seleccionar dias a la semana :");
 			lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_4_1.setBounds(195, 378, 200, 22);
+			lblNewLabel_4_1.setBounds(85, 378, 200, 22);
 		}
 		return lblNewLabel_4_1;
 	}
@@ -172,7 +190,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (lblNewLabel_6_1_1 == null) {
 			lblNewLabel_6_1_1 = new JLabel("Seleccionar hora inicio :");
 			lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6_1_1.setBounds(712, 189, 158, 22);
+			lblNewLabel_6_1_1.setBounds(430, 189, 158, 22);
 		}
 		return lblNewLabel_6_1_1;
 	}
@@ -181,7 +199,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (lblNewLabel_5_1_1 == null) {
 			lblNewLabel_5_1_1 = new JLabel("Seleccionar hora fin :");
 			lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_5_1_1.setBounds(712, 257, 142, 22);
+			lblNewLabel_5_1_1.setBounds(430, 257, 142, 22);
 		}
 		return lblNewLabel_5_1_1;
 	}
@@ -239,7 +257,24 @@ public class PanelJornadaMedico extends JPanel  {
 						
 						crearJornadaMedico.crearJornadaMedico(jornadaMedico);
 						
+						editarDias = new EditarDiasVacaciones();
 						
+						if(rdbtnManualmente.isSelected()) {
+							editarDias.actualizar((int) spinnerDias.getValue(), modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+						}
+						
+						if(rdbtnAutomaticamente.isSelected()) {
+							
+							Date fechaInicio = dateChooserFechaInicioJornadaMedico.getDate();
+							Date fechaFin = dateChooserFechaFinJornadaMedico.getDate();
+
+							int milisecondsByDay = 86400000;
+							int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
+							
+							editarDias.actualizar(diass, modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+							
+
+						}
 						
 						closePanel();
 						
@@ -322,7 +357,7 @@ public class PanelJornadaMedico extends JPanel  {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(414, 381, 88, 127);
+			scrollPane.setBounds(315, 340, 88, 127);
 			scrollPane.setViewportView(getListDias());
 		}
 		return scrollPane;
@@ -358,7 +393,7 @@ public class PanelJornadaMedico extends JPanel  {
 
 				}
 			});
-			btnAnadirDiasJornada.setBounds(512, 451, 113, 23);
+			btnAnadirDiasJornada.setBounds(430, 389, 113, 23);
 		}
 		return btnAnadirDiasJornada;
 	}
@@ -366,7 +401,7 @@ public class PanelJornadaMedico extends JPanel  {
 	private JScrollPane getScrollPaneDiasSeleccionados() {
 		if (scrollPaneDiasSeleccionados == null) {
 			scrollPaneDiasSeleccionados = new JScrollPane();
-			scrollPaneDiasSeleccionados.setBounds(665, 403, 207, 86);
+			scrollPaneDiasSeleccionados.setBounds(574, 361, 207, 86);
 			scrollPaneDiasSeleccionados.setViewportView(getListDiasSeleccionadosJornadaMedico());
 		}
 		return scrollPaneDiasSeleccionados;
@@ -382,7 +417,7 @@ public class PanelJornadaMedico extends JPanel  {
 
 				}
 			});
-			btnBorrarDiasSeleccionados.setBounds(882, 419, 126, 23);
+			btnBorrarDiasSeleccionados.setBounds(574, 458, 207, 23);
 		}
 		return btnBorrarDiasSeleccionados;
 	}
@@ -596,7 +631,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerHoraInicioJornadamedico == null) {
 			spinnerHoraInicioJornadamedico = new JSpinner();
 			spinnerHoraInicioJornadamedico.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			spinnerHoraInicioJornadamedico.setBounds(880, 191, 48, 20);
+			spinnerHoraInicioJornadamedico.setBounds(598, 191, 48, 20);
 		}
 		return spinnerHoraInicioJornadamedico;
 	}
@@ -604,7 +639,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerHoraFinJornadamedico == null) {
 			spinnerHoraFinJornadamedico = new JSpinner();
 			spinnerHoraFinJornadamedico.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			spinnerHoraFinJornadamedico.setBounds(880, 259, 48, 20);
+			spinnerHoraFinJornadamedico.setBounds(598, 259, 48, 20);
 		}
 		return spinnerHoraFinJornadamedico;
 	}
@@ -612,7 +647,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerMinutosFinJornadamedico_1 == null) {
 			spinnerMinutosFinJornadamedico_1 = new JSpinner();
 			spinnerMinutosFinJornadamedico_1.setModel(new SpinnerNumberModel(0, 0, 5, 1));
-			spinnerMinutosFinJornadamedico_1.setBounds(954, 259, 48, 20);
+			spinnerMinutosFinJornadamedico_1.setBounds(672, 259, 48, 20);
 		}
 		return spinnerMinutosFinJornadamedico_1;
 	}
@@ -621,7 +656,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (lblNewLabel_6 == null) {
 			lblNewLabel_6 = new JLabel(":");
 			lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6.setBounds(938, 193, 30, 14);
+			lblNewLabel_6.setBounds(656, 193, 30, 14);
 		}
 		return lblNewLabel_6;
 	}
@@ -629,7 +664,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (lblNewLabel_6_1 == null) {
 			lblNewLabel_6_1 = new JLabel(":");
 			lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6_1.setBounds(938, 262, 30, 14);
+			lblNewLabel_6_1.setBounds(656, 262, 30, 14);
 		}
 		return lblNewLabel_6_1;
 	}
@@ -637,7 +672,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerMinutosInicioJornadamedico == null) {
 			spinnerMinutosInicioJornadamedico = new JSpinner();
 			spinnerMinutosInicioJornadamedico.setModel(new SpinnerNumberModel(0, 0, 5, 1));
-			spinnerMinutosInicioJornadamedico.setBounds(954, 191, 48, 20);
+			spinnerMinutosInicioJornadamedico.setBounds(672, 191, 48, 20);
 		}
 		return spinnerMinutosInicioJornadamedico;
 	}
@@ -645,7 +680,7 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerMinutosInicioJornadamedico2 == null) {
 			spinnerMinutosInicioJornadamedico2 = new JSpinner();
 			spinnerMinutosInicioJornadamedico2.setModel(new SpinnerNumberModel(0, 0, 9, 1));
-			spinnerMinutosInicioJornadamedico2.setBounds(1012, 191, 48, 20);
+			spinnerMinutosInicioJornadamedico2.setBounds(730, 191, 48, 20);
 		}
 		return spinnerMinutosInicioJornadamedico2;
 	}
@@ -653,18 +688,9 @@ public class PanelJornadaMedico extends JPanel  {
 		if (spinnerMinutosFinJornadamedico2 == null) {
 			spinnerMinutosFinJornadamedico2 = new JSpinner();
 			spinnerMinutosFinJornadamedico2.setModel(new SpinnerNumberModel(0, 0, 9, 1));
-			spinnerMinutosFinJornadamedico2.setBounds(1012, 259, 48, 20);
+			spinnerMinutosFinJornadamedico2.setBounds(730, 259, 48, 20);
 		}
 		return spinnerMinutosFinJornadamedico2;
-	}
-	
-	private JLabel getLblNewLabel_14() {
-		if (lblNewLabel_14 == null) {
-			lblNewLabel_14 = new JLabel("");
-			lblNewLabel_14.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/img/085e2efd9a10a1d20e259f487a17cf23-malet--n-medico-by-vexels.png")));
-			lblNewLabel_14.setBounds(290, 11, 808, 561);
-		}
-		return lblNewLabel_14;
 	}
 	
 	protected void closePanel() {
@@ -680,5 +706,63 @@ public class PanelJornadaMedico extends JPanel  {
 			lblNewLabel.setBounds(26, 18, 200, 50);
 		}
 		return lblNewLabel;
+	}
+	private JRadioButton getRadioButton_1() {
+		if (rdbtnAutomaticamente == null) {
+			rdbtnAutomaticamente = new JRadioButton("Automaticamente");
+			rdbtnAutomaticamente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					rdbtnAutomaticamente.setSelected(true);
+					rdbtnManualmente.setSelected(false);
+					spinnerDias.setEnabled(false);
+					
+					
+				}
+			});
+			rdbtnAutomaticamente.setSelected(true);
+			rdbtnAutomaticamente.setBackground(new Color(135, 206, 235));
+		}
+		return rdbtnAutomaticamente;
+	}
+	private JRadioButton getRdbtnManualmente() {
+		if (rdbtnManualmente == null) {
+			rdbtnManualmente = new JRadioButton("Manualmente");
+			rdbtnManualmente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rdbtnAutomaticamente.setSelected(false);
+					rdbtnManualmente.setSelected(true);
+					spinnerDias.setEnabled(true);
+				}
+			});
+			rdbtnManualmente.setBackground(new Color(135, 206, 235));
+		}
+		return rdbtnManualmente;
+	}
+	private JLabel getLabel_1() {
+		if (lblNewLabel_1 == null) {
+			lblNewLabel_1 = new JLabel("Numeros de dias de vacaciones : ");
+			lblNewLabel_1.setBounds(820, 298, 188, 56);
+		}
+		return lblNewLabel_1;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Designar dias de vacaciones ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBounds(820, 189, 263, 98);
+			panel.setLayout(new GridLayout(0, 2, 0, 0));
+			panel.add(getRadioButton_1());
+			panel.add(getRdbtnManualmente());
+		}
+		return panel;
+	}
+	private JSpinner getSpinnerDias() {
+		if (spinnerDias == null) {
+			spinnerDias = new JSpinner();
+			spinnerDias.setEnabled(false);
+			spinnerDias.setBounds(1006, 312, 62, 28);
+		}
+		return spinnerDias;
 	}
 }

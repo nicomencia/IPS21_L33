@@ -24,6 +24,7 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnComprobarVacacionesSolicitadas;
 	private JButton btnNewButton;
 	private JButton btnCrearEquipoMedico;
+	private JButton btnNewButton_1;
 
 	
 	
@@ -63,6 +64,7 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(45, 135, 198, 38);
 			add(btnNewButton);
 			add(getBtnCrearEquipoMedico());
+			add(getBtnNewButton_1());
 
 
 		
@@ -117,7 +119,7 @@ public class PanelAdministrativo extends JPanel {
 				}
 			});
 			btnAsignarJornadasMedicos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnAsignarJornadasMedicos.setBounds(227, 54, 235, 38);
+			btnAsignarJornadasMedicos.setBounds(227, 54, 241, 38);
 		}
 		return btnAsignarJornadasMedicos;
 	}
@@ -200,5 +202,20 @@ public class PanelAdministrativo extends JPanel {
 		return btnCrearEquipoMedico;
 
 	}
-
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Aumentar vacaciones");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelAumentarVacaciones panel = new PanelAumentarVacaciones(panelAdministrativo);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton_1.setBounds(495, 135, 200, 38);
+		}
+		return btnNewButton_1;
+	}
 }
