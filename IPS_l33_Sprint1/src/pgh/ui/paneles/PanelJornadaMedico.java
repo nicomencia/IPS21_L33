@@ -271,7 +271,11 @@ public class PanelJornadaMedico extends JPanel  {
 							int milisecondsByDay = 86400000;
 							int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
 							
-							editarDias.actualizar(diass, modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+							double diasVacaciones = (diass/30) * 2.5;
+							int diaaaaas = (int) diasVacaciones;
+							
+							
+							editarDias.actualizar(diaaaaas, modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
 							
 
 						}

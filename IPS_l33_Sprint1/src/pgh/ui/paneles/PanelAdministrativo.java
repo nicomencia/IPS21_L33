@@ -207,7 +207,7 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton_1 = new JButton("Aumentar vacaciones");
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					PanelAumentarVacaciones panel = new PanelAumentarVacaciones(panelAdministrativo);
+					PanelAumentarVacaciones panel = new PanelAumentarVacaciones(panelAdministrativo, panelContenido);
 					panelContenido.add(panel);
 					panelAdministrativo.setVisible(false);
 					panel.setVisible(true);

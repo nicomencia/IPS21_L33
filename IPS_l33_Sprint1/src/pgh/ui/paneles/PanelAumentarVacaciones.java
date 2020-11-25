@@ -15,6 +15,7 @@ import pgh.business.medico.EditarDiasVacaciones;
 import pgh.business.medico.FindAllMedicos;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.ui.paneles.filtros.JListFiltroElegirMedicoAumentarDias;
 
 import javax.swing.JList;
 import javax.swing.SwingConstants;
@@ -34,7 +35,7 @@ public class PanelAumentarVacaciones extends JPanel {
 	private JTextField textField_1;
 	private JButton btnAsignar;
 	private JButton btnCancelar;
-	private JList listMedicos;
+	private JListFiltroElegirMedicoAumentarDias listMedicos;
 	private DefaultListModel<Medico> modeloListMedicos;
 	private ListaMedicos lm;
 	private int diasSolicitados;
@@ -43,24 +44,25 @@ public class PanelAumentarVacaciones extends JPanel {
 	private EditarDiasVacaciones editarDias;
 	private FindAllMedicos findMedicos;
 	private JPanel panelAnterior;
-	private JButton btnNewButton;
+	private JPanel panelContenido;
 	private JPanel estePanel;
+	private JTextField textField_2;
 
-	public PanelAumentarVacaciones(JPanel panelAnterior) {
+	public PanelAumentarVacaciones(JPanel panelAnterior, JPanel panelContenido) {
 		this.panelAnterior = panelAnterior;
+		this.panelContenido = panelContenido;
 		estePanel= this;
 		setBackground(new Color(135, 206, 235));
 		setBounds(305, 0, 1009, 561);
 		setLayout(null);
 		add(getScrollPane());
-		add(getTextField());
 		add(getSpinner());
 		add(getLblNewLabel());
 		add(getLblNuevosDias());
 		add(getTextField_1());
 		add(getBtnAsignar());
 		add(getBtnCancelar());
-		add(getBtnNewButton());
+		
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -70,14 +72,7 @@ public class PanelAumentarVacaciones extends JPanel {
 		}
 		return scrollPane;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(65, 46, 384, 27);
-			textField.setColumns(10);
-		}
-		return textField;
-	}
+	
 	private JSpinner getSpinner() {
 		if (spinner == null) {
 			spinner = new JSpinner();
@@ -124,6 +119,11 @@ public class PanelAumentarVacaciones extends JPanel {
 					}
 					editarDias.actualizar((int) spinner.getValue(), medico.getIdMedico());
 					
+					PanelAumentarVacaciones panel = new PanelAumentarVacaciones(panelAnterior,panelContenido);
+					estePanel.setVisible(false);
+					panelContenido.add(panel);
+					panel.setVisible(true);
+					
 				}
 			});
 			btnAsignar.setBounds(606, 430, 170, 39);
@@ -147,7 +147,8 @@ public class PanelAumentarVacaciones extends JPanel {
 		if (listMedicos == null) {
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
-			listMedicos = new JList(modeloListMedicos);
+			listMedicos = new JListFiltroElegirMedicoAumentarDias(modeloListMedicos);
+			this.add(listMedicos.gettextoFiltro());
 			listMedicos.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -178,11 +179,5 @@ public class PanelAumentarVacaciones extends JPanel {
 		return medico2.getDiasDisponibles();
 			
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("Ver dias previos");
-			btnNewButton.setBounds(850, 124, 121, 27);
-		}
-		return btnNewButton;
-	}
+	
 }

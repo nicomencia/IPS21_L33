@@ -8,6 +8,9 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.jornadamedico.ListaJornadasMedico;
+import pgh.business.medico.EditarDiasVacaciones;
+import pgh.business.medico.FindAllMedicos;
+import pgh.business.medico.Medico;
 import pgh.business.vacacionesSolicitadas.ModificarVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
 import pgh.business.vacacionesmedico.CrearVacacionesMedico;
@@ -21,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
@@ -56,6 +60,10 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private CitaDTO citaCTO;
 	private Cita cita;
 	private JLabel lblNewLabel;
+	private EditarDiasVacaciones editarDias;
+	private Medico medico;
+	private FindAllMedicos findMedicos;
+
 	
 	public PanelTratarSolicitudesVacaciones(JPanel panelAnterior, VacacionesSolicitadasMedico v, JPanel panelcambiar, JPanel panelContenido) {
 		setBackground(new Color(135, 206, 235));
@@ -217,6 +225,14 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 		panel.setVisible(true);
 		
 	}
+	
+	private int getDiasDispobibles() {
+		
+		findMedicos = new FindAllMedicos();	
+		medico = new Medico(findMedicos.diasDisponibles(vacacionesSeleccionada.getIdMedico()));
+		return medico.getDiasDisponibles();
+			
+	}
 	private JButton getBtnDenegarlas() {
 		if (btnDenegarlas == null) {
 			btnDenegarlas = new JButton("Denegarlas");
@@ -225,6 +241,20 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 					
 					modificar = new ModificarVacacionesSolicitadasMedico();
 					modificar.modificarEstados(false, true, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
+					
+					Date fechaInicio = vacacionesSeleccionada.getFechaInicio();
+					Date fechaFin = vacacionesSeleccionada.getFechaFin();
+					editarDias = new EditarDiasVacaciones();
+
+					int milisecondsByDay = 86400000;
+					int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
+					
+					int diasDisponibles = getDiasDispobibles() + diass;
+					
+					editarDias.actualizar(diasDisponibles, vacacionesSeleccionada.getIdMedico());
+					
+					
+					
 					
 					closePanel();
 				}

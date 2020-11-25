@@ -22,6 +22,7 @@ import pgh.business.jornadamedico.CrearJornadaMedico;
 import pgh.business.jornadamedico.JornadaMedicoDTO;
 import pgh.business.jornadamedico.ListaJornadasMedico;
 import pgh.business.medicamento.FindAllMedicamentos;
+import pgh.business.medico.EditarDiasVacaciones;
 import pgh.business.medico.FindAllMedicos;
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
@@ -66,7 +67,7 @@ public class PanelPedirVacaciones extends JPanel {
 	private int diasSolicitados;
 	private Medico medico;
 	private FindAllMedicos findMedicos;
-	
+	private EditarDiasVacaciones editarDias;
 	
 	public PanelPedirVacaciones(JPanel panelAnterior, JPanel panelContenido, int idmedico) {
 		
@@ -238,64 +239,26 @@ public class PanelPedirVacaciones extends JPanel {
 			btnMandarSolicitud.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					
-					
 					crearVacacionesSolicitadasMedico = new CrearVacacionesSolicitadasMedico();
 					vacacionesSolicitadasMedicoDTO  = new VacacionesSolicitadasMedicoDTO();
 					
 					findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasMedico();
 					vsmDTO= new VacacionesSolicitadasMedicoDTO();
 					
-					if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()>=1) {
-						
-						for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas.FindIdMedico(id_medico)) {
-							vsmDTO=va;
-						}
-						
-						VacacionesSolicitadasMedico v = new VacacionesSolicitadasMedico(vsmDTO);
-						
-						if(!v.getCanceladas()) {
-							JOptionPane.showMessageDialog(getBtnMandarSolicitud(), "Ya has solicitado vacaciones previamente, puede combrobar el estado de las mismas en el boton 'Comprobar estado' ");
-						}
-						
-						else {
-							
-							removeVacaciones = new RemoveVacacionesSolicitadas();
-							removeVacaciones.borrarSustituto(id_medico);
-						
-							vacacionesSolicitadasMedicoDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
-							vacacionesSolicitadasMedicoDTO.idMedico = id_medico;
-							vacacionesSolicitadasMedicoDTO.diaInicio = dateChooserFechaInicio.getDate();
-							vacacionesSolicitadasMedicoDTO.diaFin = dateChooserFechaFin.getDate();
-							vacacionesSolicitadasMedicoDTO.motivo = textField.getText();
-							vacacionesSolicitadasMedicoDTO.aprobadas=false;
-							vacacionesSolicitadasMedicoDTO.canceladas=false;
-							vacacionesSolicitadasMedicoDTO.esperando=true;
-							
-							lm = new ListaMedicos();
-							lm.creaListaMedicos();
-							for(int i=0; i<lm.getMedicos().size();i++) {
-								if(id_medico == lm.getMedicos().get(i).getIdMedico()) {
-									vacacionesSolicitadasMedicoDTO.nombreMedico = lm.getMedicos().get(i).getNombreMedico() + " " + lm.getMedicos().get(i).getApellidosMedico();
-								}
-							}
-							
-							vacacionesSolicitadasMedico= new VacacionesSolicitadasMedico(vacacionesSolicitadasMedicoDTO);
-							
-							crearVacacionesSolicitadasMedico.crearVacaciones(vacacionesSolicitadasMedico);
-							
-							
-							textField.setText("");
-							closePanel();
-							
-						}
-						
-					}
-					else {
-						
-					    removeVacaciones = new RemoveVacacionesSolicitadas();
-					    removeVacaciones.borrarSustituto(id_medico);
-						
+					
+					Date fechaInicio = dateChooserFechaInicio.getDate();
+					Date fechaFin = dateChooserFechaFin.getDate();
+					editarDias = new EditarDiasVacaciones();
+
+					int milisecondsByDay = 86400000;
+					int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
+					int diaaaaas = getDiasDispobibles() - diass;
+					
+					if(diaaaaas < 0 ) {
+						JOptionPane.showMessageDialog(getBtnMandarSolicitud(), "No tienes suficientes dias como para pedir estas vacaciones' ");
+					}else {
+						editarDias.actualizar(diaaaaas, id_medico);
+					
 						vacacionesSolicitadasMedicoDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
 						vacacionesSolicitadasMedicoDTO.idMedico = id_medico;
 						vacacionesSolicitadasMedicoDTO.diaInicio = dateChooserFechaInicio.getDate();
@@ -320,10 +283,16 @@ public class PanelPedirVacaciones extends JPanel {
 						
 						textField.setText("");
 						closePanel();
+					
+					
+					
+					}
+					
+					
 					}
 
 					
-				}
+				
 
 			});
 			btnMandarSolicitud.setBounds(717, 517, 140, 28);
