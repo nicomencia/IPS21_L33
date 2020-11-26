@@ -9,6 +9,7 @@ public class NodoMayor {
 	private String codigoFin;
 	private String codigo;
 	private List<NodoMayor> nodos;
+	private List<NodoMayor> nodosCategoria;
 	private List<Nodo> nodosPequeños = new ArrayList<Nodo>();
 	private ReadFile lee = new ReadFile();
 	
@@ -16,17 +17,24 @@ public class NodoMayor {
 	{
 		nodos = new ArrayList<NodoMayor>();
 		nodosPequeños = new ArrayList<Nodo>();
+		nodosCategoria = new ArrayList<NodoMayor>();
 		nombre = n;
 		codigoInicio = c1;
 		codigoFin = c2;
 	}
 	
+	
+	
+	
 	public NodoMayor()
 	{
-		lee.leer();
+		lee.leer("src/CIE101.txt");
 		nodosPequeños = lee.getNodos();
+		lee.leerMenores("src/Copia de cie10v3.txt");
+		nodosCategoria = lee.getNodosMayores();
 		nodos = new ArrayList<NodoMayor>();
 		nombre  = "CIE-10-ES Diagnósticos 2018";
+		añadirNodosALaCategoria();
 		NodoMayor nodo = new NodoMayor("CIERTAS ENFERMEDADES INFECCIOSAS Y PARASITARIAS (A00-B99)", "A00", "B99");
 		añadirNodos(nodo);
 		nodos.add(nodo);
@@ -90,17 +98,24 @@ public class NodoMayor {
 		nodo = new NodoMayor("FACTORES QUE INFLUYEN EN EL ESTADO DE SALUD Y CONTACTO CON LOS SERVICIOS SANITARIOS (Z00-Z99)", "Z00", "Z99");
 		añadirNodos(nodo);
 		nodos.add(nodo);
-		//listarNodos();
-		
+		listarNodos();
+		System.out.print("FIN");
+	}
+	
+	public void añadirNodosALaCategoria()
+	{
+		for(int i=0;i<nodosCategoria.size();i++)
+		{
+			añadirNodosACategoria(nodosCategoria.get(i));
+		}
 	}
 	
 	
 	public void añadirNodos(NodoMayor nodo)
 	{
-		for(int i=0;i<nodosPequeños.size();i++)
+		for(int i=0;i<nodosCategoria.size();i++)
 		{
-			Nodo nodoP = nodosPequeños.get(i);
-			// if(nodoP.codigo.contains(nodo.codigoInicio) || nodoP.codigo.contains(nodo.codigoFin))
+			NodoMayor nodoP = nodosCategoria.get(i);
 			if(nodosCondicion(nodoP,nodoP.codigo, nodo.codigoInicio,nodo.codigoFin))
 			{
 				nodo.addNodoPequeño(nodoP);
@@ -113,17 +128,25 @@ public class NodoMayor {
 		for(int i=0;i<nodos.size();i++)
 		{
 			System.out.println(nodos.get(i).nombre);
+			
+			for(int j=0;j<nodos.get(i).nodos.size();j++)
+			{
+				System.out.println("|||||||" +  nodos.get(i).nodos.get(j).codigo + nodos.get(i).nodos.get(j).nombre);
+				for(int z=0;z<nodos.get(i).nodos.get(j).nodosPequeños.size();z++)
+				{
+					System.out.println("|||||||-----" + nodos.get(i).nodos.get(j).nodosPequeños.get(z).codigo +  nodos.get(i).nodos.get(j).nodosPequeños.get(z).nombre);
+				}
+			}
 		}
 	}
 	
-	private boolean nodosCondicion(Nodo nodo1, String nodo, String codigoInicio, String codigoFin) {
+	private boolean nodosCondicion(NodoMayor nodo1, String nodo, String codigoInicio, String codigoFin) {
 		// TODO Auto-generated method stub
 		String[] primero = codigoInicio.split("");
 		String[] segundo = codigoFin.split("");
 		String[] nodoP = nodo.split("");
 		int primerNumero = Integer.parseInt(primero[1]+primero[2]);
 		int segundoNumero =  Integer.parseInt(segundo[1]+segundo[2]);
-		int tercerNumero = Integer.parseInt(nodoP[1]+nodoP[2]);
 		if(nodoP[0].equals(primero[0]) || nodoP[0].equals(segundo[0]))
 		{
 		for(int i = primerNumero;i<=segundoNumero;i++)
@@ -138,10 +161,44 @@ public class NodoMayor {
 		}
 		return false;
 	}
-
-	private void addNodoPequeño(Nodo nodoP) {
+	
+	private boolean nodosCondicionCategoria(String codigo, String codigoInicio) {
 		// TODO Auto-generated method stub
-		nodosPequeños.add(nodoP);
+		String[] primero = codigo.split("");
+		String[] segundo = codigoInicio.split("");
+		String codigoNodo = primero[0]+primero[1]+primero[2];
+		String codigoNodo2 = segundo[0]+segundo[1]+segundo[2];
+		if(codigoNodo.equals(codigoNodo2))
+		{
+				return true;
+		
+		}
+		return false;
+	}
+	
+	
+
+	
+	private void addNodoCategoria(NodoMayor nodoP, Nodo nodo)
+	{
+		nodoP.nodosPequeños.add(nodo);
+	}
+	
+	public void añadirNodosACategoria(NodoMayor nodo)
+	{
+		for(int i=0;i<nodosCategoria.size();i++)
+		{
+			Nodo nodoP = nodosPequeños.get(i);
+			if(nodosCondicionCategoria(nodoP.codigo, nodo.codigo))
+			{
+				nodo.addNodoCategoria(nodo,nodoP);
+			}
+		}
+	}
+
+	private void addNodoPequeño(NodoMayor nodoP) {
+		// TODO Auto-generated method stub
+		nodos.add(nodoP);
 	}
 
 	public NodoMayor(String n, String c)
