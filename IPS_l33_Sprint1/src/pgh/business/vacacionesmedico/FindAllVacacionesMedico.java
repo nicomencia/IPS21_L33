@@ -49,7 +49,7 @@ public class FindAllVacacionesMedico {
 		}
 		
 		
-public List<VacacionesMedicoDTO> FindIdMedico( int idMedico) {
+		public List<VacacionesMedicoDTO> FindIdMedico( int idMedico) {
 			
 			
 			List<VacacionesMedicoDTO> vacaciones = new ArrayList<VacacionesMedicoDTO>();

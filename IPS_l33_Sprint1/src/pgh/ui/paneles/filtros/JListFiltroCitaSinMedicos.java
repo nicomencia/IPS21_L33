@@ -14,12 +14,12 @@ import pgh.business.medico.Medico;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos.Filtro;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos.TextoFiltro;
 
-public class JListFitroMedicosCita extends JList {
+public class JListFiltroCitaSinMedicos extends JList {
 	
 private TextoFiltro texto;
 	
 
-	public JListFitroMedicosCita(DefaultListModel<Medico> model) {
+	public JListFiltroCitaSinMedicos(DefaultListModel<Medico> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -46,7 +46,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(323, 153, 290, 22);
+			this.setBounds(323, 191, 290, 22);
 			getDocument().addDocumentListener(this);
 		}
 
