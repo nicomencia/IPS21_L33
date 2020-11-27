@@ -44,7 +44,7 @@ public class JListFiltroPacientesCita extends JList {
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(320, 68, 290, 22);
+			this.setBounds(323, 31, 290, 22);
 			getDocument().addDocumentListener(this);
 		}
 

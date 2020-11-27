@@ -51,6 +51,7 @@ import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
 import pgh.business.vacacionesmedico.FindAllVacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedicoDTO;
+import pgh.ui.paneles.filtros.JListFiltroCitaSinMedicos;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 import pgh.ui.paneles.filtros.JListFitroMedicosCita;
@@ -69,7 +70,7 @@ public class PanelCitasSinMedico extends JPanel {
 	private DefaultListModel<Medico> modeloListMedicos; // Rep
 	private JScrollPane scrollPaneMedicos;
 	private JButton btnAnadirMedicos;
-	private JListFitroMedicosCita listMedicos; // Rep
+	private JListFiltroCitaSinMedicos listMedicos; // Rep
 	private JScrollPane scrollPaneMedicosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
 	private JLabel lblMedicos;
@@ -168,7 +169,7 @@ public class PanelCitasSinMedico extends JPanel {
 		if (listMedicos == null) {
 			modeloListMedicos = new DefaultListModel();
 			anadirMedicosALaLista();
-			listMedicos = new JListFitroMedicosCita(modeloListMedicos);
+			listMedicos = new JListFiltroCitaSinMedicos(modeloListMedicos);
 			this.add(listMedicos.gettextoFiltro());
 
 		}
@@ -246,7 +247,7 @@ public class PanelCitasSinMedico extends JPanel {
 				}
 			});
 			btncancelarCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btncancelarCita.setBounds(862, 364, 116, 23);
+			btncancelarCita.setBounds(973, 412, 116, 23);
 		}
 		return btncancelarCita;
 	}
@@ -409,7 +410,7 @@ public class PanelCitasSinMedico extends JPanel {
 
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearCita.setBounds(630, 364, 222, 23);
+			btnCrearCita.setBounds(741, 412, 222, 23);
 		}
 		return btnCrearCita;
 	}
@@ -432,7 +433,7 @@ public class PanelCitasSinMedico extends JPanel {
 			anadirUbicacionesCitas();
 
 			comboBoxCita.setFocusable(false);
-			comboBoxCita.setBounds(323, 124, 766, 22);
+			comboBoxCita.setBounds(83, 153, 1006, 22);
 		}
 		return comboBoxCita;
 	}

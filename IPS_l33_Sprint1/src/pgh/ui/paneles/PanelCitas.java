@@ -1,6 +1,8 @@
 package pgh.ui.paneles;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +37,11 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
 import pgh.business.cita.ListaCitas;
-
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.enfermeroCita.CrearEnfermeroCita;
+import pgh.business.enfermeroCita.EnfermeroCita;
+import pgh.business.enfermeroCita.EnfermeroCitaDTO;
 import pgh.business.horario.CrearHorario;
 import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
@@ -54,12 +60,17 @@ import pgh.business.paciente.Paciente;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.Ubicacion;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
+import pgh.business.vacacionesenfermero.FindAllVacacionesEnfermero;
+import pgh.business.vacacionesenfermero.VacacionesEnfermero;
+import pgh.business.vacacionesenfermero.VacacionesEnfermeroDTO;
 import pgh.business.vacacionesmedico.FindAllVacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedicoDTO;
+import pgh.ui.paneles.filtros.JListFiltroEnfermerosCita;
 import pgh.ui.paneles.filtros.JListFiltroJornadaMedicos;
 import pgh.ui.paneles.filtros.JListFiltroPacientesCita;
 import pgh.ui.paneles.filtros.JListFitroMedicosCita;
+import java.awt.Rectangle;
 
 public class PanelCitas extends JPanel {
 
@@ -72,6 +83,7 @@ public class PanelCitas extends JPanel {
 	private JLabel lblUrgente;
 	private JCheckBox chckbxUrgente;
 	private DefaultListModel<Medico> modeloListMedicosAnadidos;
+	private DefaultListModel<Enfermero> modeloListEnfermerosAnadidos;
 	private CitaDTO citaDTO;
 	private Cita cita;
 	private CrearCitas crearCitas;
@@ -86,12 +98,17 @@ public class PanelCitas extends JPanel {
 	private ListaPacientes lp; // Rep
 	private ListaUbicaciones lu;
 	private ListaEquiposMedicos lem;
+	private ListaEnfermeros le;
 	private DefaultListModel<Medico> modeloListMedicos; // Rep
 	private JScrollPane scrollPaneMedicos;
 	private JButton btnAnadirMedicos;
 	private JListFitroMedicosCita listMedicos; // Rep
+	private JListFiltroEnfermerosCita listEnfermeros;
+	private DefaultListModel<Enfermero> modeloListEnfermeros;
 	private JScrollPane scrollPaneMedicosAnadidos;
+	private JScrollPane scrollPaneEnfermerosAnadidos;
 	private JList<Medico> listMedicosAnadidos;
+	private JList<Enfermero> listEnfermerosAnadidos;
 	private JList listPacienteSeleccionado;
 	private JLabel lblMedicos;
 	private JLabel lblPaciente;
@@ -114,6 +131,9 @@ public class PanelCitas extends JPanel {
 	private JComboBox comboBoxDiaDia;
 	private MedicoCita medicoCita;
 	private MedicoCitaDTO medicoCitaDTO;
+	private EnfermeroCita enfermeroCita;
+	private EnfermeroCitaDTO enfermeroCitaDTO;
+	private CrearEnfermeroCita crearEnfermeroCita;
 	private CrearMedicoCita crearMedicoCita;
 	private JPanel panelAnterior;
 	private JTextField textFieldMedicos;
@@ -122,8 +142,11 @@ public class PanelCitas extends JPanel {
 	private JLabel lblNewLabel;
 	private JPanel panelContenido;
 	private FindAllVacacionesMedico findVacaciones;
+	private FindAllVacacionesEnfermero findVacacionesEnfermero;
 	private VacacionesMedico vm;
 	private VacacionesMedicoDTO vmDTO;
+	private VacacionesEnfermero ve;
+	private VacacionesEnfermeroDTO veDTO;
 	private List<VacacionesMedico> vacaciones = new ArrayList<VacacionesMedico>();
 
 	private List<HorarioDTO> horarios = new ArrayList<HorarioDTO>();
@@ -132,6 +155,10 @@ public class PanelCitas extends JPanel {
 	private JLabel lblEquipoMedico;
 	private JComboBox comboBoxEquipoMedico;
 	private JButton btnAnadirEquipoMedico;
+	private JLabel lblEnfermeros;
+	private JScrollPane scrollPaneEnfermeros;
+	private JButton btnAnadirEnfermeros;
+	private JButton btnEliminarEnfermeros;
 
 
 	public PanelCitas(JPanel panelAnterior, JPanel panelContenido) {
@@ -142,7 +169,7 @@ public class PanelCitas extends JPanel {
 	}
 
 	private void getPanelCitas() {
-
+		
 		this.setBackground(new Color(135, 206, 235));
 		this.setLayout(null);
 		this.add(getLblMedicos());
@@ -174,11 +201,15 @@ public class PanelCitas extends JPanel {
 		this.add(getChckbxUrgente());
 		this.add(getBtnEliminarPacienteCita());
 		this.add(getBtnEliminarMedicoCita());
+		this.add(add(getScrollPaneEnfermerosAnadidos()));
 		add(getLblNewLabel());
 		add(getLblEquipoMedico());
 		add(getComboBoxEquipoMedico());
 		add(getBtnAnadirEquipoMedico());
-
+		add(getLblEnfermeros());
+		add(getScrollPaneEnfermeros());
+		add(getBtnAnadirEnfermeros());
+		add(getBtnEliminarEnfermeros());
 	}
 
 	private void anadirMedicosALaLista() {
@@ -241,7 +272,7 @@ public class PanelCitas extends JPanel {
 					txtFieldInfoContacto.setText("(Añadir paciente)");
 				}
 			});
-			btnEliminarPacienteCita.setBounds(1002, 124, 87, 23);
+			btnEliminarPacienteCita.setBounds(1001, 90, 87, 23);
 		}
 		return btnEliminarPacienteCita;
 	}
@@ -255,7 +286,7 @@ public class PanelCitas extends JPanel {
 					modeloListMedicosAnadidos.removeAllElements();
 				}
 			});
-			btnEliminarMedicoCita.setBounds(1000, 240, 89, 23);
+			btnEliminarMedicoCita.setBounds(1001, 210, 89, 23);
 		}
 		return btnEliminarMedicoCita;
 	}
@@ -264,7 +295,7 @@ public class PanelCitas extends JPanel {
 		if (lblInfocontacto == null) {
 			lblInfocontacto = new JLabel("Informaci\u00F3n contacto :");
 			lblInfocontacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblInfocontacto.setBounds(83, 479, 235, 22);
+			lblInfocontacto.setBounds(75, 527, 235, 22);
 		}
 		return lblInfocontacto;
 	}
@@ -274,7 +305,7 @@ public class PanelCitas extends JPanel {
 			txtFieldInfoContacto = new JTextField();
 			txtFieldInfoContacto.setText("(A\u00F1adir paciente)");
 			txtFieldInfoContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			txtFieldInfoContacto.setBounds(321, 484, 346, 20);
+			txtFieldInfoContacto.setBounds(312, 532, 346, 20);
 			txtFieldInfoContacto.setColumns(10);
 		}
 		return txtFieldInfoContacto;
@@ -284,7 +315,7 @@ public class PanelCitas extends JPanel {
 		if (lblUrgente == null) {
 			lblUrgente = new JLabel("Urgente :");
 			lblUrgente.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblUrgente.setBounds(83, 527, 191, 29);
+			lblUrgente.setBounds(74, 563, 191, 29);
 		}
 		return lblUrgente;
 	}
@@ -292,7 +323,7 @@ public class PanelCitas extends JPanel {
 	private JCheckBox getChckbxUrgente() {
 		if (chckbxUrgente == null) {
 			chckbxUrgente = new JCheckBox("Si");
-			chckbxUrgente.setBounds(321, 534, 41, 23);
+			chckbxUrgente.setBounds(311, 569, 41, 23);
 		}
 		return chckbxUrgente;
 	}
@@ -306,7 +337,7 @@ public class PanelCitas extends JPanel {
 					anadirPacienteListaCita();
 				}
 			});
-			btnAnadirPacienteListaCita.setBounds(630, 108, 149, 55);
+			btnAnadirPacienteListaCita.setBounds(632, 70, 149, 55);
 		}
 		return btnAnadirPacienteListaCita;
 	}
@@ -320,7 +351,7 @@ public class PanelCitas extends JPanel {
 					Paciente paciente = (Paciente) o;
 					modeloListPacienteCita.addElement(paciente);
 					txtFieldInfoContacto
-							.setText("Teléfono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
+							.setText("Telefono: " + paciente.getTelefono() + " email: " + paciente.getEmail());
 				}
 
 			}
@@ -331,7 +362,7 @@ public class PanelCitas extends JPanel {
 	private JScrollPane getScrollPanePacienteSeleccionado() {
 		if (scrollPanePacienteSeleccionado == null) {
 			scrollPanePacienteSeleccionado = new JScrollPane();
-			scrollPanePacienteSeleccionado.setBounds(794, 88, 186, 88);
+			scrollPanePacienteSeleccionado.setBounds(794, 52, 186, 88);
 			scrollPanePacienteSeleccionado.setViewportView(getListPacienteSeleccionado());
 		}
 		return scrollPanePacienteSeleccionado;
@@ -340,7 +371,7 @@ public class PanelCitas extends JPanel {
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(321, 88, 289, 88);
+			scrollPane_1.setBounds(323, 53, 289, 88);
 			scrollPane_1.setViewportView(getListPacientesCita());
 		}
 		return scrollPane_1;
@@ -349,7 +380,7 @@ public class PanelCitas extends JPanel {
 	private JScrollPane getScrollPaneMedicosAnadidos() {
 		if (scrollPaneMedicosAnadidos == null) {
 			scrollPaneMedicosAnadidos = new JScrollPane();
-			scrollPaneMedicosAnadidos.setBounds(794, 213, 186, 88);
+			scrollPaneMedicosAnadidos.setBounds(794, 175, 186, 88);
 			scrollPaneMedicosAnadidos.setViewportView(getListMedicosAnadidos());
 		}
 		return scrollPaneMedicosAnadidos;
@@ -358,7 +389,7 @@ public class PanelCitas extends JPanel {
 	private JScrollPane getScrollPaneMedicos() {
 		if (scrollPaneMedicos == null) {
 			scrollPaneMedicos = new JScrollPane();
-			scrollPaneMedicos.setBounds(323, 213, 287, 88);
+			scrollPaneMedicos.setBounds(325, 175, 287, 88);
 			scrollPaneMedicos.setViewportView(getListMedicos());
 		}
 		return scrollPaneMedicos;
@@ -384,7 +415,7 @@ public class PanelCitas extends JPanel {
 					anadirMedicosSeleccinados();
 				}
 			});
-			btnAnadirMedicos.setBounds(630, 224, 149, 55);
+			btnAnadirMedicos.setBounds(632, 193, 149, 55);
 		}
 		return btnAnadirMedicos;
 	}
@@ -401,10 +432,18 @@ public class PanelCitas extends JPanel {
 
 	}
 
-	public void anadirMiembrosEquipo(Medico m) {
+	public void anadirMiembrosEquipoMedico(Medico m) {
 		
 		if (!medicoYaAnadido(m)) {
 			modeloListMedicosAnadidos.addElement(m);
+		}
+
+	}
+	
+	public void anadirMiembrosEquipoEnfermero(Enfermero e) {
+		
+		if (!enfermeroYaAnadido(e)) {
+			modeloListEnfermerosAnadidos.addElement(e);
 		}
 
 	}
@@ -421,7 +460,7 @@ public class PanelCitas extends JPanel {
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Seleccionar Medicos :");
 			lblMedicos.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblMedicos.setBounds(83, 236, 211, 22);
+			lblMedicos.setBounds(74, 206, 211, 22);
 		}
 		return lblMedicos;
 	}
@@ -430,7 +469,7 @@ public class PanelCitas extends JPanel {
 		if (lblPaciente == null) {
 			lblPaciente = new JLabel("Seleccionar Paciente :");
 			lblPaciente.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblPaciente.setBounds(83, 120, 211, 22);
+			lblPaciente.setBounds(74, 90, 211, 22);
 		}
 		return lblPaciente;
 	}
@@ -439,7 +478,7 @@ public class PanelCitas extends JPanel {
 		if (lblFecha == null) {
 			lblFecha = new JLabel("Seleccionar Fecha  :");
 			lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblFecha.setBounds(83, 375, 191, 22);
+			lblFecha.setBounds(74, 453, 191, 22);
 		}
 		return lblFecha;
 	}
@@ -448,7 +487,7 @@ public class PanelCitas extends JPanel {
 		if (lblHoraInicio == null) {
 			lblHoraInicio = new JLabel("Hora Inicio :");
 			lblHoraInicio.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblHoraInicio.setBounds(709, 375, 116, 22);
+			lblHoraInicio.setBounds(700, 453, 116, 22);
 		}
 		return lblHoraInicio;
 	}
@@ -457,7 +496,7 @@ public class PanelCitas extends JPanel {
 		if (lblHoraFin == null) {
 			lblHoraFin = new JLabel("Hora Fin :");
 			lblHoraFin.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblHoraFin.setBounds(709, 429, 95, 22);
+			lblHoraFin.setBounds(700, 490, 95, 22);
 		}
 		return lblHoraFin;
 	}
@@ -466,7 +505,7 @@ public class PanelCitas extends JPanel {
 		if (lblUbicacion == null) {
 			lblUbicacion = new JLabel("Ubicacion :");
 			lblUbicacion.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblUbicacion.setBounds(83, 429, 109, 22);
+			lblUbicacion.setBounds(74, 490, 109, 22);
 		}
 		return lblUbicacion;
 	}
@@ -480,7 +519,7 @@ public class PanelCitas extends JPanel {
 			anadirUbicacionesCitas();
 
 			comboBoxUbicacion.setFocusable(false);
-			comboBoxUbicacion.setBounds(320, 429, 347, 22);
+			comboBoxUbicacion.setBounds(311, 494, 347, 22);
 		}
 		return comboBoxUbicacion;
 	}
@@ -500,7 +539,7 @@ public class PanelCitas extends JPanel {
 		if (comboBoxHorasFinCita == null) {
 			comboBoxHorasFinCita = new JComboBox();
 			comboBoxHorasFinCita.setFocusable(false);
-			comboBoxHorasFinCita.setBounds(840, 433, 57, 22);
+			comboBoxHorasFinCita.setBounds(831, 494, 57, 22);
 			String[] horas = new String[2];
 			horas[0] = "08";
 			horas[1] = "09";
@@ -520,7 +559,7 @@ public class PanelCitas extends JPanel {
 			});
 			comboBoxHorasInicioCita.setModel(new DefaultComboBoxModel(
 					new String[] { "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19" }));
-			comboBoxHorasInicioCita.setBounds(840, 379, 57, 22);
+			comboBoxHorasInicioCita.setBounds(831, 457, 57, 22);
 
 		}
 		return comboBoxHorasInicioCita;
@@ -610,7 +649,7 @@ public class PanelCitas extends JPanel {
 				}
 			});
 			btncancelarCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btncancelarCita.setBounds(864, 530, 116, 23);
+			btncancelarCita.setBounds(974, 584, 116, 23);
 		}
 		return btncancelarCita;
 	}
@@ -625,7 +664,7 @@ public class PanelCitas extends JPanel {
 			comboBoxMinutosInicioCita = new JComboBox();
 			comboBoxMinutosInicioCita.setFocusable(false);
 			comboBoxMinutosInicioCita.setModel(new DefaultComboBoxModel(new String[] { "00", "15", "30", "45" }));
-			comboBoxMinutosInicioCita.setBounds(923, 379, 57, 22);
+			comboBoxMinutosInicioCita.setBounds(914, 457, 57, 22);
 		}
 		return comboBoxMinutosInicioCita;
 	}
@@ -634,7 +673,7 @@ public class PanelCitas extends JPanel {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel(":");
 			lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNewLabel_2.setBounds(907, 372, 12, 29);
+			lblNewLabel_2.setBounds(898, 450, 12, 29);
 		}
 		return lblNewLabel_2;
 	}
@@ -644,7 +683,7 @@ public class PanelCitas extends JPanel {
 			comboBoxMinutosFinCita = new JComboBox();
 			comboBoxMinutosFinCita.setFocusable(false);
 			comboBoxMinutosFinCita.setModel(new DefaultComboBoxModel(new String[] { "00", "15", "30", "45" }));
-			comboBoxMinutosFinCita.setBounds(923, 433, 57, 22);
+			comboBoxMinutosFinCita.setBounds(914, 494, 57, 22);
 		}
 		return comboBoxMinutosFinCita;
 	}
@@ -653,7 +692,7 @@ public class PanelCitas extends JPanel {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel(":");
 			lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNewLabel_3.setBounds(907, 431, 21, 18);
+			lblNewLabel_3.setBounds(898, 492, 21, 18);
 		}
 		return lblNewLabel_3;
 	}
@@ -671,7 +710,7 @@ public class PanelCitas extends JPanel {
 
 			comboBoxMesCita.setModel(new DefaultComboBoxModel(
 					new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-			comboBoxMesCita.setBounds(441, 379, 100, 22);
+			comboBoxMesCita.setBounds(432, 457, 100, 22);
 
 		}
 		return comboBoxMesCita;
@@ -720,7 +759,7 @@ public class PanelCitas extends JPanel {
 		if (comboBoxDiaDia == null) {
 			comboBoxDiaDia = new JComboBox();
 			comboBoxDiaDia.setFocusable(false);
-			comboBoxDiaDia.setBounds(573, 379, 94, 22);
+			comboBoxDiaDia.setBounds(564, 457, 94, 22);
 			String[] dias31 = new String[31];
 			for (int i = 1; i < 32; i++) {
 				if (i < 10) {
@@ -783,10 +822,10 @@ public class PanelCitas extends JPanel {
 
 					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
 						int a = JOptionPane.showConfirmDialog(new JPanel(),
-								"La ubicacion esta ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
+								"La ubicacion esta ocupada durante esa franja horaria, �quiere crear la cita igualmente?");
 
 						if (a == JOptionPane.OK_OPTION) {
-
+							
 							if (modeloListMedicosAnadidos.getSize()!=0) {
 							
 								if (citaDTO.urgente) {
@@ -851,6 +890,53 @@ public class PanelCitas extends JPanel {
 								cita = new Cita(citaDTO);
 								crearCitas.crearCita(cita);
 							}
+							
+							if (modeloListEnfermerosAnadidos.getSize()!=0) {
+								
+								for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
+	
+									enfermeroCitaDTO = new EnfermeroCitaDTO();
+	
+									enfermeroCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
+									Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
+									enfermeroCitaDTO.idEnfermero = enf.getIdEnfermero();
+	
+									enfermeroCita = new EnfermeroCita(enfermeroCitaDTO);
+									crearEnfermeroCita = new CrearEnfermeroCita();
+									
+									findVacacionesEnfermero = new FindAllVacacionesEnfermero();
+									veDTO = new VacacionesEnfermeroDTO();
+									if(findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).isEmpty()) {
+										crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+									}
+									else {
+										
+										for(int j=0;j< findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).size();j++) {
+											
+											veDTO = findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).get(j);
+											if(veDTO.diaInicio.before(citaDTO.fecha)) {
+												if(veDTO.diaFin.after(citaDTO.fecha)) {
+													JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
+													vacaciones = true;
+												}
+												else {
+													if(!vacaciones) {
+														crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+													}	
+												
+											   }
+											}
+											else {
+												crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+											}
+											
+										}
+										
+									}
+
+								}
+
+							}
 
 						}
 					} else {
@@ -914,6 +1000,53 @@ public class PanelCitas extends JPanel {
 							citaDTO.medicoAsignado=false;
 							cita = new Cita(citaDTO);
 							crearCitas.crearCita(cita);
+						}
+						
+						if (modeloListEnfermerosAnadidos.getSize()!=0) {
+							
+							for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
+
+								enfermeroCitaDTO = new EnfermeroCitaDTO();
+
+								enfermeroCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
+								Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
+								enfermeroCitaDTO.idEnfermero = enf.getIdEnfermero();
+
+								enfermeroCita = new EnfermeroCita(enfermeroCitaDTO);
+								crearEnfermeroCita = new CrearEnfermeroCita();
+								
+								findVacacionesEnfermero = new FindAllVacacionesEnfermero();
+								veDTO = new VacacionesEnfermeroDTO();
+								if(findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).isEmpty()) {
+									crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+								}
+								else {
+									
+									for(int j=0;j< findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).size();j++) {
+										
+										veDTO = findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).get(j);
+										if(veDTO.diaInicio.before(citaDTO.fecha)) {
+											if(veDTO.diaFin.after(citaDTO.fecha)) {
+												JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
+												vacaciones = true;
+											}
+											else {
+												if(!vacaciones) {
+													crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+												}	
+											
+										   }
+										}
+										else {
+											crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+										}
+										
+									}
+									
+								}
+
+							}
+
 						}
 					}
 
@@ -1007,7 +1140,7 @@ public class PanelCitas extends JPanel {
 
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearCita.setBounds(729, 530, 125, 23);
+			btnCrearCita.setBounds(839, 584, 125, 23);
 		}
 		return btnCrearCita;
 	}
@@ -1017,7 +1150,7 @@ public class PanelCitas extends JPanel {
 			lblNewLabel = new JLabel("Filtro sensible a MAYUSCULAS");
 			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 			lblNewLabel.setForeground(Color.RED);
-			lblNewLabel.setBounds(74, 51, 200, 50);
+			lblNewLabel.setBounds(74, 0, 200, 50);
 		}
 		return lblNewLabel;
 	}
@@ -1025,7 +1158,7 @@ public class PanelCitas extends JPanel {
 		if (lblEquipoMedico == null) {
 			lblEquipoMedico = new JLabel("Seleccionar Equipo Medico :");
 			lblEquipoMedico.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblEquipoMedico.setBounds(83, 329, 248, 22);
+			lblEquipoMedico.setBounds(74, 413, 248, 22);
 		}
 		return lblEquipoMedico;
 	}
@@ -1037,7 +1170,7 @@ public class PanelCitas extends JPanel {
 
 			anadirEquiposMedicos();
 			
-			comboBoxEquipoMedico.setBounds(341, 333, 269, 22);
+			comboBoxEquipoMedico.setBounds(332, 417, 326, 22);
 		}
 		return comboBoxEquipoMedico;
 	}
@@ -1067,8 +1200,100 @@ public class PanelCitas extends JPanel {
 					pc.setVisible(true);
 				}
 			});
-			btnAnadirEquipoMedico.setBounds(630, 333, 174, 23);
+			btnAnadirEquipoMedico.setBounds(670, 417, 174, 23);
 		}
 		return btnAnadirEquipoMedico;
+	}
+	private JLabel getLblEnfermeros() {
+		if (lblEnfermeros == null) {
+			lblEnfermeros = new JLabel("Seleccionar Enfermeros :");
+			lblEnfermeros.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lblEnfermeros.setBounds(75, 334, 235, 22);
+		}
+		return lblEnfermeros;
+	}
+	private JList getListEnfermeros() {
+		if (listEnfermeros == null) {
+			modeloListEnfermeros = new DefaultListModel();
+			anadirEnfermerosALaLista();
+			listEnfermeros = new JListFiltroEnfermerosCita(modeloListEnfermeros);
+			this.add(listEnfermeros.gettextoFiltro());
+
+		}
+		return listEnfermeros;
+	}
+	
+	private void anadirEnfermerosALaLista() {
+		le = new ListaEnfermeros();
+		le.creaListaEnfermeros();
+		for (Enfermero e : le.getEnfermeros()) {
+			modeloListEnfermeros.addElement((Enfermero) e);
+		}
+		
+	}
+
+	private JScrollPane getScrollPaneEnfermeros() {
+		if (scrollPaneEnfermeros == null) {
+			scrollPaneEnfermeros = new JScrollPane();
+			scrollPaneEnfermeros.setBounds(323, 301, 287, 88);
+			scrollPaneEnfermeros.setViewportView(getListEnfermeros());
+		}
+		return scrollPaneEnfermeros;
+	}
+	private JButton getBtnAnadirEnfermeros() {
+		if (btnAnadirEnfermeros == null) {
+			btnAnadirEnfermeros = new JButton("A\u00F1adir Enfermero/s");
+			btnAnadirEnfermeros.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					for (Object o : listEnfermeros.getSelectedValuesList()) {
+						if (!enfermeroYaAnadido((Enfermero) o)) {
+							modeloListEnfermerosAnadidos.addElement((Enfermero) o);
+						}
+					}
+				}
+
+			});
+			btnAnadirEnfermeros.setBounds(632, 322, 149, 55);
+		}
+		return btnAnadirEnfermeros;
+	}
+	
+	private boolean enfermeroYaAnadido(Enfermero o) {
+		for (int i = 0; i<modeloListEnfermerosAnadidos.size(); i++) {
+			if (modeloListEnfermerosAnadidos.getElementAt(i).getIdEnfermero() == o.getIdEnfermero())
+					return true;
+		}
+		return false;
+	}
+	
+	private JScrollPane getScrollPaneEnfermerosAnadidos() {
+		if (scrollPaneEnfermerosAnadidos == null) {
+			scrollPaneEnfermerosAnadidos = new JScrollPane();
+			scrollPaneEnfermerosAnadidos.setBounds(794, 301, 186, 88);
+			scrollPaneEnfermerosAnadidos.setViewportView(getListEnfermerosAnadidos());
+		}
+		return scrollPaneEnfermerosAnadidos;
+	}
+
+	private Component getListEnfermerosAnadidos() {
+		if (listEnfermerosAnadidos == null) {
+			modeloListEnfermerosAnadidos = new DefaultListModel();
+			listEnfermerosAnadidos = new JList(modeloListEnfermerosAnadidos);
+		}
+		return listEnfermerosAnadidos;
+	}
+	
+	private JButton getBtnEliminarEnfermeros() {
+		if (btnEliminarEnfermeros == null) {
+			btnEliminarEnfermeros = new JButton("Eliminar");
+			btnEliminarEnfermeros.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					modeloListEnfermerosAnadidos.removeAllElements();
+				}
+			});
+			btnEliminarEnfermeros.setBounds(1001, 333, 89, 23);
+		}
+		return btnEliminarEnfermeros;
 	}
 }
