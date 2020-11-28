@@ -1,4 +1,4 @@
-package pgh.business.cita;
+package pgh.business.citaPropuesta;
 
 import java.sql.Connection;
 
@@ -6,15 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import pgh.jdbc.Database;
 
-public class ActualizarMedicoCita {
+public class ActualizarPendienteCitaPropuesta {
 	
-
-private static String SQL = "Update Cita Set medicoasignado = TRUE where idcita = ?";
+	private static String SQL = "Update CitaPropuesta Set pendienteAprobacion = FALSE where idcitapendiente = ?";
 
 	
 	Database db = new Database();
 	
-	public void actualizar(Cita cita) {
+	public void actualizar(CitaPropuesta cita) {
 		
 		Connection c = null;
 
@@ -27,7 +26,7 @@ private static String SQL = "Update Cita Set medicoasignado = TRUE where idcita 
 			c = db.getConnection();
 			
 		    pst = c.prepareStatement(query.toString());
-			pst.setInt(1, cita.getIdCita());
+			pst.setInt(1, cita.getIdCitaPropuesta());
 			
 		    pst.executeUpdate();	
 		    
