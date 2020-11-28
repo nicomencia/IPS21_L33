@@ -7,12 +7,20 @@ import javax.swing.JScrollPane;
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.FindAllEnfermeros;
+import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
 import pgh.business.jornadamedico.ListaJornadasMedico;
 import pgh.business.medico.EditarDiasVacaciones;
 import pgh.business.medico.FindAllMedicos;
 import pgh.business.medico.Medico;
 import pgh.business.vacacionesSolicitadas.ModificarVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
+import pgh.business.vacacionesSolicitadasEnfermero.ModificarVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesenfermero.CrearVacacionesEnfermero;
+import pgh.business.vacacionesenfermero.VacacionesEnfermero;
+import pgh.business.vacacionesenfermero.VacacionesEnfermeroDTO;
 import pgh.business.vacacionesmedico.CrearVacacionesMedico;
 import pgh.business.vacacionesmedico.ListaVacacionesMedico;
 import pgh.business.vacacionesmedico.VacacionesMedico;
@@ -31,7 +39,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class PanelTratarSolicitudesVacaciones extends JPanel {
+public class PanelTratarSolicitudesVacacionesEnfermero extends JPanel {
 	
 	
 	private JScrollPane scrollPane;
@@ -40,15 +48,15 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private JButton btnComprobarDisponibilidad;
 	private JButton btnAsignarVacaciones;
 	private JButton btnCancelar;
-	private VacacionesSolicitadasMedico vacacionesSeleccionada;
-	private DefaultListModel<VacacionesSolicitadasMedico> modeloVacacioneSolicitadas;
-	private ListaJornadasMedico ljm;
-	private CrearVacacionesMedico crearVacaciones;
-	private VacacionesMedicoDTO vacacionesMedicoDTO;
-	private VacacionesMedico vacacionesMedico;
+	private VacacionesSolicitadasEnfermero vacacionesSeleccionada;
+	private DefaultListModel<VacacionesSolicitadasEnfermero> modeloVacacioneSolicitadas;
+	private ListaJornadasEnfermero ljm;
+	private CrearVacacionesEnfermero crearVacaciones;
+	private VacacionesEnfermeroDTO vacacionesMedicoDTO;
+	private VacacionesEnfermero vacacionesMedico;
 	private JPanel panelCambiar;
 	private JPanel panelContenido;
-	private ModificarVacacionesSolicitadasMedico modificar;
+	private ModificarVacacionesSolicitadasEnfermero modificar;
 	private DefaultListModel<Cita> modelCitas;
 	private JPanel estePanel;
 	private JButton btnDenegarlas;
@@ -61,11 +69,11 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	private Cita cita;
 	private JLabel lblNewLabel;
 	private EditarDiasVacaciones editarDias;
-	private Medico medico;
-	private FindAllMedicos findMedicos;
+	private Enfermero medico;
+	private FindAllEnfermeros findMedicos;
 
 	
-	public PanelTratarSolicitudesVacaciones(JPanel panelAnterior, VacacionesSolicitadasMedico v, JPanel panelcambiar, JPanel panelContenido) {
+	public PanelTratarSolicitudesVacacionesEnfermero(JPanel panelAnterior, VacacionesSolicitadasEnfermero v, JPanel panelcambiar, JPanel panelContenido) {
 		setBackground(new Color(135, 206, 235));
 		this.panelAnterior=panelAnterior;
 		this.vacacionesSeleccionada = v;
@@ -97,7 +105,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	}
 	private JList getListSolicitudadVacacionesElegida() {
 		if (listSolicitudadVacacionesElegida == null) {
-			modeloVacacioneSolicitadas = new DefaultListModel<VacacionesSolicitadasMedico>();
+			modeloVacacioneSolicitadas = new DefaultListModel<VacacionesSolicitadasEnfermero>();
 			llenarLista();
 			listSolicitudadVacacionesElegida = new JList(modeloVacacioneSolicitadas);
 		}
@@ -122,12 +130,12 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					
 					boolean correcto = false;
-					ljm = new ListaJornadasMedico(modeloVacacioneSolicitadas.getElementAt(0).getIdMedico());
-					ljm.creaJornadaMedicoFiltro();
+					ljm = new ListaJornadasEnfermero(modeloVacacioneSolicitadas.getElementAt(0).getIdMedico());
+					ljm.creaJornadaEnfermerosFiltro();
 				
-					for(int i=0; i<ljm.getJornadasMedicosFiltro().size();i++) {
-						if(ljm.getJornadasMedicosFiltro().get(i).getDiaInicio().before(modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio()) || ljm.getJornadasMedicosFiltro().get(i).getDiaInicio().equals(modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio())) {
-							if(ljm.getJornadasMedicosFiltro().get(i).getDiaFin().after(modeloVacacioneSolicitadas.getElementAt(0).getFechaFin())||ljm.getJornadasMedicosFiltro().get(i).getDiaFin().equals(modeloVacacioneSolicitadas.getElementAt(0).getFechaFin())) {
+					for(int i=0; i<ljm.getJornadasEnfermerosFiltro().size();i++) {
+						if(ljm.getJornadasEnfermerosFiltro().get(i).getDiaInicio().before(modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio()) || ljm.getJornadasEnfermerosFiltro().get(i).getDiaInicio().equals(modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio())) {
+							if(ljm.getJornadasEnfermerosFiltro().get(i).getDiaFin().after(modeloVacacioneSolicitadas.getElementAt(0).getFechaFin())||ljm.getJornadasEnfermerosFiltro().get(i).getDiaFin().equals(modeloVacacioneSolicitadas.getElementAt(0).getFechaFin())) {
 								btnAsignarVacaciones.setEnabled(true);
 								correcto = true;
 							}
@@ -170,19 +178,19 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 						JOptionPane.showMessageDialog(getBtnAsignarVacaciones(), "Las vacaciones no pueden ser asignadas sin posponer o asignar sus citas previamente");
 					}
 					else {
-						vacacionesMedicoDTO = new VacacionesMedicoDTO();
-						vacacionesMedicoDTO.idVacacionesMedico= generarIDVacacionesMedico();
-						vacacionesMedicoDTO.idMedico = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
+						vacacionesMedicoDTO = new VacacionesEnfermeroDTO();
+						vacacionesMedicoDTO.idVacacionesEnfermero= generarIDVacacionesMedico();
+						vacacionesMedicoDTO.idEnfermero = modeloVacacioneSolicitadas.getElementAt(0).getIdMedico();
 						vacacionesMedicoDTO.diaInicio = modeloVacacioneSolicitadas.getElementAt(0).getFechaInicio();
 						vacacionesMedicoDTO.diaFin = modeloVacacioneSolicitadas.getElementAt(0).getFechaFin();
 						
-						vacacionesMedico = new VacacionesMedico(vacacionesMedicoDTO);
-						crearVacaciones= new CrearVacacionesMedico();
+						vacacionesMedico = new VacacionesEnfermero(vacacionesMedicoDTO);
+						crearVacaciones= new CrearVacacionesEnfermero();
 						crearVacaciones.crearVacaciones(vacacionesMedico);
 						
 						modeloVacacioneSolicitadas.removeAllElements();
 						
-						modificar = new ModificarVacacionesSolicitadasMedico();
+						modificar = new ModificarVacacionesSolicitadasEnfermero();
 						
 						modificar.modificarEstados(true, false, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
 						
@@ -219,7 +227,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	
 	protected void closePanel() {
 	
-		PanelSolicitudesVacacionesAdministrador panel = new PanelSolicitudesVacacionesAdministrador(estePanel, panelContenido, panelCambiar);
+		PanelSolicitudesVacacionesEnfermeroAdministrador panel = new PanelSolicitudesVacacionesEnfermeroAdministrador(estePanel, panelContenido, panelCambiar);
 		estePanel.setVisible(false);
 		panelContenido.add(panel);
 		panel.setVisible(true);
@@ -228,8 +236,8 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 	
 	private int getDiasDispobibles() {
 		
-		findMedicos = new FindAllMedicos();	
-		medico = new Medico(findMedicos.diasDisponibles(vacacionesSeleccionada.getIdMedico()));
+		findMedicos = new FindAllEnfermeros();	
+		medico = new Enfermero(findMedicos.diasDisponibles(vacacionesSeleccionada.getIdMedico()));
 		return medico.getDiasDisponibles();
 			
 	}
@@ -239,7 +247,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnDenegarlas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					modificar = new ModificarVacacionesSolicitadasMedico();
+					modificar = new ModificarVacacionesSolicitadasEnfermero();
 					modificar.modificarEstados(false, true, false, vacacionesSeleccionada.getIdVacacionesSolicitadas());
 					
 					Date fechaInicio = vacacionesSeleccionada.getFechaInicio();
@@ -290,7 +298,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 		
 		findCitas = new FindAllCitas();
 		
-		for(CitaDTO c : findCitas.FindCitaIdMedico(modeloVacacioneSolicitadas.getElementAt(0).getIdMedico())) {
+		for(CitaDTO c : findCitas.FindCitaIdEnfermero(modeloVacacioneSolicitadas.getElementAt(0).getIdMedico())) {
 			
 		
 		
@@ -314,7 +322,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnAsignarMedico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(panelAnterior, panelContenido, vacacionesSeleccionada, panelCambiar);
+					PanelAsignarCitasVacacionesEnfermero panel = new PanelAsignarCitasVacacionesEnfermero(panelAnterior, panelContenido, vacacionesSeleccionada, panelCambiar);
 					estePanel.setVisible(false);
 					panelContenido.add(panel);
 					panel.setVisible(true);
@@ -332,7 +340,7 @@ public class PanelTratarSolicitudesVacaciones extends JPanel {
 			btnPosponerCitas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					PanelPosponerCitas panel = new PanelPosponerCitas(estePanel, panelContenido, vacacionesSeleccionada, panelCambiar);
+					PanelPosponerCitasEnfermero panel = new PanelPosponerCitasEnfermero(estePanel, panelContenido, vacacionesSeleccionada, panelCambiar);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);

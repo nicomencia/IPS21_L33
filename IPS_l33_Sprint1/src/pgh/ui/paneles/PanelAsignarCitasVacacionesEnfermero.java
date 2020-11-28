@@ -14,6 +14,19 @@ import javax.swing.ListSelectionModel;
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
+import pgh.business.enfermero.CrearEnfermero;
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.EnfermeroDTO;
+import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.enfermeroCita.EditarEnfermeroCitas;
+import pgh.business.enfermeroCita.EnfermeroCita;
+import pgh.business.enfermeroCita.FindAllEnfermeroCita;
+import pgh.business.enfermeroSustituto.EnfermeroSustituto;
+import pgh.business.enfermeroSustituto.ListaEnfermerosSustitutos;
+import pgh.business.enfermeroSustituto.RemoveEnfermeroSuplente;
+import pgh.business.jornadaenfermero.FindAllJornadasEnfermero;
+import pgh.business.jornadaenfermero.JornadaEnfermero;
+import pgh.business.jornadaenfermero.JornadaEnfermeroDTO;
 import pgh.business.jornadamedico.FindAllJornadasMedico;
 import pgh.business.jornadamedico.JornadaMedico;
 import pgh.business.jornadamedico.JornadaMedicoDTO;
@@ -31,6 +44,9 @@ import pgh.business.medicocita.FindAllMedicoCita;
 import pgh.business.medicocita.MedicoCita;
 import pgh.business.medicocita.MedicoCitaDTO;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermero;
+import pgh.ui.paneles.filtros.JListFiltroEnfermeroCitasAsignarVacaciones;
+import pgh.ui.paneles.filtros.JListFiltroEnfermeroSustitutosAsignarCitas;
 import pgh.ui.paneles.filtros.JListFiltroMedicoCitasAsignarVacaciones;
 import pgh.ui.paneles.filtros.JListFiltroMedicosSustitutosAsignarCitas;
 import pgh.ui.paneles.filtros.JListFiltroPanelCitaAsignarCitasVacaciones;
@@ -39,7 +55,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
-public class PanelAsignarCitasVacaciones extends JPanel {
+public class PanelAsignarCitasVacacionesEnfermero extends JPanel {
 	private JScrollPane scrollPaneCitasMedicoAnterior;
 	private JListFiltroPanelCitaAsignarCitasVacaciones listCitasMedicoAnterior;
 	private JScrollPane scrollPane;
@@ -55,41 +71,40 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	private JButton btnEliminarCitaSeleccionada;
 	private DefaultListModel<Cita> modeloCitasAAsignar;
 	private DefaultListModel<Cita> modeloCitasAsignadas;
-	private DefaultListModel<Medico> modeloListMedicos;
-	private DefaultListModel<MedicoSustituto> modeloListMedicosSuplentes;
+	private DefaultListModel<Enfermero> modeloListMedicos;
+	private DefaultListModel<EnfermeroSustituto> modeloListMedicosSuplentes;
 	private JButton btnSeleccionarCita;
 	private JLabel lblNewLabel;
 	private JLabel lblListaDeMedicos;
 	private JLabel lblListaDeMedicos_2;
 	private JLabel lblListaDeMedicos_2_1;
-	private JListFiltroMedicoCitasAsignarVacaciones listMedicosActivos;
-	private JListFiltroMedicosSustitutosAsignarCitas listMedicosSuplentes;
+	private JListFiltroEnfermeroCitasAsignarVacaciones listMedicosActivos;
+	private JListFiltroEnfermeroSustitutosAsignarCitas listMedicosSuplentes;
 	private JList listCitaAReasignar;
 	private FindAllCitas findCitas;
 	private CitaDTO citaCTO;
 	private Cita cita;
 	private JPanel panelAnterior;
 	private JPanel panelContenido;
-	private VacacionesSolicitadasMedico vacaciones;
+	private VacacionesSolicitadasEnfermero vacaciones;
 	private JPanel estePanel;
-	private ListaMedicos lm;
-	private ListaMedicosSustitutos lms;
-	private FindAllJornadasMedico findJornadaMedico;
-	private JornadaMedicoDTO jornadaDTO;
-	private JornadaMedico jornada;
-	private EditarMedicoCitas editarMedicoCitas;
-	private FindAllMedicoCita findMedicoCita;
-	private MedicoCita medicoCita;
-	private MedicoDTO medicoDTO;
-	private CrearMedico crearMedico;
-	private RemoveMedicoSuplente removeMedicoSuplente;
+	private ListaEnfermeros lm;
+	private ListaEnfermerosSustitutos lms;
+	private FindAllJornadasEnfermero findJornadaEnfermero;
+	private JornadaEnfermeroDTO jornadaDTO;
+	private JornadaEnfermero jornada;
+	private EditarEnfermeroCitas editarMedicoCitas;
+	private FindAllEnfermeroCita findMedicoCita;
+	private EnfermeroCita medicoCita;
+	private EnfermeroDTO medicoDTO;
+	private CrearEnfermero crearMedico;
+	private RemoveEnfermeroSuplente removeMedicoSuplente;
 	private JPanel panelcambiar;
-	private JTextField textField_3;
 	
 	
 	
 	
-	public PanelAsignarCitasVacaciones(JPanel panelAnterior, JPanel panelContenido , VacacionesSolicitadasMedico v, JPanel panelCambiar) {
+	public PanelAsignarCitasVacacionesEnfermero(JPanel panelAnterior, JPanel panelContenido , VacacionesSolicitadasEnfermero v, JPanel panelCambiar) {
 		
 		this.panelcambiar = panelCambiar;
 		this.panelAnterior=panelAnterior;
@@ -113,7 +128,6 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 		add(getLblListaDeMedicos());
 		add(getLblListaDeMedicos_2());
 		add(getLblListaDeMedicos_2_1());
-		
 	
 	}
 	
@@ -144,9 +158,9 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	
 		findCitas = new FindAllCitas();
 		
-		for(CitaDTO c : findCitas.FindCitaIdMedico(vacaciones.getIdMedico())) {
+		for(CitaDTO c : findCitas.FindCitaIdEnfermero(vacaciones.getIdMedico())) {
 			
-					System.out.println(findCitas.FindCitaIdMedico(vacaciones.getIdMedico()).size());
+					System.out.println(findCitas.FindCitaIdEnfermero(vacaciones.getIdMedico()).size());
 					
 					System.out.println(c.idCita);
 		
@@ -186,7 +200,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 
 					findCitas = new FindAllCitas();
-					findJornadaMedico = new FindAllJornadasMedico();
+					findJornadaEnfermero = new FindAllJornadasEnfermero();
 					boolean disponibilidad = false;
 					boolean diaCorrecto = false;
 					boolean citaVacia = true;
@@ -195,12 +209,12 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 						citaVacia = false;
 
 						for (Object o : listMedicosActivos.getSelectedValuesList()) {
-							Medico m = (Medico) o;
+							Enfermero m = (Enfermero) o;
 
 							for (int i = 0; i < modeloCitasAsignadas.getSize(); i++) {
 
-								for (JornadaMedicoDTO j : findJornadaMedico.FindIdMedico(m.getIdMedico())) {
-									System.out.println(findJornadaMedico.FindIdMedico(m.getIdMedico()).size());
+								for (JornadaEnfermeroDTO j : findJornadaEnfermero.FindIdMedico(m.getIdEnfermero())) {
+									System.out.println(findJornadaEnfermero.FindIdMedico(m.getIdEnfermero()).size());
 									if (j.diaInicio.before(modeloCitasAsignadas.getElementAt(i).getDate())) {
 										if (j.diaFin.after(modeloCitasAsignadas.getElementAt(i).getDate())) {
 											diaCorrecto = true;
@@ -209,7 +223,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 									}
 								}
 
-								for (CitaDTO c : findCitas.FindCitaIdMedico(m.getIdMedico())) {
+								for (CitaDTO c : findCitas.FindCitaIdEnfermero(m.getIdEnfermero())) {
 									if (diaCorrecto) {
 										System.out.println(modeloCitasAsignadas.getElementAt(i).getDate());
 										if (!c.fecha.equals(modeloCitasAsignadas.getElementAt(i).getDate())) {
@@ -291,7 +305,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 					boolean medicoSustitutosSeleccioando = false;
 
 					
-					editarMedicoCitas = new EditarMedicoCitas();
+					editarMedicoCitas = new EditarEnfermeroCitas();
 					
 					if(listMedicosActivos.getSelectedValuesList().size()>0) {
 						
@@ -317,14 +331,14 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 					
 					if(medicoSeleccioando && !medicoSustitutosSeleccioando){
 						
-						editarMedicoCitas = new EditarMedicoCitas();
-						Medico medico = (Medico) listMedicosActivos.getSelectedValuesList().get(0);
+						editarMedicoCitas = new EditarEnfermeroCitas();
+						Enfermero medico = (Enfermero) listMedicosActivos.getSelectedValuesList().get(0);
 						for(int i=0; i< modeloCitasAsignadas.size();i++) {
 							
-							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdMedico() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
+							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdEnfermero() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
 							JOptionPane.showMessageDialog(getBtnAsignarCita(), "Cita/s otorgadas con exito");
 							
-							PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(estePanel, panelContenido, vacaciones, panelcambiar);
+							PanelAsignarCitasVacacionesEnfermero panel = new PanelAsignarCitasVacacionesEnfermero(estePanel, panelContenido, vacaciones, panelcambiar);
 							panelContenido.add(panel);
 							estePanel.setVisible(false);
 							panel.setVisible(true);
@@ -336,36 +350,35 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 					
 					if(medicoSustitutosSeleccioando && !medicoSeleccioando) {
 						
-						MedicoSustituto medicoSuplente = (MedicoSustituto) listMedicosSuplentes.getSelectedValuesList().get(0);
-						medicoDTO = new MedicoDTO();
-						medicoDTO.idMedico = generadorDeIdMedico();
+						EnfermeroSustituto medicoSuplente = (EnfermeroSustituto) listMedicosSuplentes.getSelectedValuesList().get(0);
+						medicoDTO = new EnfermeroDTO();
+						medicoDTO.idEnfermero = generadorDeIdMedico();
 						medicoDTO.nombre = medicoSuplente.getNombreMedico();
 						medicoDTO.apellidos = medicoSuplente.getApellidosMedico();
-						medicoDTO.email = medicoSuplente.getEmailMedico();
 						medicoDTO.especialidad = "NINGUNA";
 						medicoDTO.idEquipoMedico = 7000;
 						medicoDTO.diasDisponibles = 0;
 						
 						
-						editarMedicoCitas = new EditarMedicoCitas();
+						editarMedicoCitas = new EditarEnfermeroCitas();
 						
-						Medico medico = new Medico(medicoDTO);
+						Enfermero medico = new Enfermero(medicoDTO);
 						
-						crearMedico = new CrearMedico();
+						crearMedico = new CrearEnfermero();
 						crearMedico.crearMedico(medico);
 						
-						removeMedicoSuplente = new RemoveMedicoSuplente();
+						removeMedicoSuplente = new RemoveEnfermeroSuplente();
 						removeMedicoSuplente.borrarSustituto(medicoSuplente.getIdMedico());
 						
 						for(int i=0; i< modeloCitasAsignadas.size();i++) {
 							
-							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdMedico() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
+							editarMedicoCitas.AsignarCitaAOtroMedico(medico.getIdEnfermero() , modeloCitasAsignadas.getElementAt(i).getIdCita(), vacaciones.getIdMedico());
 							JOptionPane.showMessageDialog(getBtnAsignarCita(), "Cita/s otorgadas con exito");
 							
 							System.out.println(modeloCitasAAsignar.getSize());
 							modeloCitasAAsignar.removeAllElements();
 							System.out.println(modeloCitasAAsignar.getSize());
-							PanelAsignarCitasVacaciones panel = new PanelAsignarCitasVacaciones(estePanel, panelContenido, vacaciones, panelcambiar);
+							PanelAsignarCitasVacacionesEnfermero panel = new PanelAsignarCitasVacacionesEnfermero(estePanel, panelContenido, vacaciones, panelcambiar);
 							panelContenido.add(panel);
 							estePanel.setVisible(false);
 							panel.setVisible(true);
@@ -397,7 +410,7 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 			btnCancelarCita = new JButton("Cancelar");
 			btnCancelarCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					PanelTratarSolicitudesVacaciones panel = new PanelTratarSolicitudesVacaciones(estePanel, vacaciones,panelcambiar,panelContenido);
+					PanelTratarSolicitudesVacacionesEnfermero panel = new PanelTratarSolicitudesVacacionesEnfermero(estePanel, vacaciones,panelcambiar,panelContenido);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);
@@ -486,9 +499,9 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	}
 	private JList getListMedicosActivos() {
 		if (listMedicosActivos == null) {
-			modeloListMedicos = new DefaultListModel<Medico>();
+			modeloListMedicos = new DefaultListModel<Enfermero>();
 			añadirMedicos();
-			listMedicosActivos = new JListFiltroMedicoCitasAsignarVacaciones(modeloListMedicos);
+			listMedicosActivos = new JListFiltroEnfermeroCitasAsignarVacaciones(modeloListMedicos);
 			this.add(listMedicosActivos.gettextoFiltro());
 			listMedicosActivos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
@@ -497,10 +510,10 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	
 	private void añadirMedicos() {
 		
-		lm = new ListaMedicos();
-		lm.creaListaMedicos();
-		for (Medico m : lm.getMedicos()) {
-			if(m.getIdMedico()!=vacaciones.getIdMedico()) {
+		lm = new ListaEnfermeros();
+		lm.creaListaEnfermeros();
+		for (Enfermero m : lm.getEnfermeros()) {
+			if(m.getIdEnfermero()!=vacaciones.getIdMedico()) {
 				modeloListMedicos.addElement(m);
 			}
 			
@@ -510,9 +523,9 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 	
 	private void añadirMedicosSuplentes() {
 	
-		lms = new ListaMedicosSustitutos();
+		lms = new ListaEnfermerosSustitutos();
 		lms.creaListaMedicos();
-		for (MedicoSustituto m : lms.getMedicos()) {
+		for (EnfermeroSustituto m : lms.getMedicos()) {
 			modeloListMedicosSuplentes.addElement(m);
 		}
 		
@@ -523,9 +536,9 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 
 	private JList getListMedicosSuplentes() {
 		if (listMedicosSuplentes == null) {
-			modeloListMedicosSuplentes = new DefaultListModel<MedicoSustituto>();
+			modeloListMedicosSuplentes = new DefaultListModel<EnfermeroSustituto>();
 			añadirMedicosSuplentes();
-			listMedicosSuplentes = new JListFiltroMedicosSustitutosAsignarCitas(modeloListMedicosSuplentes);
+			listMedicosSuplentes = new JListFiltroEnfermeroSustitutosAsignarCitas(modeloListMedicosSuplentes);
 			this.add(listMedicosSuplentes.gettextoFiltro());
 			listMedicosSuplentes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
@@ -539,5 +552,6 @@ public class PanelAsignarCitasVacaciones extends JPanel {
 		}
 		return listCitaAReasignar;
 	}
+	
 	
 }

@@ -27,14 +27,21 @@ import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+import pgh.business.enfermero.EditarDiasVacacionesEnfermero;
 import pgh.business.enfermero.Enfermero;
 import pgh.business.enfermero.ListaEnfermeros;
 import pgh.business.jornadaenfermero.CrearJornadaEnfermero;
 import pgh.business.jornadaenfermero.JornadaEnfermero;
 import pgh.business.jornadaenfermero.JornadaEnfermeroDTO;
 import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
+import pgh.business.medico.EditarDiasVacaciones;
+import pgh.business.medico.Medico;
+import pgh.business.medico.MedicoDTO;
 import pgh.ui.VentanaPrincipal;
 import pgh.ui.paneles.filtros.JListFiltroJornadaEnfermeros;
+import javax.swing.border.TitledBorder;
+import java.awt.GridLayout;
+import javax.swing.JRadioButton;
 
 public class PanelJornadaEnfermero extends JPanel {
 
@@ -82,7 +89,14 @@ public class PanelJornadaEnfermero extends JPanel {
 	private DefaultListModel<Enfermero> modeloListaEnfermerosSeleccionadosJornada;
 	private DefaultListModel<String> modeloDiasSemanaJornadaEnfermero;
 	private DefaultListModel<String> modeloDiasSemanaSeleccionadosJornadaEnfermero;
-	private JLabel lblNewLabel_15;
+	private JRadioButton rdbtnAutomaticamente;
+	private JRadioButton rdbtnManualmente;
+	private JLabel lblNewLabel_1;
+	private JPanel panel;
+	private JSpinner spinnerDias;
+	private Medico medico;
+	private MedicoDTO medicoDTO;
+	private EditarDiasVacacionesEnfermero editarDias;
 
 	public PanelJornadaEnfermero(JPanel panelAnterior) {
 
@@ -94,7 +108,7 @@ public class PanelJornadaEnfermero extends JPanel {
 	private void getPanelJornadasEnfermero() {
 
 		this.setBackground(new Color(135, 206, 235));
-		this.setLayout(new BorderLayout(0, 0));
+		setLayout(null);
 		this.add(getLblNewLabel_4_2());
 		this.add(getLblNewLabel_4_1_1());
 		this.add(getLblNewLabel_5_2_1());
@@ -121,7 +135,9 @@ public class PanelJornadaEnfermero extends JPanel {
 		this.add(getSpinnerMinutosInicioJornadaEnfermero());
 		this.add(getSpinnerMinutosInicioJornadaEnfermero2());
 		this.add(getSpinnerMinutosFinJornadaEnfermero2());
-		this.add(getLblNewLabel_15());
+		add(getLabel_1());
+		add(getPanel());
+		add(getSpinnerDias());
 
 		
 	}
@@ -157,7 +173,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (lblNewLabel_6_1_1_1 == null) {
 			lblNewLabel_6_1_1_1 = new JLabel("Seleccionar hora inicio :");
 			lblNewLabel_6_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6_1_1_1.setBounds(713, 199, 158, 22);
+			lblNewLabel_6_1_1_1.setBounds(393, 199, 158, 22);
 		}
 		return lblNewLabel_6_1_1_1;
 	}
@@ -166,7 +182,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (lblNewLabel_5_1_1_1 == null) {
 			lblNewLabel_5_1_1_1 = new JLabel("Seleccionar hora fin :");
 			lblNewLabel_5_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_5_1_1_1.setBounds(713, 267, 142, 22);
+			lblNewLabel_5_1_1_1.setBounds(393, 267, 142, 22);
 		}
 		return lblNewLabel_5_1_1_1;
 	}
@@ -177,66 +193,105 @@ public class PanelJornadaEnfermero extends JPanel {
 			btnCrearJornadaEnfermero.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					String dias = "";
-					int horaInicio = (int) spinnerHoraInicioJornadaEnfermero.getValue();
-					int horaFin = (int) spinnerHoraFinJornadaEnfermero.getValue();
-					int minutos1Inicio = (int) spinnerMinutosInicioJornadaEnfermero.getValue();
-					int minutos2Inicio = (int) spinnerMinutosInicioJornadaEnfermero2.getValue();
-					int minutos1Fin = (int) spinnerMinutosFinJornadaeEnfermero.getValue();
-					int minutos2Fin = (int) spinnerMinutosFinJornadaEnfermero2.getValue();
+					
+					if(modeloListaEnfermerosSeleccionadosJornada.isEmpty()) {
+						JOptionPane.showMessageDialog(getBtnCrearJornadaEnfermero(), "No has seleccionado ningun medico");
+					}
+					else {
+						
+						if(modeloDiasSemanaSeleccionadosJornadaEnfermero.isEmpty()) {
+							JOptionPane.showMessageDialog(getBtnCrearJornadaEnfermero(), "No has seleccionado ningun dia");
+						}
+						else {
+							String dias = "";
+							int horaInicio = (int) spinnerHoraInicioJornadaEnfermero.getValue();
+							int horaFin = (int) spinnerHoraFinJornadaEnfermero.getValue();
+							int minutos1Inicio = (int) spinnerMinutosInicioJornadaEnfermero.getValue();
+							int minutos2Inicio = (int) spinnerMinutosInicioJornadaEnfermero2.getValue();
+							int minutos1Fin = (int) spinnerMinutosFinJornadaeEnfermero.getValue();
+							int minutos2Fin = (int) spinnerMinutosFinJornadaEnfermero2.getValue();
 
-					if (comprobarCorrecto2(horaInicio, horaFin, minutos1Inicio, minutos2Inicio, minutos1Fin,
-							minutos2Fin)) {
+							if (comprobarCorrecto2(horaInicio, horaFin, minutos1Inicio, minutos2Inicio, minutos1Fin,
+									minutos2Fin)) {
 
-						crearJornadaEnfermero = new CrearJornadaEnfermero();
-						jornadaEnfermeroDTO = new JornadaEnfermeroDTO();
-						jornadaEnfermeroDTO.idJornadaEnfermero = generarIdJornadaEnfermero();
-						jornadaEnfermeroDTO.diaInicio = dateChooserFechaInicioJornadaEnfermero.getDate();
-						jornadaEnfermeroDTO.diaFin = dateChooserFechaFinJornadaEnfermero.getDate();
-						for (int i = 0; i < modeloDiasSemanaSeleccionadosJornadaEnfermero.getSize(); i++) {
-							if (i == modeloDiasSemanaSeleccionadosJornadaEnfermero.getSize() - 1) {
-								dias = dias + modeloDiasSemanaSeleccionadosJornadaEnfermero.getElementAt(i).toString();
-							} else {
-								dias = dias + modeloDiasSemanaSeleccionadosJornadaEnfermero.getElementAt(i).toString()
-										+ ", ";
-							}
+								crearJornadaEnfermero = new CrearJornadaEnfermero();
+								jornadaEnfermeroDTO = new JornadaEnfermeroDTO();
+								jornadaEnfermeroDTO.idJornadaEnfermero = generarIdJornadaEnfermero();
+								jornadaEnfermeroDTO.diaInicio = dateChooserFechaInicioJornadaEnfermero.getDate();
+								jornadaEnfermeroDTO.diaFin = dateChooserFechaFinJornadaEnfermero.getDate();
+								for (int i = 0; i < modeloDiasSemanaSeleccionadosJornadaEnfermero.getSize(); i++) {
+									if (i == modeloDiasSemanaSeleccionadosJornadaEnfermero.getSize() - 1) {
+										dias = dias + modeloDiasSemanaSeleccionadosJornadaEnfermero.getElementAt(i).toString();
+									} else {
+										dias = dias + modeloDiasSemanaSeleccionadosJornadaEnfermero.getElementAt(i).toString()
+												+ ", ";
+									}
+
+								}
+
+								jornadaEnfermeroDTO.dias = dias;
+
+								String hora1 = horaInicio + "";
+								String hora2 = horaFin + "";
+								String minutos1 = minutos1Inicio + "";
+								String minutos2 = minutos2Inicio + "";
+								String minutos3 = minutos1Fin + "";
+								String minutos4 = minutos2Fin + "";
+								String horaInicial = hora1 + ":" + minutos1 + minutos2;
+								String horaFinal = hora2 + ":" + minutos3 + minutos4;
+
+								jornadaEnfermeroDTO.horaInicio = horaInicial;
+								jornadaEnfermeroDTO.horaFin = horaFinal;
+
+								jornadaEnfermeroDTO.idEnfermero = modeloListaEnfermerosSeleccionadosJornada.getElementAt(0)
+										.getIdEnfermero();
+
+								jornadaEnfermero = new JornadaEnfermero(jornadaEnfermeroDTO);
+
+								crearJornadaEnfermero.crearJornadaEnfermero(jornadaEnfermero);
+
+								spinnerHoraInicioJornadaEnfermero.setValue(0);
+								;
+								spinnerHoraFinJornadaEnfermero.setValue(0);
+								spinnerMinutosInicioJornadaEnfermero.setValue(0);
+								spinnerMinutosInicioJornadaEnfermero2.setValue(0);
+								spinnerMinutosFinJornadaeEnfermero.setValue(0);
+								spinnerMinutosFinJornadaEnfermero2.setValue(0);
+								
+								editarDias = new EditarDiasVacacionesEnfermero();
+								
+								if(rdbtnManualmente.isSelected()) {
+									editarDias.actualizar((int) spinnerDias.getValue() + modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getDiasDisponibles(), modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getIdEnfermero());
+								}
+								
+								if(rdbtnAutomaticamente.isSelected()) {
+									
+									Date fechaInicio = dateChooserFechaInicioJornadaEnfermero.getDate();
+									Date fechaFin = dateChooserFechaFinJornadaEnfermero.getDate();
+
+									int milisecondsByDay = 86400000;
+									int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
+									
+									double diasVacaciones = (diass/30) * 2.5;
+									int diaaaaas = (int) diasVacaciones + modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getDiasDisponibles();
+									
+									
+									editarDias.actualizar(diaaaaas, modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getIdEnfermero());
+									
+
+								}
+								
+
+								modeloListaEnfermerosSeleccionadosJornada.removeAllElements();
+								modeloDiasSemanaSeleccionadosJornadaEnfermero.removeAllElements();
+								
+								
+
+								closePanel();
 
 						}
-
-						jornadaEnfermeroDTO.dias = dias;
-
-						String hora1 = horaInicio + "";
-						String hora2 = horaFin + "";
-						String minutos1 = minutos1Inicio + "";
-						String minutos2 = minutos2Inicio + "";
-						String minutos3 = minutos1Fin + "";
-						String minutos4 = minutos2Fin + "";
-						String horaInicial = hora1 + ":" + minutos1 + minutos2;
-						String horaFinal = hora2 + ":" + minutos3 + minutos4;
-
-						jornadaEnfermeroDTO.horaInicio = horaInicial;
-						jornadaEnfermeroDTO.horaFin = horaFinal;
-
-						jornadaEnfermeroDTO.idEnfermero = modeloListaEnfermerosSeleccionadosJornada.getElementAt(0)
-								.getIdEnfermero();
-
-						jornadaEnfermero = new JornadaEnfermero(jornadaEnfermeroDTO);
-
-						crearJornadaEnfermero.crearJornadaEnfermero(jornadaEnfermero);
-
-						spinnerHoraInicioJornadaEnfermero.setValue(0);
-						;
-						spinnerHoraFinJornadaEnfermero.setValue(0);
-						spinnerMinutosInicioJornadaEnfermero.setValue(0);
-						spinnerMinutosInicioJornadaEnfermero2.setValue(0);
-						spinnerMinutosFinJornadaeEnfermero.setValue(0);
-						spinnerMinutosFinJornadaEnfermero2.setValue(0);
-
-						modeloListaEnfermerosSeleccionadosJornada.removeAllElements();
-						modeloDiasSemanaSeleccionadosJornadaEnfermero.removeAllElements();
-
-						closePanel();
-
+						}
+					
 					}
 
 				}
@@ -250,7 +305,7 @@ public class PanelJornadaEnfermero extends JPanel {
 	}
 
 	private int generarIdJornadaEnfermero() {
-		ListaJornadasEnfermero lc = new ListaJornadasEnfermero();
+		ListaJornadasEnfermero lc = new ListaJornadasEnfermero(0);
 		lc.creaJornadaEnfermeros();
 		return 2200 + lc.getJornadasEnfermeros().size();
 	}
@@ -275,7 +330,7 @@ public class PanelJornadaEnfermero extends JPanel {
 	private JScrollPane getScrollPane_8_1() {
 		if (scrollPane_8 == null) {
 			scrollPane_8 = new JScrollPane();
-			scrollPane_8.setBounds(381, 379, 88, 127);
+			scrollPane_8.setBounds(381, 343, 88, 127);
 			scrollPane_8.setViewportView(getListDiasSemanaJornadaEnfermero());
 		}
 		return scrollPane_8;
@@ -293,7 +348,7 @@ public class PanelJornadaEnfermero extends JPanel {
 					}
 				}
 			});
-			btnAnadirDiasJornadaEnfermero.setBounds(479, 431, 113, 23);
+			btnAnadirDiasJornadaEnfermero.setBounds(479, 387, 113, 23);
 		}
 		return btnAnadirDiasJornadaEnfermero;
 	}
@@ -301,7 +356,7 @@ public class PanelJornadaEnfermero extends JPanel {
 	private JScrollPane getScrollPaneDiasSeleccionados_1() {
 		if (scrollPaneDiasSeleccionados_1 == null) {
 			scrollPaneDiasSeleccionados_1 = new JScrollPane();
-			scrollPaneDiasSeleccionados_1.setBounds(608, 401, 207, 86);
+			scrollPaneDiasSeleccionados_1.setBounds(602, 357, 207, 86);
 			scrollPaneDiasSeleccionados_1.setViewportView(getListDiasSeleccionadosJornadaEnfermero());
 		}
 		return scrollPaneDiasSeleccionados_1;
@@ -315,7 +370,7 @@ public class PanelJornadaEnfermero extends JPanel {
 					modeloDiasSemanaSeleccionadosJornadaEnfermero.removeAllElements();
 				}
 			});
-			btnBorrarDiasSeleccionadosJornadaEnfermero.setBounds(825, 417, 126, 23);
+			btnBorrarDiasSeleccionadosJornadaEnfermero.setBounds(819, 387, 126, 23);
 		}
 		return btnBorrarDiasSeleccionadosJornadaEnfermero;
 	}
@@ -471,7 +526,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerHoraInicioJornadaEnfermero == null) {
 			spinnerHoraInicioJornadaEnfermero = new JSpinner();
 			spinnerHoraInicioJornadaEnfermero.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			spinnerHoraInicioJornadaEnfermero.setBounds(881, 201, 48, 20);
+			spinnerHoraInicioJornadaEnfermero.setBounds(561, 201, 48, 20);
 		}
 		return spinnerHoraInicioJornadaEnfermero;
 	}
@@ -480,7 +535,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerHoraFinJornadaEnfermero == null) {
 			spinnerHoraFinJornadaEnfermero = new JSpinner();
 			spinnerHoraFinJornadaEnfermero.setModel(new SpinnerNumberModel(0, 0, 23, 1));
-			spinnerHoraFinJornadaEnfermero.setBounds(881, 269, 48, 20);
+			spinnerHoraFinJornadaEnfermero.setBounds(561, 269, 48, 20);
 		}
 		return spinnerHoraFinJornadaEnfermero;
 	}
@@ -489,7 +544,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerMinutosFinJornadaeEnfermero == null) {
 			spinnerMinutosFinJornadaeEnfermero = new JSpinner();
 			spinnerMinutosFinJornadaeEnfermero.setModel(new SpinnerNumberModel(0, 0, 5, 1));
-			spinnerMinutosFinJornadaeEnfermero.setBounds(955, 269, 48, 20);
+			spinnerMinutosFinJornadaeEnfermero.setBounds(635, 269, 48, 20);
 		}
 		return spinnerMinutosFinJornadaeEnfermero;
 	}
@@ -498,7 +553,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (lblNewLabel_6_2 == null) {
 			lblNewLabel_6_2 = new JLabel(":");
 			lblNewLabel_6_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6_2.setBounds(939, 203, 30, 14);
+			lblNewLabel_6_2.setBounds(619, 203, 30, 14);
 		}
 		return lblNewLabel_6_2;
 	}
@@ -507,7 +562,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (lblNewLabel_6_1_2 == null) {
 			lblNewLabel_6_1_2 = new JLabel(":");
 			lblNewLabel_6_1_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-			lblNewLabel_6_1_2.setBounds(939, 272, 30, 14);
+			lblNewLabel_6_1_2.setBounds(619, 272, 30, 14);
 		}
 		return lblNewLabel_6_1_2;
 	}
@@ -516,7 +571,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerMinutosInicioJornadaEnfermero == null) {
 			spinnerMinutosInicioJornadaEnfermero = new JSpinner();
 			spinnerMinutosInicioJornadaEnfermero.setModel(new SpinnerNumberModel(0, 0, 5, 1));
-			spinnerMinutosInicioJornadaEnfermero.setBounds(955, 201, 48, 20);
+			spinnerMinutosInicioJornadaEnfermero.setBounds(635, 201, 48, 20);
 		}
 		return spinnerMinutosInicioJornadaEnfermero;
 	}
@@ -525,7 +580,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerMinutosInicioJornadaEnfermero2 == null) {
 			spinnerMinutosInicioJornadaEnfermero2 = new JSpinner();
 			spinnerMinutosInicioJornadaEnfermero2.setModel(new SpinnerNumberModel(0, 0, 9, 1));
-			spinnerMinutosInicioJornadaEnfermero2.setBounds(1013, 201, 48, 20);
+			spinnerMinutosInicioJornadaEnfermero2.setBounds(693, 201, 48, 20);
 		}
 		return spinnerMinutosInicioJornadaEnfermero2;
 	}
@@ -534,7 +589,7 @@ public class PanelJornadaEnfermero extends JPanel {
 		if (spinnerMinutosFinJornadaEnfermero2 == null) {
 			spinnerMinutosFinJornadaEnfermero2 = new JSpinner();
 			spinnerMinutosFinJornadaEnfermero2.setModel(new SpinnerNumberModel(0, 0, 9, 1));
-			spinnerMinutosFinJornadaEnfermero2.setBounds(1013, 269, 48, 20);
+			spinnerMinutosFinJornadaEnfermero2.setBounds(693, 269, 48, 20);
 		}
 		return spinnerMinutosFinJornadaEnfermero2;
 	}
@@ -619,19 +674,67 @@ public class PanelJornadaEnfermero extends JPanel {
 
 	}
 
-	private JLabel getLblNewLabel_15() {
-		if (lblNewLabel_15 == null) {
-			lblNewLabel_15 = new JLabel("");
-			lblNewLabel_15.setIcon(new ImageIcon(VentanaPrincipal.class
-					.getResource("/img/085e2efd9a10a1d20e259f487a17cf23-malet--n-medico-by-vexels.png")));
-			lblNewLabel_15.setBounds(305, 0, 808, 561);
-		}
-		return lblNewLabel_15;
-	}
-
 	protected void closePanel() {
 		this.setVisible(false);
 		this.panelAnterior.setVisible(true);
 	}
-
+	
+	private JRadioButton getRadioButton_1() {
+		if (rdbtnAutomaticamente == null) {
+			rdbtnAutomaticamente = new JRadioButton("Automaticamente");
+			rdbtnAutomaticamente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					rdbtnAutomaticamente.setSelected(true);
+					rdbtnManualmente.setSelected(false);
+					spinnerDias.setEnabled(false);
+					
+					
+				}
+			});
+			rdbtnAutomaticamente.setSelected(true);
+			rdbtnAutomaticamente.setBackground(new Color(135, 206, 235));
+		}
+		return rdbtnAutomaticamente;
+	}
+	private JRadioButton getRdbtnManualmente() {
+		if (rdbtnManualmente == null) {
+			rdbtnManualmente = new JRadioButton("Manualmente");
+			rdbtnManualmente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					rdbtnAutomaticamente.setSelected(false);
+					rdbtnManualmente.setSelected(true);
+					spinnerDias.setEnabled(true);
+				}
+			});
+			rdbtnManualmente.setBackground(new Color(135, 206, 235));
+		}
+		return rdbtnManualmente;
+	}
+	private JLabel getLabel_1() {
+		if (lblNewLabel_1 == null) {
+			lblNewLabel_1 = new JLabel("Numeros de dias de vacaciones : ");
+			lblNewLabel_1.setBounds(820, 298, 188, 56);
+		}
+		return lblNewLabel_1;
+	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setBorder(new TitledBorder(null, "Designar dias de vacaciones ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBounds(820, 189, 263, 98);
+			panel.setLayout(new GridLayout(0, 2, 0, 0));
+			panel.add(getRadioButton_1());
+			panel.add(getRdbtnManualmente());
+		}
+		return panel;
+	}
+	private JSpinner getSpinnerDias() {
+		if (spinnerDias == null) {
+			spinnerDias = new JSpinner();
+			spinnerDias.setEnabled(false);
+			spinnerDias.setBounds(1006, 312, 62, 28);
+		}
+		return spinnerDias;
+	}
 }

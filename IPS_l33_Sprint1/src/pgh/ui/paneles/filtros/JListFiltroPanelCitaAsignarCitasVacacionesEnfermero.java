@@ -11,14 +11,17 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import pgh.business.cita.Cita;
+import pgh.business.medico.Medico;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.Filtro;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.TextoFiltro;
 
 
-public class JListFiltroCitasPacienteEnfermero extends JList {
+public class JListFiltroPanelCitaAsignarCitasVacacionesEnfermero extends JList {
 	
 private TextoFiltro texto;
 	
 
-	public JListFiltroCitasPacienteEnfermero(DefaultListModel<Cita> model) {
+	public JListFiltroPanelCitaAsignarCitasVacacionesEnfermero(DefaultListModel<Cita> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -45,7 +48,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(67, 46, 988, 20);
+			this.setBounds(39, 29, 412, 23);
 			getDocument().addDocumentListener(this);
 		}
 
@@ -99,5 +102,6 @@ private TextoFiltro texto;
 			}
 		}
 	}
+
 
 }

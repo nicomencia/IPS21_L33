@@ -1,12 +1,12 @@
-package pgh.business.vacacionesSolicitadas;
+package pgh.business.vacacionesSolicitadasEnfermero;
 
 import java.util.Date;
 
-public class VacacionesSolicitadasMedico {
+public class VacacionesSolicitadasEnfermero {
 	
-	private VacacionesSolicitadasMedicoDTO vacaciones;
+	private VacacionesSolicitadasEnfermeroDTO vacaciones;
 
-	public VacacionesSolicitadasMedico(VacacionesSolicitadasMedicoDTO vacaciones) {
+	public VacacionesSolicitadasEnfermero(VacacionesSolicitadasEnfermeroDTO vacaciones) {
 		this.vacaciones = vacaciones;
 	}
 	

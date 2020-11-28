@@ -19,6 +19,7 @@ public class PanelEnfermero extends JPanel {
 	private JButton btnCancelar;
 	private JPanel panelCambiar;
 	private JPanel panelPrincipal;
+	private JButton btnPedirVacuna;
 	
 	public PanelEnfermero(JPanel panelAnterior, JPanel panelContenido, int idEnfermero, JPanel panelCambiar) {
 		this.panelAnterior = panelAnterior;
@@ -31,6 +32,7 @@ public class PanelEnfermero extends JPanel {
 		setLayout(null);
 		add(getBtnElegirCita());
 		add(getBtnCancelar());
+		add(getBtnPedirVacuna());
 	}
 	private JButton getBtnElegirCita() {
 		if (btnElegirCita == null) {
@@ -63,5 +65,20 @@ public class PanelEnfermero extends JPanel {
 			btnCancelar.setBounds(729, 432, 200, 50);
 		}
 		return btnCancelar;
+	}
+	private JButton getBtnPedirVacuna() {
+		if (btnPedirVacuna == null) {
+			btnPedirVacuna = new JButton("Pedir Vacaciones");
+			btnPedirVacuna.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelPedirVacacionesEnfermero panel = new PanelPedirVacacionesEnfermero(estePanel, panelContenido, idEnfermero);
+					panelContenido.add(panel);
+					panel.setVisible(true);
+					estePanel.setVisible(false);
+				}
+			});
+			btnPedirVacuna.setBounds(338, 75, 200, 50);
+		}
+		return btnPedirVacuna;
 	}
 }

@@ -18,6 +18,10 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDayChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+import pgh.business.enfermero.EditarDiasVacacionesEnfermero;
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.FindAllEnfermeros;
+import pgh.business.enfermero.ListaEnfermeros;
 import pgh.business.jornadamedico.CrearJornadaMedico;
 import pgh.business.jornadamedico.JornadaMedicoDTO;
 import pgh.business.jornadamedico.ListaJornadasMedico;
@@ -31,13 +35,19 @@ import pgh.business.vacacionesSolicitadas.FindAllVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.ListaVacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
+import pgh.business.vacacionesSolicitadasEnfermero.CrearVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.FindAllVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.ListaVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.RemoveVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermeroDTO;
 import pgh.business.vacacionesSolicitadas.RemoveVacacionesSolicitadas;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class PanelPedirVacaciones extends JPanel {
+public class PanelPedirVacacionesEnfermero extends JPanel {
 	
 	private JPanel panelAnterior;
 	private JPanel panelContenido;
@@ -53,27 +63,27 @@ public class PanelPedirVacaciones extends JPanel {
 	private JButton btnCancelar;
 	private boolean fechaCambiada4;
 	private boolean fechaCambiada3;
-	private PanelPedirVacaciones thisPanel;
-	private CrearVacacionesSolicitadasMedico crearVacacionesSolicitadasMedico;
-	private VacacionesSolicitadasMedicoDTO vacacionesSolicitadasMedicoDTO;
-	private VacacionesSolicitadasMedico vacacionesSolicitadasMedico;
-	private int id_medico;
-	private ListaMedicos lm;
-	private VacacionesSolicitadasMedicoDTO vsmDTO;
-	private FindAllVacacionesSolicitadasMedico findAllVacacionesSolicitadas;
-	private RemoveVacacionesSolicitadas removeVacaciones;
+	private PanelPedirVacacionesEnfermero thisPanel;
+	private CrearVacacionesSolicitadasEnfermero crearVacacionesSolicitadasEnfermero;
+	private VacacionesSolicitadasEnfermeroDTO vacacionesSolicitadasEnfermeroDTO;
+	private VacacionesSolicitadasEnfermero vacacionesSolicitadasEnfermero;
+	private int id_enfermero;
+	private ListaEnfermeros lm;
+	private VacacionesSolicitadasEnfermeroDTO vsmDTO;
+	private FindAllVacacionesSolicitadasEnfermero findAllVacacionesSolicitadas;
+	private RemoveVacacionesSolicitadasEnfermero removeVacaciones;
 	private JLabel lblNewLabel_3;
 	private JTextField textFieldDiasDisponibles;
 	private int diasSolicitados;
-	private Medico medico;
-	private FindAllMedicos findMedicos;
-	private EditarDiasVacaciones editarDias;
+	private Enfermero enfermero;
+	private FindAllEnfermeros findEnfermeros;
+	private EditarDiasVacacionesEnfermero editarDias;
 	
-	public PanelPedirVacaciones(JPanel panelAnterior, JPanel panelContenido, int idmedico) {
+	public PanelPedirVacacionesEnfermero(JPanel panelAnterior, JPanel panelContenido, int idenfermero) {
 		
 		this.panelAnterior=panelAnterior;
 		this.panelContenido= panelContenido;
-		this.id_medico = idmedico;
+		this.id_enfermero = idenfermero;
 		thisPanel=this;
 		setBackground(new Color(135, 206, 235));
 		setBounds(100, 100, 1129, 600);
@@ -206,7 +216,7 @@ public class PanelPedirVacaciones extends JPanel {
 			btnVerEstado.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					PanelComprobarSolicitudVacaciones panel = new PanelComprobarSolicitudVacaciones(thisPanel, id_medico);
+					PanelComprobarSolicitudVacacionesEnfermero panel = new PanelComprobarSolicitudVacacionesEnfermero(thisPanel, id_enfermero);
 					panelContenido.add( panel);
 					thisPanel.setVisible(false);
 					panel.setVisible(true);
@@ -239,16 +249,16 @@ public class PanelPedirVacaciones extends JPanel {
 			btnMandarSolicitud.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					crearVacacionesSolicitadasMedico = new CrearVacacionesSolicitadasMedico();
-					vacacionesSolicitadasMedicoDTO  = new VacacionesSolicitadasMedicoDTO();
+					crearVacacionesSolicitadasEnfermero = new CrearVacacionesSolicitadasEnfermero();
+					vacacionesSolicitadasEnfermeroDTO  = new VacacionesSolicitadasEnfermeroDTO();
 					
-					findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasMedico();
-					vsmDTO= new VacacionesSolicitadasMedicoDTO();
+					findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasEnfermero();
+					vsmDTO= new VacacionesSolicitadasEnfermeroDTO();
 					
 					
 					Date fechaInicio = dateChooserFechaInicio.getDate();
 					Date fechaFin = dateChooserFechaFin.getDate();
-					editarDias = new EditarDiasVacaciones();
+					editarDias = new EditarDiasVacacionesEnfermero();
 
 					int milisecondsByDay = 86400000;
 					int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
@@ -257,28 +267,28 @@ public class PanelPedirVacaciones extends JPanel {
 					if(diaaaaas < 0 ) {
 						JOptionPane.showMessageDialog(getBtnMandarSolicitud(), "No tienes suficientes dias como para pedir estas vacaciones' ");
 					}else {
-						editarDias.actualizar(diaaaaas, id_medico);
+						editarDias.actualizar(diaaaaas, id_enfermero);
 					
-						vacacionesSolicitadasMedicoDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
-						vacacionesSolicitadasMedicoDTO.idMedico = id_medico;
-						vacacionesSolicitadasMedicoDTO.diaInicio = dateChooserFechaInicio.getDate();
-						vacacionesSolicitadasMedicoDTO.diaFin = dateChooserFechaFin.getDate();
-						vacacionesSolicitadasMedicoDTO.motivo = textField.getText();
-						vacacionesSolicitadasMedicoDTO.aprobadas=false;
-						vacacionesSolicitadasMedicoDTO.canceladas=false;
-						vacacionesSolicitadasMedicoDTO.esperando=true;
+						vacacionesSolicitadasEnfermeroDTO.idVacacionesMedicoSolicitadas = generarIdVacaciones();
+						vacacionesSolicitadasEnfermeroDTO.idMedico = id_enfermero;
+						vacacionesSolicitadasEnfermeroDTO.diaInicio = dateChooserFechaInicio.getDate();
+						vacacionesSolicitadasEnfermeroDTO.diaFin = dateChooserFechaFin.getDate();
+						vacacionesSolicitadasEnfermeroDTO.motivo = textField.getText();
+						vacacionesSolicitadasEnfermeroDTO.aprobadas=false;
+						vacacionesSolicitadasEnfermeroDTO.canceladas=false;
+						vacacionesSolicitadasEnfermeroDTO.esperando=true;
 						
-						lm = new ListaMedicos();
-						lm.creaListaMedicos();
-						for(int i=0; i<lm.getMedicos().size();i++) {
-							if(id_medico == lm.getMedicos().get(i).getIdMedico()) {
-								vacacionesSolicitadasMedicoDTO.nombreMedico = lm.getMedicos().get(i).getNombreMedico() + " " + lm.getMedicos().get(i).getApellidosMedico();
+						lm = new ListaEnfermeros();
+						lm.creaListaEnfermeros();
+						for(int i=0; i<lm.getEnfermeros().size();i++) {
+							if(id_enfermero == lm.getEnfermeros().get(i).getIdEnfermero()) {
+								vacacionesSolicitadasEnfermeroDTO.nombreMedico = lm.getEnfermeros().get(i).getNombreEnfermero() + " " + lm.getEnfermeros().get(i).getApellidosEnfermo();
 							}
 						}
 						
-						vacacionesSolicitadasMedico= new VacacionesSolicitadasMedico(vacacionesSolicitadasMedicoDTO);
+						vacacionesSolicitadasEnfermero= new VacacionesSolicitadasEnfermero(vacacionesSolicitadasEnfermeroDTO);
 						
-						crearVacacionesSolicitadasMedico.crearVacaciones(vacacionesSolicitadasMedico);
+						crearVacacionesSolicitadasEnfermero.crearVacaciones(vacacionesSolicitadasEnfermero);
 						
 						
 						textField.setText("");
@@ -302,9 +312,9 @@ public class PanelPedirVacaciones extends JPanel {
 	}
 	
 	private int generarIdVacaciones() {
-		ListaVacacionesSolicitadasMedico lc = new ListaVacacionesSolicitadasMedico();
+		ListaVacacionesSolicitadasEnfermero lc = new ListaVacacionesSolicitadasEnfermero();
 		lc.creaVacaciones();
-		return 4700 + lc.getVacacionesSolicitadas().size();
+		return 5000 + lc.getVacacionesSolicitadas().size();
 	}
 	
 	private JButton getBtnCancelar() {
@@ -347,9 +357,9 @@ public class PanelPedirVacaciones extends JPanel {
 
 	private int getDiasDispobibles() {
 		
-		findMedicos = new FindAllMedicos();	
-		medico = new Medico(findMedicos.diasDisponibles(id_medico));
-		return medico.getDiasDisponibles();
+		findEnfermeros = new FindAllEnfermeros();	
+		enfermero = new Enfermero(findEnfermeros.diasDisponibles(id_enfermero));
+		return enfermero.getDiasDisponibles();
 			
 	}
 }

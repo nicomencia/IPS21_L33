@@ -24,6 +24,9 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnComprobarVacacionesSolicitadas;
 	private JButton btnNewButton;
 	private JButton btnCrearEquipoMedico;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_1_1;
+	private JButton btnAsignarVacacionesSolicitadas;
 
 	
 	
@@ -63,6 +66,9 @@ public class PanelAdministrativo extends JPanel {
 			btnNewButton.setBounds(45, 135, 198, 38);
 			add(btnNewButton);
 			add(getBtnCrearEquipoMedico());
+			add(getBtnNewButton_1());
+			add(getBtnNewButton_1_1());
+			add(getBtnAsignarVacacionesSolicitadas());
 
 
 		
@@ -117,7 +123,7 @@ public class PanelAdministrativo extends JPanel {
 				}
 			});
 			btnAsignarJornadasMedicos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnAsignarJornadasMedicos.setBounds(227, 54, 235, 38);
+			btnAsignarJornadasMedicos.setBounds(227, 54, 241, 38);
 		}
 		return btnAsignarJornadasMedicos;
 	}
@@ -144,7 +150,7 @@ public class PanelAdministrativo extends JPanel {
 	
 	private JButton getBtnComprobarVacacionesSolicitadas() {
 		if (btnComprobarVacacionesSolicitadas == null) {
-			btnComprobarVacacionesSolicitadas = new JButton("Asignar vacaciones solicitadas");
+			btnComprobarVacacionesSolicitadas = new JButton("Asignar vacaciones solicitadas m\u00E9dico");
 			btnComprobarVacacionesSolicitadas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
@@ -156,7 +162,7 @@ public class PanelAdministrativo extends JPanel {
 				}
 			});
 			btnComprobarVacacionesSolicitadas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			btnComprobarVacacionesSolicitadas.setBounds(802, 54, 265, 38);
+			btnComprobarVacacionesSolicitadas.setBounds(45, 349, 393, 38);
 		}
 		return btnComprobarVacacionesSolicitadas;
 	}
@@ -200,5 +206,56 @@ public class PanelAdministrativo extends JPanel {
 		return btnCrearEquipoMedico;
 
 	}
-
+	private JButton getBtnNewButton_1() {
+		if (btnNewButton_1 == null) {
+			btnNewButton_1 = new JButton("Aumentar vacaciones m\u00E9dico");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelAumentarVacaciones panel = new PanelAumentarVacaciones(panelAdministrativo, panelContenido);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton_1.setBounds(484, 349, 300, 38);
+		}
+		return btnNewButton_1;
+	}
+	private JButton getBtnNewButton_1_1() {
+		if (btnNewButton_1_1 == null) {
+			btnNewButton_1_1 = new JButton("Aumentar vacaciones enfermero");
+			btnNewButton_1_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PanelAumentarVacacionesEnfermero panel = new PanelAumentarVacacionesEnfermero(panelAdministrativo, panelContenido);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnNewButton_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton_1_1.setBounds(484, 422, 300, 38);
+		}
+		return btnNewButton_1_1;
+	}
+	private JButton getBtnAsignarVacacionesSolicitadas() {
+		if (btnAsignarVacacionesSolicitadas == null) {
+			btnAsignarVacacionesSolicitadas = new JButton("Asignar vacaciones solicitadas enfermero");
+			btnAsignarVacacionesSolicitadas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					PanelSolicitudesVacacionesEnfermeroAdministrador panel = new PanelSolicitudesVacacionesEnfermeroAdministrador(panelAdministrativo, panelContenido, panelAdministrativo);
+					panelContenido.add(panel);
+					panelAdministrativo.setVisible(false);
+					panel.setVisible(true);
+					
+				}
+			});
+			btnAsignarVacacionesSolicitadas.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnAsignarVacacionesSolicitadas.setBounds(45, 422, 393, 38);
+		}
+		return btnAsignarVacacionesSolicitadas;
+	}
 }

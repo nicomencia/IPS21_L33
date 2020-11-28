@@ -8,7 +8,7 @@ import pgh.jdbc.Database;
 
 public class EditarEnfermeroCitas {
 	
-	private static String SQL = "UPDATE MEDICO_CITAS SET IDMEDICO = ? WHERE IDCITA = ? AND IDMEDICO = ?";
+	private static String SQL = "UPDATE ENFERMERO_CITAS SET IDENFERMERO = ? WHERE IDCITA = ? AND IDENFERMERO = ?";
 	Database db = new Database();
 		
 			
@@ -29,7 +29,7 @@ public class EditarEnfermeroCitas {
 					
 					int retorno =pst.executeUpdate();
 				
-					System.out.println("medicoCitas actualizado");
+					System.out.println("enfermeroCitas actualizado");
 				
 					c.close();
 					pst.close();

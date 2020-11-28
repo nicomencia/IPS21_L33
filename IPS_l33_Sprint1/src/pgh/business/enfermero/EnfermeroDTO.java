@@ -7,4 +7,5 @@ public class EnfermeroDTO {
 	public String apellidos;
 	public String especialidad;
 	public int idEquipoMedico;
+	public int diasDisponibles;
 }

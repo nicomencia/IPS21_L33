@@ -47,7 +47,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(507, 29, 294, 23);
+			this.setBounds(507, 35, 294, 19);
 			getDocument().addDocumentListener(this);
 		}
 
