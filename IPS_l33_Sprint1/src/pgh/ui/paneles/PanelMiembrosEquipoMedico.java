@@ -98,7 +98,7 @@ public class PanelMiembrosEquipoMedico extends JPanel {
 	private MedicoCita medicoCita;
 	private MedicoCitaDTO medicoCitaDTO;
 	private CrearMedicoCita crearMedicoCita;
-	private PanelCitas panelAnterior;
+	private JPanel panelAnterior;
 	private JTextField textFieldMedicos;
 	private JTextField textFieldpacientes;
 	private JPanel panelcita;
@@ -112,16 +112,27 @@ public class PanelMiembrosEquipoMedico extends JPanel {
 	private JCheckBox chckbxAnadirTodosMed;
 	private JLabel lblEnfermeros;
 	private JCheckBox chckbxAnadirTodosEnf;
+	private int tipoPanelAnterior;
 
 	public PanelMiembrosEquipoMedico(PanelCitas panelAnterior, JPanel panelContenido, int idEquipoMedico) {
+		this.tipoPanelAnterior = 1;
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
 		this.idEquipoMedico = idEquipoMedico;
 		panelcita = this;
-		getPanelCitas();
+		getPanelMiembrosEquipoMedico();
 	}
 
-	private void getPanelCitas() {
+	public PanelMiembrosEquipoMedico(PanelCitasPropuestas panelAnterior, JPanel panelContenido, int idEquipoMedico) {
+		this.tipoPanelAnterior = 2;
+		this.panelAnterior = panelAnterior;
+		this.panelContenido = panelContenido;
+		this.idEquipoMedico = idEquipoMedico;
+		panelcita = this;
+		getPanelMiembrosEquipoMedico();
+	}
+
+	private void getPanelMiembrosEquipoMedico() {
 
 		this.setBackground(new Color(135, 206, 235));
 		this.setLayout(null);
@@ -293,20 +304,40 @@ public class PanelMiembrosEquipoMedico extends JPanel {
 			btnCrearEquipo.setFocusable(false);
 			btnCrearEquipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					if (tipoPanelAnterior == 1) {
 						
 						for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
 							Medico m = modeloListMedicosAnadidos.getElementAt(i);
-							panelAnterior.anadirMiembrosEquipoMedico(m);
+							((PanelCitas) panelAnterior).anadirMiembrosEquipoMedico(m);
 						}
 						
 						for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
 							Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
-							panelAnterior.anadirMiembrosEquipoEnfermero(enf);
+							((PanelCitas) panelAnterior).anadirMiembrosEquipoEnfermero(enf);
 						}
 						
 						panelcita.setVisible(false);
 						panelAnterior.setVisible(true);
 					}
+					
+					if (tipoPanelAnterior == 2) {
+						
+						for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
+							Medico m = modeloListMedicosAnadidos.getElementAt(i);
+							((PanelCitasPropuestas) panelAnterior).anadirMiembrosEquipoMedico(m);
+						}
+						
+						for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
+							Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
+							((PanelCitasPropuestas) panelAnterior).anadirMiembrosEquipoEnfermero(enf);
+						}
+						
+						panelcita.setVisible(false);
+						panelAnterior.setVisible(true);
+					}
+					
+				}
 				}
 			);
 			btnCrearEquipo.setFont(new Font("Tahoma", Font.PLAIN, 20));
