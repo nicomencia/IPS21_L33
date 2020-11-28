@@ -51,7 +51,7 @@ public class FindAllJornadasMedico {
 		}
 		
 		
-public List<JornadaMedicoDTO> FindIdMedico( int idMedico) {
+		public List<JornadaMedicoDTO> FindIdMedico( int idMedico) {
 			
 			
 			List<JornadaMedicoDTO> jornadasMedico = new ArrayList<JornadaMedicoDTO>();

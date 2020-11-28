@@ -10,17 +10,18 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import pgh.business.enfermero.Enfermero;
 import pgh.business.medico.Medico;
 
 
 
 
-public class JListFiltroMedicoCitasAsignarVacaciones extends JList {
+public class JListFiltroEnfermeroCitasAsignarVacaciones extends JList {
 	
 private TextoFiltro texto;
 	
 
-	public JListFiltroMedicoCitasAsignarVacaciones(DefaultListModel<Medico> model) {
+	public JListFiltroEnfermeroCitasAsignarVacaciones(DefaultListModel<Enfermero> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {

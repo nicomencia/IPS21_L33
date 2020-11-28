@@ -31,6 +31,10 @@ public class Enfermero {
 		return m.idEquipoMedico;
 	}
 	
+	public int getDiasDisponibles() {
+		return m.diasDisponibles;
+	}
+	
 	public String toString() {
 		
 		StringBuilder s = new StringBuilder();

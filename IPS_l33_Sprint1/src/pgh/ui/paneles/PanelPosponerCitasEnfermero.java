@@ -1,4 +1,4 @@
-package pgh.ui.paneles;
+	package pgh.ui.paneles;
 
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import pgh.business.cita.CitaDTO;
 import pgh.business.cita.EditarCita;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermero;
 import pgh.ui.paneles.filtros.JListFiltroPosponerCita;
 
 import javax.swing.DefaultListModel;
@@ -29,7 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
 
-public class PanelPosponerCitas extends JPanel {
+public class PanelPosponerCitasEnfermero extends JPanel {
 	private JScrollPane scrollPane;
 	private JLabel lblNewLabel;
 	private JDateChooser dateChooserFechaNueva;
@@ -44,10 +45,10 @@ public class PanelPosponerCitas extends JPanel {
 	private JTextField textField;
 	private JListFiltroPosponerCita listCitasAAsignar;
 	private JList listCitaSeleccionada;
-	private VacacionesSolicitadasMedico VacacioneSolicitadas;
+	private VacacionesSolicitadasEnfermero VacacioneSolicitadas;
 	private DefaultListModel<Cita> modeloCita;
 	private DefaultListModel<Cita> modeloCitaSeleccionada;
-	private DefaultListModel<VacacionesSolicitadasMedico> modeloVacaciones;
+	private DefaultListModel<VacacionesSolicitadasEnfermero> modeloVacaciones;
 	private FindAllCitas findCitas;
 	private Cita cita;
 	private JPanel panelAnterior;
@@ -59,7 +60,7 @@ public class PanelPosponerCitas extends JPanel {
 	
 	
 	
-	public PanelPosponerCitas(JPanel panelAnterior , JPanel panelContenido, VacacionesSolicitadasMedico v, JPanel panelCambiar) {
+	public PanelPosponerCitasEnfermero(JPanel panelAnterior , JPanel panelContenido, VacacionesSolicitadasEnfermero v, JPanel panelCambiar) {
 		
 		setBackground(new Color(135, 206, 235));
 		setBounds(100, 100, 1129, 545);
@@ -199,6 +200,7 @@ public class PanelPosponerCitas extends JPanel {
 							
 
 						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						
@@ -207,13 +209,17 @@ public class PanelPosponerCitas extends JPanel {
 						
 //						modeloCita.removeAllElements();
 //						llenarCita();
-						PanelPosponerCitas panel= new PanelPosponerCitas(panelPorponerCitas, panelContenido, VacacioneSolicitadas, panelcambiar);
+						PanelPosponerCitasEnfermero panel= new PanelPosponerCitasEnfermero(panelPorponerCitas, panelContenido, VacacioneSolicitadas, panelcambiar);
 						panelContenido.add(panel);
 						panelPorponerCitas.setVisible(false);
 						panel.setVisible(true);
-						
 					}
-
+					
+					
+					
+					
+					
+					
 				}	
 					
 				
@@ -228,7 +234,7 @@ public class PanelPosponerCitas extends JPanel {
 			btnCancelar = new JButton("Cancelar");
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					PanelTratarSolicitudesVacaciones panel = new PanelTratarSolicitudesVacaciones(panelPorponerCitas, VacacioneSolicitadas, panelcambiar, panelContenido);
+					PanelTratarSolicitudesVacacionesEnfermero panel = new PanelTratarSolicitudesVacacionesEnfermero(panelPorponerCitas, VacacioneSolicitadas, panelcambiar, panelContenido);
 					panelContenido.add(panel);
 					panelPorponerCitas.setVisible(false);
 					panel.setVisible(true);
@@ -280,7 +286,7 @@ public class PanelPosponerCitas extends JPanel {
 	
 	private JList getListVacacionesSolicitadas() {
 		if (listVacacionesSolicitadas == null) {
-			modeloVacaciones = new DefaultListModel<VacacionesSolicitadasMedico>();
+			modeloVacaciones = new DefaultListModel<VacacionesSolicitadasEnfermero>();
 			llenarVacaciones();
 			listVacacionesSolicitadas = new JList(modeloVacaciones);
 		}
@@ -298,7 +304,7 @@ public class PanelPosponerCitas extends JPanel {
 
 		findCitas = new FindAllCitas();
 		
-		for(CitaDTO c : findCitas.FindCitaIdMedico(modeloVacaciones.getElementAt(0).getIdMedico())) {
+		for(CitaDTO c : findCitas.FindCitaIdEnfermero(modeloVacaciones.getElementAt(0).getIdMedico())) {
 
 					if(modeloVacaciones.getElementAt(0).getFechaInicio().before(c.fecha) || modeloVacaciones.getElementAt(0).getFechaInicio().equals(c.fecha) || modeloVacaciones.getElementAt(0).getFechaFin().equals(c.fecha) ) {
 						if(modeloVacaciones.getElementAt(0).getFechaFin().after(c.fecha)) {

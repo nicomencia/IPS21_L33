@@ -1,7 +1,6 @@
 package pgh.ui.paneles.filtros;
 
 import java.util.ArrayList;
-
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -10,17 +9,16 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import pgh.business.enfermeroSustituto.EnfermeroSustituto;
 import pgh.business.medico.Medico;
+import pgh.business.medicoSustituto.MedicoSustituto;
 
+public class JListFiltroEnfermeroSustitutosAsignarCitas extends JList {
 
-
-
-public class JListFiltroMedicoCitasAsignarVacaciones extends JList {
-	
-private TextoFiltro texto;
+	private TextoFiltro texto;
 	
 
-	public JListFiltroMedicoCitasAsignarVacaciones(DefaultListModel<Medico> model) {
+	public JListFiltroEnfermeroSustitutosAsignarCitas(DefaultListModel<EnfermeroSustituto> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -47,7 +45,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(507, 35, 294, 19);
+			this.setBounds(507, 264, 294, 23);
 			getDocument().addDocumentListener(this);
 		}
 
@@ -101,5 +99,4 @@ private TextoFiltro texto;
 			}
 		}
 	}
-
 }

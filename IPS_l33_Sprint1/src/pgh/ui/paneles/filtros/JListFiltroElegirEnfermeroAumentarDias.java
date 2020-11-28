@@ -10,17 +10,16 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import pgh.business.enfermero.Enfermero;
 import pgh.business.medico.Medico;
 
 
-
-
-public class JListFiltroMedicoCitasAsignarVacaciones extends JList {
+public class JListFiltroElegirEnfermeroAumentarDias extends JList {
 	
 private TextoFiltro texto;
 	
 
-	public JListFiltroMedicoCitasAsignarVacaciones(DefaultListModel<Medico> model) {
+	public JListFiltroElegirEnfermeroAumentarDias(DefaultListModel<Enfermero> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -47,7 +46,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(507, 35, 294, 19);
+			this.setBounds(65, 54, 384, 20);
 			getDocument().addDocumentListener(this);
 		}
 
@@ -101,5 +100,6 @@ private TextoFiltro texto;
 			}
 		}
 	}
+
 
 }

@@ -15,13 +15,17 @@ import pgh.business.vacacionesSolicitadas.ListaVacacionesSolicitadasMedico;
 import pgh.business.enfermero.ListaEnfermeros;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedico;
 import pgh.business.vacacionesSolicitadas.VacacionesSolicitadasMedicoDTO;
+import pgh.business.vacacionesSolicitadasEnfermero.FindAllVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.ListaVacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermero;
+import pgh.business.vacacionesSolicitadasEnfermero.VacacionesSolicitadasEnfermeroDTO;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class PanelComprobarSolicitudVacaciones extends JPanel {
+public class PanelComprobarSolicitudVacacionesEnfermero extends JPanel {
 	
 	private JPanel panelAnterior;
 	private JScrollPane scrollPane;
@@ -29,17 +33,17 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 	private JLabel lblNewLabel;
 	private JButton btnVolver;
 	private DefaultListModel<String> modeloVacacioneSolicitadas;
-	private ListaVacacionesSolicitadasMedico lvs;
-	private FindAllVacacionesSolicitadasMedico findAllVacacionesSolicitadas;
-	private VacacionesSolicitadasMedicoDTO vsmDTO;
-	private FindAllVacacionesSolicitadasMedico findAllVacacionesSolicitadas2;
-	private VacacionesSolicitadasMedicoDTO vsmDTO2;
-	private int id_medico;
+	private ListaVacacionesSolicitadasEnfermero lvs;
+	private FindAllVacacionesSolicitadasEnfermero findAllVacacionesSolicitadas;
+	private VacacionesSolicitadasEnfermeroDTO vsmDTO;
+	private FindAllVacacionesSolicitadasEnfermero findAllVacacionesSolicitadas2;
+	private VacacionesSolicitadasEnfermeroDTO vsmDTO2;
+	private int id_enfermero;
 	
-	public PanelComprobarSolicitudVacaciones(JPanel panelAnterior, int idmedico) {
+	public PanelComprobarSolicitudVacacionesEnfermero(JPanel panelAnterior, int idEnfermero) {
 		
 		this.panelAnterior=panelAnterior;
-		this.id_medico=idmedico;
+		this.id_enfermero=idEnfermero;
 		setBackground(new Color(135, 206, 235));
 		setBounds(100, 100, 1129, 600);
 		setLayout(null);
@@ -66,14 +70,14 @@ public class PanelComprobarSolicitudVacaciones extends JPanel {
 	
 	private void llenarLista() {
 		
-		findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasMedico();
-		vsmDTO= new VacacionesSolicitadasMedicoDTO();
+		findAllVacacionesSolicitadas = new FindAllVacacionesSolicitadasEnfermero();
+		vsmDTO= new VacacionesSolicitadasEnfermeroDTO();
 		
-		if(findAllVacacionesSolicitadas.FindIdMedico(id_medico).size()>0) {
-			for(VacacionesSolicitadasMedicoDTO va : findAllVacacionesSolicitadas.FindIdMedico(id_medico)) {
+		if(findAllVacacionesSolicitadas.FindIdMedico(id_enfermero).size()>0) {
+			for(VacacionesSolicitadasEnfermeroDTO va : findAllVacacionesSolicitadas.FindIdMedico(id_enfermero)) {
 				
 				vsmDTO=va;
-				VacacionesSolicitadasMedico v = new VacacionesSolicitadasMedico(vsmDTO);
+				VacacionesSolicitadasEnfermero v = new VacacionesSolicitadasEnfermero(vsmDTO);
 				modeloVacacioneSolicitadas.addElement(v.toString());
 			
 			}

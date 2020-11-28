@@ -10,17 +10,18 @@ import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import pgh.business.cita.Cita;
 import pgh.business.medico.Medico;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.Filtro;
+import pgh.ui.paneles.filtros.JListFitroMedicosCita.TextoFiltro;
 
 
-
-
-public class JListFiltroMedicoCitasAsignarVacaciones extends JList {
+public class JListFiltroPanelCitaAsignarCitasVacacionesEnfermero extends JList {
 	
 private TextoFiltro texto;
 	
 
-	public JListFiltroMedicoCitasAsignarVacaciones(DefaultListModel<Medico> model) {
+	public JListFiltroPanelCitaAsignarCitasVacacionesEnfermero(DefaultListModel<Cita> model) {
 		texto = new TextoFiltro();
 		Filtro filtro = new Filtro();
 		for(int i=0; i< model.getSize(); i++) {
@@ -47,7 +48,7 @@ private TextoFiltro texto;
 
 	class TextoFiltro extends JTextField implements DocumentListener {
 		public TextoFiltro() {
-			this.setBounds(507, 35, 294, 19);
+			this.setBounds(39, 29, 412, 23);
 			getDocument().addDocumentListener(this);
 		}
 
@@ -101,5 +102,6 @@ private TextoFiltro texto;
 			}
 		}
 	}
+
 
 }

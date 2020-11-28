@@ -7,11 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import pgh.business.medico.MedicoDTO;
 import pgh.jdbc.Database;
 
 public class FindAllEnfermeros {
 
 	private static String SQL = "select idEnfermero, nombre, apellidos, especialidad, idEquipo_Medico from Enfermero";
+	private static String SQL2 = "select diasdisponibles from Enfermero where idEnfermero = ? ";
 	
 	Database db = new Database();
 	
@@ -46,5 +48,35 @@ public class FindAllEnfermeros {
 			}
 			return enfermeros;
 		}
+		
+
+		public EnfermeroDTO diasDisponibles(int id) {
+			Connection c = null;
+			PreparedStatement pst = null;
+			ResultSet rs = null;
+			EnfermeroDTO medico = null;
+	
+			try {
+				c = db.getConnection();
+				
+				pst = c.prepareStatement(SQL2);
+				pst.setInt(1, id);
+				rs = pst.executeQuery();
+				rs.next();
+				
+				medico = new EnfermeroDTO();
+				medico.diasDisponibles = rs.getInt("diasdisponibles");
+				
+				
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				db.close(rs, pst, c);
+			}
+			
+			return medico;
+		}
+	
 	
 }

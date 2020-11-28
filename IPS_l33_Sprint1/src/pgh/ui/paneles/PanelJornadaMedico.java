@@ -209,89 +209,105 @@ public class PanelJornadaMedico extends JPanel  {
 			btnCrearJornadaMedico = new JButton("Crear jornada");
 			btnCrearJornadaMedico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
-					String dias="";
-					int horaInicio = (int) spinnerHoraInicioJornadamedico.getValue();
-					int horaFin = (int) spinnerHoraFinJornadamedico.getValue();
-					int minutos1Inicio = (int) spinnerMinutosInicioJornadamedico.getValue();
-					int minutos2Inicio = (int) spinnerMinutosInicioJornadamedico2.getValue();
-					int minutos1Fin = (int) spinnerMinutosFinJornadamedico_1.getValue();
-					int minutos2Fin = (int) spinnerMinutosFinJornadamedico2.getValue();
-						
-					if (comprobarCorrecto(horaInicio, horaFin, minutos1Inicio, minutos2Inicio, minutos1Fin,
-							minutos2Fin)) {
-
-						crearJornadaMedico = new CrearJornadaMedico();
-						jornadaMedicoDTO = new JornadaMedicoDTO();
-						jornadaMedicoDTO.idJornadaMedico = generarIdJornadaMedico();
-						jornadaMedicoDTO.diaInicio = dateChooserFechaInicioJornadaMedico.getDate();
-						jornadaMedicoDTO.diaFin = dateChooserFechaFinJornadaMedico.getDate();
-						for (int i = 0; i < modeloListDiasSeleccionadosJornadaMedico.getSize(); i++) {
-							if(i== modeloListDiasSeleccionadosJornadaMedico.getSize()-1) {
-								dias = dias + modeloListDiasSeleccionadosJornadaMedico.getElementAt(i).toString();
-							}
-							else {
-								dias = dias + modeloListDiasSeleccionadosJornadaMedico.getElementAt(i).toString() + ", ";
-							}
-							
-						} 
-						
-						jornadaMedicoDTO.dias = dias;
 					
+					if(modeloListMedicosSeleccionadosJornada.isEmpty()) {
+						JOptionPane.showMessageDialog(getBtnCrearJornadaMedico(), "No has seleccionado ningun medico");
+					}
+					else {
+						
+						if(modeloListDiasSeleccionadosJornadaMedico.isEmpty()) {
+							JOptionPane.showMessageDialog(getBtnCrearJornadaMedico(), "No has seleccionado ningun dia");
+						}
+						else {
+							String dias="";
+							int horaInicio = (int) spinnerHoraInicioJornadamedico.getValue();
+							int horaFin = (int) spinnerHoraFinJornadamedico.getValue();
+							int minutos1Inicio = (int) spinnerMinutosInicioJornadamedico.getValue();
+							int minutos2Inicio = (int) spinnerMinutosInicioJornadamedico2.getValue();
+							int minutos1Fin = (int) spinnerMinutosFinJornadamedico_1.getValue();
+							int minutos2Fin = (int) spinnerMinutosFinJornadamedico2.getValue();
+								
+							if (comprobarCorrecto(horaInicio, horaFin, minutos1Inicio, minutos2Inicio, minutos1Fin,
+									minutos2Fin)) {
 
-						String hora1 = horaInicio + "";
-						String hora2 = horaFin + "";
-						String minutos1 = minutos1Inicio + "";
-						String minutos2 = minutos2Inicio + "";
-						String minutos3 = minutos1Fin + "";
-						String minutos4 = minutos2Fin + "";
-						String horaInicial = hora1 + ":" + minutos1 + minutos2;
-						String horaFinal = hora2 + ":" + minutos3 + minutos4;
+								crearJornadaMedico = new CrearJornadaMedico();
+								jornadaMedicoDTO = new JornadaMedicoDTO();
+								jornadaMedicoDTO.idJornadaMedico = generarIdJornadaMedico();
+								jornadaMedicoDTO.diaInicio = dateChooserFechaInicioJornadaMedico.getDate();
+								jornadaMedicoDTO.diaFin = dateChooserFechaFinJornadaMedico.getDate();
+								for (int i = 0; i < modeloListDiasSeleccionadosJornadaMedico.getSize(); i++) {
+									if(i== modeloListDiasSeleccionadosJornadaMedico.getSize()-1) {
+										dias = dias + modeloListDiasSeleccionadosJornadaMedico.getElementAt(i).toString();
+									}
+									else {
+										dias = dias + modeloListDiasSeleccionadosJornadaMedico.getElementAt(i).toString() + ", ";
+									}
+									
+								} 
+								
+								jornadaMedicoDTO.dias = dias;
+							
 
-						jornadaMedicoDTO.horaInicio = horaInicial;
-						jornadaMedicoDTO.horaFin = horaFinal;
-						
-						jornadaMedicoDTO.idMedico= modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico();
-						
-						jornadaMedico= new JornadaMedico(jornadaMedicoDTO);
-						
-						crearJornadaMedico.crearJornadaMedico(jornadaMedico);
-						
-						editarDias = new EditarDiasVacaciones();
-						
-						if(rdbtnManualmente.isSelected()) {
-							editarDias.actualizar((int) spinnerDias.getValue(), modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+								String hora1 = horaInicio + "";
+								String hora2 = horaFin + "";
+								String minutos1 = minutos1Inicio + "";
+								String minutos2 = minutos2Inicio + "";
+								String minutos3 = minutos1Fin + "";
+								String minutos4 = minutos2Fin + "";
+								String horaInicial = hora1 + ":" + minutos1 + minutos2;
+								String horaFinal = hora2 + ":" + minutos3 + minutos4;
+
+								jornadaMedicoDTO.horaInicio = horaInicial;
+								jornadaMedicoDTO.horaFin = horaFinal;
+								
+								jornadaMedicoDTO.idMedico= modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico();
+								
+								jornadaMedico= new JornadaMedico(jornadaMedicoDTO);
+								
+								crearJornadaMedico.crearJornadaMedico(jornadaMedico);
+								
+								editarDias = new EditarDiasVacaciones();
+								
+								if(rdbtnManualmente.isSelected()) {
+									editarDias.actualizar((int) spinnerDias.getValue() + modeloListMedicosSeleccionadosJornada.getElementAt(0).getDiasDisponibles(), modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+								}
+								
+								if(rdbtnAutomaticamente.isSelected()) {
+									
+									Date fechaInicio = dateChooserFechaInicioJornadaMedico.getDate();
+									Date fechaFin = dateChooserFechaFinJornadaMedico.getDate();
+
+									int milisecondsByDay = 86400000;
+									int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
+									
+									double diasVacaciones = (diass/30) * 2.5;
+									int diaaaaas = (int) diasVacaciones + modeloListMedicosSeleccionadosJornada.getElementAt(0).getDiasDisponibles() ; 
+									
+									
+									editarDias.actualizar(diaaaaas, modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
+									
+
+								}
+								
+								closePanel();
+								
+								spinnerHoraInicioJornadamedico.setValue(0);;
+								spinnerHoraFinJornadamedico.setValue(0);
+								spinnerMinutosInicioJornadamedico.setValue(0);
+								spinnerMinutosInicioJornadamedico2.setValue(0);
+								spinnerMinutosFinJornadamedico_1.setValue(0);
+								spinnerMinutosFinJornadamedico2.setValue(0);
+								
+								
+								modeloListMedicosSeleccionadosJornada.removeAllElements();
+								modeloListDiasSeleccionadosJornadaMedico.removeAllElements();
 						}
 						
-						if(rdbtnAutomaticamente.isSelected()) {
-							
-							Date fechaInicio = dateChooserFechaInicioJornadaMedico.getDate();
-							Date fechaFin = dateChooserFechaFinJornadaMedico.getDate();
+						
+						
+					}
 
-							int milisecondsByDay = 86400000;
-							int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
-							
-							double diasVacaciones = (diass/30) * 2.5;
-							int diaaaaas = (int) diasVacaciones;
-							
-							
-							editarDias.actualizar(diaaaaas, modeloListMedicosSeleccionadosJornada.getElementAt(0).getIdMedico());
-							
-
-						}
-						
-						closePanel();
-						
-						spinnerHoraInicioJornadamedico.setValue(0);;
-						spinnerHoraFinJornadamedico.setValue(0);
-						spinnerMinutosInicioJornadamedico.setValue(0);
-						spinnerMinutosInicioJornadamedico2.setValue(0);
-						spinnerMinutosFinJornadamedico_1.setValue(0);
-						spinnerMinutosFinJornadamedico2.setValue(0);
-						
-						
-						modeloListMedicosSeleccionadosJornada.removeAllElements();
-						modeloListDiasSeleccionadosJornadaMedico.removeAllElements();
+					
 						
 
 					}
