@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -20,6 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import pgh.business.cie10.Nodo;
+import pgh.business.cie10.NodoMayor;
+import pgh.business.cie10.ReadFile;
 import pgh.business.cita.Cita;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.cita.ListaCitas;
@@ -93,7 +97,8 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnNewButton;
 	private JButton btnComprobarVacacionesSolicitadas;
 	private JButton btnAuditor;
-	
+	private List<NodoMayor> nodos;
+	private NodoMayor raiz;
 
 
 	/**
@@ -117,6 +122,9 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		
+		raiz = new NodoMayor();
+		nodos = raiz.getNodos();
 		setResizable(false);
 		setTitle("Gestor Hospital");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

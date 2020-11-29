@@ -2,12 +2,14 @@ package pgh.ui.paneles;
 
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
+import pgh.business.diagnostico.DiagnosticoDTO;
 import pgh.business.equipomedico.EquipoMedico;
 import pgh.business.equipomedico.EquipoMedicoDTO;
 import pgh.business.equipomedico.FindAllEquiposMedicos;
@@ -24,6 +26,8 @@ import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.UbicacionDTO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 public class PanelCita extends JPanel {
 	private JLabel lblPaciente;
@@ -59,11 +63,21 @@ public class PanelCita extends JPanel {
 	private JLabel lblEquipoMedico;
 	private JButton btnIndicarPrescripcion;
 	private JButton btnAntecedentesClinicos;
+	private JButton btnHacerDiagnstico;
+	private JList listDiagnosticos;
+	private JScrollPane scrollPane;
+	private List<DiagnosticoDTO> diagnosticos;
+	private DefaultListModel<DiagnosticoDTO> modeloListaDiagnosticos = new DefaultListModel<DiagnosticoDTO>();
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita) {
+	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
+		this.diagnosticos = diagnosticos;
+		if(diagnosticos!=null)
+		{
+			añadirDiagnosticosAlModelo();
+		}
 		fM = new FindAllEquiposMedicos();
 		equipo = fM.execute();
 		this.panelAnterior = panelAnterior;
@@ -98,9 +112,20 @@ public class PanelCita extends JPanel {
 		add(getLblEquipoMedico());
 		add(getBtnIndicarPrescripcion());
 		add(getBtnAntecedentesClinicos());
+		add(getBtnHacerDiagnstico());
+		add(getScrollPane());
 		
 	}
 	
+	private void añadirDiagnosticosAlModelo() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<diagnosticos.size();i++)
+		{
+			modeloListaDiagnosticos.addElement(diagnosticos.get(i));
+		}
+		
+	}
+
 	private String getEquipoMedicos(MedicoDTO medico) {
 		String devolver ="";
 		for(int i=0;i<equipo.size();i++)
@@ -165,7 +190,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLblPaciente() {
 		if (lblPaciente == null) {
 			lblPaciente = new JLabel("Paciente:");
-			lblPaciente.setBounds(134, 172, 81, 20);
+			lblPaciente.setBounds(134, 107, 81, 20);
 		}
 		return lblPaciente;
 	}
@@ -173,21 +198,21 @@ public class PanelCita extends JPanel {
 		if (labelNombreApellidosPaciente == null) {
 			labelNombreApellidosPaciente = new JLabel("");
 			labelNombreApellidosPaciente.setText(paciente.nombre + " " + paciente.apellidos);
-			labelNombreApellidosPaciente.setBounds(225, 172, 295, 20);
+			labelNombreApellidosPaciente.setBounds(225, 107, 295, 20);
 		}
 		return labelNombreApellidosPaciente;
 	}
 	private JLabel getLblMedicos() {
 		if (lblMedicos == null) {
 			lblMedicos = new JLabel("Medicos:");
-			lblMedicos.setBounds(134, 250, 81, 20);
+			lblMedicos.setBounds(134, 138, 81, 20);
 		}
 		return lblMedicos;
 	}
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField(medico.nombre + " " + medico.apellidos);
-			textField.setBounds(225, 250, 237, 20);
+			textField.setBounds(225, 138, 237, 20);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -291,7 +316,7 @@ public class PanelCita extends JPanel {
 	private JLabel getLblEquipoDelMdico() {
 		if (lblEquipoDelMdico == null) {
 			lblEquipoDelMdico = new JLabel("Equipo del M\u00E9dico:");
-			lblEquipoDelMdico.setBounds(134, 318, 108, 17);
+			lblEquipoDelMdico.setBounds(134, 169, 108, 17);
 		}
 		return lblEquipoDelMdico;
 	}
@@ -332,8 +357,37 @@ public class PanelCita extends JPanel {
 		if (lblEquipoMedico == null) {
 			lblEquipoMedico = new JLabel("");
 			lblEquipoMedico.setText(getEquipoMedicos(medico));
-			lblEquipoMedico.setBounds(252, 318, 210, 17);
+			lblEquipoMedico.setBounds(252, 169, 210, 17);
 		}
 		return lblEquipoMedico;
+	}
+	private JButton getBtnHacerDiagnstico() {
+		if (btnHacerDiagnstico == null) {
+			btnHacerDiagnstico = new JButton("Hacer Diagn\u00F3stico");
+			btnHacerDiagnstico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PanelDiagnósticos panel = new PanelDiagnósticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos);
+					panelContenido.add(panel);
+					estePanel.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnHacerDiagnstico.setBounds(341, 471, 179, 28);
+		}
+		return btnHacerDiagnstico;
+	}
+	private JList getListDiagnosticos() {
+		if (listDiagnosticos == null) {
+			listDiagnosticos = new JList(modeloListaDiagnosticos);
+		}
+		return listDiagnosticos;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(134, 329, 386, 109);
+			scrollPane.setViewportView(getListDiagnosticos());
+		}
+		return scrollPane;
 	}
 }
