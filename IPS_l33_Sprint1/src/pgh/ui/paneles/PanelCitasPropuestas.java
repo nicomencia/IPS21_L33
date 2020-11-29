@@ -37,11 +37,18 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.CrearCitas;
 import pgh.business.cita.ListaCitas;
+import pgh.business.citaPropuesta.CitaPropuesta;
+import pgh.business.citaPropuesta.CitaPropuestaDTO;
+import pgh.business.citaPropuesta.CrearCitasPropuestas;
+import pgh.business.citaPropuesta.ListaCitasPropuestas;
 import pgh.business.enfermero.Enfermero;
 import pgh.business.enfermero.ListaEnfermeros;
 import pgh.business.enfermeroCita.CrearEnfermeroCita;
 import pgh.business.enfermeroCita.EnfermeroCita;
 import pgh.business.enfermeroCita.EnfermeroCitaDTO;
+import pgh.business.enfermeroCitaPropuesta.CrearEnfermeroCitaPropuesta;
+import pgh.business.enfermeroCitaPropuesta.EnfermeroCitaPropuesta;
+import pgh.business.enfermeroCitaPropuesta.EnfermeroCitaPropuestaDTO;
 import pgh.business.horario.CrearHorario;
 import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
@@ -51,6 +58,9 @@ import pgh.business.equipomedico.ListaEquiposMedicos;
 
 import pgh.business.medico.ListaMedicos;
 import pgh.business.medico.Medico;
+import pgh.business.medicoCitaPropuesta.CrearMedicoCitaPropuesta;
+import pgh.business.medicoCitaPropuesta.MedicoCitaPropuesta;
+import pgh.business.medicoCitaPropuesta.MedicoCitaPropuestaDTO;
 import pgh.business.medicocita.CrearMedicoCita;
 import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.medicocita.MedicoCita;
@@ -84,10 +94,10 @@ public class PanelCitasPropuestas extends JPanel {
 	private JCheckBox chckbxUrgente;
 	private DefaultListModel<Medico> modeloListMedicosAnadidos;
 	private DefaultListModel<Enfermero> modeloListEnfermerosAnadidos;
-	private CitaDTO citaDTO;
-	private Cita cita;
-	private CrearCitas crearCitas;
-	private ListaCitas lc;
+	private CitaPropuestaDTO citaDTO;
+	private CitaPropuesta cita;
+	private CrearCitasPropuestas crearCitas;
+	private ListaCitasPropuestas lc;
 	private JButton btnAnadirPacienteListaCita;
 	private JListFiltroPacientesCita listPacientesCita;
 	private DefaultComboBoxModel<Ubicacion> modeloComboUbicacionesCita;
@@ -129,12 +139,12 @@ public class PanelCitasPropuestas extends JPanel {
 	private JComboBox comboBoxMesCita;
 	private JComboBox comboBoxFechaDia;
 	private JComboBox comboBoxDiaDia;
-	private MedicoCita medicoCita;
-	private MedicoCitaDTO medicoCitaDTO;
-	private EnfermeroCita enfermeroCita;
-	private EnfermeroCitaDTO enfermeroCitaDTO;
-	private CrearEnfermeroCita crearEnfermeroCita;
-	private CrearMedicoCita crearMedicoCita;
+	private MedicoCitaPropuesta medicoCita;
+	private MedicoCitaPropuestaDTO medicoCitaDTO;
+	private EnfermeroCitaPropuesta enfermeroCita;
+	private EnfermeroCitaPropuestaDTO enfermeroCitaDTO;
+	private CrearEnfermeroCitaPropuesta crearEnfermeroCita;
+	private CrearMedicoCitaPropuesta crearMedicoCita;
 	private JPanel panelAnterior;
 	private JTextField textFieldMedicos;
 	private JTextField textFieldpacientes;
@@ -777,18 +787,19 @@ public class PanelCitasPropuestas extends JPanel {
 
 	private JButton getBtnCrearCita() {
 		if (btnCrearCita == null) {
-			btnCrearCita = new JButton("Crear Cita");
+			btnCrearCita = new JButton("Proponer Cita");
 			btnCrearCita.setFocusable(false);
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					boolean vacaciones =false;
-					lc = new ListaCitas();
-					lc.creaListaCitas();
-					crearCitas = new CrearCitas();
-					citaDTO = new CitaDTO();
+					boolean vacacionesMedico = false;
+					boolean vacacionesEnfermero = false;
+					lc = new ListaCitasPropuestas();
+					lc.creaListaCitasPropuesta();
+					crearCitas = new CrearCitasPropuestas();
+					citaDTO = new CitaPropuestaDTO();
 
-					citaDTO.idCita = generarIdCita();
+					citaDTO.idCitaPropuesta = generarIdCita();
 
 					Paciente paciente = (Paciente) listPacientesCita.getSelectedValue();
 					int idPaciente = paciente.getIdPaciente();
@@ -805,8 +816,6 @@ public class PanelCitasPropuestas extends JPanel {
 					}
 					
 
-					citaDTO.asistencia = false;
-
 					if (chckbxUrgente.isSelected()) {
 						citaDTO.urgente = true;
 					} else
@@ -821,327 +830,122 @@ public class PanelCitasPropuestas extends JPanel {
 					int idUbicacion = ubicacion.getIdUbicacion();
 					citaDTO.idUbicacion = idUbicacion;
 
-					if (comprobarDisponibilidad(idUbicacion, idHorario, date)) {
-						int a = JOptionPane.showConfirmDialog(new JPanel(),
-								"La ubicacion esta ocupada durante esa franja horaria, ¿quiere crear la cita igualmente?");
+					citaDTO.pendienteAprobacion = true;
 
-						if (a == JOptionPane.OK_OPTION) {
+					citaDTO.idMedicoProponer = idmedicopropone;
+					
+					if (modeloListMedicosAnadidos.getSize()!=0) {
+
+						for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
+
+							medicoCitaDTO = new MedicoCitaPropuestaDTO();
+
+							medicoCitaDTO.idCitaPropuesta = citaDTO.idCitaPropuesta;
+							Medico m = modeloListMedicosAnadidos.getElementAt(i);
+							medicoCitaDTO.idMedico = m.getIdMedico();
+
+							medicoCita = new MedicoCitaPropuesta(medicoCitaDTO);
+							crearMedicoCita = new CrearMedicoCitaPropuesta();
 							
-							if (modeloListMedicosAnadidos.getSize()!=0) {
-							
-								if (citaDTO.urgente) {
-									mandarEmailMedicosCita();
-								}
-								
-								for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
-	
-									medicoCitaDTO = new MedicoCitaDTO();
-	
-									medicoCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
-									Medico m = modeloListMedicosAnadidos.getElementAt(i);
-									medicoCitaDTO.idMedico = m.getIdMedico();
-									
-	
-									medicoCita = new MedicoCita(medicoCitaDTO);
-									crearMedicoCita = new CrearMedicoCita();
-									
-									findVacaciones = new FindAllVacacionesMedico();
-									vmDTO = new VacacionesMedicoDTO();
-									if(findVacaciones.FindIdMedico(m.getIdMedico()).isEmpty()) {
-										crearMedicoCita.crearMedicoCita(medicoCita);
-										citaDTO.medicoAsignado=true;
-										cita = new Cita(citaDTO);
-										crearCitas.crearCita(cita);
-									}
-									else {
-										
-										for(int j=0;j< findVacaciones.FindIdMedico(m.getIdMedico()).size();j++) {
-											
-											vmDTO = findVacaciones.FindIdMedico(m.getIdMedico()).get(j);
-											if(vmDTO.diaInicio.before(citaDTO.fecha)) {
-												if(vmDTO.diaFin.after(citaDTO.fecha)) {
-													JOptionPane.showMessageDialog(getBtnCrearCita(), "El medico " + m.getNombreMedico() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-													vacaciones = true;
-												}
-												else {
-													if(!vacaciones) {
-														citaDTO.medicoAsignado=true;
-														cita = new Cita(citaDTO);
-														crearCitas.crearCita(cita);
-														crearMedicoCita.crearMedicoCita(medicoCita);
-													}	
-												
-											   }
-											}
-											else {
-												citaDTO.medicoAsignado=true;
-												cita = new Cita(citaDTO);
-												crearCitas.crearCita(cita);
-												crearMedicoCita.crearMedicoCita(medicoCita);
-											}
-											
-										}
-										
-									}
-
-								}
-
-							} else {
-								citaDTO.medicoAsignado=false;
-								cita = new Cita(citaDTO);
+							findVacaciones = new FindAllVacacionesMedico();
+							vmDTO = new VacacionesMedicoDTO();
+							if(findVacaciones.FindIdMedico(m.getIdMedico()).isEmpty()) {
+								crearMedicoCita.crearMedicoCita(medicoCita);
+								citaDTO.medicoAsignado=true;
+								cita = new CitaPropuesta(citaDTO);
 								crearCitas.crearCita(cita);
 							}
-							
-							if (modeloListEnfermerosAnadidos.getSize()!=0) {
+							else {
 								
-								for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
-	
-									enfermeroCitaDTO = new EnfermeroCitaDTO();
-	
-									enfermeroCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
-									Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
-									enfermeroCitaDTO.idEnfermero = enf.getIdEnfermero();
-	
-									enfermeroCita = new EnfermeroCita(enfermeroCitaDTO);
-									crearEnfermeroCita = new CrearEnfermeroCita();
-									
-									findVacacionesEnfermero = new FindAllVacacionesEnfermero();
-									veDTO = new VacacionesEnfermeroDTO();
-									if(findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).isEmpty()) {
-										crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
+								for(int j=0; j< findVacaciones.FindIdMedico(m.getIdMedico()).size();j++) {
+									System.out.println(findVacaciones.FindIdMedico(m.getIdMedico()).size());
+									vmDTO = findVacaciones.FindIdMedico(m.getIdMedico()).get(j);
+									if(vmDTO.diaInicio.before(citaDTO.fecha)) {
+										if(vmDTO.diaFin.after(citaDTO.fecha)) {
+											JOptionPane.showMessageDialog(getBtnCrearCita(), "El medico " + m.getNombreMedico() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
+											vacacionesMedico = true;
+										}
+										else {
+											if(!vacacionesMedico) {
+												citaDTO.medicoAsignado=true;
+												cita = new CitaPropuesta(citaDTO);
+												crearCitas.crearCita(cita);
+												crearMedicoCita.crearMedicoCita(medicoCita);
+											}	
+										
+									   }
 									}
 									else {
-										
-										for(int j=0;j< findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).size();j++) {
-											
-											veDTO = findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).get(j);
-											if(veDTO.diaInicio.before(citaDTO.fecha)) {
-												if(veDTO.diaFin.after(citaDTO.fecha)) {
-													JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-													vacaciones = true;
-												}
-												else {
-													if(!vacaciones) {
-														crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
-													}	
-												
-											   }
-											}
-											else {
-												crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
-											}
-											
-										}
-										
+										citaDTO.medicoAsignado=true;
+										cita = new CitaPropuesta(citaDTO);
+										crearCitas.crearCita(cita);
+										crearMedicoCita.crearMedicoCita(medicoCita);
 									}
-
 								}
-
 							}
-
 						}
 					} else {
+						citaDTO.medicoAsignado=false;
+						cita = new CitaPropuesta(citaDTO);
+						crearCitas.crearCita(cita);
+					}
+					
+					if (modeloListEnfermerosAnadidos.getSize()!=0) {
+						
+						for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
 
-						if (modeloListMedicosAnadidos.getSize()!=0) {
-						
-							if (citaDTO.urgente) {
-								mandarEmailMedicosCita();
-							}
-	
-	
-							for (int i = 0; i < modeloListMedicosAnadidos.getSize(); i++) {
-	
-								medicoCitaDTO = new MedicoCitaDTO();
-	
-								medicoCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
-								Medico m = modeloListMedicosAnadidos.getElementAt(i);
-								medicoCitaDTO.idMedico = m.getIdMedico();
-	
-								medicoCita = new MedicoCita(medicoCitaDTO);
-								crearMedicoCita = new CrearMedicoCita();
-								
-								findVacaciones = new FindAllVacacionesMedico();
-								vmDTO = new VacacionesMedicoDTO();
-								if(findVacaciones.FindIdMedico(m.getIdMedico()).isEmpty()) {
-									crearMedicoCita.crearMedicoCita(medicoCita);
-									citaDTO.medicoAsignado=true;
-									cita = new Cita(citaDTO);
-									crearCitas.crearCita(cita);
-								}
-								else {
-									
-									for(int j=0; j< findVacaciones.FindIdMedico(m.getIdMedico()).size();j++) {
-										System.out.println(findVacaciones.FindIdMedico(m.getIdMedico()).size());
-										vmDTO = findVacaciones.FindIdMedico(m.getIdMedico()).get(j);
-										if(vmDTO.diaInicio.before(citaDTO.fecha)) {
-											if(vmDTO.diaFin.after(citaDTO.fecha)) {
-												JOptionPane.showMessageDialog(getBtnCrearCita(), "El medico " + m.getNombreMedico() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-												vacaciones = true;
-											}
-											else {
-												if(!vacaciones) {
-													citaDTO.medicoAsignado=true;
-													cita = new Cita(citaDTO);
-													crearCitas.crearCita(cita);
-													crearMedicoCita.crearMedicoCita(medicoCita);
-												}	
-											
-										   }
-										}
-										else {
-											citaDTO.medicoAsignado=true;
-											cita = new Cita(citaDTO);
-											crearCitas.crearCita(cita);
-											crearMedicoCita.crearMedicoCita(medicoCita);
-										}
-									}
-								}
-							}
-						} else {
-							citaDTO.medicoAsignado=false;
-							cita = new Cita(citaDTO);
-							crearCitas.crearCita(cita);
-						}
-						
-						if (modeloListEnfermerosAnadidos.getSize()!=0) {
+							enfermeroCitaDTO = new EnfermeroCitaPropuestaDTO();
+
+							enfermeroCitaDTO.idCitaPropuesta = citaDTO.idCitaPropuesta; // el id cita de la cita creada previamente
+							Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
+							enfermeroCitaDTO.idEnfermero = enf.getIdEnfermero();
+
+							enfermeroCita = new EnfermeroCitaPropuesta(enfermeroCitaDTO);
+							crearEnfermeroCita = new CrearEnfermeroCitaPropuesta();
 							
-							for (int i = 0; i < modeloListEnfermerosAnadidos.getSize(); i++) {
-
-								enfermeroCitaDTO = new EnfermeroCitaDTO();
-
-								enfermeroCitaDTO.idCita = citaDTO.idCita; // el id cita de la cita creada previamente
-								Enfermero enf = modeloListEnfermerosAnadidos.getElementAt(i);
-								enfermeroCitaDTO.idEnfermero = enf.getIdEnfermero();
-
-								enfermeroCita = new EnfermeroCita(enfermeroCitaDTO);
-								crearEnfermeroCita = new CrearEnfermeroCita();
+							findVacacionesEnfermero = new FindAllVacacionesEnfermero();
+							veDTO = new VacacionesEnfermeroDTO();
+							if(findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).isEmpty()) {
+								crearEnfermeroCita.crearEnfermeroCitaPropuesta(enfermeroCita);
+							}
+							else {
 								
-								findVacacionesEnfermero = new FindAllVacacionesEnfermero();
-								veDTO = new VacacionesEnfermeroDTO();
-								if(findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).isEmpty()) {
-									crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
-								}
-								else {
+								for(int j=0;j< findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).size();j++) {
 									
-									for(int j=0;j< findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).size();j++) {
-										
-										veDTO = findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).get(j);
-										if(veDTO.diaInicio.before(citaDTO.fecha)) {
-											if(veDTO.diaFin.after(citaDTO.fecha)) {
-												JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-												vacaciones = true;
-											}
-											else {
-												if(!vacaciones) {
-													crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
-												}	
-											
-										   }
+									veDTO = findVacacionesEnfermero.FindIdEnfermero(enf.getIdEnfermero()).get(j);
+									if(veDTO.diaInicio.before(citaDTO.fecha)) {
+										if(veDTO.diaFin.after(citaDTO.fecha)) {
+											JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
+											vacacionesEnfermero = true;
 										}
 										else {
-											crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
-										}
+											if(!vacacionesEnfermero) {
+												crearEnfermeroCita.crearEnfermeroCitaPropuesta(enfermeroCita);
+											}	
 										
+									   }
+									}
+									else {
+										crearEnfermeroCita.crearEnfermeroCitaPropuesta(enfermeroCita);
 									}
 									
 								}
-
+								
 							}
 
 						}
+
 					}
 
-				}
-
-				private void mandarEmailMedicosCita() {
-
-					List<Medico> lm = new ArrayList<Medico>();
-					
-					for (int i = 0; i < listMedicosAnadidos.getModel().getSize(); i++) {
-						lm.add(listMedicosAnadidos.getModel().getElementAt(i));
-					}
-					
-					mandarEmail(lm);
-
-				}
-
-				private void mandarEmail(List<Medico> lm) {
-
-					Properties props = new Properties();
-
-					props.setProperty("mail.smtp.host", "smtp.gmail.com");
-					props.setProperty("mail.smtp.starttls.enable", "true");
-					props.setProperty("mail.smtp.port", "587");
-					props.setProperty("mail.smtp.auth", "true");
-
-					Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication("ips.l33.hospital@gmail.com", "IPSl33**__");
-						}
-					});
-					session.setDebug(true);
-
-					for (Medico m : lm) {
-					
-					MimeMessage message = new MimeMessage(session);
-
-					try {
-						message.setFrom(new InternetAddress("ips.l33.hospital@gmail.com"));
-
-						message.addRecipient(Message.RecipientType.TO, new InternetAddress(m.getEmailMedico()));
-
-						message.setSubject("Cita urgente n# " + citaDTO.idCita);
-						message.setText("Buenos dias " + m.getNombreMedico() + " " + m.getApellidosMedico() + ". \n"
-								+ "Este es un recordatorio de que tiene una cita urgente con identificador "
-								+ citaDTO.idCita + " el dia " + citaDTO.fecha.toString() + ".\n"
-								+ "La ubicacion de la cita es: " + getUbicacionNombreCita(citaDTO.idUbicacion));
-
-						Transport t = session.getTransport("smtp");
-
-						t.connect("ips.l33.hospital@gmail.com", "IPSl33**__");
-
-						t.sendMessage(message, message.getAllRecipients());
-
-						t.close();
-
-					} catch (AddressException ae) {
-						ae.printStackTrace();
-					} catch (MessagingException me) {
-						me.printStackTrace();
-					}
-					System.out.println("Mandado email a " + m.getNombreMedico() + " " + m.getApellidosMedico() + "  ("
-							+ m.getEmailMedico() + ")");
-					}
-					
-					
-				}
-
-				private String getUbicacionNombreCita(int idUbicacion) {
-					String ubicacion = "No disponible";
-					for (Ubicacion u : lu.getUbicacion()) {
-						if (u.getIdUbicacion() == idUbicacion)
-							ubicacion = u.getNombreUbicacion();
-					}
-					return ubicacion;
-				}
-
-				private boolean comprobarDisponibilidad(int idUbicacion, int idHorario, Date fecha) {
-					for (Cita cita : lc.getCitas()) {
-						if (cita.getIdUbicacion() == idUbicacion && cita.getIdHorario() == idHorario
-								&& cita.getDate().equals(fecha)) {
-							return true;
-						}
-					}
-					return false;
 				}
 
 				private int generarIdCita() {
-					return 4000 + lc.getCitas().size();
+					return 40000 + lc.getCitasPropuestas().size();
 				}
 
 			});
 			btnCrearCita.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			btnCrearCita.setBounds(839, 584, 125, 23);
+			btnCrearCita.setBounds(794, 584, 170, 23);
 		}
 		return btnCrearCita;
 	}

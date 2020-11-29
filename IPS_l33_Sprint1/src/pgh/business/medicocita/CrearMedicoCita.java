@@ -2,7 +2,6 @@ package pgh.business.medicocita;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -18,7 +17,6 @@ private static String SQL = "Insert into MEDICO_CITAS (idMedico,idCita) values (
 	public void crearMedicoCita(MedicoCita cita) {
 		
 		Connection c = null;
-		ResultSet rs = null;
 		PreparedStatement pst = null;
 		StringBuilder query=new StringBuilder();
 		query.append(SQL);
@@ -42,7 +40,6 @@ private static String SQL = "Insert into MEDICO_CITAS (idMedico,idCita) values (
 
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

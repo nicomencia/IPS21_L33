@@ -1,20 +1,18 @@
-package pgh.business.enfermeroCita;
+package pgh.business.medicoCitaPropuesta;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 import pgh.jdbc.Database;
 
-public class CrearEnfermeroCita {
-	
-	
-private static String SQL = "Insert into ENFERMERO_CITAS (idEnfermero,idCita) values (?,?) ";
+public class CrearMedicoCitaPropuesta {
+
+private static String SQL = "Insert into MEDICO_CITASPROPUESTAS (idMedico,idCitaPropuesta) values (?,?) ";
 	
 	Database db = new Database();
 	
-	public void crearEnfermeroCita(EnfermeroCita cita) {
+	public void crearMedicoCita(MedicoCitaPropuesta cita) {
 		
 		Connection c = null;
 		PreparedStatement pst = null;
@@ -26,8 +24,8 @@ private static String SQL = "Insert into ENFERMERO_CITAS (idEnfermero,idCita) va
 			c = db.getConnection();
 			
 		    pst = c.prepareStatement(query.toString());
-			pst.setInt(1, cita.getIdEnfermero());
-			pst.setInt(2, cita.getIdCita());
+			pst.setInt(1, cita.getIdMedico());
+			pst.setInt(2, cita.getIdCitaPropuesta());
 				
 			
 		    pst.executeUpdate();	
@@ -35,9 +33,8 @@ private static String SQL = "Insert into ENFERMERO_CITAS (idEnfermero,idCita) va
 		    pst.close();
 		    c.close();
 		    
-		    System.out.print("EnfermeroCita creada con exito");
+		    System.out.print("MedicoCitaPropuesta creada con exito");
 		  
-
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,6 +42,5 @@ private static String SQL = "Insert into ENFERMERO_CITAS (idEnfermero,idCita) va
 		
 		
 	}
-
-
+    
 }
