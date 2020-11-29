@@ -19,16 +19,14 @@ public class ListaCitas {
 	}
 
 		
-		public void creaCitas() {
-			
-			for(CitaDTO c : result) {
-				Cita cita = new Cita(c);
-				citas.add(cita);
-			}
-		}
+	public void creaCitas() {
 		
-
-
+		for(CitaDTO c : result) {
+			Cita cita = new Cita(c);
+			citas.add(cita);
+		}
+	}
+		
 	
 	public void creaListaCitas() {
 		

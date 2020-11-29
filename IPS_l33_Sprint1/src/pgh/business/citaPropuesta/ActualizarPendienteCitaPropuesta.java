@@ -8,7 +8,7 @@ import pgh.jdbc.Database;
 
 public class ActualizarPendienteCitaPropuesta {
 	
-	private static String SQL = "Update CitaPropuesta Set pendienteAprobacion = FALSE where idcitapendiente = ?";
+	private static String SQL = "Update CitaPropuesta Set pendienteAprobacion = FALSE where idcitapropuesta = ?";
 
 	
 	Database db = new Database();
@@ -33,7 +33,7 @@ public class ActualizarPendienteCitaPropuesta {
 		    pst.close();
 		    c.close();
 		    
-		    System.out.println("Médico añadido a la cita con exito");
+		    System.out.println("Cita gestionada");
 		  
 
 			

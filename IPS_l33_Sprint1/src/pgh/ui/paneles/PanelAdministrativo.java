@@ -27,6 +27,7 @@ public class PanelAdministrativo extends JPanel {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_1_1;
 	private JButton btnAsignarVacacionesSolicitadas;
+	private JButton btnNewButton_2;
 
 	
 	
@@ -69,6 +70,7 @@ public class PanelAdministrativo extends JPanel {
 			add(getBtnNewButton_1());
 			add(getBtnNewButton_1_1());
 			add(getBtnAsignarVacacionesSolicitadas());
+			add(getBtnNewButton_2());
 
 
 		
@@ -257,5 +259,21 @@ public class PanelAdministrativo extends JPanel {
 			btnAsignarVacacionesSolicitadas.setBounds(45, 422, 393, 38);
 		}
 		return btnAsignarVacacionesSolicitadas;
+	}
+	private JButton getBtnNewButton_2() {
+		if (btnNewButton_2 == null) {
+			btnNewButton_2 = new JButton("Gestionar Citas Propuestas");
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelGestionarCitasPropuestas pc = new PanelGestionarCitasPropuestas(panelAdministrativo, panelContenido);
+					panelContenido.add(pc);
+					panelAdministrativo.setVisible(false);
+					pc.setVisible(true);
+				}
+			});
+			btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			btnNewButton_2.setBounds(45, 277, 231, 38);
+		}
+		return btnNewButton_2;
 	}
 }
