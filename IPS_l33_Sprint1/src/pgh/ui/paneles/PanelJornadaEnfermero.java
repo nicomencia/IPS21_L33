@@ -273,7 +273,8 @@ public class PanelJornadaEnfermero extends JPanel {
 									int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
 									
 									double diasVacaciones = (diass/30) * 2.5;
-									int diaaaaas = (int) diasVacaciones + modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getDiasDisponibles();
+									int diaaaaas = (int) diasVacaciones + modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getDiasDisponibles() ;
+									
 									
 									
 									editarDias.actualizar(diaaaaas, modeloListaEnfermerosSeleccionadosJornada.getElementAt(0).getIdEnfermero());

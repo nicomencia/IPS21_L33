@@ -41,7 +41,7 @@ public class Paciente {
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(getNombre() + " " + getApellidos());
+		sb.append(getNombre() + " " + getApellidos() + " " + getDni() + " " + getTelefono());
 		return sb.toString();
 		
 	}

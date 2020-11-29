@@ -31,6 +31,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 
+import com.toedter.calendar.JTextFieldDateEditor;
+
 public class PanelElegirPacienteEnfermero extends JPanel {
 	private JScrollPane scrollPane;
 	private JTextField textField;
@@ -207,8 +209,34 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 			for(int i=0; i < findCitas.FindCitaIdEnfermero(idEnfermero).size() ; i++) {
 				
 				citaDTO= findCitas.FindCitaIdEnfermero(idEnfermero).get(i);
-				cita = new Cita(citaDTO);
-				citas.add(cita);
+				Calendar fecha = new GregorianCalendar();
+
+				int dia = fecha.get(Calendar.DAY_OF_MONTH);
+				int mes=0;
+				if(Calendar.MONTH==12) {
+					mes = fecha.get(Calendar.MONTH) - 11;
+				}
+				else {
+					mes = fecha.get(Calendar.MONTH) + 1;
+				}
+				int ano = fecha.get(Calendar.YEAR);
+
+				SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
+				Date date2 = new Date();
+				try {
+					date2 = dateformat3.parse(ano + "/" + mes + "/" + dia);
+					
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				if(citaDTO.fecha.equals(date2) || citaDTO.fecha.after(date2)) {
+					cita = new Cita(citaDTO);
+					citas.add(cita);
+				}
+
+				
 			}
 		}
 		

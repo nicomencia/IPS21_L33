@@ -12,7 +12,7 @@ import pgh.jdbc.Database;
 
 public class FindAllEnfermeros {
 
-	private static String SQL = "select idEnfermero, nombre, apellidos, especialidad, idEquipo_Medico from Enfermero";
+	private static String SQL = "select idEnfermero, nombre, apellidos, especialidad, idEquipo_Medico, diasDisponibles from Enfermero";
 	private static String SQL2 = "select diasdisponibles from Enfermero where idEnfermero = ? ";
 	
 	Database db = new Database();
@@ -38,6 +38,7 @@ public class FindAllEnfermeros {
 					enfermero.apellidos=rs.getString("apellidos");
 					enfermero.especialidad=rs.getString("especialidad");
 					enfermero.idEquipoMedico=rs.getInt("idEquipo_Medico");
+					enfermero.diasDisponibles= rs.getInt("diasDisponibles");
 					enfermeros.add(enfermero);
 				}
 			} catch (SQLException e) {

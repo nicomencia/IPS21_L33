@@ -20,6 +20,7 @@ import pgh.ui.paneles.filtros.JListFiltroCalendarioVacunasPuestas;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class PanelHistorialVacunas extends JPanel{
 	private JScrollPane scrollPane;
@@ -39,6 +40,8 @@ public class PanelHistorialVacunas extends JPanel{
 	private JScrollPane scrollPane_1;
 	private JTextField textField_1;
 	private JListFiltroCalendarioVacunasPuestas listVacunasPuestas;
+	private JLabel lblNewLabel;
+	private JLabel lblVacunasYaPuestas;
 	
 	public PanelHistorialVacunas(JPanel panelAnterior, JPanel panelContenido, int idPaciente, JPanel panelCambiar) {
 		
@@ -55,6 +58,8 @@ public class PanelHistorialVacunas extends JPanel{
 		add(getBtnProgramarVacuna());
 		add(getBtnSalir());
 		add(getScrollPane_1());
+		add(getLblNewLabel());
+		add(getLblVacunasYaPuestas());
 		
 		
 	}
@@ -92,7 +97,7 @@ public class PanelHistorialVacunas extends JPanel{
 				}
 			});
 			btnSalir.setForeground(new Color(255, 0, 0));
-			btnSalir.setBounds(903, 460, 175, 42);
+			btnSalir.setBounds(899, 460, 175, 42);
 		}
 		return btnSalir;
 	}
@@ -121,7 +126,7 @@ public class PanelHistorialVacunas extends JPanel{
 		if (scrollPane_1 == null) {
 			
 			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(616, 50, 460, 375);
+			scrollPane_1.setBounds(616, 50, 458, 375);
 			scrollPane_1.setViewportView(getListVacunasPuestas());
 		}
 		return scrollPane_1;
@@ -146,5 +151,19 @@ findAllVacunas = new FindAllVacunas();
 				modeloListVacunasPuestas.addElement(vacuna);
 		}
 		
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("Vacunas aun no puestas");
+			lblNewLabel.setBounds(61, 11, 200, 18);
+		}
+		return lblNewLabel;
+	}
+	private JLabel getLblVacunasYaPuestas() {
+		if (lblVacunasYaPuestas == null) {
+			lblVacunasYaPuestas = new JLabel("Vacunas ya puestas");
+			lblVacunasYaPuestas.setBounds(616, 11, 200, 18);
+		}
+		return lblVacunasYaPuestas;
 	}
 }
