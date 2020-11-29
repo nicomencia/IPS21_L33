@@ -781,7 +781,8 @@ public class PanelCitas extends JPanel {
 			btnCrearCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					boolean vacaciones =false;
+					boolean vacacionesMedico = false;
+					boolean vacacionesEnfermero = false;
 					lc = new ListaCitas();
 					lc.creaListaCitas();
 					crearCitas = new CrearCitas();
@@ -860,10 +861,10 @@ public class PanelCitas extends JPanel {
 											if(vmDTO.diaInicio.before(citaDTO.fecha)) {
 												if(vmDTO.diaFin.after(citaDTO.fecha)) {
 													JOptionPane.showMessageDialog(getBtnCrearCita(), "El medico " + m.getNombreMedico() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-													vacaciones = true;
+													vacacionesMedico = true;
 												}
 												else {
-													if(!vacaciones) {
+													if(!vacacionesMedico) {
 														citaDTO.medicoAsignado=true;
 														cita = new Cita(citaDTO);
 														crearCitas.crearCita(cita);
@@ -917,10 +918,10 @@ public class PanelCitas extends JPanel {
 											if(veDTO.diaInicio.before(citaDTO.fecha)) {
 												if(veDTO.diaFin.after(citaDTO.fecha)) {
 													JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-													vacaciones = true;
+													vacacionesEnfermero = true;
 												}
 												else {
-													if(!vacaciones) {
+													if(!vacacionesEnfermero) {
 														crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
 													}	
 												
@@ -975,10 +976,10 @@ public class PanelCitas extends JPanel {
 										if(vmDTO.diaInicio.before(citaDTO.fecha)) {
 											if(vmDTO.diaFin.after(citaDTO.fecha)) {
 												JOptionPane.showMessageDialog(getBtnCrearCita(), "El medico " + m.getNombreMedico() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-												vacaciones = true;
+												vacacionesMedico = true;
 											}
 											else {
-												if(!vacaciones) {
+												if(!vacacionesMedico) {
 													citaDTO.medicoAsignado=true;
 													cita = new Cita(citaDTO);
 													crearCitas.crearCita(cita);
@@ -1028,10 +1029,10 @@ public class PanelCitas extends JPanel {
 										if(veDTO.diaInicio.before(citaDTO.fecha)) {
 											if(veDTO.diaFin.after(citaDTO.fecha)) {
 												JOptionPane.showMessageDialog(getBtnCrearCita(), "El enfermero " + enf.getNombreEnfermero() + " al que intentas otorgarle una cita se encunetra de vacaciones en esos momentos");
-												vacaciones = true;
+												vacacionesEnfermero = true;
 											}
 											else {
-												if(!vacaciones) {
+												if(!vacacionesEnfermero) {
 													crearEnfermeroCita.crearEnfermeroCita(enfermeroCita);
 												}	
 											
