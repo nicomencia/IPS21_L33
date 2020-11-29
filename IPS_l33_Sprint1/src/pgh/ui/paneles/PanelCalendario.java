@@ -178,7 +178,7 @@ public class PanelCalendario extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					if(listCitas.getSelectedValue()!=null)
 					{
-					PanelCita panel = new PanelCita(panelContenido, panelCalendario, (Cita) listCitas.getSelectedValue());
+					PanelCita panel = new PanelCita(panelContenido, panelCalendario, (Cita) listCitas.getSelectedValue(), null);
 					panelContenido.add(panel);
 					panelCalendario.setVisible(false);
 					panel.setVisible(true);
