@@ -33,7 +33,6 @@ public class PanelCita extends JPanel {
 	private JLabel lblPaciente;
 	private JLabel labelNombreApellidosPaciente;
 	private JLabel lblMedicos;
-	private JTextField textField;
 	private JButton btnHistorial;
 	private JLabel lblHorario;
 	private JLabel labelHoras;
@@ -59,15 +58,17 @@ public class PanelCita extends JPanel {
 	private JPanel estePanel;
 	private FindAllEquiposMedicos fM;
 	private List<EquipoMedicoDTO> equipo;
-	private JLabel lblEquipoDelMdico;
-	private JLabel lblEquipoMedico;
 	private JButton btnIndicarPrescripcion;
 	private JButton btnAntecedentesClinicos;
 	private JButton btnHacerDiagnstico;
 	private JList listDiagnosticos;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneDiagnosticos;
 	private List<DiagnosticoDTO> diagnosticos;
 	private DefaultListModel<DiagnosticoDTO> modeloListaDiagnosticos = new DefaultListModel<DiagnosticoDTO>();
+	private JScrollPane scrollPaneMedicos;
+	private JList listMedicos;
+	private JButton btnValidarDiagnostico;
+	private JButton btnComprobarTratamientos;
 	
 	/**
 	 * Create the panel.
@@ -97,7 +98,6 @@ public class PanelCita extends JPanel {
 		add(getLblPaciente());
 		add(getLabelNombreApellidosPaciente());
 		add(getLblMedicos());
-		add(getTextField());
 		add(getBtnHistorial());
 		add(getLblHorario());
 		add(getLabelHoras());
@@ -108,12 +108,13 @@ public class PanelCita extends JPanel {
 		add(getLblInformacionDeContacto());
 		add(getLabelContacto());
 		add(getBtnAtras());
-		add(getLblEquipoDelMdico());
-		add(getLblEquipoMedico());
 		add(getBtnIndicarPrescripcion());
 		add(getBtnAntecedentesClinicos());
 		add(getBtnHacerDiagnstico());
-		add(getScrollPane());
+		add(getScrollPaneDiagnosticos());
+		add(getScrollPaneMedicos());
+		add(getBtnValidarDiagnostico());
+		add(getBtnComprobarTratamientos());
 		
 	}
 	
@@ -208,14 +209,6 @@ public class PanelCita extends JPanel {
 			lblMedicos.setBounds(134, 138, 81, 20);
 		}
 		return lblMedicos;
-	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField(medico.nombre + " " + medico.apellidos);
-			textField.setBounds(225, 138, 237, 20);
-			textField.setColumns(10);
-		}
-		return textField;
 	}
 	private JButton getBtnHistorial() {
 		if (btnHistorial == null) {
@@ -313,13 +306,6 @@ public class PanelCita extends JPanel {
 		}
 		return btnAtras;
 	}
-	private JLabel getLblEquipoDelMdico() {
-		if (lblEquipoDelMdico == null) {
-			lblEquipoDelMdico = new JLabel("Equipo del M\u00E9dico:");
-			lblEquipoDelMdico.setBounds(134, 169, 108, 17);
-		}
-		return lblEquipoDelMdico;
-	}
 	private JButton getBtnAntecedentesClinicos() {
 		if (btnAntecedentesClinicos == null) {
 			btnAntecedentesClinicos = new JButton("Antecedentes Clinicos");
@@ -353,14 +339,6 @@ public class PanelCita extends JPanel {
 		}
 		return btnIndicarPrescripcion;
 	}
-	private JLabel getLblEquipoMedico() {
-		if (lblEquipoMedico == null) {
-			lblEquipoMedico = new JLabel("");
-			lblEquipoMedico.setText(getEquipoMedicos(medico));
-			lblEquipoMedico.setBounds(252, 169, 210, 17);
-		}
-		return lblEquipoMedico;
-	}
 	private JButton getBtnHacerDiagnstico() {
 		if (btnHacerDiagnstico == null) {
 			btnHacerDiagnstico = new JButton("Hacer Diagn\u00F3stico");
@@ -382,12 +360,40 @@ public class PanelCita extends JPanel {
 		}
 		return listDiagnosticos;
 	}
-	private JScrollPane getScrollPane() {
-		if (scrollPane == null) {
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(134, 329, 386, 109);
-			scrollPane.setViewportView(getListDiagnosticos());
+	private JScrollPane getScrollPaneDiagnosticos() {
+		if (scrollPaneDiagnosticos == null) {
+			scrollPaneDiagnosticos = new JScrollPane();
+			scrollPaneDiagnosticos.setBounds(134, 329, 386, 109);
+			scrollPaneDiagnosticos.setViewportView(getListDiagnosticos());
 		}
-		return scrollPane;
+		return scrollPaneDiagnosticos;
+	}
+	private JScrollPane getScrollPaneMedicos() {
+		if (scrollPaneMedicos == null) {
+			scrollPaneMedicos = new JScrollPane();
+			scrollPaneMedicos.setBounds(134, 169, 386, 109);
+			scrollPaneMedicos.setViewportView(getListMedicos());
+		}
+		return scrollPaneMedicos;
+	}
+	private JList getListMedicos() {
+		if (listMedicos == null) {
+			listMedicos = new JList();
+		}
+		return listMedicos;
+	}
+	private JButton getBtnValidarDiagnostico() {
+		if (btnValidarDiagnostico == null) {
+			btnValidarDiagnostico = new JButton("Validar Diagnostico");
+			btnValidarDiagnostico.setBounds(134, 472, 179, 27);
+		}
+		return btnValidarDiagnostico;
+	}
+	private JButton getBtnComprobarTratamientos() {
+		if (btnComprobarTratamientos == null) {
+			btnComprobarTratamientos = new JButton("Comprobar tratamientos");
+			btnComprobarTratamientos.setBounds(637, 54, 179, 28);
+		}
+		return btnComprobarTratamientos;
 	}
 }
