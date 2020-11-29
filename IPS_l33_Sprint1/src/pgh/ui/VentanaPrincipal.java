@@ -32,6 +32,7 @@ import pgh.business.paciente.ListaPacientes;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
 import pgh.ui.paneles.PanelAdministrativo;
+import pgh.ui.paneles.PanelAuditor;
 import pgh.ui.paneles.PanelLoginEnfermero;
 import pgh.ui.paneles.PanelMedico;
 import pgh.ui.paneles.filtros.JListFiltroLoginMedico;
@@ -91,6 +92,7 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
 	private JButton btnNewButton;
 	private JButton btnComprobarVacacionesSolicitadas;
+	private JButton btnAuditor;
 	
 
 
@@ -151,6 +153,7 @@ public class VentanaPrincipal extends JFrame {
 			panelPrincipal.add(getBtnAdministrativo());
 			panelPrincipal.add(getBtnEntrarComoMdico());
 			panelPrincipal.add(getBtnAdministrativo_1_1());
+			panelPrincipal.add(getBtnAuditor());
 		}
 		return panelPrincipal;
 	}
@@ -488,6 +491,23 @@ public class VentanaPrincipal extends JFrame {
 		}
 		return btnSalirPanelMedico;
 	}
-	
-
+	private JButton getBtnAuditor() {
+		if (btnAuditor == null) {
+			btnAuditor = new JButton("Entrar como auditor");
+			btnAuditor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PanelAuditor panel = new PanelAuditor(panelPrincipal,panelContenido);
+					panelContenido.add(panel);
+					panelPrincipal.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
+			btnAuditor.setForeground(Color.WHITE);
+			btnAuditor.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			btnAuditor.setFocusable(false);
+			btnAuditor.setBackground(Color.RED);
+			btnAuditor.setBounds(362, 459, 286, 52);
+		}
+		return btnAuditor;
+	}
 }
