@@ -168,7 +168,7 @@ public class PanelDiagnósticos extends JPanel {
 	}
 	private JButton getBtnSeleccionar() {
 		if (btnSeleccionar == null) {
-			btnSeleccionar = new JButton("Seleccionar");
+			btnSeleccionar = new JButton("Aceptar");
 			btnSeleccionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(listaDiagnosticos.size()==0)
@@ -257,13 +257,15 @@ public class PanelDiagnósticos extends JPanel {
 					{
 						if(listCategorias.getSelectedValue() instanceof NodoMayor)
 						{
-							if(((NodoMayor)listCategorias.getSelectedValue()).getNodosMenores().size()>0)
+							NodoMayor nodo = (NodoMayor)listCategorias.getSelectedValue();
+						
+							if(nodo.getNodosMenores().size()>0)
 							{
-								crearModeloListaNodosMenores((NodoMayor)listCategorias.getSelectedValue());
+								crearModeloListaNodosMenores(nodo);
 							}
 							else
 							{
-								crearModeloListaNodosCategoria((NodoMayor)listCategorias.getSelectedValue()); 
+								crearModeloListaNodosCategoria(nodo); 
 							}
 						}
 					}
@@ -290,7 +292,7 @@ public class PanelDiagnósticos extends JPanel {
 	}
 	private JButton getBtnAtras() {
 		if (btnAtras == null) {
-			btnAtras = new JButton("Atras");
+			btnAtras = new JButton("Cancelar");
 			btnAtras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					estePanel.setVisible(false);
@@ -316,6 +318,8 @@ public class PanelDiagnósticos extends JPanel {
 						diagnostico.idPaciente = cita.getIdPaciente();
 						diagnostico.obligatorio = chckbxDeclaracion.isSelected();
 						diagnostico.seguimiento = chckbxSeguimiento.isSelected();
+						EnfermedadDTO en = new EnfermedadDTO();
+						diagnosticosTam.add(en);
 						listaDiagnosticos.add(diagnostico);
 						modeloListaDiagnosticos.addElement(diagnostico);
 					}

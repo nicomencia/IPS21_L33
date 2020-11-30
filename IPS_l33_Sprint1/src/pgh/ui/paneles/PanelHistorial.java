@@ -1,6 +1,7 @@
 package pgh.ui.paneles;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -15,6 +16,7 @@ import pgh.business.diagnostico.DiagnosticoDTO;
 import pgh.business.diagnostico.FindAllDiagnosticos;
 import pgh.business.enfermedad.EnfermedadDTO;
 import pgh.business.enfermedad.FindAllEnfermedades;
+import pgh.business.enfermedad.GuardarEnfermedad;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
 import pgh.business.prescripcioncitapaciente.ListaPrescripcionesCitaPaciente;
@@ -50,6 +52,7 @@ public class PanelHistorial extends JPanel {
 	private List<EnfermedadDTO> listaDiagnosticos = new ArrayList<EnfermedadDTO>();
 	private JList listDiagnosticos;
 	private DefaultListModel<EnfermedadDTO> modeloListaDiagnosticos = new DefaultListModel<EnfermedadDTO>();
+	private JButton btnTerminarSeguimiento;
 	
 	/**
 	 * Create the panel.
@@ -76,11 +79,13 @@ public class PanelHistorial extends JPanel {
 		add(getScrollPaneHistorial());
 		add(getBtnAtras());
 		add(getBtnHistorialVacunas());
+		add(getBtnTerminarSeguimiento());
 
 	}
 	
 	private void añadirDiagnosticosAlmodelo()
 	{
+		modeloListaDiagnosticos.removeAllElements();
 		for(int i=0;i<listaDiagnosticos.size();i++)
 		{
 			if(listaDiagnosticos.get(i).id_paciente == idPaciente)
@@ -219,5 +224,27 @@ public class PanelHistorial extends JPanel {
 			listDiagnosticos = new JList(modeloListaDiagnosticos);
 		}
 		return listDiagnosticos;
+	}
+	private JButton getBtnTerminarSeguimiento() {
+		if (btnTerminarSeguimiento == null) {
+			btnTerminarSeguimiento = new JButton("Terminar Seguimiento");
+			btnTerminarSeguimiento.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(listDiagnosticos.getSelectedValue()!=null)
+					{
+						EnfermedadDTO en = (EnfermedadDTO) listDiagnosticos.getSelectedValue();
+						if(en.seguimiento)
+						{
+							new GuardarEnfermedad().crearMedico(en.id_emfermedad, new Date());
+							listaDiagnosticos = new FindAllEnfermedades().execute();
+							añadirDiagnosticosAlmodelo();
+							
+						}
+					}
+				}
+			});
+			btnTerminarSeguimiento.setBounds(902, 158, 187, 31);
+		}
+		return btnTerminarSeguimiento;
 	}
 }

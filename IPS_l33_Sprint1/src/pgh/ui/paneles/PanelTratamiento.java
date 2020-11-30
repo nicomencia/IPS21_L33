@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import pgh.business.enfermedad.EnfermedadDTO;
 import pgh.business.enfermedad.FindAllEnfermedades;
+import pgh.business.enfermedad.GuardarEnfermedad;
 import pgh.business.paciente.Paciente;
 import pgh.business.paciente.PacienteDTO;
 
@@ -14,6 +15,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -34,6 +36,7 @@ public class PanelTratamiento extends JPanel {
 	private JButton btnAtras;
 	private List<EnfermedadDTO> enfermedades = new ArrayList<EnfermedadDTO>();
 	private DefaultListModel<EnfermedadDTO>  modeloTratamientos = new DefaultListModel<EnfermedadDTO>();
+	private JButton btnTerminarTratamiento;
 	
 	public PanelTratamiento(JPanel panelAnterior, JPanel panelContenido, PacienteDTO paciente) {
 		this.paciente = paciente;
@@ -48,14 +51,16 @@ public class PanelTratamiento extends JPanel {
 		add(getLblPaciente());
 		add(getLabelNombrePaciente());
 		add(getBtnAtras());
+		add(getBtnTerminarTratamiento());
 	}
 	
 	private void añadirTratamientos() {
+		modeloTratamientos.removeAllElements();
 		if(enfermedades!=null)
 		{
 		for(int i=0;i<enfermedades.size();i++)
 		{
-			if(enfermedades.get(i).id_paciente==paciente.idPaciente)
+			if(enfermedades.get(i).id_paciente==paciente.idPaciente && enfermedades.get(i).seguimiento)
 			{
 				modeloTratamientos.addElement(enfermedades.get(i));
 			}
@@ -109,5 +114,27 @@ public class PanelTratamiento extends JPanel {
 			btnAtras.setBounds(772, 495, 89, 23);
 		}
 		return btnAtras;
+	}
+	private JButton getBtnTerminarTratamiento() {
+		if (btnTerminarTratamiento == null) {
+			btnTerminarTratamiento = new JButton("Terminar Tratamiento");
+			btnTerminarTratamiento.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(listTratamientos.getSelectedValue()!=null)
+					{
+						EnfermedadDTO en = (EnfermedadDTO) listTratamientos.getSelectedValue();
+						if(en.seguimiento)
+						{
+							new GuardarEnfermedad().crearMedico(en.id_emfermedad, new Date());
+							enfermedades = new FindAllEnfermedades().execute();
+							añadirTratamientos();
+							
+						}
+					}
+				}
+			});
+			btnTerminarTratamiento.setBounds(585, 495, 177, 23);
+		}
+		return btnTerminarTratamiento;
 	}
 }

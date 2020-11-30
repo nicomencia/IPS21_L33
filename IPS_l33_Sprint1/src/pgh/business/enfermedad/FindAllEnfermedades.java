@@ -11,7 +11,7 @@ import pgh.jdbc.Database;
 
 public class FindAllEnfermedades {
 	
-private static String SQL = "select id_emfermedad, nombre, fecha_inicio, id_paciente from Emfermedad";
+private static String SQL = "select id_emfermedad, nombre, fecha_inicio, fecha_fin, seguimiento, id_paciente from Emfermedad";
 	
 	Database db = new Database();
 	
@@ -34,7 +34,9 @@ private static String SQL = "select id_emfermedad, nombre, fecha_inicio, id_paci
 					enfermedad.id_emfermedad = rs.getInt("id_emfermedad");
 					enfermedad.nombre = rs.getString("nombre");
 					enfermedad.fecha_inicio = rs.getDate("fecha_inicio");
+					enfermedad.fecha_fin = rs.getDate("fecha_fin");
 					enfermedad.id_paciente = rs.getInt("id_paciente");
+					enfermedad.seguimiento = rs.getBoolean("seguimiento");
 					enfermedades.add(enfermedad);
 				}
 			} catch (SQLException e) {

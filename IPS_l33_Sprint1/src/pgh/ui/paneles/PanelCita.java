@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
+import pgh.business.cita.CitaDTO;
 import pgh.business.diagnostico.DiagnosticoDTO;
 import pgh.business.enfermedad.GuardarEnfermedad;
 import pgh.business.equipomedico.EquipoMedico;
@@ -44,6 +45,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class PanelCita extends JPanel {
 	private JLabel lblPaciente;
@@ -87,12 +90,14 @@ public class PanelCita extends JPanel {
 	private JButton btnComprobarTratamientos;
 	private DefaultListModel<MedicoDTO> modeloListaMedicos = new DefaultListModel<MedicoDTO>();
 	private int idObservador;
+	private JLabel lblDiagnosticos;
+	private JPanel panelDiagnosticos;
+	
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos, int idObservador) {
-		this.idObservador=idObservador;
 		if(diagnosticos!=null)
 		{
 			this.diagnosticos = diagnosticos;
@@ -132,11 +137,9 @@ public class PanelCita extends JPanel {
 		add(getBtnAtras());
 		add(getBtnIndicarPrescripcion());
 		add(getBtnAntecedentesClinicos());
-		add(getBtnHacerDiagnstico());
-		add(getScrollPaneDiagnosticos());
 		add(getScrollPaneMedicos());
-		add(getBtnValidarDiagnostico());
 		add(getBtnComprobarTratamientos());
+		add(getPanelDiagnosticos());
 		
 	}
 	
@@ -395,6 +398,7 @@ public class PanelCita extends JPanel {
 	private JButton getBtnHacerDiagnstico() {
 		if (btnHacerDiagnstico == null) {
 			btnHacerDiagnstico = new JButton("Hacer Diagn\u00F3stico");
+			btnHacerDiagnstico.setBounds(230, 160, 179, 28);
 			btnHacerDiagnstico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PanelDiagnósticos panel = new PanelDiagnósticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos, idObservador);
@@ -403,7 +407,6 @@ public class PanelCita extends JPanel {
 					panel.setVisible(true);
 				}
 			});
-			btnHacerDiagnstico.setBounds(341, 471, 179, 28);
 		}
 		return btnHacerDiagnstico;
 	}
@@ -416,7 +419,7 @@ public class PanelCita extends JPanel {
 	private JScrollPane getScrollPaneDiagnosticos() {
 		if (scrollPaneDiagnosticos == null) {
 			scrollPaneDiagnosticos = new JScrollPane();
-			scrollPaneDiagnosticos.setBounds(134, 329, 386, 109);
+			scrollPaneDiagnosticos.setBounds(26, 32, 386, 109);
 			scrollPaneDiagnosticos.setViewportView(getListDiagnosticos());
 		}
 		return scrollPaneDiagnosticos;
@@ -437,18 +440,13 @@ public class PanelCita extends JPanel {
 	}
 	private JButton getBtnValidarDiagnostico() {
 		if (btnValidarDiagnostico == null) {
-			btnValidarDiagnostico = new JButton("Validar Diagnostico");
+			btnValidarDiagnostico = new JButton("Guardar Diagnosticos");
+			btnValidarDiagnostico.setBounds(26, 161, 179, 27);
 			btnValidarDiagnostico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(diagnosticos.size()>0)
-					{
-						JOptionPane message = new JOptionPane();
-						int valor = message.showConfirmDialog(null, "¿Estas seguro de que quieres validar este diagnostico?");
-						System.out.println(valor);
-						if(valor == 0)
-						{
-							validarDiagnosticos();
-						}
+					{	
+							validarDiagnosticos();	
 					}
 					else
 					{
@@ -456,7 +454,6 @@ public class PanelCita extends JPanel {
 					}
 				}
 			});
-			btnValidarDiagnostico.setBounds(134, 472, 179, 27);
 		}
 		return btnValidarDiagnostico;
 	}
@@ -467,9 +464,10 @@ public class PanelCita extends JPanel {
 		{
 			if(diagnosticos.get(i).obligatorio)
 			{
+				new GuardarEnfermedad().crearMedico(diagnosticos.get(i));
 				mandarEmail(diagnosticos.get(i));
 			}
-			if(diagnosticos.get(i).seguimiento)
+			else
 			{
 				new GuardarEnfermedad().crearMedico(diagnosticos.get(i));
 			}
@@ -505,7 +503,7 @@ public class PanelCita extends JPanel {
 			message.setSubject("Enfermedad de declaración obligatoria en la cita n# " + d.idCita);
 			message.setText("Buenos dias " + "Alberto" + " " +"Martinez Martinez" + ". \n"
 					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaración obligatorio en la cita "
-					+ d.idCita + " el dia " + (new Date()).toString() + ".\n"
+					+ d.idCita + " el dia " + cita.getDate().toString() + " desde " + cita.getHorario() + " " + " hasta: " + cita.getHorarioTarde() + ".\n"
 					+ "El medico que ha realizado este diagnostico es: " + medico.nombre + " " + medico.apellidos  + ".\n" +
 					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos  + ".\n" +
 					"La enfermedad que se le ha diagnosticado es: " + d.descripcion   + ".\n" +
@@ -537,7 +535,7 @@ public class PanelCita extends JPanel {
 
 	private JButton getBtnComprobarTratamientos() {
 		if (btnComprobarTratamientos == null) {
-			btnComprobarTratamientos = new JButton("Comprobar tratamientos");
+			btnComprobarTratamientos = new JButton("Comprobar seguimiento");
 			btnComprobarTratamientos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {		
 					
@@ -559,5 +557,25 @@ public class PanelCita extends JPanel {
 			btnComprobarTratamientos.setBounds(637, 54, 179, 28);
 		}
 		return btnComprobarTratamientos;
+	}
+	private JLabel getLblDiagnosticos() {
+		if (lblDiagnosticos == null) {
+			lblDiagnosticos = new JLabel("Diagnosticos:");
+			lblDiagnosticos.setBounds(10, 0, 165, 17);
+		}
+		return lblDiagnosticos;
+	}
+	private JPanel getPanelDiagnosticos() {
+		if (panelDiagnosticos == null) {
+			panelDiagnosticos = new JPanel();
+			panelDiagnosticos.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panelDiagnosticos.setBounds(106, 304, 430, 211);
+			panelDiagnosticos.setLayout(null);
+			panelDiagnosticos.add(getScrollPaneDiagnosticos());
+			panelDiagnosticos.add(getBtnValidarDiagnostico());
+			panelDiagnosticos.add(getBtnHacerDiagnstico());
+			panelDiagnosticos.add(getLblDiagnosticos());
+		}
+		return panelDiagnosticos;
 	}
 }
