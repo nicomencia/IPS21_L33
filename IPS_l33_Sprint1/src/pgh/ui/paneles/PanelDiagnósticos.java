@@ -22,6 +22,8 @@ import pgh.business.cie10.NodoMayor;
 import pgh.business.cita.Cita;
 import pgh.business.diagnostico.DiagnosticoDTO;
 import pgh.business.diagnostico.FindAllDiagnosticos;
+import pgh.business.enfermedad.EnfermedadDTO;
+import pgh.business.enfermedad.FindAllEnfermedades;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -61,10 +63,12 @@ public class PanelDiagnósticos extends JPanel {
 	private JButton btnBorrarDiagnostico;
 	private JButton btnFiltrar;
 	private JButton btnReset;
+	private List<EnfermedadDTO> diagnosticosTam = new ArrayList<EnfermedadDTO>();
 	
 	private Cita cita;
 	
 	public PanelDiagnósticos(JPanel panelContenido, JPanel panelAnterior, JPanel panelAnteriorAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
+		diagnosticosTam = new FindAllEnfermedades().execute();
 		if(diagnosticos!=null)
 		{
 			if(diagnosticos.size()>0)
@@ -306,7 +310,7 @@ public class PanelDiagnósticos extends JPanel {
 						DiagnosticoDTO diagnostico = new DiagnosticoDTO();
 						diagnostico.idCita = cita.getIdCita();
 						diagnostico.descripcion = nodo.nombre;
-						diagnostico.idDiagnostico = listaDiagnosticos.size() +"";
+						diagnostico.idDiagnostico = diagnosticosTam.size() +"";
 						diagnostico.idPaciente = cita.getIdPaciente();
 						diagnostico.obligatorio = chckbxDeclaracion.isSelected();
 						diagnostico.seguimiento = chckbxSeguimiento.isSelected();

@@ -2,14 +2,19 @@ package pgh.ui.paneles;
 
 import javax.swing.JPanel;
 
+import pgh.business.enfermedad.EnfermedadDTO;
+import pgh.business.enfermedad.FindAllEnfermedades;
 import pgh.business.paciente.Paciente;
 import pgh.business.paciente.PacienteDTO;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class PanelTratamiento extends JPanel {
@@ -27,17 +32,35 @@ public class PanelTratamiento extends JPanel {
 	private JLabel lblPaciente;
 	private JLabel labelNombrePaciente;
 	private JButton btnAtras;
+	private List<EnfermedadDTO> enfermedades = new ArrayList<EnfermedadDTO>();
+	private DefaultListModel<EnfermedadDTO>  modeloTratamientos = new DefaultListModel<EnfermedadDTO>();
+	
 	public PanelTratamiento(JPanel panelAnterior, JPanel panelContenido, PacienteDTO paciente) {
+		this.paciente = paciente;
+		enfermedades = new FindAllEnfermedades().execute();
+		añadirTratamientos();
 		estePanel = this;
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
-		this.paciente = paciente;
 		setLayout(null);
 		add(getScrollPaneTratamientos());
 		add(getLblTratamientos());
 		add(getLblPaciente());
 		add(getLabelNombrePaciente());
 		add(getBtnAtras());
+	}
+	
+	private void añadirTratamientos() {
+		if(enfermedades!=null)
+		{
+		for(int i=0;i<enfermedades.size();i++)
+		{
+			if(enfermedades.get(i).id_paciente==paciente.idPaciente)
+			{
+				modeloTratamientos.addElement(enfermedades.get(i));
+			}
+		}
+		}
 	}
 	private JScrollPane getScrollPaneTratamientos() {
 		if (scrollPaneTratamientos == null) {
@@ -49,7 +72,7 @@ public class PanelTratamiento extends JPanel {
 	}
 	private JList getListTratamientos() {
 		if (listTratamientos == null) {
-			listTratamientos = new JList();
+			listTratamientos = new JList(modeloTratamientos);
 		}
 		return listTratamientos;
 	}
