@@ -487,7 +487,10 @@ public class PanelCita extends JPanel {
 					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaración obligatorio en la cita "
 					+ d.idCita + " el dia " + (new Date()).toString() + ".\n"
 					+ "El medico que ha realizado este diagnostico es: " + medico.nombre + " " + medico.apellidos  + ".\n" +
-					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos);
+					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos  + ".\n" +
+					"La enfermedad que se le ha diagnosticado es: " + d.descripcion   + ".\n" +
+					"Realice los procedimientos que crea necesarios para lidiar con esta patalogía"  + ".\n" +
+					"Un saludo");
 
 			Transport t = session.getTransport("smtp");
 
