@@ -106,7 +106,7 @@ public class PanelListaCitas extends JPanel {
 			btnVerCita.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(listCitas.getSelectedValue()!=null) {
-						PanelCita panel = new PanelCita(panelContenido, estePanel, (Cita) listCitas.getSelectedValue(), null);
+						PanelCita panel = new PanelCita(panelContenido, estePanel, (Cita) listCitas.getSelectedValue(), null, 0);
 						panelContenido.add(panel);
 						panel.setVisible(true);
 						panelListaCitas.setVisible(false);

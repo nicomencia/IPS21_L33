@@ -47,6 +47,7 @@ import pgh.business.prescripcioncitapaciente.CrearPrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.ListaPrescripcionesCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPaciente;
 import pgh.business.prescripcioncitapaciente.PrescripcionCitaPacienteDTO;
+import pgh.business.registro.CrearRegistro;
 import pgh.ui.VentanaPrincipal;
 import pgh.ui.paneles.filtros.JListFiltroPrescripcion;
 
@@ -96,10 +97,10 @@ public class PanelPrescripcion extends JPanel {
 	private PrescripcionCitaPacienteDTO prescripcionCitaPacienteDTO;
 	private JPanel panelCambiar;
 	private JTextField textField;
+	private int idObservador;
 	
 	
-	
-	public PanelPrescripcion (JPanel panelAnterior, int id_medico, int idPaciente, int idCita, JPanel panelContenido, JPanel PanelMedicoCita) {
+	public PanelPrescripcion (JPanel panelAnterior, int id_medico, int idPaciente, int idCita, JPanel panelContenido, JPanel PanelMedicoCita, int idObservador) {
 		
 		this.panelAnterior = panelAnterior;
 		this.panelContenido = panelContenido;
@@ -109,6 +110,7 @@ public class PanelPrescripcion extends JPanel {
 		panelPrescripcion = this;
 		this.panelCambiar=PanelMedicoCita;
 		this.id_medico = id_medico;
+		this.idObservador = idObservador;
 		getPanelPrescripcion();
 		
 	}
@@ -164,7 +166,7 @@ public class PanelPrescripcion extends JPanel {
 			btnAnadirNuevaPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					PanelCrearPrescripcion panel = new PanelCrearPrescripcion(panelPrescripcion, panelContenido, id_medico, id_paciente, idCita);
+					PanelCrearPrescripcion panel = new PanelCrearPrescripcion(panelPrescripcion, panelContenido, id_medico, id_paciente, idCita, idObservador);
 					panelPrescripcion .setVisible(false);
 					panelContenido.add(panel);
 					panel.setVisible(true);
@@ -310,6 +312,14 @@ public class PanelPrescripcion extends JPanel {
 						
 						prescripcionCitaPaciente = new PrescripcionCitaPaciente(prescripcionCitaPacienteDTO);
 						crearPrescripcionCitaPaciente.crearCita(prescripcionCitaPaciente); 
+						
+						//Registro
+						CrearRegistro registro = new CrearRegistro();
+						if (idObservador==0)
+							registro.crearRegistro("El administrador asigno una prescripcion al paciente " + registro.getNombrePaciente(id_paciente) + " (" + id_paciente + "), " + modeloListPrescripcionesSeleccionada.getElementAt(0).getInstruccion());
+						else 	
+							registro.crearRegistro("El medico " + registro.getNombreMedico(idObservador) + " (" + idObservador + ") asigno una prescripcion al paciente " + registro.getNombrePaciente(id_paciente) + " (" + id_paciente + "), " + modeloListPrescripcionesSeleccionada.getElementAt(0).getInstruccion());
+						
 						
 						closePanel();
 						

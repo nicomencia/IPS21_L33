@@ -64,10 +64,12 @@ public class PanelDiagnósticos extends JPanel {
 	private JButton btnFiltrar;
 	private JButton btnReset;
 	private List<EnfermedadDTO> diagnosticosTam = new ArrayList<EnfermedadDTO>();
+	private int idObservador;
 	
 	private Cita cita;
 	
-	public PanelDiagnósticos(JPanel panelContenido, JPanel panelAnterior, JPanel panelAnteriorAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
+	public PanelDiagnósticos(JPanel panelContenido, JPanel panelAnterior, JPanel panelAnteriorAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos, int idObservador) {
+		this.idObservador = idObservador;
 		diagnosticosTam = new FindAllEnfermedades().execute();
 		if(diagnosticos!=null)
 		{
@@ -177,7 +179,7 @@ public class PanelDiagnósticos extends JPanel {
 					else
 					{
 						estePanel.setVisible(false);
-						PanelCita panel = new PanelCita(panelContenido, panelAnteriorAnterior, cita, listaDiagnosticos);
+						PanelCita panel = new PanelCita(panelContenido, panelAnteriorAnterior, cita, listaDiagnosticos, idObservador);
 						panelContenido.add(panel);
 						panel.setVisible(true);
 					}
