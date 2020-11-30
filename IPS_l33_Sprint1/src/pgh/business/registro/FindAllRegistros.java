@@ -32,7 +32,7 @@ public class FindAllRegistros {
 					while(rs.next()) {
 						RegistroDTO registro = new RegistroDTO();
 						registro.idRegistro=rs.getInt("idregistro");
-						registro.fecha=rs.getDate("fecha");
+						registro.fecha=rs.getTimestamp("fecha");
 						registro.descripcion=rs.getString("descripcion");
 						registros.add(registro);
 					}

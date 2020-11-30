@@ -1,10 +1,10 @@
 package pgh.business.registro;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class RegistroDTO {
 
 	public int idRegistro;
-	public Date fecha;
+	public Timestamp fecha;
 	public String descripcion;
 }

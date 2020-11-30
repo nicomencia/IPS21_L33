@@ -25,6 +25,7 @@ import pgh.business.cita.Cita;
 import pgh.business.cita.FindAllCitas;
 import pgh.business.cita.ListaCitas;
 import pgh.business.enfermero.Enfermero;
+import pgh.business.registro.CrearRegistro;
 import pgh.business.vacuna.CrearVacuna;
 import pgh.business.vacuna.EditarVacuna;
 import pgh.business.vacuna.FindAllVacunas;
@@ -137,6 +138,10 @@ public class PanelVacunar extends JPanel {
 					editarVacuna = new EditarVacuna();
 					
 					editarVacuna.modificarEstados(true, modeloVacunaSeleccionada.get(0).getIdVacuna());
+					
+					//Registro
+					CrearRegistro registro = new CrearRegistro();
+					registro.crearRegistro("El enfermero " + registro.getNombreEnfermero(idEnfermero) + " (" + idEnfermero + ") vacuno al paciente " + registro.getNombrePaciente(idPaciente) + " (" + idPaciente + ") con " + modeloVacunaSeleccionada.get(0).getNombreVacuna());
 					
 					PanelEnfermero panel = new PanelEnfermero(panelCambiar, panelContenido , idEnfermero, panelCambiar);
 					estePanel.setVisible(false);

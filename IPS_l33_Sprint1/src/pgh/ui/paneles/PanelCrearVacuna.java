@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+import pgh.business.registro.CrearRegistro;
 import pgh.business.vacuna.CrearVacuna;
 import pgh.business.vacuna.ListaVacunas;
 import pgh.business.vacuna.Vacuna;
@@ -218,6 +219,11 @@ public class PanelCrearVacuna extends JPanel {
 						vacuna = new Vacuna(vacunaDTO);
 						crearVacuna= new CrearVacuna();
 						crearVacuna.crearVacuna(vacuna);
+						
+						//Registro
+						CrearRegistro registro = new CrearRegistro();
+						registro.crearRegistro("El enfermero " + registro.getNombreEnfermero(idEnfermero) + " (" + idEnfermero + ") vacuno al paciente " + registro.getNombrePaciente(idpaciente) + " (" + idpaciente + ") con " + vacuna.getNombreVacuna());
+						
 						
 						PanelEnfermero panel = new PanelEnfermero(panelCambiar, panelContenido , idEnfermero, panelCambiar);
 						estePanel.setVisible(false);
