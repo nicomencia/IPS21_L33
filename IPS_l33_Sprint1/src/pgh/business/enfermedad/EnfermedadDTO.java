@@ -13,6 +13,6 @@ public class EnfermedadDTO {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return nombre + "Se lleva siguiente desde: " + fecha_inicio;
+		return nombre + "Se lleva siguiendo desde: " + fecha_inicio;
 	}
 }
