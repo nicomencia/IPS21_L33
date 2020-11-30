@@ -262,6 +262,8 @@ public class PanelCrearAntecedente extends JPanel {
 					acp = new AntecedentesCitaPaciente(acpDTO);
 					crearACP.crearCita(acp);
 					
+					
+					
 					 PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(panelCrearAntecedentes, panelContenido, id_paciente, panelPrevio, idCita);
 					 panelCrearAntecedentes.setVisible(false);
 					 panelContenido.add(panel);
