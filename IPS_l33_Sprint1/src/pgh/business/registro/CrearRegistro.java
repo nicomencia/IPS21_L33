@@ -3,7 +3,11 @@ package pgh.business.registro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.sql.Timestamp;
+import pgh.business.enfermero.Enfermero;
+import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.paciente.ListaPacientes;
+import pgh.business.paciente.Paciente;
 import pgh.jdbc.Database;
 
 public class CrearRegistro {
@@ -12,12 +16,20 @@ private static String SQL = "Insert into REGISTRO (idRegistro,fecha,descripcion)
 	
 	Database db = new Database();
 	
-	public void crearRegistro(Registro registro) {
+	public void crearRegistro(String descripcion) {
 		
 		Connection c = null;
 		PreparedStatement pst = null;
 		StringBuilder query=new StringBuilder();
 		query.append(SQL);
+		
+		RegistroDTO registroDTO = new RegistroDTO();
+		
+		registroDTO.idRegistro = generarIdRegistro();
+		registroDTO.fecha = new Timestamp(System.currentTimeMillis());
+		registroDTO.descripcion = descripcion;
+		
+		Registro registro = new Registro(registroDTO);
 		
 		try {
 			
@@ -25,7 +37,7 @@ private static String SQL = "Insert into REGISTRO (idRegistro,fecha,descripcion)
 			
 		    pst = c.prepareStatement(query.toString());
 			pst.setInt(1, registro.getIdRegistro());
-			pst.setDate(2, registro.getFecha());
+			pst.setTimestamp(2, registro.getFecha());
 			pst.setString(3, registro.getDescripcion());
 				
 		    pst.executeUpdate();	
@@ -41,6 +53,40 @@ private static String SQL = "Insert into REGISTRO (idRegistro,fecha,descripcion)
 		}
 		
 		
+	}
+
+	private int generarIdRegistro() {
+		
+		ListaRegistros lr = new ListaRegistros();
+		lr.creaListaRegistros();
+		
+		return 99000 + lr.getRegistros().size();
+	}
+
+	public String getNombreEnfermero(int idEnfermero) {
+
+		ListaEnfermeros le = new ListaEnfermeros();
+		le.creaListaEnfermeros();
+		for (Enfermero e : le.getEnfermeros()) {
+			if (e.getIdEnfermero() == idEnfermero) {
+				return e.getNombreEnfermero() + " " + e.getApellidosEnfermo();
+			}
+		}
+		
+		return null;
+	}
+
+	public String getNombrePaciente(int idPaciente) {
+		
+		ListaPacientes lp = new ListaPacientes();
+		lp.creaListaPacientes();
+		for (Paciente p : lp.getPacientes()) {
+			if (p.getIdPaciente() == idPaciente) {
+				return p.getNombre() + " " + p.getApellidos();
+			}
+		}
+		
+		return null;
 	}
 	
 }
