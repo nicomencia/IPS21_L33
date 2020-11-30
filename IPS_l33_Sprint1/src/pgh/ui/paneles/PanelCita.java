@@ -36,6 +36,7 @@ import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.medicocita.MedicoCita;
 import pgh.business.paciente.FindAllPacientes;
 import pgh.business.paciente.PacienteDTO;
+import pgh.business.registro.CrearRegistro;
 import pgh.business.ubicacion.ListaUbicaciones;
 import pgh.business.ubicacion.UbicacionDTO;
 import java.awt.event.ActionListener;
@@ -85,11 +86,13 @@ public class PanelCita extends JPanel {
 	private JButton btnValidarDiagnostico;
 	private JButton btnComprobarTratamientos;
 	private DefaultListModel<MedicoDTO> modeloListaMedicos = new DefaultListModel<MedicoDTO>();
+	private int idObservador;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
+	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos, int idObservador) {
+		this.idObservador=idObservador;
 		if(diagnosticos!=null)
 		{
 			this.diagnosticos = diagnosticos;
@@ -248,6 +251,15 @@ public class PanelCita extends JPanel {
 			btnHistorial = new JButton("Historial");
 			btnHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					//Registro
+					CrearRegistro registro = new CrearRegistro();
+					if (idObservador==0)
+						registro.crearRegistro("El administrador consulto el historial del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					else 
+						registro.crearRegistro("El medico " + registro.getNombreMedico(idObservador) + " (" + idObservador + ") consulto el historial del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					
+					
 					PanelHistorial panel = new PanelHistorial(estePanel, cita.getIdPaciente(), panelContenido);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
@@ -345,6 +357,14 @@ public class PanelCita extends JPanel {
 			btnAntecedentesClinicos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
+					//Registro
+					CrearRegistro registro = new CrearRegistro();
+					if (idObservador==0)
+						registro.crearRegistro("El administrador consulto los antecedentes clinicos del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					else 
+						registro.crearRegistro("El medico " + registro.getNombreMedico(idObservador) + " (" + idObservador + ") consulto los antecedentes clinicos del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					
+						
 					PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(estePanel, panelContenido, paciente.idPaciente, estePanel, cita.getIdCita());
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
@@ -361,7 +381,7 @@ public class PanelCita extends JPanel {
 			btnIndicarPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					PanelPrescripcion panel = new PanelPrescripcion(estePanel, medico.idMedico, paciente.idPaciente, cita.getIdCita(), panelContenido, estePanel);
+					PanelPrescripcion panel = new PanelPrescripcion(estePanel, medico.idMedico, paciente.idPaciente, cita.getIdCita(), panelContenido, estePanel, idObservador);
 					panelContenido.add( panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);
@@ -377,7 +397,7 @@ public class PanelCita extends JPanel {
 			btnHacerDiagnstico = new JButton("Hacer Diagn\u00F3stico");
 			btnHacerDiagnstico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					PanelDiagnósticos panel = new PanelDiagnósticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos);
+					PanelDiagnósticos panel = new PanelDiagnósticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos, idObservador);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);
@@ -517,6 +537,15 @@ public class PanelCita extends JPanel {
 			btnComprobarTratamientos = new JButton("Comprobar tratamientos");
 			btnComprobarTratamientos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {		
+					
+					//Registro
+					CrearRegistro registro = new CrearRegistro();
+					if (idObservador==0)
+						registro.crearRegistro("El administrador consulto el historial del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					else 
+						registro.crearRegistro("El medico " + registro.getNombreMedico(idObservador) + " (" + idObservador + ") consulto el historial del paciente " + registro.getNombrePaciente(paciente.idPaciente) + " (" + paciente.idPaciente + ")");
+					
+					
 					PanelTratamiento panel  = new PanelTratamiento(estePanel, panelContenido, paciente);			
 					panelContenido.add(panel);
 					panel.setVisible(true);

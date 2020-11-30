@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import pgh.business.registro.CrearRegistro;
+
 public class PanelMedicoCita extends JPanel {
 	
 	private JPanel panelMedicoCita;
@@ -51,7 +53,7 @@ public class PanelMedicoCita extends JPanel {
 			btnIndicarPrescripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					PanelPrescripcion panel = new PanelPrescripcion(panelMedicoCita, idmedico, id_paciente, id_cita, panelContenido, panelMedicoCita);
+					PanelPrescripcion panel = new PanelPrescripcion(panelMedicoCita, idmedico, id_paciente, id_cita, panelContenido, panelMedicoCita, idmedico);
 					panelContenido.add( panel);
 					panelMedicoCita.setVisible(false);
 					panel.setVisible(true);
@@ -87,6 +89,10 @@ public class PanelMedicoCita extends JPanel {
 			btnAntecedentesClinicos = new JButton("Antecedentes Clinicos");
 			btnAntecedentesClinicos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
+					//Registro
+					CrearRegistro registro = new CrearRegistro();
+					registro.crearRegistro("El medico " + registro.getNombreMedico(idmedico) + " (" + idmedico + ") consulto los antecedentes clinicos del paciente " + registro.getNombrePaciente(id_paciente) + " (" + id_paciente + ")");
 					
 					PanelAntecedentesClinicos panel = new PanelAntecedentesClinicos(panelMedicoCita, panelContenido, id_paciente, panelMedicoCita,id_cita );
 					panelContenido.add(panel);
