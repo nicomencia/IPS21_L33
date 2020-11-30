@@ -95,8 +95,8 @@ public class VentanaPrincipal extends JFrame {
 	private DefaultListModel<Medico> modeloListaMedicosLogueados;
 	private JButton btnNewButton;
 	private JButton btnComprobarVacacionesSolicitadas;
-	private List<NodoMayor> nodos;
-	private NodoMayor raiz;
+	
+	
 
 
 	/**
@@ -121,8 +121,6 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal() {
 		
-		raiz = new NodoMayor();
-		nodos = raiz.getNodos();
 		setResizable(false);
 		setTitle("Gestor Hospital");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,15 +1,28 @@
 package pgh.ui.paneles;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
 import pgh.business.diagnostico.DiagnosticoDTO;
+import pgh.business.enfermedad.GuardarEnfermedad;
 import pgh.business.equipomedico.EquipoMedico;
 import pgh.business.equipomedico.EquipoMedicoDTO;
 import pgh.business.equipomedico.FindAllEquiposMedicos;
@@ -17,6 +30,7 @@ import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
 import pgh.business.medico.FindAllMedicos;
 import pgh.business.medico.FindMedicoById;
+import pgh.business.medico.Medico;
 import pgh.business.medico.MedicoDTO;
 import pgh.business.medicocita.ListaMedicoCita;
 import pgh.business.medicocita.MedicoCita;
@@ -27,6 +41,7 @@ import pgh.business.ubicacion.UbicacionDTO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 public class PanelCita extends JPanel {
@@ -63,21 +78,24 @@ public class PanelCita extends JPanel {
 	private JButton btnHacerDiagnstico;
 	private JList listDiagnosticos;
 	private JScrollPane scrollPaneDiagnosticos;
-	private List<DiagnosticoDTO> diagnosticos;
+	private List<DiagnosticoDTO> diagnosticos = new ArrayList<DiagnosticoDTO>();
 	private DefaultListModel<DiagnosticoDTO> modeloListaDiagnosticos = new DefaultListModel<DiagnosticoDTO>();
 	private JScrollPane scrollPaneMedicos;
 	private JList listMedicos;
 	private JButton btnValidarDiagnostico;
 	private JButton btnComprobarTratamientos;
+	private DefaultListModel<MedicoDTO> modeloListaMedicos = new DefaultListModel<MedicoDTO>();
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelCita(JPanel panelContenido, JPanel panelAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
-		this.diagnosticos = diagnosticos;
 		if(diagnosticos!=null)
 		{
-			añadirDiagnosticosAlModelo();
+			this.diagnosticos = diagnosticos;
+			if(diagnosticos.size()>0) {
+				añadirDiagnosticosAlModelo();
+			}
 		}
 		fM = new FindAllEquiposMedicos();
 		equipo = fM.execute();
@@ -94,6 +112,7 @@ public class PanelCita extends JPanel {
 		medico = getIdMedico();
 		horario = getHorario();
 		ubicacion = new ListaUbicaciones().getUbicacionById(cita.getIdUbicacion());
+		rellenarModeloMedicos();
 		setLayout(null);
 		add(getLblPaciente());
 		add(getLabelNombreApellidosPaciente());
@@ -118,6 +137,20 @@ public class PanelCita extends JPanel {
 		
 	}
 	
+	private void rellenarModeloMedicos() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<medicoCita.size();i++)
+		{
+			if(medicoCita.get(i).getIdCita() == cita.getIdCita())
+			{
+				modeloListaMedicos.addElement(getMedico(medicoCita.get(i).getIdMedico()));
+			}
+		}
+		
+	}
+	
+	
+
 	private void añadirDiagnosticosAlModelo() {
 		// TODO Auto-generated method stub
 		for(int i=0;i<diagnosticos.size();i++)
@@ -378,20 +411,119 @@ public class PanelCita extends JPanel {
 	}
 	private JList getListMedicos() {
 		if (listMedicos == null) {
-			listMedicos = new JList();
+			listMedicos = new JList(modeloListaMedicos);
 		}
 		return listMedicos;
 	}
 	private JButton getBtnValidarDiagnostico() {
 		if (btnValidarDiagnostico == null) {
 			btnValidarDiagnostico = new JButton("Validar Diagnostico");
+			btnValidarDiagnostico.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(diagnosticos.size()>0)
+					{
+						JOptionPane message = new JOptionPane();
+						int valor = message.showConfirmDialog(null, "¿Estas seguro de que quieres validar este diagnostico?");
+						System.out.println(valor);
+						if(valor == 0)
+						{
+							validarDiagnosticos();
+						}
+					}
+					else
+					{
+						new JOptionPane().showMessageDialog(null, "No hay ningún diagnóstico asignado a esta cita"); 
+					}
+				}
+			});
 			btnValidarDiagnostico.setBounds(134, 472, 179, 27);
 		}
 		return btnValidarDiagnostico;
 	}
+	
+	private void validarDiagnosticos() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<diagnosticos.size();i++)
+		{
+			if(diagnosticos.get(i).obligatorio)
+			{
+				mandarEmail(diagnosticos.get(i));
+			}
+			if(diagnosticos.get(i).seguimiento)
+			{
+				new GuardarEnfermedad().crearMedico(diagnosticos.get(i));
+			}
+		}
+		
+	}
+	
+	private void mandarEmail(DiagnosticoDTO d) {
+
+		Properties props = new Properties();
+
+		props.setProperty("mail.smtp.host", "smtp.gmail.com");
+		props.setProperty("mail.smtp.starttls.enable", "true");
+		props.setProperty("mail.smtp.port", "587");
+		props.setProperty("mail.smtp.auth", "true");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("ips.l33.hospital@gmail.com", "IPSl33**__");
+			}
+		});
+		session.setDebug(true);
+
+		
+		
+		MimeMessage message = new MimeMessage(session);
+
+		try {
+			message.setFrom(new InternetAddress("ips.l33.hospital@gmail.com"));
+
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress("gerentedehospital123@gmail.com"));
+
+			message.setSubject("Enfermedad de declaración obligatoria en la cita n# " + d.idCita);
+			message.setText("Buenos dias " + "Alberto" + " " +"Martinez Martinez" + ". \n"
+					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaración obligatorio en la cita "
+					+ d.idCita + " el dia " + (new Date()).toString() + ".\n"
+					+ "El medico que ha realizado este diagnostico es: " + medico.nombre + " " + medico.apellidos  + ".\n" +
+					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos);
+
+			Transport t = session.getTransport("smtp");
+
+			t.connect("ips.l33.hospital@gmail.com", "IPSl33**__");
+
+			t.sendMessage(message, message.getAllRecipients());
+
+			t.close();
+
+		} catch (AddressException ae) {
+			ae.printStackTrace();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+		System.out.println("Mandado email al gerente");
+		
+		
+		
+	}
+	private void enviarEmail(DiagnosticoDTO diagnosticoDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private JButton getBtnComprobarTratamientos() {
 		if (btnComprobarTratamientos == null) {
 			btnComprobarTratamientos = new JButton("Comprobar tratamientos");
+			btnComprobarTratamientos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {		
+					PanelTratamiento panel  = new PanelTratamiento(estePanel, panelContenido, paciente);			
+					panelContenido.add(panel);
+					panel.setVisible(true);
+					estePanel.setVisible(false);
+					
+				}
+			});
 			btnComprobarTratamientos.setBounds(637, 54, 179, 28);
 		}
 		return btnComprobarTratamientos;
