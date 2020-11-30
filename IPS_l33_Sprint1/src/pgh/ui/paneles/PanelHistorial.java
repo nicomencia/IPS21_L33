@@ -1,5 +1,6 @@
 package pgh.ui.paneles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -10,6 +11,10 @@ import javax.swing.JTextField;
 
 import pgh.business.cita.Cita;
 import pgh.business.cita.ListaCitas;
+import pgh.business.diagnostico.DiagnosticoDTO;
+import pgh.business.diagnostico.FindAllDiagnosticos;
+import pgh.business.enfermedad.EnfermedadDTO;
+import pgh.business.enfermedad.FindAllEnfermedades;
 import pgh.business.prescripcion.ListaPrescripciones;
 import pgh.business.prescripcion.Prescripcion;
 import pgh.business.prescripcioncitapaciente.ListaPrescripcionesCitaPaciente;
@@ -26,7 +31,6 @@ public class PanelHistorial extends JPanel {
 	private JScrollPane scrollPanePrescripciones;
 	private JLabel lblHistorial;
 	private JScrollPane scrollPaneHistorial;
-	private JTextField textFieldHistorial;
 	private JPanel panelAnterior;
 	private int idPaciente;
 	private DefaultListModel<Cita> modeloListaCitas = new DefaultListModel<Cita>();
@@ -43,12 +47,18 @@ public class PanelHistorial extends JPanel {
 	private JPanel estePanel;
 	private JButton btnHistorialVacunas;
 	private JPanel panelContenido;
+	private List<EnfermedadDTO> listaDiagnosticos = new ArrayList<EnfermedadDTO>();
+	private JList listDiagnosticos;
+	private DefaultListModel<EnfermedadDTO> modeloListaDiagnosticos = new DefaultListModel<EnfermedadDTO>();
 	
 	/**
 	 * Create the panel.
 	 */
 	public PanelHistorial(JPanel panelAnterior, int idPaciente, JPanel panelContenido) {
+		this.idPaciente=idPaciente;
 		estePanel = this;
+		listaDiagnosticos = new FindAllEnfermedades().execute();
+		añadirDiagnosticosAlmodelo();
 		this.panelContenido = panelContenido;
 		findPrescripcionCitaPaciente.creaListaPrescripciones();
 		findCitas.creaCitas();
@@ -56,7 +66,6 @@ public class PanelHistorial extends JPanel {
 		listaPrescripcionCita = findPrescripcionCitaPaciente.getPrescripciones();
 		listaCitas = findCitas.getCitas();
 		listaPrescripciones = findPrescripciones.getPrescripciones();
-		this.idPaciente=idPaciente;
 		this.panelAnterior = panelAnterior;
 		setLayout(null);
 		add(getScrollPaneCitas());
@@ -68,6 +77,17 @@ public class PanelHistorial extends JPanel {
 		add(getBtnAtras());
 		add(getBtnHistorialVacunas());
 
+	}
+	
+	private void añadirDiagnosticosAlmodelo()
+	{
+		for(int i=0;i<listaDiagnosticos.size();i++)
+		{
+			if(listaDiagnosticos.get(i).id_paciente == idPaciente)
+			{
+				modeloListaDiagnosticos.addElement(listaDiagnosticos.get(i));
+			}
+		}
 	}
 	
 	private void crearModeloPrescripciones()
@@ -147,17 +167,9 @@ public class PanelHistorial extends JPanel {
 		if (scrollPaneHistorial == null) {
 			scrollPaneHistorial = new JScrollPane();
 			scrollPaneHistorial.setBounds(82, 71, 810, 119);
-			scrollPaneHistorial.setViewportView(getTextFieldHistorial());
+			scrollPaneHistorial.setViewportView(getListDiagnosticos());
 		}
 		return scrollPaneHistorial;
-	}
-	private JTextField getTextFieldHistorial() {
-		if (textFieldHistorial == null) {
-			textFieldHistorial = new JTextField();
-			textFieldHistorial.setText("Historial de abusos.");
-			textFieldHistorial.setColumns(10);
-		}
-		return textFieldHistorial;
 	}
 	private JList getListCitas() {
 		if (listCitas == null) {
@@ -201,5 +213,11 @@ public class PanelHistorial extends JPanel {
 			btnHistorialVacunas.setBounds(82, 490, 234, 36);
 		}
 		return btnHistorialVacunas;
+	}
+	private JList getListDiagnosticos() {
+		if (listDiagnosticos == null) {
+			listDiagnosticos = new JList(modeloListaDiagnosticos);
+		}
+		return listDiagnosticos;
 	}
 }
