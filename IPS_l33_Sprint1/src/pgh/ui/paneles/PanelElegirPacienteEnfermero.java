@@ -272,6 +272,16 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 			e.printStackTrace();
 		}
 		
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+		Date fechaActual = new Date();
+		
+		try {
+			fechaActual = dateformat3.parse(2060 + "/" + 12 + "/" + 22);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		citas = new ArrayList<Cita>();
 		findCitas= new FindAllCitas();
 		if(findCitas.FindCitaIdEnfermero(idEnfermero).size()>0) {
@@ -286,19 +296,16 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 		for(Cita c : citas) {
 			
 			if(c.getDate().before(fechaCercana)) {
-				fechaCercana = c.getDate();
+				
+					fechaCercana = c.getDate();
+					if(fechaCercana.equals(fechaActual) || fechaCercana.after(fechaActual) ) {
+						modeloListCitasCercana.addElement(c);
+					}
+					fechaCercana = fechaActual;
 			}
 			
 		}
-		
-		for(Cita c : citas) {
 			
-			if(c.getDate()==fechaCercana) {
-				modeloListCitasCercana.addElement(c);
-			}
-			
-		}
-		
 		
 	}
 }

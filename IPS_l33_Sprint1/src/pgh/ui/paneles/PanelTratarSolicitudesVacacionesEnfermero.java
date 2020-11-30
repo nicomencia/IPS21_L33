@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import pgh.business.cita.Cita;
 import pgh.business.cita.CitaDTO;
 import pgh.business.cita.FindAllCitas;
+import pgh.business.enfermero.EditarDiasVacacionesEnfermero;
 import pgh.business.enfermero.Enfermero;
 import pgh.business.enfermero.FindAllEnfermeros;
 import pgh.business.jornadaenfermero.ListaJornadasEnfermero;
@@ -68,7 +69,7 @@ public class PanelTratarSolicitudesVacacionesEnfermero extends JPanel {
 	private CitaDTO citaCTO;
 	private Cita cita;
 	private JLabel lblNewLabel;
-	private EditarDiasVacaciones editarDias;
+	private EditarDiasVacacionesEnfermero editarDias;
 	private Enfermero medico;
 	private FindAllEnfermeros findMedicos;
 
@@ -252,7 +253,7 @@ public class PanelTratarSolicitudesVacacionesEnfermero extends JPanel {
 					
 					Date fechaInicio = vacacionesSeleccionada.getFechaInicio();
 					Date fechaFin = vacacionesSeleccionada.getFechaFin();
-					editarDias = new EditarDiasVacaciones();
+					editarDias = new EditarDiasVacacionesEnfermero();
 
 					int milisecondsByDay = 86400000;
 					int diass = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / milisecondsByDay);
