@@ -8,4 +8,11 @@ public class EnfermedadDTO {
 	public Date fecha_inicio;
 	public int id_paciente;
 	public boolean declaracion = false;
+	
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "nombre" + "Se lleva siguiente desde: " + fecha_inicio;
+	}
 }

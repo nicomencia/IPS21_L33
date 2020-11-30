@@ -24,10 +24,14 @@ import pgh.business.diagnostico.DiagnosticoDTO;
 import pgh.business.diagnostico.FindAllDiagnosticos;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PanelDiagnósticos extends JPanel {
 	private JScrollPane scrollPaneCategorias;
@@ -43,7 +47,7 @@ public class PanelDiagnósticos extends JPanel {
 	private JList listDiagnosticos;
 	private List<NodoMayor> listaNodosMayores = new ArrayList<NodoMayor>();
 	private List<Nodo> listaNodosMenores = new ArrayList<Nodo>();
-	private List<DiagnosticoDTO> listaDiagnosticos = new ArrayList<DiagnosticoDTO>();
+	private List<DiagnosticoDTO> listaDiagnosticos;
 	private NodoMayor raiz;
 	private DefaultListModel<NodoMayor> modeloListaNodosMayores = new DefaultListModel<NodoMayor>();
 	private DefaultListModel<Nodo> modeloListaNodosMenores = new DefaultListModel<Nodo>();
@@ -57,18 +61,26 @@ public class PanelDiagnósticos extends JPanel {
 	private JButton btnBorrarDiagnostico;
 	private JButton btnFiltrar;
 	private JButton btnReset;
-	private List<DiagnosticoDTO> diagnosticos;
+	
 	private Cita cita;
 	
 	public PanelDiagnósticos(JPanel panelContenido, JPanel panelAnterior, JPanel panelAnteriorAnterior, Cita cita, List<DiagnosticoDTO> diagnosticos) {
 		if(diagnosticos!=null)
 		{
-			this.diagnosticos = diagnosticos;
-			crearModeloListaDiagnosticos();
+			if(diagnosticos.size()>0)
+			{
+				listaDiagnosticos = diagnosticos;
+				crearModeloListaDiagnosticos();
+			}
+			else
+			{
+				this.listaDiagnosticos = new ArrayList<DiagnosticoDTO>();
+				//diagnosticos  = new FindAllDiagnosticos().execute();
+			}
 		}
 		else
 		{
-			this.diagnosticos = new ArrayList<DiagnosticoDTO>();
+			this.listaDiagnosticos = new ArrayList<DiagnosticoDTO>();
 			//diagnosticos  = new FindAllDiagnosticos().execute();
 		}
 		this.panelAnteriorAnterior=panelAnteriorAnterior;
@@ -174,6 +186,17 @@ public class PanelDiagnósticos extends JPanel {
 	private JCheckBox getChckbxSeguimiento() {
 		if (chckbxSeguimiento == null) {
 			chckbxSeguimiento = new JCheckBox("Seguimiento");
+			chckbxSeguimiento.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(chckbxSeguimiento.isSelected())
+					{
+						new JOptionPane().showMessageDialog(null, "Acabamos de marcar este diagnóstico para hacerle un seguimiento");;
+						chckbxSeguimiento.setSelected(true);
+					}
+				}
+			});
+			
 			chckbxSeguimiento.setBounds(529, 451, 97, 23);
 		}
 		return chckbxSeguimiento;
@@ -181,6 +204,16 @@ public class PanelDiagnósticos extends JPanel {
 	private JCheckBox getChckbxDeclaracion() {
 		if (chckbxDeclaracion == null) {
 			chckbxDeclaracion = new JCheckBox("Declaracion Obligatoria");
+			chckbxDeclaracion.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(chckbxDeclaracion.isSelected())
+					{
+						new JOptionPane().showMessageDialog(null, "Acabamos de marcar este diagnóstico como de declaración obligatoria");;
+						chckbxDeclaracion.setSelected(true);
+					}
+				}
+			});
 			chckbxDeclaracion.setBounds(529, 477, 154, 23);
 		}
 		return chckbxDeclaracion;
@@ -273,7 +306,7 @@ public class PanelDiagnósticos extends JPanel {
 						DiagnosticoDTO diagnostico = new DiagnosticoDTO();
 						diagnostico.idCita = cita.getIdCita();
 						diagnostico.descripcion = nodo.nombre;
-						diagnostico.idDiagnostico = "D"+ diagnosticos.size();
+						diagnostico.idDiagnostico = listaDiagnosticos.size() +"";
 						diagnostico.idPaciente = cita.getIdPaciente();
 						diagnostico.obligatorio = chckbxDeclaracion.isSelected();
 						diagnostico.seguimiento = chckbxSeguimiento.isSelected();

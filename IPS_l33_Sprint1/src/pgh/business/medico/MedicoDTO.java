@@ -9,4 +9,8 @@ public class MedicoDTO {
 	public String especialidad;
 	public int idEquipoMedico;
 	public int diasDisponibles;
+	
+	public String toString() {
+		return nombre + " " + apellidos + " " + especialidad;
+	}
 }
