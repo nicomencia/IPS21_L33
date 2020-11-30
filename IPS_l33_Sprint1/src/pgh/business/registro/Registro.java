@@ -1,6 +1,6 @@
 package pgh.business.registro;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Registro {
 
@@ -18,7 +18,7 @@ private RegistroDTO reg;
 		
 	}
 	
-    public Date getFecha() {
+    public Timestamp getFecha() {
 		
 		return reg.fecha;
 		

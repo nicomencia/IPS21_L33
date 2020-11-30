@@ -120,7 +120,7 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
-		
+
 		setResizable(false);
 		setTitle("Gestor Hospital");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

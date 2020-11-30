@@ -89,8 +89,8 @@ public class PanelAuditor extends JPanel {
 			modelo.addColumn("DESCRIPCION");
 			
 			tableRegistro.getColumnModel().getColumn(0).setPreferredWidth(55);
-			tableRegistro.getColumnModel().getColumn(1).setPreferredWidth(100);
-			tableRegistro.getColumnModel().getColumn(2).setPreferredWidth(1000);
+			tableRegistro.getColumnModel().getColumn(1).setPreferredWidth(150);
+			tableRegistro.getColumnModel().getColumn(2).setPreferredWidth(950);
 			tableRegistro.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			
 			cargarDatosTabla();
