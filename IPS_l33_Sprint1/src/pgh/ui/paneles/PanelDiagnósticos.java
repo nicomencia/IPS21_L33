@@ -218,7 +218,7 @@ public class PanelDiagnósticos extends JPanel {
 					}
 				}
 			});
-			chckbxDeclaracion.setBounds(529, 477, 154, 23);
+			chckbxDeclaracion.setBounds(529, 477, 191, 23);
 		}
 		return chckbxDeclaracion;
 	}
