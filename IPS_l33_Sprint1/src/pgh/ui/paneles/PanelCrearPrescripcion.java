@@ -90,9 +90,9 @@ public class PanelCrearPrescripcion extends JPanel {
 	private JSpinner spinnerIntervalo;
 	private int idPaciente;
 	private int idCita;
+	private int idObservador;
 	
-	
-	public PanelCrearPrescripcion(JPanel panelAnterior, JPanel panelContenido, int id_medico, int idPaciente, int idCita) {
+	public PanelCrearPrescripcion(JPanel panelAnterior, JPanel panelContenido, int id_medico, int idPaciente, int idCita, int idObservador) {
 		
 		this.panelAnterior = panelAnterior;
 		this.panelContenido= panelContenido;
@@ -100,6 +100,7 @@ public class PanelCrearPrescripcion extends JPanel {
 		this.idmedico= id_medico;
 		this.idCita = idCita;
 		this.idPaciente= idPaciente;
+		this.idObservador = idObservador;
 		getPanelCrearPrescripcion();
 	}
 
@@ -591,7 +592,7 @@ public class PanelCrearPrescripcion extends JPanel {
 					
 					 textFieldInstrucciones.setText("");
 					 
-					    PanelPrescripcion panel = new PanelPrescripcion(panelCrearPrescripcion,idmedico,idPaciente,idCita,panelContenido, panelAnterior);
+					    PanelPrescripcion panel = new PanelPrescripcion(panelCrearPrescripcion,idmedico,idPaciente,idCita,panelContenido, panelAnterior, idObservador);
 					    panelCrearPrescripcion .setVisible(false);
 						panelContenido.add(panel);
 						panel.setVisible(true);

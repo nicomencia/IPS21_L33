@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import pgh.business.enfermero.Enfermero;
 import pgh.business.enfermero.ListaEnfermeros;
+import pgh.business.medico.ListaMedicos;
+import pgh.business.medico.Medico;
 import pgh.business.paciente.ListaPacientes;
 import pgh.business.paciente.Paciente;
 import pgh.jdbc.Database;
@@ -86,6 +88,18 @@ private static String SQL = "Insert into REGISTRO (idRegistro,fecha,descripcion)
 			}
 		}
 		
+		return null;
+	}
+
+	public String getNombreMedico(int idMedico) {
+
+		ListaMedicos lm = new ListaMedicos();
+		lm.creaListaMedicos();
+		for (Medico m : lm.getMedicos()) {
+			if (m.getIdMedico() == idMedico) {
+				return m.getNombreMedico() + " " + m.getApellidosMedico();
+			}
+		}
 		return null;
 	}
 	
