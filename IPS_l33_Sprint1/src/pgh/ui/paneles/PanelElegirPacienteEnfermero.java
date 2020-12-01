@@ -49,6 +49,7 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 	private CitaDTO citaDTO;
 	private ListaCitas lc;
 	private List<Cita> citas;
+	private List<Cita> citas2;
 	private FindAllCitas findCitas;
 	private JPanel panelAnterior;
 	private JPanel panelContenido;
@@ -261,6 +262,18 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 
 
 	private void llenarListaFiltrada() {
+		
+		SimpleDateFormat dateformat4 = new SimpleDateFormat("yyyy/MM/dd");
+		
+		Date fechaPequena = new Date();
+		
+		try {
+			fechaPequena = dateformat4.parse(2060 + "/" + 12 + "/" + 22);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 //		
 		SimpleDateFormat dateformat3 = new SimpleDateFormat("yyyy/MM/dd");
 		Date fechaCercana = new Date();
@@ -272,17 +285,31 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 			e.printStackTrace();
 		}
 		
+		Calendar fecha = new GregorianCalendar();
+
+		int dia = fecha.get(Calendar.DAY_OF_MONTH);
+		int mes=0;
+		if(Calendar.MONTH==12) {
+			mes = fecha.get(Calendar.MONTH) - 11;
+		}
+		else {
+			mes = fecha.get(Calendar.MONTH) + 1;
+		}
+		int ano = fecha.get(Calendar.YEAR);
+
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
-		Date fechaActual = new Date();
-		
+		Date date2 = new Date();
 		try {
-			fechaActual = dateformat3.parse(2060 + "/" + 12 + "/" + 22);
-		} catch (ParseException e) {
+			date2 = dateformat.parse(ano + "/" + mes + "/" + dia);
+			
+
+		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		
 		citas = new ArrayList<Cita>();
+		citas2 = new ArrayList<Cita>();
 		findCitas= new FindAllCitas();
 		if(findCitas.FindCitaIdEnfermero(idEnfermero).size()>0) {
 			for(int i=0; i < findCitas.FindCitaIdEnfermero(idEnfermero).size() ; i++) {
@@ -293,18 +320,31 @@ public class PanelElegirPacienteEnfermero extends JPanel {
 			}
 		}
 		
+		
 		for(Cita c : citas) {
 			
-			if(c.getDate().before(fechaCercana)) {
+			if(c.getDate().after(date2)) {
 				
-					fechaCercana = c.getDate();
-					if(fechaCercana.equals(fechaActual) || fechaCercana.after(fechaActual) ) {
-						modeloListCitasCercana.addElement(c);
-					}
-					fechaCercana = fechaActual;
+					if(c.getDate().before(fechaPequena)) {
+						fechaPequena = c.getDate();
+						citas2.add(c);				}		
+					
 			}
 			
 		}
+		
+		for(Cita c : citas2) {
+			
+			if(c.getDate().equals(fechaPequena)) {
+				
+					modeloListCitasCercana.addElement(c);
+					
+			}
+			
+		}
+		
+		
+			
 			
 		
 	}
