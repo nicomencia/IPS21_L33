@@ -102,7 +102,7 @@ public class PanelCita extends JPanel {
 		{
 			this.diagnosticos = diagnosticos;
 			if(diagnosticos.size()>0) {
-				a馻dirDiagnosticosAlModelo();
+				a帽adirDiagnosticosAlModelo();
 			}
 		}
 		fM = new FindAllEquiposMedicos();
@@ -120,6 +120,7 @@ public class PanelCita extends JPanel {
 		medico = getIdMedico();
 		horario = getHorario();
 		ubicacion = new ListaUbicaciones().getUbicacionById(cita.getIdUbicacion());
+		this.idObservador = idObservador;
 		rellenarModeloMedicos();
 		setLayout(null);
 		add(getLblPaciente());
@@ -157,7 +158,7 @@ public class PanelCita extends JPanel {
 	
 	
 
-	private void a馻dirDiagnosticosAlModelo() {
+	private void a帽adirDiagnosticosAlModelo() {
 		// TODO Auto-generated method stub
 		for(int i=0;i<diagnosticos.size();i++)
 		{
@@ -401,7 +402,7 @@ public class PanelCita extends JPanel {
 			btnHacerDiagnstico.setBounds(230, 160, 179, 28);
 			btnHacerDiagnstico.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					PanelDiagn髎ticos panel = new PanelDiagn髎ticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos, idObservador);
+					PanelDiagn贸sticos panel = new PanelDiagn贸sticos(panelContenido, estePanel, panelAnterior, cita, diagnosticos, idObservador);
 					panelContenido.add(panel);
 					estePanel.setVisible(false);
 					panel.setVisible(true);
@@ -450,7 +451,7 @@ public class PanelCita extends JPanel {
 					}
 					else
 					{
-						new JOptionPane().showMessageDialog(null, "No hay ning鷑 diagn髎tico asignado a esta cita"); 
+						new JOptionPane().showMessageDialog(null, "No hay ning煤n diagn贸stico asignado a esta cita"); 
 					}
 				}
 			});
@@ -500,14 +501,14 @@ public class PanelCita extends JPanel {
 
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress("gerentedehospital123@gmail.com"));
 
-			message.setSubject("Enfermedad de declaraci髇 obligatoria en la cita n# " + d.idCita);
+			message.setSubject("Enfermedad de declaraci贸n obligatoria en la cita n# " + d.idCita);
 			message.setText("Buenos dias " + "Alberto" + " " +"Martinez Martinez" + ". \n"
-					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaraci髇 obligatorio en la cita "
+					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaraci贸n obligatorio en la cita "
 					+ d.idCita + " el dia " + cita.getDate().toString() + " desde " + cita.getHorario() + " " + " hasta: " + cita.getHorarioTarde() + ".\n"
 					+ "El medico que ha realizado este diagnostico es: " + medico.nombre + " " + medico.apellidos  + ".\n" +
 					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos  + ".\n" +
 					"La enfermedad que se le ha diagnosticado es: " + d.descripcion   + ".\n" +
-					"Realice los procedimientos que crea necesarios para lidiar con esta patalog韆"  + ".\n" +
+					"Realice los procedimientos que crea necesarios para lidiar con esta patalog铆a"  + ".\n" +
 					"Un saludo");
 
 			Transport t = session.getTransport("smtp");
