@@ -27,6 +27,9 @@ import pgh.business.enfermedad.GuardarEnfermedad;
 import pgh.business.equipomedico.EquipoMedico;
 import pgh.business.equipomedico.EquipoMedicoDTO;
 import pgh.business.equipomedico.FindAllEquiposMedicos;
+import pgh.business.gerente.FindAllGerentes;
+import pgh.business.gerente.GerenteDTO;
+import pgh.business.gerente.ListaGerentes;
 import pgh.business.horario.HorarioDTO;
 import pgh.business.horario.ListaHorario;
 import pgh.business.medico.FindAllMedicos;
@@ -92,6 +95,9 @@ public class PanelCita extends JPanel {
 	private int idObservador;
 	private JLabel lblDiagnosticos;
 	private JPanel panelDiagnosticos;
+	private GerenteDTO gerente;
+	private ListaGerentes lG;
+	private List<GerenteDTO> gerentes;
 	
 	
 	/**
@@ -105,6 +111,7 @@ public class PanelCita extends JPanel {
 				a√±adirDiagnosticosAlModelo();
 			}
 		}
+		gerente = new ListaGerentes().getGerente();
 		fM = new FindAllEquiposMedicos();
 		equipo = fM.execute();
 		this.panelAnterior = panelAnterior;
@@ -499,16 +506,26 @@ public class PanelCita extends JPanel {
 		try {
 			message.setFrom(new InternetAddress("ips.l33.hospital@gmail.com"));
 
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("gerentedehospital123@gmail.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(gerente.email));
 
+<<<<<<< Updated upstream
 			message.setSubject("Enfermedad de declaraci√≥n obligatoria en la cita n# " + d.idCita);
 			message.setText("Buenos dias " + "Alberto" + " " +"Martinez Martinez" + ". \n"
 					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaraci√≥n obligatorio en la cita "
+=======
+			message.setSubject("Enfermedad de declaraciÛn obligatoria en la cita n# " + d.idCita);
+			message.setText("Buenos dias " +  gerente.nombre + ". \n"
+					+ "Este es un recordatorio de que se ha diagnosticado una enfermedad de declaraciÛn obligatorio en la cita "
+>>>>>>> Stashed changes
 					+ d.idCita + " el dia " + cita.getDate().toString() + " desde " + cita.getHorario() + " " + " hasta: " + cita.getHorarioTarde() + ".\n"
 					+ "El medico que ha realizado este diagnostico es: " + medico.nombre + " " + medico.apellidos  + ".\n" +
 					"Y el paciente es :" + paciente.nombre + " " + paciente.apellidos  + ".\n" +
 					"La enfermedad que se le ha diagnosticado es: " + d.descripcion   + ".\n" +
+<<<<<<< Updated upstream
 					"Realice los procedimientos que crea necesarios para lidiar con esta patalog√≠a"  + ".\n" +
+=======
+					"Realice los procedimientos que crea necesarios para lidiar con esta patologÌa"  + ".\n" +
+>>>>>>> Stashed changes
 					"Un saludo");
 
 			Transport t = session.getTransport("smtp");
